@@ -39,9 +39,7 @@
         size={36}
         strokeWidth={1}
       />
-      <div
-        class="h-20 py-8 pr-20 w-full flex flex-row items-center"
-      >
+      <div class="h-20 py-8 pr-20 w-full flex flex-row items-center">
         <h4 class="text-left text-dark pr-12 md:pr-0 md:text-nowrap">
           {accordian.label}
         </h4>

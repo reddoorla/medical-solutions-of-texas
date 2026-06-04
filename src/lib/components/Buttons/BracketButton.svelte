@@ -8,12 +8,7 @@
     children?: Snippet;
   }
 
-  let {
-    click = () => {},
-    href = "",
-    class: passedClasses = "",
-    children,
-  }: Props = $props();
+  let { click = () => {}, href = "", class: passedClasses = "", children }: Props = $props();
 
   let isActive = $state(false);
 
@@ -32,23 +27,13 @@
     class="{baseClasses} {passedClasses}"
     {href}
   >
-    <div
-      class="transition-transform duration-300 text-xl {isActive
-        ? '-translate-x-1'
-        : ''}"
-    >
+    <div class="transition-transform duration-300 text-xl {isActive ? '-translate-x-1' : ''}">
       [
     </div>
     <div class="mx-1 uppercase no-underline translate-y-0.5 button-text">
       {@render children?.()}
     </div>
-    <div
-      class="transition-transform duration-300 text-xl {isActive
-        ? 'translate-x-1'
-        : ''}"
-    >
-      ]
-    </div>
+    <div class="transition-transform duration-300 text-xl {isActive ? 'translate-x-1' : ''}">]</div>
   </a>
 {:else}
   <button
@@ -60,26 +45,15 @@
     }}
     class="{baseClasses} {passedClasses}"
   >
-    <div
-      class="transition-transform duration-300 text-xl {isActive
-        ? '-translate-x-2'
-        : ''}"
-    >
+    <div class="transition-transform duration-300 text-xl {isActive ? '-translate-x-2' : ''}">
       [
     </div>
     <div class="mx-2 uppercase no-underline translate-y-0.5 button-text">
       {@render children?.()}
     </div>
-    <div
-      class="transition-transform duration-300 text-xl {isActive
-        ? 'translate-x-2'
-        : ''}"
-    >
-      ]
-    </div>
+    <div class="transition-transform duration-300 text-xl {isActive ? 'translate-x-2' : ''}">]</div>
   </button>
 {/if}
 
 <style>
-
 </style>

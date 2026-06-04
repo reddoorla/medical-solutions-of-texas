@@ -74,8 +74,11 @@ interface PageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
+export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+  Simplify<PageDocumentData>,
+  "page",
+  Lang
+>;
 
 export type AllDocumentTypes = PageDocument;
 
@@ -119,10 +122,7 @@ type RichTextSliceVariation = RichTextSliceDefault;
  * - **Description**: RichText
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type RichTextSlice = prismic.SharedSlice<
-  "rich_text",
-  RichTextSliceVariation
->;
+export type RichTextSlice = prismic.SharedSlice<"rich_text", RichTextSliceVariation>;
 
 declare module "@prismicio/client" {
   interface CreateClient {

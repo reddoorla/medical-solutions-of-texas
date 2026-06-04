@@ -21,9 +21,7 @@
   let { children }: Props = $props();
 
   let isOverlayVisible = $state(false);
-  let viewportWidth: number = $state(
-    typeof window !== "undefined" ? window.innerWidth : 1920,
-  );
+  let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
 
   const NAV_LINKS = [
     { label: "About", href: "/about" },
@@ -86,7 +84,7 @@
 </script>
 
 <svelte:head>
-  <title>{$page.data.title}</title>
+  <title>{$page.data.title ?? "Medical Solutions of Texas"}</title>
   {#if $page.data.meta_description}
     <meta name="description" content={$page.data.meta_description} />
   {/if}
@@ -95,14 +93,10 @@
   {/if}
   <meta
     property="og:image"
-    content={$page.data.meta_image?.url ??
-      `${$page.url.origin}/msot-og.jpg`}
+    content={$page.data.meta_image?.url ?? `${$page.url.origin}/msot-og.jpg`}
   />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0 user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
 </svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} />
@@ -112,15 +106,8 @@
     class="bg-[#140F09] z-40 fixed w-screen h-screen top-0 left-0 pointer-events-none"
     out:fade={{ duration: 700, delay: 700 }}
   ></div>
-  <div
-    transition:fade
-    class="fixed w-2/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40"
-  >
-    <img
-      src={msotLogoSand}
-      class="w-full h-full pulse-always"
-      alt="msot logo"
-    />
+  <div transition:fade class="fixed w-2/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
+    <img src={msotLogoSand} class="w-full h-full pulse-always" alt="msot logo" />
   </div>
 {:else}
   <div
@@ -138,8 +125,7 @@
         : ''}"
     >
       <img
-        src={($page.data.title === "MSOT | Resources" ||
-          $page.data.title === "MSOT | Contact") &&
+        src={($page.data.title === "MSOT | Resources" || $page.data.title === "MSOT | Contact") &&
         !isTransitioning
           ? msotLogoKhaki
           : msotLogo}
@@ -150,18 +136,11 @@
 {/if}
 
 {#if isOverlayVisible}
-  <div
-    class="w-screen h-screen fixed bg-dark z-30"
-    transition:fly={{ y: "-100%" }}
-  >
-    <ContentWidth
-      class="flex flex-col items-center justify-center gap-12 h-full"
-    >
+  <div class="w-screen h-screen fixed bg-dark z-30" transition:fly={{ y: "-100%" }}>
+    <ContentWidth class="flex flex-col items-center justify-center gap-12 h-full">
       {#each NAV_LINKS as item}
-        <a
-          onclick={() => (isOverlayVisible = false)}
-          href={item.href}
-          class="text-light text-2xl">{item.label}</a
+        <a onclick={() => (isOverlayVisible = false)} href={item.href} class="text-light text-2xl"
+          >{item.label}</a
         >
       {/each}
 
@@ -187,18 +166,13 @@
     <ContentWidth class="h-full flex flex-row justify-between items-center">
       <div></div>
       {#if viewportWidth > 768}
-        <div
-          class="flex flex-row items-center justify-between gap-12 transition-transform"
-        >
+        <div class="flex flex-row items-center justify-between gap-12 transition-transform">
           {#each NAV_LINKS as item}
             <a href={item.href}>{item.label}</a>
           {/each}
         </div>
       {:else}
-        <button
-          onclick={() => (isOverlayVisible = true)}
-          aria-label="Open menu"
-        >
+        <button onclick={() => (isOverlayVisible = true)} aria-label="Open menu">
           <Menu class="text-[#998B6A] md:hidden" size={48} strokeWidth={1.5} />
         </button>
       {/if}

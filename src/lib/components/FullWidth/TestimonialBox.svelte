@@ -21,16 +21,10 @@
     class: passedClasses = "",
   }: Props = $props();
 
-  const justify = $derived(
-    float === "left" ? "start" : float === "right" ? "end" : float,
-  );
+  const justify = $derived(float === "left" ? "start" : float === "right" ? "end" : float);
 
   const horizontalFloatMargin = $derived(
-    float === "left"
-      ? "ml-0 mr-auto"
-      : float === "right"
-        ? "ml-auto mr-0"
-        : "mx-auto",
+    float === "left" ? "ml-0 mr-auto" : float === "right" ? "ml-auto mr-0" : "mx-auto",
   );
 
   const baseClasses = "w-full flex flex-col p-2 sm:p-8";
@@ -41,11 +35,7 @@
   style="background-color: {backgroundColor}"
 >
   {#if icon}
-    <img
-      src={icon}
-      alt={iconAltText}
-      class="pl-3 mb-12 {horizontalFloatMargin}"
-    />
+    <img src={icon} alt={iconAltText} class="pl-3 mb-12 {horizontalFloatMargin}" />
   {/if}
 
   {#if testimonialText}

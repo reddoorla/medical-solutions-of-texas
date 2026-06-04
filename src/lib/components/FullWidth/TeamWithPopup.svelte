@@ -52,11 +52,7 @@
   onclick={toggleOverlay}
 >
   <div class="w-full aspect-square relative overflow-hidden">
-    <img
-      alt="dots"
-      src={dots}
-      class="w-full h-full absolute bottom-0 right-0"
-    />
+    <img alt="dots" src={dots} class="w-full h-full absolute bottom-0 right-0" />
     <img
       alt={name}
       src={headshot}
@@ -77,16 +73,8 @@
     >
       <div class="w-64 md:w-96 lg:w-72 xl:w-96">
         <div class="w-full aspect-square relative overflow-hidden">
-          <img
-            alt="dots"
-            src={dots}
-            class="w-full h-full absolute bottom-0 right-0"
-          />
-          <img
-            alt="albert turgon"
-            src={headshot}
-            class="w-full h-full object-cover absolute"
-          />
+          <img alt="dots" src={dots} class="w-full h-full absolute bottom-0 right-0" />
+          <img alt="albert turgon" src={headshot} class="w-full h-full object-cover absolute" />
         </div>
         <div class="w-full h-[2px] bg-light mt-6"></div>
         <h5 class="text-light mt-6 text-center lg:text-left">{title}</h5>
@@ -102,11 +90,7 @@
         class="absolute top-0 right-0"
         aria-label="Close team member detail"
       >
-        <X
-          size={32}
-          strokeWidth={1}
-          class="transition text-light hover:text-white"
-        />
+        <X size={32} strokeWidth={1} class="transition text-light hover:text-white" />
       </button>
     </ContentWidth>
   </div>

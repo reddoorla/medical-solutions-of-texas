@@ -31,15 +31,10 @@
   const defaultLayouts = "flex items-center justify-center";
 </script>
 
-<svelte:window
-  bind:innerHeight={viewportHeight}
-  bind:innerWidth={viewportWidth}
-/>
+<svelte:window bind:innerHeight={viewportHeight} bind:innerWidth={viewportWidth} />
 
 <section
-  class="h-screen w-screen overflow-clip {backdrop
-    ? 'fixed -z-10 top-0 left-0'
-    : 'relative'}"
+  class="h-screen w-screen overflow-clip {backdrop ? 'fixed -z-10 top-0 left-0' : 'relative'}"
 >
   <div
     class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip max-h-screen aspect-video relative {viewportHeight *
@@ -51,8 +46,7 @@
     <img
       {src}
       alt={altText}
-      class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover {src ===
-      placeholder
+      class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover {src === placeholder
         ? 'lg:w-[45%] md:h-auto'
         : ''} -z-10"
     />
@@ -76,12 +70,8 @@
         class="bg-darken-gradient pointer-events-none absolute w-full h-full top-0 left-0 -z-10"
       ></div>
     {/if}
-    <div
-      class="w-screen h-screen absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-    >
-      <ContentWidth
-        class="{passedClasses || defaultLayouts} h-full"
-      >
+    <div class="w-screen h-screen absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <ContentWidth class="{passedClasses || defaultLayouts} h-full">
         {@render children?.()}
       </ContentWidth>
     </div>
@@ -90,11 +80,7 @@
 
 <style>
   .bg-darken-gradient {
-    background: linear-gradient(
-      180deg,
-      rgba(203, 195, 164, 0.2) 33.5%,
-      #656f5c15 100%
-    );
+    background: linear-gradient(180deg, rgba(203, 195, 164, 0.2) 33.5%, #656f5c15 100%);
     background-blend-mode: multiply;
   }
 </style>
