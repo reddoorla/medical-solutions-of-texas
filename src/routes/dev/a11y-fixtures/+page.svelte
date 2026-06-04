@@ -6,7 +6,7 @@
   />
 </svelte:head>
 
-<main>
+<main class="min-h-screen p-8 text-light">
   <header>
     <h1>Accessibility fixtures</h1>
     <p>
