@@ -18,9 +18,7 @@
     class: passedClasses = "",
   }: Props = $props();
 
-  let viewportWidth: number = $state(
-    typeof window !== "undefined" ? window.innerWidth : 1920,
-  );
+  let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let sliderIndex = $state(0);
   let isSlideAnimated = $state(true);
 
@@ -37,9 +35,7 @@
     if (e.detail.direction === "right") slideLeft();
   });
 
-  const tripledImages = $derived(
-    imageArray.concat(imageArray).concat(imageArray),
-  );
+  const tripledImages = $derived(imageArray.concat(imageArray).concat(imageArray));
 
   const baseClasses = "pb-32";
 </script>
@@ -50,22 +46,18 @@
   <div use:swipe class="h-[320px] py-2 relative">
     <div
       class="overflow-hidden w-screen mt-20 lg:mt-0"
-      style="margin-left:{viewportWidth > 1340
-        ? viewportWidth - 1220 / 2
-        : viewportWidth * 0.04};"
+      style="margin-left:{viewportWidth > 1340 ? viewportWidth - 1220 / 2 : viewportWidth * 0.04};"
     >
       <div
         class="h-full flex flex-row flex-nowrap {isSlideAnimated
           ? 'transition-transform duration-[2000ms]'
           : ''}"
-        style="width:{352 *
-          tripledImages.length}px; margin-left:{viewportWidth > 1340
+        style="width:{352 * tripledImages.length}px; margin-left:{viewportWidth > 1340
           ? viewportWidth - 1220 / 2
-          : viewportWidth * 0.04}; transform:translateX({-(
-          sliderIndex + imageArray.length
-        ) * 352}px);"
+          : viewportWidth * 0.04}; transform:translateX({-(sliderIndex + imageArray.length) *
+          352}px);"
       >
-        {#each tripledImages as _image}
+        {#each tripledImages as _image, i (i)}
           <div class="w-[360px] h-full mx-4">
             <FourByThreeImage alt={altText} class="h-full object-cover -z-10" />
           </div>

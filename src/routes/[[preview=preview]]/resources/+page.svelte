@@ -14,9 +14,7 @@
   <ContentWidth class="border-t-2 border-dark flex flex-col md:flex-row py-10">
     <div class="md:w-1/2 pr-12 flex flex-col gap-10 items-start">
       <h3 class="text-dark">CHARGE SHEET</h3>
-      <BracketButton class="text-dark" href="/pdfs/MSOT_ChargeSheet.pdf"
-        >DOWNLOAD</BracketButton
-      >
+      <BracketButton class="text-dark" href="/pdfs/MSOT_ChargeSheet.pdf">DOWNLOAD</BracketButton>
     </div>
     <div class="mt-24 md:mt-0 md:w-1/2 pr-12 flex flex-col gap-10 items-start">
       <p
@@ -27,8 +25,7 @@
         Phone: 833.307.4418 <br />
         customerservice&shy;@MedicalSolutionsofTX.com
       </p>
-      <BracketButton class="text-dark" href="/contact">Contact Us</BracketButton
-      >
+      <BracketButton class="text-dark" href="/contact">Contact Us</BracketButton>
     </div>
   </ContentWidth>
 </section>
@@ -39,12 +36,7 @@
       <div
         class="text-dark w-full border-t-2 border-dark flex flex-row justify-between items-center py-5"
       >
-        <a
-          href="/pdfs/MSOT_FSSCatalog.pdf"
-          class="bump"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/pdfs/MSOT_FSSCatalog.pdf" class="bump" target="_blank" rel="noopener noreferrer">
           <h4 class="text-dark hover:opacity-90 transition-opacity">
             FSS Catalog (Contract # 36F79725D0204)
           </h4>
@@ -71,9 +63,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h4 class="text-dark hover:opacity-90 transition-opacity">
-            Commercial Catalog
-          </h4>
+          <h4 class="text-dark hover:opacity-90 transition-opacity">Commercial Catalog</h4>
         </a>
         <a
           href="/pdfs/MSOT_CommercialCatalog.pdf"
@@ -89,9 +79,7 @@
         </a>
       </div>
     </div>
-    <div
-      class="md:w-[calc(33%-20px)] flex flex-col mt-12 md:mt-0 pointer-events-none"
-    >
+    <div class="md:w-[calc(33%-20px)] flex flex-col mt-12 md:mt-0 pointer-events-none">
       <h3 class="text-dark mb-14">Suppliers</h3>
       <div
         class="text-dark/65 w-full border-t-2 border-dark flex flex-row justify-between items-center py-5"
@@ -118,9 +106,7 @@
         </a>
       </div>
     </div>
-    <div
-      class="md:w-[calc(33%-20px)] flex flex-col mt-12 md:mt-0 pointer-events-none"
-    >
+    <div class="md:w-[calc(33%-20px)] flex flex-col mt-12 md:mt-0 pointer-events-none">
       <h3 class="text-dark mb-14">Technique Guides</h3>
 
       <div
@@ -129,12 +115,7 @@
         <a href="/" class="bump" target="_blank" rel="noopener noreferrer">
           <h4 class=" hover:opacity-90 transition-opacity">Technique Guide</h4>
         </a>
-        <a
-          href="/"
-          class="negative-bump"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/" class="negative-bump" target="_blank" rel="noopener noreferrer">
           <Download
             size={24}
             strokeWidth={1.5}

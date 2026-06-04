@@ -30,18 +30,11 @@
 </script>
 
 {#if href}
-  <a
-    {href}
-    onclick={click}
-    class="{baseClasses} {filledClasses} {passedClasses}"
-  >
+  <a {href} onclick={click} class="{baseClasses} {filledClasses} {passedClasses}">
     {#if children}{@render children()}{:else}{text}{/if}
   </a>
 {:else}
-  <button
-    onclick={click}
-    class="{baseClasses} {filledClasses} {passedClasses}"
-  >
+  <button onclick={click} class="{baseClasses} {filledClasses} {passedClasses}">
     {#if children}{@render children()}{:else}{text}{/if}
   </button>
 {/if}

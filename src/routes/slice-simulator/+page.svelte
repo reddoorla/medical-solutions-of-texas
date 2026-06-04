@@ -6,11 +6,7 @@
 </script>
 
 <SliceSimulator>
-  {#snippet children({
-    slices,
-  }: {
-    slices: ComponentProps<typeof SliceZone>["slices"];
-  })}
+  {#snippet children({ slices }: { slices: ComponentProps<typeof SliceZone>["slices"] })}
     <SliceZone {slices} {components} />
   {/snippet}
 </SliceSimulator>

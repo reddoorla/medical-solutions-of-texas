@@ -1,17 +1,12 @@
+import { createSvelteConfig } from "@reddoorla/maintenance/configs/svelte";
 import adapter from "@sveltejs/adapter-netlify";
-import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 /** @type {import('@sveltejs/kit').Config} */
-const config = {
-  compilerOptions: {
-    warningFilter: (warning) =>
-      warning.code !== "element_invalid_self_closing_tag",
-  },
+export default createSvelteConfig({
   kit: {
-    adapter: adapter({
-      edge: false,
-      split: false,
-    }),
+    adapter: adapter({ edge: false, split: false }),
+    // Site-specific path aliases — preserved through the canonical config.
+    // (sync-configs would otherwise clobber these; keep them on re-sync.)
     alias: {
       $components: "src/lib/components",
       "$components/*": "src/lib/components/*",
@@ -23,7 +18,4 @@ const config = {
       "$assets/*": "src/lib/assets/*",
     },
   },
-  preprocess: vitePreprocess(),
-};
-
-export default config;
+});

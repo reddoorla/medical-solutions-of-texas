@@ -27,12 +27,8 @@
   import { fade } from "svelte/transition";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
 
-  let viewportWidth: number = $state(
-    typeof window !== "undefined" ? window.innerWidth : 1920,
-  );
-  let viewportHeight: number = $state(
-    typeof window !== "undefined" ? window.innerHeight : 1080,
-  );
+  let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
+  let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
 
   let isMounted = $state(false);
   let showSubtitle = $state(false);
@@ -139,10 +135,7 @@
 
 <svelte:head><title>{data.title}</title></svelte:head>
 
-<svelte:window
-  bind:innerWidth={viewportWidth}
-  bind:innerHeight={viewportHeight}
-/>
+<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 <ScreenWidthImage
   class="fixed -z-10"
@@ -192,8 +185,8 @@
               ? 'opacity-100'
               : 'opacity-0'}"
           >
-            We bridge the gap between clinical demand and government procurement
-            to support America’s Armed Services and our Veterans.
+            We bridge the gap between clinical demand and government procurement to support
+            America’s Armed Services and our Veterans.
           </div>
         </ContentWidth>
       {/if}
@@ -220,25 +213,17 @@
 
       <div class="flex flex-row items-center justify-center gap-5">
         <img src={usFlag} alt="us flag" class="opacity-50" />
-        <img
-          src={vosbLogo}
-          alt="veteran owned small business logo"
-          class="opacity-90 h-40"
-        />
+        <img src={vosbLogo} alt="veteran owned small business logo" class="opacity-90 h-40" />
         <img src={txFlag} alt="texas flag" class="opacity-50" />
       </div>
       <div class="text-white text-center leading-normal md:text-[24px]">
-        Our expertise, VOSB (Veteran Owned Small Business) status, and deep
-        network of relationships allows us to offer solutions where others hit
-        roadblocks.
+        Our expertise, VOSB (Veteran Owned Small Business) status, and deep network of relationships
+        allows us to offer solutions where others hit roadblocks.
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-        <BracketButton href="/contact" class="text-mid button-text"
-          >Contact Us</BracketButton
-        >
-        <BracketButton
-          href="/pdfs/MSOT_Capabilities.pdf"
-          class="text-mid button-text">Capabilities Statement</BracketButton
+        <BracketButton href="/contact" class="text-mid button-text">Contact Us</BracketButton>
+        <BracketButton href="/pdfs/MSOT_Capabilities.pdf" class="text-mid button-text"
+          >Capabilities Statement</BracketButton
         >
       </div>
     </div>
@@ -255,18 +240,14 @@
       />
       <iframe
         title="background video"
-        src={`https://player.vimeo.com/video/1019997302?background=1`}
+        src="https://player.vimeo.com/video/1019997302?background=1"
         class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
         frameborder="0"
       ></iframe>
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
-      <div
-        class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"
-      ></div>
+      <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
       >
-      <h2
-        class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none"
-      >
+      <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">
         We'll Get You
       </h2>
     </div>
@@ -278,24 +259,21 @@
         >
           {#if viewportWidth > 1024}
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              0
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
                 ? ''
                 : 'opacity-25'}"
             >
               Priority Access
             </h2>
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              1
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
                 ? ''
                 : 'opacity-25'}"
             >
               contract expertise
             </h2>
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              2
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
                 ? ''
                 : 'opacity-25'}"
             >
@@ -303,24 +281,21 @@
             </h2>
           {:else}
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              0
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
                 ? ''
                 : 'opacity-25'}"
             >
               Priority <br /> Access
             </h2>
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              1
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
                 ? ''
                 : 'opacity-25'}"
             >
               contract <br /> expertise
             </h2>
             <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex ===
-              2
+              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
                 ? ''
                 : 'opacity-25'}"
             >
@@ -331,8 +306,8 @@
         <div class="bg-mid relative pt-4 w-full">
           <h5 class="text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h5>
           <div class="text-dark w-80">
-            MSOT makes medical care possible from the war fighter all the way to
-            the retiree and all phases of service inbetween.
+            MSOT makes medical care possible from the war fighter all the way to the retiree and all
+            phases of service inbetween.
           </div>
         </div>
       </div>
@@ -340,11 +315,7 @@
   >
 </section>
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline1 : timeline1_mobile}
-    alt="timelines"
-    class="w-full"
-  />
+  <img src={viewportWidth > 768 ? timeline1 : timeline1_mobile} alt="timelines" class="w-full" />
 </section>
 <section class="bg-mid py-20" bind:this={painTrigger}>
   <ContentWidth class="flex flex-col mb-10 md:mb-20 md:flex-row relative">
@@ -371,11 +342,7 @@
           ? 'opacity-25 delay-[1400ms]'
           : ''} support-text"
       >
-        <h4
-          class="text-dark duration-1000 ease-out {isPainActive
-            ? 'opacity-100'
-            : ''}"
-        >
+        <h4 class="text-dark duration-1000 ease-out {isPainActive ? 'opacity-100' : ''}">
           Government Contracts Are
         </h4>
         <h3
@@ -443,11 +410,7 @@
 </section>
 
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline2 : timeline2_mobile}
-    alt="timelines"
-    class="w-full"
-  />
+  <img src={viewportWidth > 768 ? timeline2 : timeline2_mobile} alt="timelines" class="w-full" />
 </section>
 <section class="bg-mid py-32">
   <ContentWidth>
@@ -469,16 +432,11 @@
         </h4>
 
         <p class="text-dark text-center mx-5 text-[24px]">
-          “MSOT made the process of getting our product into the DoD system
-          easier than we ever thought possible. They're an invaluable
-          partnership and wealth of knowledge when it comes to selling to the
-          DoD and VA hospital systems.”
+          “MSOT made the process of getting our product into the DoD system easier than we ever
+          thought possible. They're an invaluable partnership and wealth of knowledge when it comes
+          to selling to the DoD and VA hospital systems.”
         </p>
-        <img
-          src={revogenLogo}
-          alt="veteran owned small business logo"
-          class="h-32 max-w-[350px]"
-        />
+        <img src={revogenLogo} alt="veteran owned small business logo" class="h-32 max-w-[350px]" />
       </div>
     </div>
   </ContentWidth>
@@ -516,17 +474,11 @@
         <h3 class="text-dark mt-8">Set pricing <br />direct invoicing</h3>
       </div>
     </div>
-    <BracketButton class="text-dark mb-12" href="/process"
-      >Learn More</BracketButton
-    >
+    <BracketButton class="text-dark mb-12" href="/process">Learn More</BracketButton>
   </ContentWidth>
 </section>
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline3 : timeline3_mobile}
-    alt="timelines"
-    class="w-full"
-  />
+  <img src={viewportWidth > 768 ? timeline3 : timeline3_mobile} alt="timelines" class="w-full" />
 </section>
 <ScreenWidthImage
   src={viewportWidth < 1024 ? ctaImageMobile : ctaImage}
@@ -534,9 +486,7 @@
   darken
 >
   <div class="h-44 overflow-hidden relative w-full">
-    <h1 class=" text-mid add-outline absolute bottom-0 left-0 opacity-40">
-      let’s get started
-    </h1>
+    <h1 class=" text-mid add-outline absolute bottom-0 left-0 opacity-40">let’s get started</h1>
     <h1
       class="outlined absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
         ? 'opacity-100  delay-700'
@@ -581,8 +531,7 @@
   </ContentWidth>
   {#if viewportWidth <= 560}
     <div class="label text-white w-full text-center px-2">
-      {"©" + new Date().getFullYear() + " - Medical Solutions of Texas"} <br /> All
-      Rights Reserved
+      {"©" + new Date().getFullYear() + " - Medical Solutions of Texas"} <br /> All Rights Reserved
     </div>
   {/if}
 </footer>

@@ -6,8 +6,7 @@
     PRODUCTS?: string[];
   }
 
-  let { PRODUCTS = ["VA Contracts", "DoD Contracts", "Both"] }: Props =
-    $props();
+  let { PRODUCTS = ["VA Contracts", "DoD Contracts", "Both"] }: Props = $props();
 
   let form: HTMLFormElement | undefined = $state();
 
@@ -36,9 +35,7 @@
 >
   <input type="hidden" name="form-name" value="contact" />
 
-  <div
-    class="flex flex-col md:flex-row text-light items-center justify-center w-full"
-  >
+  <div class="flex flex-col md:flex-row text-light items-center justify-center w-full">
     <div class="flex flex-col gap-4 md:flex-row justify-between w-full">
       <input
         class="w-full md:w-[calc(50%-15px)] border-[1px] rounded-[3px] text-dark border-light h-10 pl-4 pt-[2.5px]"
@@ -54,11 +51,7 @@
       />
     </div>
   </div>
-  <StyledSingleSelect
-    placeholder="Select Interest"
-    items={PRODUCTS}
-    bind:value={selectValue}
-  />
+  <StyledSingleSelect placeholder="Select Interest" items={PRODUCTS} bind:value={selectValue} />
   <input name="select" type="text" bind:value={selectValue.value} hidden />
 
   <textarea

@@ -6,3 +6,17 @@ build
 .output
 .DS_Store
 .claude
+
+# canonical entries from @reddoorla/maintenance sync-configs
+dist/
+coverage/
+.vitest-cache/
+playwright-report/
+test-results/
+.lighthouseci/
+.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+.reddoor-a11y/

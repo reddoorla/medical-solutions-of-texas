@@ -35,21 +35,13 @@
     class: passedClasses = "",
   }: Props = $props();
 
-  const justify = $derived(
-    float === "left" ? "start" : float === "right" ? "end" : float,
-  );
+  const justify = $derived(float === "left" ? "start" : float === "right" ? "end" : float);
 
   const horizontalFloatMargin = $derived(
-    float === "left"
-      ? "ml-0 mr-auto"
-      : float === "right"
-        ? "ml-auto mr-0"
-        : "mx-auto",
+    float === "left" ? "ml-0 mr-auto" : float === "right" ? "ml-auto mr-0" : "mx-auto",
   );
 
-  const resolvedIcon = $derived(
-    icon === "placeholder" ? placeholderIcon : icon,
-  );
+  const resolvedIcon = $derived(icon === "placeholder" ? placeholderIcon : icon);
 
   const baseClasses = "w-full flex flex-col p-2 sm:p-8";
 </script>
@@ -101,11 +93,7 @@
       <DefaultButton text={buttonText} class="mr-5" />
     {/if}
     {#if linkText}
-      <ArrowButton
-        text={linkText}
-        href={linkHref}
-        class="translate-y-1 md:translate-y-0"
-      />
+      <ArrowButton text={linkText} href={linkHref} class="translate-y-1 md:translate-y-0" />
     {/if}
   </div>
 </div>

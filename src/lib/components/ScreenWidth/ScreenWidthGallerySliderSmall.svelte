@@ -27,22 +27,13 @@
   const resetSliderToStart = () => {
     setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
     setTimeout(() => (sliderIndex = 0), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
-    setTimeout(
-      () => (isSlideAnimated = true),
-      SLIDER_TRANSITION_LENGTH_IN_MS + 40,
-    );
+    setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
   };
 
   const resetSliderToEnd = () => {
     setTimeout(() => (isSlideAnimated = false), SLIDER_TRANSITION_LENGTH_IN_MS);
-    setTimeout(
-      () => (sliderIndex = imageArray.length - 1),
-      SLIDER_TRANSITION_LENGTH_IN_MS + 20,
-    );
-    setTimeout(
-      () => (isSlideAnimated = true),
-      SLIDER_TRANSITION_LENGTH_IN_MS + 40,
-    );
+    setTimeout(() => (sliderIndex = imageArray.length - 1), SLIDER_TRANSITION_LENGTH_IN_MS + 20);
+    setTimeout(() => (isSlideAnimated = true), SLIDER_TRANSITION_LENGTH_IN_MS + 40);
   };
 
   const slideRight = () => {
@@ -69,9 +60,7 @@
     return () => clearInterval(sliderInterval);
   });
 
-  const tripledImages = $derived(
-    imageArray.concat(imageArray).concat(imageArray),
-  );
+  const tripledImages = $derived(imageArray.concat(imageArray).concat(imageArray));
 
   const baseClasses = "pb-32";
 </script>
@@ -87,13 +76,9 @@
         sliderIndex + imageArray.length
       ) * 352}px);"
     >
-      {#each tripledImages as image}
+      {#each tripledImages as image, i (i)}
         <div class="w-[360px] h-full mx-4">
-          <FourByThreeImage
-            alt={altText}
-            src={image}
-            class="h-full object-cover -z-10"
-          />
+          <FourByThreeImage alt={altText} src={image} class="h-full object-cover -z-10" />
         </div>
       {/each}
     </div>

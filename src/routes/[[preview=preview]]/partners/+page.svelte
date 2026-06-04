@@ -55,14 +55,10 @@
 <div
   class="w-screen h-[20vh] fixed left-0 top-0 -z-10 bg-gradient-to-b from-[#140F09] via-[#140F09] to-transparent opacity-55"
 ></div>
-<div
-  class="w-screen h-screen fixed left-0 top-0 -z-10 bg-[#140F09] opacity-45"
-></div>
+<div class="w-screen h-screen fixed left-0 top-0 -z-10 bg-[#140F09] opacity-45"></div>
 
 <div class="w-full h-screen">
-  <ContentWidth
-    class="h-full flex flex-row justify-between items-center py-32 relative"
-  >
+  <ContentWidth class="h-full flex flex-row justify-between items-center py-32 relative">
     <h1 class="text-mid mb-12 opacity-60 w-fit">Our</h1>
     <h1 class="text-mid mb-12 opacity-60 w-fit">Partners</h1>
   </ContentWidth>
@@ -85,19 +81,12 @@
       >
         working with the best
       </h4>
-      <img
-        src={revogenLogo}
-        alt="revogen logo"
-        class="w-64 brightness-0 invert"
-      />
+      <img src={revogenLogo} alt="revogen logo" class="w-64 brightness-0 invert" />
 
-      <div
-        class="text-white text-center leading-normal md:text-[24px] max-w-[900px]"
-      >
-        MSOT made the process of getting our product into the DoD system easier
-        than we ever thought possible. They're an invaluable partnership and
-        wealth of knowledge when it comes to selling to the DoD and VA hospital
-        systems.
+      <div class="text-white text-center leading-normal md:text-[24px] max-w-[900px]">
+        MSOT made the process of getting our product into the DoD system easier than we ever thought
+        possible. They're an invaluable partnership and wealth of knowledge when it comes to selling
+        to the DoD and VA hospital systems.
       </div>
     </div>
   </div>
@@ -108,14 +97,11 @@
     >
       <p class="text-white text-center">Successful Partnerships</p>
 
-      <div
-        class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg"
-      >
-        Our most successful partnerships are with companies who are looking to
-        expand their product offering into DoD and VA facilities, who have the
-        flexibility and mindset to work with the government and who believe it's
-        meaningful to be a part of offering the best healthcare possible to our
-        active duty and veteran population in the United States.
+      <div class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg">
+        Our most successful partnerships are with companies who are looking to expand their product
+        offering into DoD and VA facilities, who have the flexibility and mindset to work with the
+        government and who believe it's meaningful to be a part of offering the best healthcare
+        possible to our active duty and veteran population in the United States.
       </div>
     </div>
   </div>
@@ -125,10 +111,8 @@
   <ContentWidth>
     <h4 class="text-dark mb-12">Our Clients</h4>
     <div class="h-0.5 bg-dark w-full"></div>
-    <div
-      class="w-full mt-12 flex flex-row flex-wrap gap-x-12 gap-y-24 justify-evenly items-center"
-    >
-      {#each imageArray as image}
+    <div class="w-full mt-12 flex flex-row flex-wrap gap-x-12 gap-y-24 justify-evenly items-center">
+      {#each imageArray as image, i (i)}
         <img
           src={image}
           alt="partner logo"
