@@ -112,7 +112,7 @@
     <h4 class="text-dark mb-12">Our Clients</h4>
     <div class="h-0.5 bg-dark w-full"></div>
     <div class="w-full mt-12 flex flex-row flex-wrap gap-x-12 gap-y-24 justify-evenly items-center">
-      {#each imageArray as image}
+      {#each imageArray as image, i (i)}
         <img
           src={image}
           alt="partner logo"

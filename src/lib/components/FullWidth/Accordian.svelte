@@ -25,7 +25,7 @@
 </script>
 
 <div class="w-full flex flex-col border-dark border-b-2 cursor-pointer">
-  {#each accordianProps as accordian, i}
+  {#each accordianProps as accordian, i (i)}
     <button
       class="relative w-full border-t-2 border-dark cursor-pointer flex flex-col xl:flex-row"
       onclick={() => (activeAccordians[i] = !activeAccordians[i])}

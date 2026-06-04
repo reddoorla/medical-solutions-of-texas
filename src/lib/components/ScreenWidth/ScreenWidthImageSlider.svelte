@@ -78,7 +78,7 @@
         sliderIndex + imageArray.length
       ) * 100}vw); "
     >
-      {#each tripledImages as image}
+      {#each tripledImages as image, i (i)}
         <div class="w-screen">
           <img src={image} alt={altText} class=" h-full w-full object-cover -z-10" />
         </div>
@@ -96,7 +96,7 @@
             ? 'right-[4%]  xl:right-8 -translate-x-[2px]'
             : ''} {dotFloat === 'center' ? 'left-1/2 -translate-x-1/2' : ''}  bottom-10"
         >
-          {#each imageArray as _image, i}
+          {#each imageArray as _image, i (i)}
             <button
               class="h-[10px] w-[10px] border-2 rounded-full transition-colors duration-1000 cursor-pointer active:-translate-y-[0.5px] hover:opacity-60 mr-4
 								{(sliderIndex % imageArray.length >= 0 && sliderIndex % imageArray.length === i) ||

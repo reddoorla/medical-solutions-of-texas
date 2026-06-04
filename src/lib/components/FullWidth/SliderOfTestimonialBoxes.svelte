@@ -87,7 +87,7 @@
       testimonialBoxPropsArray.length) *
       sliderWidth}%);"
   >
-    {#each quintupledPropsArray as testimonialBoxProps}
+    {#each quintupledPropsArray as testimonialBoxProps, i (i)}
       <div class="h-full z-0" style="width: {sliderWidth}%;">
         <TestimonialBox {...testimonialBoxProps} />
       </div>

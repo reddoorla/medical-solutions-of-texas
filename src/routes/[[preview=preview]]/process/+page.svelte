@@ -104,7 +104,7 @@
       />
       <iframe
         title="background video"
-        src={`https://player.vimeo.com/video/1025187591?background=1`}
+        src="https://player.vimeo.com/video/1025187591?background=1"
         class="absolute w-full aspect-video top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 contrast-[1.15]"
         frameborder="0"
       ></iframe>

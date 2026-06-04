@@ -205,7 +205,7 @@
     <h4 class="text-light my-20">The Team</h4>
 
     <div class="w-full flex flex-col lg:flex-row gap-y-20 items-center justify-between flex-wrap">
-      {#each teamArray as person}
+      {#each teamArray as person, i (i)}
         <div class="last:mx-auto">
           <TeamWithPopup
             name={person.name}

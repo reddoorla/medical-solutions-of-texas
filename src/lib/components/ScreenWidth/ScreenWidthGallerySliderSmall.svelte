@@ -76,7 +76,7 @@
         sliderIndex + imageArray.length
       ) * 352}px);"
     >
-      {#each tripledImages as image}
+      {#each tripledImages as image, i (i)}
         <div class="w-[360px] h-full mx-4">
           <FourByThreeImage alt={altText} src={image} class="h-full object-cover -z-10" />
         </div>

@@ -110,7 +110,7 @@
         tripledItems.length}px; margin-left:calc(50vw - {(imageWidth - 8) /
         2}px); transform:translateX({-(sliderIndex + itemArray.length) * (imageWidth - 8)}px);"
     >
-      {#each tripledItems as item}
+      {#each tripledItems as item, i (i)}
         {#if item.href}
           <a href={item.href || "#"} class="h-full mx-4 relative" style="width:{imageWidth}px;">
             <FourByThreeImage
@@ -140,7 +140,7 @@
     <div class="absolute flex justify-center w-full bottom-0">
       <ContentWidth class="h-full relative w-full">
         <div class="h-10 flex align-middle justify-center bottom-10">
-          {#each itemArray as _item, i}
+          {#each itemArray as _item, i (i)}
             <button
               class="h-[10px] w-[10px] border-2 rounded-full transition-colors duration-1000 cursor-pointer active:-translate-y-[0.5px] hover:opacity-60 mx-2 translate-x-2
 								{(sliderIndex % itemArray.length >= 0 && sliderIndex % itemArray.length === i) ||

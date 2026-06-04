@@ -57,7 +57,7 @@
           : viewportWidth * 0.04}; transform:translateX({-(sliderIndex + imageArray.length) *
           352}px);"
       >
-        {#each tripledImages as _image}
+        {#each tripledImages as _image, i (i)}
           <div class="w-[360px] h-full mx-4">
             <FourByThreeImage alt={altText} class="h-full object-cover -z-10" />
           </div>
