@@ -4,11 +4,18 @@
   interface Props {
     click?: () => void;
     href?: string;
+    type?: "button" | "submit" | "reset";
     class?: string;
     children?: Snippet;
   }
 
-  let { click = () => {}, href = "", class: passedClasses = "", children }: Props = $props();
+  let {
+    click = () => {},
+    href = "",
+    type = "button",
+    class: passedClasses = "",
+    children,
+  }: Props = $props();
 
   let isActive = $state(false);
 
@@ -37,6 +44,7 @@
   </a>
 {:else}
   <button
+    {type}
     onmouseenter={() => (isActive = true)}
     onmouseleave={() => (isActive = false)}
     onclick={() => {
