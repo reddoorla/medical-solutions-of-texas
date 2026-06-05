@@ -93,7 +93,6 @@
   {/if}
   <meta property="og:image" content={$page.data.meta_image ?? `${$page.url.origin}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
 </svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} />

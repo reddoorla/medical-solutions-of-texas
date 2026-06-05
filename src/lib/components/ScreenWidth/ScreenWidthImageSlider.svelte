@@ -63,6 +63,7 @@
 
   onMount(() => {
     sliderInterval = setInterval(() => slideLeft(), SLIDER_INTERVAL_IN_MS);
+    return () => clearInterval(sliderInterval);
   });
 
   const tripledImages = imageArray.concat(imageArray).concat(imageArray);
@@ -105,18 +106,23 @@
                 ? 'bg-dark border-dark'
                 : 'border-light'}"
               onclick={() => setSliderIndex(i)}
-              aria-label="image {i} of {imageArray.length}"
-              aria-hidden
+              aria-label="Go to slide {i + 1} of {imageArray.length}"
             ></button>
           {/each}
         </div>
       </ContentWidth>
       {#if hasArrows}
-        <button onclick={slideRight} class="absolute top-1/2 -translate-y-1/2 left-6"
-          ><img src={chevronLeft} class="w-3 md:w-4" /></button
+        <button
+          onclick={slideRight}
+          aria-label="Previous slide"
+          class="absolute top-1/2 -translate-y-1/2 left-6"
+          ><img src={chevronLeft} alt="" class="w-3 md:w-4" /></button
         >
-        <button onclick={slideLeft} class="absolute top-1/2 -translate-y-1/2 right-6"
-          ><img src={chevronRight} class="w-3 md:w-4" /></button
+        <button
+          onclick={slideLeft}
+          aria-label="Next slide"
+          class="absolute top-1/2 -translate-y-1/2 right-6"
+          ><img src={chevronRight} alt="" class="w-3 md:w-4" /></button
         >
       {/if}
     </div>

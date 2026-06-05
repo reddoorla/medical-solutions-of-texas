@@ -19,12 +19,16 @@ export async function load({ params, fetch, cookies }) {
   };
 }
 
+// UIDs that have their own dedicated routes — exclude them so they aren't
+// prerendered a second time through this catch-all.
+const RESERVED_UIDS = ["home", "about", "contact", "partners", "process", "resources"];
+
 export async function entries() {
   const client = createClient();
 
   const pages = await client.getAllByType("page");
 
-  return pages.map((page) => {
-    return { uid: page.uid };
-  });
+  return pages
+    .filter((page) => !RESERVED_UIDS.includes(page.uid))
+    .map((page) => ({ uid: page.uid }));
 }

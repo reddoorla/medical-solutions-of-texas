@@ -186,9 +186,15 @@
         <h5 class="text-dark">Who We Are</h5>
         <h3 class="text-dark">We have what you’re looking for</h3>
         <div class="text-dark label">
-          MSOT was founded by a team of medical sales experts in 2022. With a career running Air Force logistics on bases in the continental United States and at forward deployment locations overseas, we have the experience to know how to work within the complex system of military contracts and procurement. 
+          MSOT was founded by a team of medical sales experts in 2022. With a career running Air
+          Force logistics on bases in the continental United States and at forward deployment
+          locations overseas, we have the experience to know how to work within the complex system
+          of military contracts and procurement.
           <br /> <br />
-          We spent our careers grappling with the difficulties in getting and keeping VA hospitals and DoD bases equipped with med-surg supplies, from the side of a logistics officer and the side of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization uniquely suited to connect med-surg suppliers with VA and DoD contracts.
+          We spent our careers grappling with the difficulties in getting and keeping VA hospitals and
+          DoD bases equipped with med-surg supplies, from the side of a logistics officer and the side
+          of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization
+          uniquely suited to connect med-surg suppliers with VA and DoD contracts.
         </div>
       </div>
     </div>
