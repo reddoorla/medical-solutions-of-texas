@@ -57,8 +57,6 @@
     sliderInterval = setInterval(() => slideRight(), SLIDER_INTERVAL_IN_MS);
     if (sliderIndex % contentBoxPropsArray.length == 0 && sliderIndex !== 0 && sliderIndex < 0)
       resetSlider();
-
-    console.log(sliderIndex);
   };
 
   const swipe = createSwipeAction((e) => {
@@ -68,6 +66,7 @@
 
   onMount(() => {
     sliderInterval = setInterval(() => slideLeft(), SLIDER_INTERVAL_IN_MS);
+    return () => clearInterval(sliderInterval);
   });
 
   const quintupledPropsArray = [
