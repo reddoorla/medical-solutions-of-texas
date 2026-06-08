@@ -20,6 +20,10 @@
     "slicemachine": "start-slicemachine"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.60.0",
+    "@reddoorla/maintenance": "^0.28.0",
     "@slicemachine/adapter-sveltekit": "^0.3.60",
     "@sveltejs/adapter-netlify": "^6.0.4",
     "@sveltejs/kit": "^2.5.27",
@@ -33,11 +37,7 @@
     "svelte-check": "^4.0.0",
     "typescript": "^6.0.3",
     "typescript-svelte-plugin": "^0.3.36",
-    "vite": "^8.0.2",
-    "@reddoorla/maintenance": "^0.27.0",
-    "@lhci/cli": "^0.15.1",
-    "@playwright/test": "^1.60.0",
-    "@axe-core/playwright": "^4.11.3"
+    "vite": "^8.0.2"
   },
   "dependencies": {
     "@lucide/svelte": "^1.8.0",
