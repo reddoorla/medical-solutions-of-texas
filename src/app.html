@@ -10,7 +10,17 @@
     <meta name="google-site-verification" content="LUqp6fAiix3BaJm7OjOuBrwjRKZ58FJMS1yurgKN2Hk" />
     <meta name="viewport" content="width=device-width" />
     <script src="https://player.vimeo.com/api/player.js"></script>
-    <link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="preload" as="style" href="https://use.typekit.net/noj4tji.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.typekit.net/noj4tji.css"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
+    </noscript>
 
     %sveltekit.head%
   </head>
