@@ -54,7 +54,7 @@
     {#if vimeoId}
       <iframe
         title="background video"
-        src={`https://player.vimeo.com/video/${vimeoId}?background=1&muted=1&loop=1&autoplay=1`}
+        src={`https://player.vimeo.com/video/${vimeoId}?background=1&muted=1&loop=1&autoplay=1&dnt=1`}
         class="aspect-video absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 {viewportHeight *
           16 >
         viewportWidth * 9

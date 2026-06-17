@@ -240,7 +240,7 @@
       />
       <iframe
         title="background video"
-        src="https://player.vimeo.com/video/1019997302?background=1"
+        src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
         class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
         frameborder="0"
       ></iframe>
