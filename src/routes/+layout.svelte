@@ -16,9 +16,10 @@
 
   interface Props {
     children?: Snippet;
+    data: { isPreviewSession?: boolean };
   }
 
-  let { children }: Props = $props();
+  let { children, data }: Props = $props();
 
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
@@ -177,4 +178,6 @@
 
   {@render children?.()}
 </main>
-<PrismicPreview {repositoryName} />
+{#if data.isPreviewSession}
+  <PrismicPreview {repositoryName} />
+{/if}

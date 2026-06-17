@@ -116,7 +116,7 @@
             <img src={flagThumb} alt="surgeons placeholder" class="w-full h-full absolute top-0 left-0 object-cover"/>
 			<iframe 
 					title="background video" 
-					src={`https://player.vimeo.com/video/1022236757?background=1`}
+					src={`https://player.vimeo.com/video/1022236757?background=1&dnt=1`}
 					class="absolute w-full aspect-video top-0 left-0 contrast-[1.3]"
 					frameborder="0"
 					
