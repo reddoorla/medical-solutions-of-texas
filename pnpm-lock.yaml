@@ -40,8 +40,8 @@ importers:
         specifier: ^1.60.0
         version: 1.60.0
       '@reddoorla/maintenance':
-        specifier: ^0.58.0
-        version: 0.58.0(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(jiti@2.7.0)(playwright-core@1.60.0)(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)
+        specifier: ^0.65.0
+        version: 0.65.0(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(jiti@2.7.0)(playwright-core@1.60.0)(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)
       '@slicemachine/adapter-sveltekit':
         specifier: ^0.3.60
         version: 0.3.95(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(prettier-plugin-svelte@3.5.1(prettier@3.8.3)(svelte@5.55.7(@typescript-eslint/types@8.59.2)))(prettier@3.8.3)(svelte@5.55.7(@typescript-eslint/types@8.59.2))
@@ -611,8 +611,8 @@ packages:
       io-ts: ^2.2.16
       io-ts-types: ^0.5.16
 
-  '@reddoorla/maintenance@0.58.0':
-    resolution: {integrity: sha512-p0KHoRaLlIMJ9+4P6t5WhSjNHUU9VpM+TawvTzevxu9gEtjdz/yTDrS+WwqI2QtRaL3ik1x6dgOJTQPCcYqfXA==}
+  '@reddoorla/maintenance@0.65.0':
+    resolution: {integrity: sha512-omvrHLq2LcmWs4nue+Y4JvH27wpIOdoV93MAIl0xB0hJvuLM96wTcn6ujFzUHkyaVjmr7UW5+Dtn53n0uz5vlg==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
@@ -2548,10 +2548,6 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
-  tinyglobby@0.2.16:
-    resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
-    engines: {node: '>=12.0.0'}
-
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
@@ -3188,7 +3184,7 @@ snapshots:
       tslib: 2.8.1
       uuid: 9.0.1
 
-  '@reddoorla/maintenance@0.58.0(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(jiti@2.7.0)(playwright-core@1.60.0)(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)':
+  '@reddoorla/maintenance@0.65.0(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(jiti@2.7.0)(playwright-core@1.60.0)(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)':
     dependencies:
       '@axe-core/playwright': 4.11.3(playwright-core@1.60.0)
       '@eslint/js': 10.0.1(eslint@10.3.0(jiti@2.7.0))
@@ -3201,7 +3197,7 @@ snapshots:
       listr2: 10.2.1
       prettier: 3.8.3
       prettier-plugin-svelte: 3.5.1(prettier@3.8.3)(svelte@5.55.7(@typescript-eslint/types@8.59.2))
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
       typescript-eslint: 8.59.2(eslint@10.3.0(jiti@2.7.0))(typescript@6.0.3)
     optionalDependencies:
       '@sveltejs/kit': 2.68.0(@sveltejs/vite-plugin-svelte@7.1.1(svelte@5.55.7(@typescript-eslint/types@8.59.2))(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0)))(svelte@5.55.7(@typescript-eslint/types@8.59.2))(typescript@6.0.3)(vite@8.0.16(@types/node@25.6.0)(jiti@2.7.0))
@@ -3605,7 +3601,7 @@ snapshots:
       debug: 4.4.3
       minimatch: 10.2.5
       semver: 7.7.4
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -5205,11 +5201,6 @@ snapshots:
   tailwindcss@4.2.4: {}
 
   tapable@2.3.3: {}
-
-  tinyglobby@0.2.16:
-    dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
 
   tinyglobby@0.2.17:
     dependencies:
