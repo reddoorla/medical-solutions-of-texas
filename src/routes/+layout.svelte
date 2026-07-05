@@ -90,7 +90,7 @@
     <meta name="description" content={$page.data.meta_description} />
   {/if}
   {#if $page.data.meta_title}
-    <meta name="og:title" content={$page.data.meta_title} />
+    <meta property="og:title" content={$page.data.meta_title} />
   {/if}
   <meta property="og:image" content={$page.data.meta_image ?? `${$page.url.origin}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
