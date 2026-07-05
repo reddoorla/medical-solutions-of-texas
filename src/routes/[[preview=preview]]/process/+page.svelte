@@ -5,8 +5,9 @@
 
   import { onMount } from "svelte";
 
-  import hero from "$lib/assets/images/process/processHero.jpg";
-  import surgeonVideoPlaceholder from "$lib/assets/images/home/surgeonsPlaceholder.jpg";
+  import Img from "@zerodevx/svelte-img";
+  import hero from "$lib/assets/images/process/processHero.jpg?as=run";
+  import surgeonVideoPlaceholder from "$lib/assets/images/home/surgeonsPlaceholder.jpg?as=run";
   import timeline from "$lib/assets/images/process/timeline.svg";
   import timeline_mobile from "$lib/assets/images/process/timeline_mobile.svg";
   import Footer from "$lib/components/Footer.svelte";
@@ -97,7 +98,7 @@
 <section class="w-full py-20 bg-mid">
   <ContentWidth class="items-start">
     <div class="w-full aspect-[5/2] bg-light relative overflow-hidden">
-      <img
+      <Img
         src={surgeonVideoPlaceholder}
         alt="surgeons placeholder"
         class="w-full h-full absolute top-0 left-0 object-cover"

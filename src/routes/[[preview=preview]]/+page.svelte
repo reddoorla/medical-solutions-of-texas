@@ -7,18 +7,19 @@
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
 
   //images
-  import soldiersVideoPlaceholder from "$lib/assets/images/home/bgVideoPlaceholder.jpg";
-  import surgeonsVideoPlaceholder from "$lib/assets/images/home/surgeonsPlaceholder.jpg";
+  import soldiersVideoPlaceholder from "$lib/assets/images/home/bgVideoPlaceholder.jpg?as=run";
+  import surgeonsVideoPlaceholder from "$lib/assets/images/home/surgeonsPlaceholder.jpg?as=run";
   import timeline1 from "$lib/assets/images/home/timeline1.svg";
   import timeline1_mobile from "$lib/assets/images/home/timeline1_mobile.svg";
   import timeline2 from "$lib/assets/images/home/timeline2.svg";
   import timeline2_mobile from "$lib/assets/images/home/timeline2_mobile.svg";
   import timeline3 from "$lib/assets/images/home/timeline3.svg";
   import timeline3_mobile from "$lib/assets/images/home/timeline3_mobile.svg";
-  import ctaImage from "$lib/assets/images/home/doctor.jpg";
-  import ctaImageMobile from "$lib/assets/images/home/doctor_mobile.jpg";
+  import ctaImage from "$lib/assets/images/home/doctor.jpg?as=run";
+  import ctaImageMobile from "$lib/assets/images/home/doctor_mobile.jpg?as=run";
 
   //components
+  import Img from "@zerodevx/svelte-img";
   import ScreenWidthImage from "$lib/components/ScreenWidth/ScreenWidthImage.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
 
@@ -65,6 +66,9 @@
 
   let ctaTrigger: HTMLElement | undefined = $state();
   let isCtaActive = $state(false);
+
+  let surgeonsContainer: HTMLElement | undefined = $state();
+  let surgeonsInView = $state(false);
 
   const handleScroll = () => {
     if (weGetTrigger) {
@@ -124,8 +128,22 @@
       showSubtitle = true;
     }, 5400);
 
+    // Defer the surgeons Vimeo iframe (~4MB of video segments) until the
+    // section approaches the viewport; the placeholder image covers it until then.
+    const surgeonsObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          surgeonsInView = true;
+          surgeonsObserver.disconnect();
+        }
+      },
+      { rootMargin: "600px" },
+    );
+    if (surgeonsContainer) surgeonsObserver.observe(surgeonsContainer);
+
     return () => {
       isMounted = false;
+      surgeonsObserver.disconnect();
     };
   });
 
@@ -212,9 +230,9 @@
       </h4>
 
       <div class="flex flex-row items-center justify-center gap-5">
-        <img src={usFlag} alt="us flag" class="opacity-50" />
+        <img src={usFlag} alt="us flag" width="57" height="37" class="opacity-50" />
         <img src={vosbLogo} alt="veteran owned small business logo" class="opacity-90 h-40" />
-        <img src={txFlag} alt="texas flag" class="opacity-50" />
+        <img src={txFlag} alt="texas flag" width="53" height="35" class="opacity-50" />
       </div>
       <div class="text-white text-center leading-normal md:text-[24px]">
         Our expertise, VOSB (Veteran Owned Small Business) status, and deep network of relationships
@@ -232,18 +250,23 @@
 
 <section class="w-full py-20 bg-mid">
   <ContentWidth class="items-start">
-    <div class="w-full aspect-[5/2] bg-light relative overflow-hidden">
-      <img
+    <div
+      bind:this={surgeonsContainer}
+      class="w-full aspect-[5/2] bg-light relative overflow-hidden"
+    >
+      <Img
         src={surgeonsVideoPlaceholder}
         alt="surgeons placeholder"
         class="w-full h-full absolute top-0 left-0 object-cover"
       />
-      <iframe
-        title="background video"
-        src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
-        class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
-        frameborder="0"
-      ></iframe>
+      {#if surgeonsInView}
+        <iframe
+          title="background video"
+          src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
+          class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
+          frameborder="0"
+        ></iframe>
+      {/if}
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
       >
@@ -315,7 +338,15 @@
   >
 </section>
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img src={viewportWidth > 768 ? timeline1 : timeline1_mobile} alt="timelines" class="w-full" />
+  <img
+    src={viewportWidth > 768 ? timeline1 : timeline1_mobile}
+    alt="timelines"
+    width={viewportWidth > 768 ? 1440 : 359}
+    height="650"
+    loading="lazy"
+    decoding="async"
+    class="w-full"
+  />
 </section>
 <section class="bg-mid py-20" bind:this={painTrigger}>
   <ContentWidth class="flex flex-col mb-10 md:mb-20 md:flex-row relative">
@@ -410,7 +441,15 @@
 </section>
 
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img src={viewportWidth > 768 ? timeline2 : timeline2_mobile} alt="timelines" class="w-full" />
+  <img
+    src={viewportWidth > 768 ? timeline2 : timeline2_mobile}
+    alt="timelines"
+    width={viewportWidth > 768 ? 1440 : 359}
+    height="650"
+    loading="lazy"
+    decoding="async"
+    class="w-full"
+  />
 </section>
 <section class="bg-mid py-32">
   <ContentWidth>
@@ -478,7 +517,15 @@
   </ContentWidth>
 </section>
 <section class="bg-light w-screen aspect-[5/2] relative">
-  <img src={viewportWidth > 768 ? timeline3 : timeline3_mobile} alt="timelines" class="w-full" />
+  <img
+    src={viewportWidth > 768 ? timeline3 : timeline3_mobile}
+    alt="timelines"
+    width={viewportWidth > 768 ? 1440 : 359}
+    height="650"
+    loading="lazy"
+    decoding="async"
+    class="w-full"
+  />
 </section>
 <ScreenWidthImage
   src={viewportWidth < 1024 ? ctaImageMobile : ctaImage}

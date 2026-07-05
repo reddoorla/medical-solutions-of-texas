@@ -2,7 +2,7 @@
   import ScreenWidthImage from "$lib/components/ScreenWidth/ScreenWidthImage.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
 
-  import hero from "$lib/assets/images/partners/partnersHero.jpg";
+  import hero from "$lib/assets/images/partners/partnersHero.jpg?as=run";
   import revogenLogo from "$lib/assets/icons/logos/revogenLogo.svg";
 
   import revogenDuo from "$lib/assets/images/partners/partners_duotone/revogen-duo.png";

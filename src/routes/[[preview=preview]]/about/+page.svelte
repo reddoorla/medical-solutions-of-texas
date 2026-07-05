@@ -2,7 +2,7 @@
   import ScreenWidthImage from "$lib/components/ScreenWidth/ScreenWidthImage.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
 
-  import hero from "$lib/assets/images/about/aboutHero.jpg";
+  import hero from "$lib/assets/images/about/aboutHero.jpg?as=run";
   import dots from "$lib/assets/dots.svg";
   import patch from "$lib/assets/images/about/patch.jpg";
   import albert from "$lib/assets/images/generic_headshots/albert.png";
