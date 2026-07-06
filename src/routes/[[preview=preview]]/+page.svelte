@@ -27,7 +27,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
-  import { whenPageReady, prefersReducedMotion } from "$lib/utils/whenPageReady";
+  import { whenPageReady, prefersReducedMotion } from "@reddoorla/maintenance/client";
 
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
