@@ -27,6 +27,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
+  import { whenPageReady, prefersReducedMotion } from "$lib/utils/whenPageReady";
 
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
@@ -124,9 +125,17 @@
 
     window.addEventListener("scroll", handleScroll);
 
-    setTimeout(() => {
-      showSubtitle = true;
-    }, 5400);
+    // Stagger the hero subtitle in behind the splash reveal (which is
+    // load-aware in +layout.svelte) instead of a blind 5.4s timer.
+    const reducedMotion = prefersReducedMotion();
+    whenPageReady({ minMs: 0, maxMs: 2400 }).then(() => {
+      setTimeout(
+        () => {
+          showSubtitle = true;
+        },
+        reducedMotion ? 0 : 1200,
+      );
+    });
 
     // Defer the surgeons Vimeo iframe (~4MB of video segments) until the
     // section approaches the viewport; the placeholder image covers it until then.

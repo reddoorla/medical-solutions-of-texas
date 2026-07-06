@@ -13,6 +13,7 @@
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import { onMount } from "svelte";
   import { onNavigate } from "$app/navigation";
+  import { whenPageReady, prefersReducedMotion } from "$lib/utils/whenPageReady";
 
   interface Props {
     children?: Snippet;
@@ -36,6 +37,9 @@
   let showNav = $state(true);
   let isReady = $state(false);
   let isTransitioning = $state(false);
+
+  // false during SSR; the client instance re-evaluates with the real setting.
+  const reducedMotion = prefersReducedMotion();
 
   let lastScrollY = 0;
 
@@ -68,9 +72,12 @@
   onMount(() => {
     window.addEventListener("scroll", handleScroll);
 
-    setTimeout(() => {
+    // Hold the splash until above-the-fold imagery has settled instead of a
+    // blind timer: min 600ms so the brand moment doesn't flash, max 2400ms
+    // (the old timer) so a stalled resource can't wedge the splash open.
+    whenPageReady({ minMs: reducedMotion ? 0 : 600, maxMs: 2400 }).then(() => {
       isReady = true;
-    }, 2400);
+    });
 
     return () => window.removeEventListener("scroll", handleScroll);
   });
@@ -101,10 +108,17 @@
 {#if isTransitioning || !isReady}
   <div
     class="bg-[#140F09] z-40 fixed w-screen h-screen top-0 left-0 pointer-events-none"
-    out:fade={{ duration: 700, delay: 700 }}
+    out:fade={{ duration: reducedMotion ? 0 : 700, delay: reducedMotion ? 0 : 700 }}
   ></div>
-  <div transition:fade class="fixed w-2/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
-    <img src={msotLogoSand} class="w-full h-full pulse-always" alt="msot logo" />
+  <div
+    transition:fade={{ duration: reducedMotion ? 0 : 400 }}
+    class="fixed w-2/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40"
+  >
+    <img
+      src={msotLogoSand}
+      class="w-full h-full {reducedMotion ? '' : 'pulse-always'}"
+      alt="msot logo"
+    />
   </div>
 {:else}
   <div
