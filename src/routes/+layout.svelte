@@ -13,7 +13,7 @@
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import { onMount } from "svelte";
   import { onNavigate } from "$app/navigation";
-  import { whenPageReady, prefersReducedMotion } from "$lib/utils/whenPageReady";
+  import { whenPageReady, prefersReducedMotion } from "@reddoorla/maintenance/client";
 
   interface Props {
     children?: Snippet;
