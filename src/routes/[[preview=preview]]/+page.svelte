@@ -160,7 +160,7 @@
   let { data }: PageProps = $props();
 </script>
 
-<svelte:head><title>{data.title}</title></svelte:head>
+<svelte:head><title>{data.title || "Medical Solutions of Texas"}</title></svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
