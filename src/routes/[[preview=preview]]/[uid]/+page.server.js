@@ -23,12 +23,17 @@ export async function load({ params, fetch, cookies }) {
 // prerendered a second time through this catch-all.
 const RESERVED_UIDS = ["home", "about", "contact", "partners", "process", "resources"];
 
+// Retired page uids: still present as Prismic docs but no longer public. Excluded
+// from prerendering so no dead/empty page ships; `/rep-login` is 301'd to the
+// homepage by netlify.toml and dropped from the sitemap.
+const RETIRED_UIDS = ["rep-login"];
+
 export async function entries() {
   const client = createClient();
 
   const pages = await client.getAllByType("page");
 
   return pages
-    .filter((page) => !RESERVED_UIDS.includes(page.uid))
+    .filter((page) => !RESERVED_UIDS.includes(page.uid) && !RETIRED_UIDS.includes(page.uid))
     .map((page) => ({ uid: page.uid }));
 }

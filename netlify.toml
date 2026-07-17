@@ -7,6 +7,19 @@
     NODE_VERSION = "24"
     COREPACK_INTEGRITY_KEYS = "0"
 
+# Retired routes. `/rep-login` was an old, empty rep-login page (its Prismic
+# `page` doc carried no slices, so it rendered a blank <main>). It is retired
+# here rather than deleted in Prismic: a permanent redirect keeps any old
+# bookmark or inbound link landing on the homepage instead of a dead/blank page,
+# and `force = true` makes this win even if a stale prerendered /rep-login still
+# exists in the build. It is also dropped from the sitemap and from the catch-all
+# `entries()` so nothing re-advertises or re-generates it.
+[[redirects]]
+    from = "/rep-login"
+    to = "/"
+    status = 301
+    force = true
+
 # Baseline security headers for all responses. CSP is emitted per-response by
 # SvelteKit (see `kit.csp` in svelte.config.js) so it is intentionally omitted
 # here to avoid conflicting duplicates.
