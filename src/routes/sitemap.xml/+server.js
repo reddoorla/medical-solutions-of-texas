@@ -14,6 +14,12 @@ const TYPE_PATHS = {
   page: (uid) => (uid === "home" ? "/" : `/${uid}`),
 };
 
+// Retired page uids: still present as Prismic docs but intentionally not public
+// (see the /rep-login redirect in netlify.toml). Excluded here so the sitemap
+// never re-advertises a URL that only 301s away.
+/** @type {Set<string>} */
+const RETIRED_UIDS = new Set(["rep-login"]);
+
 export async function GET({ fetch }) {
   const client = createClient({ fetch });
   const docs = await client.dangerouslyGetAll().catch(() => []);
@@ -22,6 +28,7 @@ export async function GET({ fetch }) {
   for (const doc of docs) {
     const build = TYPE_PATHS[doc.type];
     if (!build || !doc.uid) continue;
+    if (RETIRED_UIDS.has(doc.uid)) continue;
     const loc = SITE_URL + build(doc.uid);
     const lastmod = doc.last_publication_date?.slice(0, 10);
     urls.push(
