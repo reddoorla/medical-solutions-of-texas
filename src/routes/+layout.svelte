@@ -22,6 +22,37 @@
 
   let { children, data }: Props = $props();
 
+  // --- Document head / SEO fallbacks --------------------------------------
+  // A page's own Prismic value always wins; these only fill in when the field
+  // is empty/absent so no page ever renders an empty <meta name="description">
+  // or a blank/duplicate <title>.
+  const SITE_NAME = "Medical Solutions of Texas";
+  // Last-resort description, derived from the real homepage copy (VOSB status +
+  // navigating government healthcare contracting for the DoD/VA).
+  const DEFAULT_DESCRIPTION =
+    "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the DoD and VA.";
+
+  // Route-derived title so an untitled Prismic doc still yields a unique, human
+  // <title> ("/process" -> "MSOT | Process") instead of an empty/duplicate tag.
+  function fallbackTitle(pathname: string): string {
+    const seg = pathname
+      .replace(/^\/+|\/+$/g, "")
+      .split("/")
+      .filter(Boolean)
+      .pop();
+    if (!seg) return SITE_NAME;
+    const label = seg
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    return `MSOT | ${label}`;
+  }
+
+  let pageTitle = $derived(
+    $page.data.title || $page.data.meta_title || fallbackTitle($page.url.pathname),
+  );
+  let metaDescription = $derived($page.data.meta_description || DEFAULT_DESCRIPTION);
+
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
 
@@ -92,15 +123,13 @@
 </script>
 
 <svelte:head>
-  <title>{$page.data.title ?? "Medical Solutions of Texas"}</title>
-  {#if $page.data.meta_description}
-    <meta name="description" content={$page.data.meta_description} />
-  {/if}
-  {#if $page.data.meta_title}
-    <meta property="og:title" content={$page.data.meta_title} />
-  {/if}
+  <title>{pageTitle}</title>
+  <meta name="description" content={metaDescription} />
+  <meta property="og:title" content={$page.data.meta_title || pageTitle} />
+  <meta property="og:description" content={metaDescription} />
   <meta property="og:image" content={$page.data.meta_image ?? `${$page.url.origin}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:description" content={metaDescription} />
 </svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} />

@@ -37,7 +37,7 @@
   });
 </script>
 
-<svelte:head><title>MSOT | About</title></svelte:head>
+<svelte:head><title>MSOT | Process</title></svelte:head>
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />
