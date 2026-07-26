@@ -6,3 +6,8 @@ allowBuilds:
   protobufjs: true
   sharp: true
 minimumReleaseAge: 0
+overrides:
+  # GHSA-pxg6-pf52-xh8x — @sveltejs/kit still pins cookie ^0.6.0; scoped so cookie@1.x consumers keep their own range
+  "cookie@<0.7.0": ^0.7.2
+  # GHSA-f88m-g3jw-g9cj — imagetools-core@6.0.4 pins sharp ^0.33.1; dedupe onto the direct devDep's 0.35.x
+  "sharp@<0.35.0": ^0.35.0
