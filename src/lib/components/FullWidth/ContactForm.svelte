@@ -129,8 +129,7 @@
         class="w-full border rounded-[3px] text-dark border-light h-48 pl-4 pt-2"
         placeholder="Your Message"
         name="message"
-        required
-      ></textarea>
+        required></textarea>
     </label>
 
     {#if turnstileSiteKey}
