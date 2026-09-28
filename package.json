@@ -47,7 +47,7 @@
     "@tailwindcss/vite": "^4.2.4",
     "@zerodevx/svelte-img": "^2.1.2",
     "svelte-gestures": "^5.2.2",
-    "svelte-select": "^5.8.3",
+    "svelte-select": "^6.0.0",
     "tailwindcss": "^4.2.4"
   }
 }
