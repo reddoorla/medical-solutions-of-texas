@@ -104,3 +104,35 @@ un-regenerated field added to the RichText model.
 
 The nightly drift sweep read msot's 3 models as matching Prismic at `320e878`,
 the base of this change, so nothing was owed to Prismic first.
+
+## 2026-10-04 — The simulator leaves `[uid]`'s bundle; an encoded path gets the simulator's framing (`fix/simulator-chunk-and-encoded-framing`)
+
+The two findings from the adversarial review of the Prismic CLI move, ported
+from reddoor-starter#168 on the pattern of caltex-landing#70. `/slice-simulator`
+imports `SliceSimulator` from the `@prismicio/svelte` barrel, which re-exports
+it statically, so Rolldown put `@prismicio/simulator` in the barrel's shared
+chunk. `scripts/prismic-barrel.ts`, copied verbatim from the starter, declares
+that one re-export-only module side-effect-free, and `SliceZone` is then bound
+directly.
+
+Here the shared chunk did not hang off the root layout, as it did on caltex,
+but only off `[uid]`, the one page route that renders a `SliceZone` from the
+barrel. Measured from the build manifest as each client node's static-import
+closure, gzipped, `main` → branch: `[uid]` 32,795 → 28,362, and it no longer
+reaches the simulator. `/slice-simulator` went 32,865 → 32,988, carrying the
+code in its own node. The root layout (44,295 → 44,290) and home (59,050 →
+59,050) never reached it and did not change beyond hash noise.
+
+The hook asked `isCmsFramedRoute(event.url.pathname)`, the raw path, while
+SvelteKit routes on the decoded one, so `/slice%2Dsimulator` and
+`/slice%2dsimulator` rendered the simulator with no framing CSP. It now asks
+`event.route.id`. From `vite preview`, both encoded paths went from no
+`frame-ancestors` to the widened one, the same as `/slice-simulator`.
+
+The proof is `tests/smoke/slice-simulator.spec.ts`, since this site has no
+unit runner. Against `main` it failed 3 of 7 (the bundle check and both
+encoded paths); on the branch it passes 7 of 7, and with the plugin removed
+from `vite.config.ts` it fails the bundle check alone. The starter imports
+the plugin as `./scripts/prismic-barrel.ts`; here svelte-check refused that
+(`allowImportingTsExtensions` is not on in this tsconfig), so the import is
+extensionless, as caltex's is from its `.js` config.
