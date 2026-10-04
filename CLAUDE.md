@@ -18,9 +18,23 @@ org's reusable workflow (`reddoorla/.github` ci.yml); the local equivalent is
   `resources`, `contact`, plus a `[uid]` catch-all). Prismic supplies the
   `page` type's metadata and one `RichText` slice; the layout and copy are in
   the route components. The site predates the slice library.
-- **`src/prismicio-types.d.ts` is generated** by Slice Machine and is
-  prettier-ignored on purpose — a prettier bump would otherwise red
-  `--check` on unrelated dependency PRs.
+- **`prismicio-types.d.ts` (project root) and `src/lib/slices/index.ts` are
+  generated** by the Prismic CLI (`pnpm prismic:gen`; Slice Machine is gone,
+  deprecated by Prismic 2026-09-18). Edit a model's JSON, regenerate, commit
+  both; the `prismic-codegen` job fails a PR whose generated files are stale.
+  Both are prettier-ignored on purpose — a prettier bump would otherwise red
+  `--check` on unrelated dependency PRs. The types file sits outside
+  SvelteKit's `src/**` include, so `src/app.d.ts` imports it. Run by an agent,
+  the CLI refuses without `--task-id` and `--user-intent`: run
+  `pnpm exec prismic task-id` once, then
+  `pnpm exec prismic gen types --task-id <id> --user-intent "<the ask>"` and the
+  same for `gen slice-index`. Never `prismic push` or `prismic pull`: both
+  delete to match.
+- **`/slice-simulator` is server-rendered on purpose** (`prerender = false`).
+  Prismic's Type Builder frames it from `*.prismic.io`; prerendered, it was a
+  static file carrying netlify.toml's `X-Frame-Options: SAMEORIGIN`, which no
+  prismic.io frame can pass. `src/hooks.server.ts` touches that route only
+  (`src/lib/security/cms-framing.ts`).
 - **The canonical origin is defined once**, in `src/lib/site.js`. Re-hardcoding
   it elsewhere is what caused a stale-www sitemap bug on a sibling site.
 - **The branch filters in `.github/workflows/prismic-models.yml` are

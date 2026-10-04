@@ -59,3 +59,48 @@ A dozen stale remote branches survive from merged PRs; none is live work.
 **What changed today.** `CLAUDE.md` did not exist here — this repo predates the
 convention — so it was created carrying only what the code and log support,
 plus "The work journal". And this file exists.
+
+## 2026-10-04 — Off Slice Machine, onto the Prismic CLI (reddoor-maintenance#1090)
+
+Phase 4 of the fleet migration (reddoor-maintenance
+`docs/prismic-migration-plan-2026-10.md` §9), following espada and
+caltex-landing. Slice Machine is deprecated by Prismic since 2026-09-18; models
+are now edited in the Type Builder and the generated files come from
+`pnpm prismic:gen`.
+
+**The Type Builder could not have framed this site's simulator.** On `main`
+the root layout's `prerender = "auto"` prerendered `/slice-simulator` into a
+static file, and netlify.toml's `/*` block stamps every static file
+`X-Frame-Options: SAMEORIGIN`. Measured read-only on medicalsolutionsoftx.com:
+`/slice-simulator`, `/` and `/about` all carry `x-frame-options: SAMEORIGIN`;
+`/contact` and `/health`, server-rendered, carry none, and no route sends a
+CSP (the site never opted into the central one, whatever netlify.toml's
+comment about `kit.csp` says). `vite preview` showed neither header on any
+route, because it does not apply netlify.toml, so the local preview alone
+would have called the route frameable. `/slice-simulator` is now
+`prerender = false`, and a new `hooks.server.ts` touches that route only:
+it deletes X-Frame-Options and sends
+`frame-ancestors 'self' http://localhost:* https://*.prismic.io https://prismic.io`.
+Re-measured from `vite preview`: that CSP on `/slice-simulator`, and `/`,
+`/about`, `/contact`, `/health` unchanged (no X-Frame-Options, no CSP, as
+before). There is no unit runner here, so the hook was proven with a throwaway
+node probe instead: given `X-Frame-Options: SAMEORIGIN`, `/slice-simulator`
+and `/slice-simulator/` come back without it, and `/about` keeps it.
+
+**Types moved to the project root, and svelte-check stopped seeing them.**
+The CLI writes `prismicio-types.d.ts` at the root, outside SvelteKit's `src/**`
+include: 4 errors (`Content` missing in the RichText slice, `[uid]`'s
+`entries()` uid typed `string | null` three times). `src/app.d.ts` now
+imports the file; 0 errors after, as on `main`.
+
+**A stale model, found by regenerating.** The new types add
+`FormRepliesDocument` and `FormRepliesDocumentDataRepliesItem`:
+`customtypes/form_replies` arrived with the form work and the committed Slice
+Machine types were never regenerated after it — exactly the gap
+`src/lib/server/reply-copy.ts` described, whose comment now says it is closed.
+The slice index is unchanged (`rich_text` only). The `prismic-codegen` job
+exists for that case; its check passed on this tree and went red with an
+un-regenerated field added to the RichText model.
+
+The nightly drift sweep read msot's 3 models as matching Prismic at `320e878`,
+the base of this change, so nothing was owed to Prismic first.

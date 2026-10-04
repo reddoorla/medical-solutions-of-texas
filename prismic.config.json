@@ -1,0 +1,5 @@
+{
+  "repositoryName": "msot",
+  "libraries": ["./src/lib/slices"],
+  "routes": []
+}
