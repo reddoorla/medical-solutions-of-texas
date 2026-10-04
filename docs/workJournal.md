@@ -105,7 +105,7 @@ un-regenerated field added to the RichText model.
 The nightly drift sweep read msot's 3 models as matching Prismic at `320e878`,
 the base of this change, so nothing was owed to Prismic first.
 
-## 2026-10-04 — The simulator leaves `[uid]`'s bundle; an encoded path gets the simulator's framing (`fix/simulator-chunk-and-encoded-framing`)
+## 2026-10-04 — The simulator leaves `[uid]`'s bundle; an encoded path gets the simulator's framing (#72)
 
 The two findings from the adversarial review of the Prismic CLI move, ported
 from reddoor-starter#168 on the pattern of caltex-landing#70. `/slice-simulator`
