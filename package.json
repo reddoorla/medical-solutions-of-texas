@@ -24,7 +24,7 @@
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.60.0",
     "@reddoorla/maintenance": "^0.95.1",
-    "@sveltejs/adapter-netlify": "^6.0.4",
+    "@sveltejs/adapter-netlify": "^7.0.0",
     "@sveltejs/kit": "^2.68.0",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "eslint": "^10.2.1",
