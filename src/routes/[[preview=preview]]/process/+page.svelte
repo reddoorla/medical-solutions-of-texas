@@ -1,4 +1,5 @@
 <script lang="ts">
+  import VimeoGate from "$lib/components/VimeoGate.svelte";
   import ScreenWidthImage from "$lib/components/ScreenWidth/ScreenWidthImage.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import Accordian from "$lib/components/FullWidth/Accordian.svelte";
@@ -103,12 +104,14 @@
         alt="surgeons placeholder"
         class="w-full h-full absolute top-0 left-0 object-cover"
       />
-      <iframe
-        title="background video"
-        src="https://player.vimeo.com/video/1025187591?background=1&dnt=1"
-        class="absolute w-full aspect-video top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 contrast-[1.15]"
-        frameborder="0"
-      ></iframe>
+      <VimeoGate>
+        <iframe
+          title="background video"
+          src="https://player.vimeo.com/video/1025187591?background=1&dnt=1"
+          class="absolute w-full aspect-video top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 contrast-[1.15]"
+          frameborder="0"
+        ></iframe>
+      </VimeoGate>
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
       <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">OUR PROCESS</h2>

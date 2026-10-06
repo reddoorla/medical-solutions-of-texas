@@ -1,4 +1,5 @@
 <script lang="ts">
+  import VimeoGate from "$lib/components/VimeoGate.svelte";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
   import txFlag from "$lib/assets/icons/logos/txFlag.svg";
@@ -269,12 +270,14 @@
         class="w-full h-full absolute top-0 left-0 object-cover"
       />
       {#if surgeonsInView}
-        <iframe
-          title="background video"
-          src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
-          class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
-          frameborder="0"
-        ></iframe>
+        <VimeoGate>
+          <iframe
+            title="background video"
+            src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
+            class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
+            frameborder="0"
+          ></iframe>
+        </VimeoGate>
       {/if}
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
