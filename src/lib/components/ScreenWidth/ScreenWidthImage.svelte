@@ -1,4 +1,5 @@
 <script lang="ts">
+  import VimeoGate from "$lib/components/VimeoGate.svelte";
   import type { Snippet } from "svelte";
   import Img from "@zerodevx/svelte-img";
   import placeholder from "../../assets/images/background_placeholder.svg";
@@ -60,13 +61,15 @@
     {/if}
 
     {#if vimeoId}
-      <iframe
-        title="background video"
-        src={`https://player.vimeo.com/video/${vimeoId}?background=1&muted=1&loop=1&autoplay=1&dnt=1`}
-        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 {coverBox} contrast-[1.15] -z-10"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
+      <VimeoGate>
+        <iframe
+          title="background video"
+          src={`https://player.vimeo.com/video/${vimeoId}?background=1&muted=1&loop=1&autoplay=1&dnt=1`}
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 {coverBox} contrast-[1.15] -z-10"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </VimeoGate>
     {/if}
 
     {#if darken}
