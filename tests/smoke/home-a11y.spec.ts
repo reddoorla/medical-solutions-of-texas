@@ -57,73 +57,105 @@ for (const viewport of VIEWPORTS) {
   });
 }
 
-test("We'll Get You keeps 3:1 against the footage behind it at 1350×940", async ({ page }) => {
-  await openSettled(page, 1350, 940);
+for (const viewport of VIEWPORTS) {
+  test(`We'll Get You keeps 3:1 against the placeholder still at ${viewport.width}×${viewport.height} (${viewport.name})`, async ({
+    page,
+  }) => {
+    await openSettled(page, viewport.width, viewport.height);
+    await page.evaluate(() => document.fonts.ready);
 
-  const heading = page.getByRole("heading", { name: "We'll Get You" });
-  const box = heading.locator("xpath=..");
-  await box.locator("img").evaluate(async (img: HTMLImageElement) => {
-    img.loading = "eager";
-    await img.decode();
+    const heading = page.getByRole("heading", { name: "We'll Get You" });
+    const box = heading.locator("xpath=..");
+    await box.locator("img").evaluate(async (img: HTMLImageElement) => {
+      img.loading = "eager";
+      await Promise.race([
+        img.decode(),
+        new Promise((_, reject) =>
+          setTimeout(
+            () => reject(new Error("the placeholder still did not decode in 15s")),
+            15_000,
+          ),
+        ),
+      ]);
+    });
+
+    const h = (await heading.boundingBox())!;
+    const b = (await box.boundingBox())!;
+    const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
+    const clip = {
+      x: Math.max(h.x, b.x) + scroll.x,
+      y: Math.max(h.y, b.y) + scroll.y,
+      width: Math.min(h.x + h.width, b.x + b.width) - Math.max(h.x, b.x),
+      height: Math.min(h.y + h.height, b.y + b.height) - Math.max(h.y, b.y),
+    };
+    const shot = () => page.screenshot({ fullPage: true, clip, animations: "disabled" });
+    const withText = await shot();
+    await heading.evaluate((el) => {
+      el.style.setProperty("color", "transparent", "important");
+      el.style.setProperty("text-shadow", "none", "important");
+    });
+    const withoutText = await shot();
+
+    const scratch = await page.context().newPage();
+    let measured: { glyphPixels: number; textRgb: number[]; pixels: number; p01: number };
+    try {
+      measured = await scratch.evaluate(
+        async ({ shots }) => {
+          const pixelsOf = async (b64: string) => {
+            const img = new Image();
+            img.src = `data:image/png;base64,${b64}`;
+            await img.decode();
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d")!;
+            ctx.drawImage(img, 0, 0);
+            return ctx.getImageData(0, 0, img.width, img.height).data;
+          };
+          const [text, plain] = await Promise.all(shots.map(pixelsOf));
+          const lin = (c: number) => {
+            const v = c / 255;
+            return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+          };
+          const lum = (r: number, g: number, b: number) =>
+            0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+
+          const glyphs: { diff: number; rgb: number[] }[] = [];
+          const background: number[] = [];
+          for (let i = 0; i < plain!.length; i += 4) {
+            const rgb = [text![i]!, text![i + 1]!, text![i + 2]!];
+            const diff =
+              Math.abs(rgb[0]! - plain![i]!) +
+              Math.abs(rgb[1]! - plain![i + 1]!) +
+              Math.abs(rgb[2]! - plain![i + 2]!);
+            if (diff > 40) glyphs.push({ diff, rgb });
+            background.push(lum(plain![i]!, plain![i + 1]!, plain![i + 2]!));
+          }
+          glyphs.sort((x, y) => y.diff - x.diff);
+          const solid = glyphs.slice(0, Math.max(1, Math.floor(glyphs.length / 4)));
+          const median = (values: number[]) => values.sort((x, y) => x - y)[values.length >> 1]!;
+          const textRgb = [0, 1, 2].map((c) => median(solid.map((g) => g.rgb[c]!)));
+          const textLum = lum(textRgb[0]!, textRgb[1]!, textRgb[2]!);
+          const ratios = background
+            .map((l) => (Math.max(l, textLum) + 0.05) / (Math.min(l, textLum) + 0.05))
+            .sort((x, y) => x - y);
+          return {
+            glyphPixels: glyphs.length,
+            textRgb,
+            pixels: ratios.length,
+            p01: ratios[Math.floor(ratios.length / 100)] ?? 0,
+          };
+        },
+        { shots: [withText.toString("base64"), withoutText.toString("base64")] },
+      );
+    } finally {
+      await scratch.close();
+    }
+
+    expect(measured.glyphPixels, "pixels the heading's glyphs change").toBeGreaterThan(1_500);
+    expect(
+      measured.p01,
+      `the brightest 1% of the still behind the heading, against the heading as rendered (rgb ${measured.textRgb.join(", ")}, ${measured.pixels} pixels)`,
+    ).toBeGreaterThanOrEqual(MIN_CONTRAST);
   });
-
-  const textColor = await heading.evaluate((el) => getComputedStyle(el).color);
-  const rgb = textColor
-    .match(/^rgb\((\d+), (\d+), (\d+)\)$/)
-    ?.slice(1)
-    .map(Number);
-  expect(rgb, `heading colour ${textColor}`).toHaveLength(3);
-
-  const h = (await heading.boundingBox())!;
-  const b = (await box.boundingBox())!;
-  const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
-  const clip = {
-    x: Math.max(h.x, b.x) + scroll.x,
-    y: Math.max(h.y, b.y) + scroll.y,
-    width: Math.min(h.x + h.width, b.x + b.width) - Math.max(h.x, b.x),
-    height: Math.min(h.y + h.height, b.y + b.height) - Math.max(h.y, b.y),
-  };
-  const png = await page.screenshot({ fullPage: true, clip, animations: "disabled" });
-
-  const scratch = await page.context().newPage();
-  const measured = await scratch.evaluate(
-    async ({ b64, text }) => {
-      const img = new Image();
-      img.src = `data:image/png;base64,${b64}`;
-      await img.decode();
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, 0, 0);
-      const data = ctx.getImageData(0, 0, img.width, img.height).data;
-      const lin = (c: number) => {
-        const v = c / 255;
-        return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-      };
-      const lum = (r: number, g: number, b: number) =>
-        0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
-      const textLum = lum(text[0]!, text[1]!, text[2]!);
-      const ratios: number[] = [];
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i]!;
-        const g = data[i + 1]!;
-        const b = data[i + 2]!;
-        const distance = Math.hypot(r - text[0]!, g - text[1]!, b - text[2]!);
-        if (distance <= 60) continue;
-        const l = lum(r, g, b);
-        ratios.push((Math.max(l, textLum) + 0.05) / (Math.min(l, textLum) + 0.05));
-      }
-      ratios.sort((x, y) => x - y);
-      return { pixels: ratios.length, p05: ratios[Math.floor(ratios.length / 20)] ?? 0 };
-    },
-    { b64: png.toString("base64"), text: rgb! },
-  );
-  await scratch.close();
-
-  expect(measured.pixels, "background pixels sampled behind the heading").toBeGreaterThan(5_000);
-  expect(
-    measured.p05,
-    `the brightest 5% of the footage behind the heading (${measured.pixels} pixels)`,
-  ).toBeGreaterThanOrEqual(MIN_CONTRAST);
-});
+}
