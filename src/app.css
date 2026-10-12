@@ -189,7 +189,8 @@
     text-transform: uppercase;
   }
 
-  h4 {
+  h4,
+  .h4 {
     font-family: "barlow-condensed", sans-serif;
     font-size: 20px;
     font-style: normal;
@@ -199,7 +200,8 @@
     text-transform: uppercase;
   }
 
-  h5 {
+  h5,
+  .h5 {
     font-size: 15px;
     font-style: normal;
     font-weight: 600;
@@ -241,7 +243,8 @@
     h2 {
       font-size: 48px;
     }
-    h4 {
+    h4,
+    .h4 {
       font-size: 16px;
     }
     div {

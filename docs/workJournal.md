@@ -136,3 +136,79 @@ from `vite.config.ts` it fails the bundle check alone. The starter imports
 the plugin as `./scripts/prismic-barrel.ts`; here svelte-check refused that
 (`allowImportingTsExtensions` is not on in this tsconfig), so the import is
 extensionless, as caltex's is from its `.js` config.
+
+## 2026-10-12 — The home page passes Lighthouse accessibility again: a scrim, 75% ghost words and three heading tags (#77)
+
+The fleet Lighthouse nightly scored `/` 0.92 accessibility on 10-09, 10-10
+and 10-11, under the 0.95 gate, on color-contrast and heading-order (#76).
+Re-run on production with the nightly's own lhci config (desktop preset,
+devtools throttling, 3 runs), it scored 0.92 ×3, with the same four nodes
+every run. Fixing heading-order alone gives about 0.944, so both contrast
+nodes had to pass too. Both turned out to be design calls, and the operator
+made them (reddoor-maintenance `docs/BACKLOG.md`, Operator decisions 106 and
+108).
+
+**"We'll Get You" was measured against a colour nobody sees.** axe walked
+down from the heading, through the `bg-mid mix-blend-multiply` layer, to
+the video box's `bg-light`, and reported 1.33:1 (`#cbc3a4` on `#b3a983`,
+which is mid multiplied by light). The placeholder image covers that box in
+every state, LQIP included. The first fix made the box `bg-dark`. That
+passed axe at 6.85:1 and changed nothing a visitor sees. The design lens of
+the first review said so: it measured the heading against the real pixels,
+and the brightest 5% behind it were 1.9:1 on the still at 1440, and 1.6–2.2:1
+behind "YOU" on a production frame with the surgical lamp in it. The
+operator chose a scrim, a bottom gradient from black 50% to 0. It now sits
+over the image and the video. Against the still, 99% of the pixels behind the
+heading reach 4.30:1 at 1350 and 4.65:1 at 390. Without the scrim they reach
+1.45:1 and 1.93:1. axe now stops at the gradient and reports the heading
+"incomplete", so `bg-dark` matters only if the image never paints, and
+Lighthouse does not judge this node at all.
+
+**The ghost words were a design, not a mistake.** The rotating list lights
+one of "Priority Access / contract expertise / Direct Results" at a time,
+and dims the others to 25%: 1.42:1 against `bg-mid`, where 80px text needs
+3:1. Text-dark at any opacity is 3:1 only from 0.70 up (3.01:1). At 75%
+(3.30:1) an inactive word is only 1.62:1 from the lit one, against 3.76:1
+before, so most of the spotlight goes. The operator chose 75% over hiding
+the inactive words. At 75%, the first line of "Direct Results" became a
+prominent cut-off "DIRECT" at 1024 and 390. At 25% it had been a faint one;
+the list's `-mb-[15%]` and the box below it clip that word only partly when
+words wrap. So a word two steps from the lit one is hidden (`weGetTone`).
+At 1440 that word was already under the box, so nothing changes there.
+
+**Heading order** needed no decision:
+
+- "The End User In Mind" went from `h5` (after `h2`) to `h3`.
+- 01–03 are paragraphs.
+- "Your Trusted Partner" is an `h2`. It followed the hero `h1`, which
+  renders at 768px and below.
+
+`.h4` and `.h5` share the element rules in `app.css`, and a full-page pixel
+diff found no change from the swap. A stray `>` text node in the video box,
+which screen readers announced, is gone.
+
+**The pixel test was wrong twice before it was right.** Its first version
+took the heading colour from `getComputedStyle` and dropped pixels near
+that colour. The second review showed it would pass with the heading drawn
+under the overlays: the heading renders at rgb(76, 70, 49), the test still
+read the CSS colour, and it reported 4.43 when the truth was 1.13. Its 5th
+percentile was also set by anti-aliased glyph edges, about 2.4% of the
+sample. And it ran only at 1350, where the scrim is strongest. It now
+screenshots the heading's area twice, with the text drawn and with it
+transparent. The difference gives the glyph mask and the rendered colour,
+and the second shot holds only the still. Four mutations go red: no scrim,
+the heading under the overlays (1.03), a 20% scrim, and the heading hidden.
+The axe test also had to wait for the splash and the mount. Without those
+waits it still caught the desktop nodes but missed the 390 one, because the
+hero `h1` renders only after mount.
+
+**Not fixed here, filed:**
+
+- #78: the "Government contracts are" column fades to 1.42:1 after a
+  scroll.
+- #79: `/process` and `/about` use the same video-box heading.
+- #80: at 390 the heading wraps, so "WE'LL GET" sits mid-box, where the
+  scrim is about 20%. Over bright video frames it estimates at about 2.4:1.
+
+The nightly sees none of these, because it does not scroll, audits only `/`,
+and runs before any interaction mounts the video.

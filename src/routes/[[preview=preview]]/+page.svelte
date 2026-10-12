@@ -40,6 +40,9 @@
 
   let weGetTrigger: HTMLElement | undefined = $state();
 
+  const weGetTone = (i: number) =>
+    weGetIndex === i ? "" : Math.abs(weGetIndex - i) === 1 ? "opacity-75" : "opacity-0";
+
   let weGetRunning = false;
 
   const runWeGetAnimation = () => {
@@ -232,12 +235,12 @@
       <div
         class="absolute top-0 right-0 w-6 sm:w-1/6 md:w-1/4 lg:w-1/3 h-0 border-mid border-t-[6px]"
       ></div>
-      <h4
-        class="text-mid absolute top-0 left-1/2 text-nowrap"
+      <h2
+        class="h4 text-mid absolute top-0 left-1/2 text-nowrap"
         style="transform:translate(-50%, calc(-50% + 3px))"
       >
         Your Trusted Partner
-      </h4>
+      </h2>
 
       <div class="flex flex-row items-center justify-center gap-5">
         <img src={usFlag} alt="us flag" width="57" height="37" class="opacity-50" />
@@ -260,10 +263,7 @@
 
 <section class="w-full py-20 bg-mid">
   <ContentWidth class="items-start">
-    <div
-      bind:this={surgeonsContainer}
-      class="w-full aspect-[5/2] bg-light relative overflow-hidden"
-    >
+    <div bind:this={surgeonsContainer} class="w-full aspect-[5/2] bg-dark relative overflow-hidden">
       <Img
         src={surgeonsVideoPlaceholder}
         alt="surgeons placeholder"
@@ -281,7 +281,9 @@
       {/if}
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
-      >
+      <div
+        class="w-full h-full absolute top-0 left-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent"
+      ></div>
       <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">
         We'll Get You
       </h2>
@@ -293,53 +295,29 @@
           style={`transform:translateY(calc(-1/3 * 100% * ${weGetIndex}))`}
         >
           {#if viewportWidth > 1024}
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
               Priority Access
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
               contract expertise
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
               Direct Results
             </h2>
           {:else}
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
               Priority <br /> Access
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
               contract <br /> expertise
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
-                ? ''
-                : 'opacity-25'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
               Direct <br /> Results
             </h2>
           {/if}
         </div>
         <div class="bg-mid relative pt-4 w-full">
-          <h5 class="text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h5>
+          <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h3>
           <div class="text-dark w-80">
             MSOT makes medical care possible from the war fighter all the way to the retiree and all
             phases of service inbetween.
@@ -503,7 +481,7 @@
           : 'opacity-0'}"
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
-        <h4 class="text-dark mt-4">01</h4>
+        <p class="h4 text-dark mt-4">01</p>
         <h3 class="text-dark mt-8">establish <br /> goals</h3>
       </div>
       <div
@@ -512,7 +490,7 @@
           : 'opacity-0'}"
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
-        <h4 class="text-dark mt-4">02</h4>
+        <p class="h4 text-dark mt-4">02</p>
         <h3 class="text-dark mt-8">Find Your <br /> access points</h3>
       </div>
       <div
@@ -521,7 +499,7 @@
           : 'opacity-0'}"
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
-        <h4 class="text-dark mt-4">03</h4>
+        <p class="h4 text-dark mt-4">03</p>
         <h3 class="text-dark mt-8">Set pricing <br />direct invoicing</h3>
       </div>
     </div>
