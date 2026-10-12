@@ -40,6 +40,9 @@
 
   let weGetTrigger: HTMLElement | undefined = $state();
 
+  const weGetTone = (i: number) =>
+    weGetIndex === i ? "" : Math.abs(weGetIndex - i) === 1 ? "opacity-75" : "opacity-0";
+
   let weGetRunning = false;
 
   const runWeGetAnimation = () => {
@@ -278,6 +281,9 @@
       {/if}
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
+      <div
+        class="w-full h-full absolute top-0 left-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent"
+      ></div>
       <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">
         We'll Get You
       </h2>
@@ -289,47 +295,23 @@
           style={`transform:translateY(calc(-1/3 * 100% * ${weGetIndex}))`}
         >
           {#if viewportWidth > 1024}
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
               Priority Access
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
               contract expertise
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
               Direct Results
             </h2>
           {:else}
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 0
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
               Priority <br /> Access
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 1
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
               contract <br /> expertise
             </h2>
-            <h2
-              class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetIndex === 2
-                ? ''
-                : 'opacity-75'}"
-            >
+            <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
               Direct <br /> Results
             </h2>
           {/if}
