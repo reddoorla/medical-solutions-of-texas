@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PRIVACY_PATH } from "$lib/privacy/policy";
   import ContentWidth from "./ContentWidth/ContentWidth.svelte";
   import BracketButton from "./Buttons/BracketButton.svelte";
   import vosbLogo from "$lib/assets/icons/logos/vosb_white.svg";
@@ -63,13 +64,20 @@
           alt="msot logo"
         /></a
       >
-      {#if viewportWidth > 560}
-        <div class="label text-white">
-          {"©" +
-            new Date().getFullYear() +
-            " - Medical Solutions of Texas  |   All Rights Reserved"}
-        </div>
-      {/if}
+      <div class="label text-white flex flex-row flex-wrap gap-x-2">
+        {#if viewportWidth > 560}
+          <span>
+            {"©" +
+              new Date().getFullYear() +
+              " - Medical Solutions of Texas  |   All Rights Reserved  |"}
+          </span>
+        {/if}
+        <a
+          href={PRIVACY_PATH}
+          data-testid="footer-privacy-link"
+          class="label text-white underline hover:text-light">Privacy Policy</a
+        >
+      </div>
     </div>
     <img src={vosbLogo} alt="vosb logo" class="h-16 md:h-24" />
   </ContentWidth>

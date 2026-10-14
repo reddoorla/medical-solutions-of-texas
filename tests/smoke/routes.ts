@@ -22,4 +22,7 @@ export type SmokeRoute = {
   expectStatus?: number;
 };
 
-export const smokeRoutes: SmokeRoute[] = [{ path: "/", name: "home", hydrationMarker: "footer" }];
+export const smokeRoutes: SmokeRoute[] = [
+  { path: "/", name: "home", hydrationMarker: "footer" },
+  { path: "/privacy", name: "privacy policy", hydrationMarker: "footer" },
+];
