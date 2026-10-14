@@ -16,7 +16,7 @@ test("/privacy renders the policy with the site's values", async ({ page }) => {
   await expect(policy).toContainText(PRIVACY_VALUES.legalName);
   await expect(policy).toContainText("Effective October 14, 2026");
   await expect(policy).toContainText(
-    "goes to Reddoor with your message and is used to confirm the form came from a real browser.",
+    "goes to Reddoor with your message. It is used to confirm the form came from a real browser. It is not saved",
   );
   await expect(policy.locator(`a[href="mailto:${PRIVACY_VALUES.contactEmail}"]`)).toBeVisible();
   for (const service of PRIVACY_SERVICES) {
