@@ -212,3 +212,57 @@ hero `h1` renders only after mount.
 
 The nightly sees none of these, because it does not scroll, audits only `/`,
 and runs before any interaction mounts the video.
+
+## 2026-10-14 — A DRAFT `/privacy` page and a footer link on every page (#81)
+
+`reddoor-maint launch-check msot` read 7 of 8 `ok`. The one failure was
+`privacy missing`: `/privacy` and `/privacy-policy` both answered 404, and no
+page linked to a policy, while `src/app.html` loads GA4 `G-BZ0WQMEE8L` on every
+page. This change ports the starter's DRAFT, `noindex` policy page
+(reddoor-starter#165), using data-dynamiq as the reference, and puts a link in
+both footers: home's inline footer and the shared `Footer.svelte`.
+
+**The list of services comes from a live capture, not from the template.**
+Chromium loaded six pages and scrolled each one. It saw:
+
+- GA4 on every page.
+- Adobe Fonts on every page: `use.typekit.net`, plus the licensing ping
+  `p.typekit.net`.
+- Vimeo on `/` and `/process`, once VimeoGate mounts the player. vimeo.com
+  sets `__cf_bm` and `cf_clearance` even though every embed carries `dnt=1`,
+  so "its player may set cookies" stays in the policy.
+- Turnstile on `/contact`.
+
+The brief expected Prismic's image CDN as well, and it is not there. The images
+are local assets. `msot.cdn.prismic.io` appears only as a string inside the
+serialized page data, and `static.cdn.prismic.io` loads only in a preview
+session. So the policy does not name Prismic. data-dynamiq derives its list at
+build time through a Vite plugin. This site gets a fixed `PRIVACY_SERVICES`
+instead, and `tests/privacy/services.spec.ts` fails if the hosts in the source
+stop matching that list in either direction.
+
+**Every value the policy needs was already published**, so nothing went to
+the operator:
+
+- the name, "Medical Solutions of Texas", from the footer;
+- `info@MedicalSolutionsofTX.com`, from `/contact`;
+- the effective date, set to the day the page was written.
+
+**The defect review caught:** the Turnstile clause rendered "…with your
+messageand is used…". Svelte trims whitespace at the edge of an `{#if}` block.
+The first fix wrapped the clause in a `<span>`, and that lost the space too:
+whitespace at the start of an element's children is trimmed as well. `{" "}`
+fails eslint's `no-useless-mustaches`. What works is making the clause its own
+sentence, so the space sits outside the block, and a test pins the full
+sentence. No test read the prose before this, which is how it reached review.
+
+**A process slip, recorded so it is not repeated:** the first mutation run
+restored each mutated file with `git checkout --` before the footer edits had
+been committed. That silently reverted them, and three of the six "red"
+results were measuring the wrong tree. Every mutation was run again against a
+committed head, and each one turned a test red.
+
+Filed as minors: #82 (white footer text on khaki is about 3.36:1, a
+pre-existing problem the link now shares), #83 (the footer row wraps at
+561–767px), #84 (the detector also matches comments) and #85 (an unused
+`noindex` field, and the Vimeo Referer).
