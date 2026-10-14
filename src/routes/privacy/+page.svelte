@@ -53,9 +53,9 @@
         When you send us the contact form, we collect what you enter, such as your name, email
         address, area of interest and message, and the address of the page you sent it from,
         including any campaign tags in that link. The IP address the form was sent from goes to
-        Reddoor with your message{#if has("turnstile")}
-          and is used to confirm the form came from a real browser{/if}. It is not saved with your
-        message, except in a backup copy kept if our system cannot file the message normally.
+        Reddoor with your message{#if has("turnstile")}{" "}and is used to confirm the form came
+          from a real browser{/if}. It is not saved with your message, except in a backup copy kept
+        if our system cannot file the message normally.
       </p>
     {/if}
     <p>
@@ -127,8 +127,8 @@
       {/if}
       {#if has("adobeFonts")}
         <li data-testid="service-adobeFonts">
-          Some fonts load from Adobe Fonts, so your browser sends your IP address to Adobe when a
-          page loads.
+          Some fonts load from Adobe Fonts, so your browser sends your IP address and the address of
+          the page you are viewing to Adobe when a page loads.
         </li>
       {/if}
       {#if has("vimeo")}

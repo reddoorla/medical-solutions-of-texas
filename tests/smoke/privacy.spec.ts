@@ -15,6 +15,9 @@ test("/privacy renders the policy with the site's values", async ({ page }) => {
   const policy = page.getByTestId("privacy-policy");
   await expect(policy).toContainText(PRIVACY_VALUES.legalName);
   await expect(policy).toContainText("Effective October 14, 2026");
+  await expect(policy).toContainText(
+    "goes to Reddoor with your message and is used to confirm the form came from a real browser.",
+  );
   await expect(policy.locator(`a[href="mailto:${PRIVACY_VALUES.contactEmail}"]`)).toBeVisible();
   for (const service of PRIVACY_SERVICES) {
     await expect(page.getByTestId(`service-${service}`)).toBeVisible();
@@ -40,5 +43,8 @@ for (const path of ["/", "/about"]) {
 test("the footer link survives the phone layout", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await expect(page.locator("footer").getByRole("link", { name: "Privacy Policy" })).toBeAttached();
+  const link = page.locator("footer").getByRole("link", { name: "Privacy Policy" });
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).toBeVisible();
+  await expect(link).toBeInViewport();
 });

@@ -16,16 +16,17 @@ const sources = sourceFiles("src")
     (p) => !p.includes(join("src", "lib", "privacy")) && !p.includes(join("routes", "privacy")),
   )
   .map((path) => readFileSync(path, "utf8"));
+const loads = (pattern: RegExp) => sources.some((s) => pattern.test(s));
 const svelteConfig = readFileSync("svelte.config.js", "utf8");
 
 const DETECTORS: Record<PrivacyService | "googleFonts" | "youtube", () => boolean> = {
   forms: () => sources.some((s) => /\bcreateIngest(Action|Endpoint)\s*\(/.test(s)),
-  turnstile: () => sources.some((s) => s.includes("challenges.cloudflare.com/turnstile")),
+  turnstile: () => loads(/https:\/\/challenges\.cloudflare\.com\/turnstile\//),
   ga4: () => sources.some((s) => /googletagmanager\.com\/gtag\/js|\binitAnalytics\s*\(/.test(s)),
-  adobeFonts: () => sources.some((s) => s.includes("use.typekit.net")),
-  vimeo: () => sources.some((s) => s.includes("player.vimeo.com")),
+  adobeFonts: () => loads(/https:\/\/use\.typekit\.net\//),
+  vimeo: () => loads(/https:\/\/player\.vimeo\.com\//),
   netlify: () => svelteConfig.includes("@sveltejs/adapter-netlify"),
-  googleFonts: () => sources.some((s) => s.includes("fonts.googleapis.com")),
+  googleFonts: () => loads(/\/\/fonts\.googleapis\.com\//),
   youtube: () => sources.some((s) => /youtube(-nocookie)?\.com/.test(s)),
 };
 
