@@ -18,14 +18,16 @@
     "lint": "prettier --check . --plugin prettier-plugin-svelte . && eslint .",
     "format": "prettier --write . --plugin prettier-plugin-svelte .",
     "test:smoke": "playwright install chromium && playwright test",
-    "prismic:gen": "prismic gen types && prismic gen slice-index"
+    "prismic:gen": "prismic gen types && prismic gen slice-index",
+    "test": "pnpm test:prerender-origin && pnpm test:smoke",
+    "test:prerender-origin": "node scripts/prerender-origin.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.60.0",
-    "@reddoorla/maintenance": "^0.95.1",
-    "@sveltejs/adapter-netlify": "^6.0.4",
-    "@sveltejs/kit": "^2.68.0",
+    "@reddoorla/maintenance": "^0.109.1",
+    "@sveltejs/adapter-netlify": "^7.0.1",
+    "@sveltejs/kit": "^3.1.0",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@types/node": "^24.19.2",
     "eslint": "^10.2.1",

@@ -1,7 +1,7 @@
 <script lang="ts">
   import dots from "$lib/assets/dots_square.png";
   import placeholder from "$lib/assets/images/profile_placeholder.png";
-  import { browser } from "$app/environment";
+  import { browser } from "$app/env";
   import { fly } from "svelte/transition";
   import { X } from "@lucide/svelte";
   import ContentWidth from "../ContentWidth/ContentWidth.svelte";
