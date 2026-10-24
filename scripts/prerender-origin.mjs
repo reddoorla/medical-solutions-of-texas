@@ -9,8 +9,10 @@
 // in the kit 3 migration); the hazard is a later read of `url` that skips it.
 // Beachfront's three review rounds (beachfront-dentistry#90) showed a source
 // scan never lists every spelling of that read, so this checks the output: it
-// builds the site exactly as Netlify does, with URL set, and fails on any built
-// file that names one of those. Copied from beachfront-dentistry's
+// builds the site with Netlify's URL variable set to a sentinel, and fails on
+// any built file that names one of those or the sentinel: nothing here should
+// read URL (the netlify.app mirror builds with its own), so a sentinel in the
+// output is a read that skipped SITE_URL. Copied from beachfront-dentistry's
 // scripts/prerender-origin.mjs (reddoor-maintenance P1-53), via revogen#108.
 import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
@@ -36,8 +38,12 @@ const WRONG_ORIGIN =
 const CARRIES_PRODUCTION = /https:\/\/medicalsolutionsoftx\.com(?![\w.-])/;
 // Built files that carry the production origin whatever the CMS holds: the
 // sitemap's <loc>s (SITE_URL), robots.txt's Sitemap line, and the privacy
-// page, whose copy is in src/.
+// page, a src/ route with no Prismic meta_image, so the layout's fallback
+// og:image (SITE_URL) is always its carrier.
 const CONTROL_FILES = ["sitemap.xml", "robots.txt", "privacy.html"];
+// What the build sees as Netlify's URL. Never a real origin, so it can only
+// reach the output through a read of process.env.URL.
+const URL_SENTINEL = "https://url-env.invalid";
 
 export function walk(dir, out = []) {
   for (const entry of readdirSync(dir)) {
@@ -59,14 +65,15 @@ export function scan(root) {
     const bytes = readFileSync(file);
     if (bytes.includes(0)) continue;
     const text = bytes.toString("utf8");
-    if (text.includes(NEEDLE) || WRONG_ORIGIN.test(text)) offenders.push(relative(root, file));
+    if (text.includes(NEEDLE) || text.includes("url-env.invalid") || WRONG_ORIGIN.test(text))
+      offenders.push(relative(root, file));
     if (CARRIES_PRODUCTION.test(text)) production.push(relative(root, file));
   }
   return { files: files.length, offenders, production };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href) {
-  const env = { ...process.env, URL: PRODUCTION };
+  const env = { ...process.env, URL: URL_SENTINEL };
   delete env.VITEST;
   const built = spawnSync("pnpm", ["exec", "vite", "build"], {
     env,
@@ -79,8 +86,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.ar
   if (offenders.length > 0) {
     console.error(
       `prerender-origin: ${offenders.length} built file(s) carry ${PLACEHOLDER}, ` +
-        `kit 3's prerender placeholder, or this host over http or on a subdomain, instead of ${PRODUCTION}. Build absolute ` +
-        `URLs from $lib/site's SITE_URL, never from page.url or a load's url:\n  ` +
+        `kit 3's prerender placeholder, Netlify's URL (${URL_SENTINEL} in this build), or this host ` +
+        `over http or on a subdomain, instead of ${PRODUCTION}. In code, build absolute URLs from ` +
+        `$lib/site's SITE_URL, never from page.url, a load's url or process.env.URL. A link an ` +
+        `editor typed into Prismic (e.g. https://www.medicalsolutionsoftx.com/...) lands in the ` +
+        `page's __data.json too: fix that one in Prismic, not here.\n  ` +
         offenders.join("\n  "),
     );
     process.exit(1);

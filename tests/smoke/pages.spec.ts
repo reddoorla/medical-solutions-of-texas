@@ -73,6 +73,8 @@ test("404 page renders the custom error component", async ({ page }) => {
 test("404 page has no axe violations", async ({ page }) => {
   const response = await page.goto("/this-uid-does-not-exist", { waitUntil: "load" });
   expect(response?.status()).toBe(404);
+  // The scan is of +error.svelte only if it rendered: its own link, not the layout's.
+  await expect(page.locator("main").getByRole("link", { name: "Back to home" })).toBeVisible();
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
