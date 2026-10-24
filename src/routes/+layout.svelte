@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { Menu, X } from "@lucide/svelte";
-  import { PrismicPreview } from "@prismicio/svelte/kit";
-  import { page } from "$app/stores";
-  import { browser } from "$app/environment";
+  import PrismicPreview from "$lib/components/PrismicPreview.svelte";
+  import { page } from "$app/state";
+  import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
+  import { SITE_URL } from "$lib/site";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -49,9 +50,9 @@
   }
 
   let pageTitle = $derived(
-    $page.data.title || $page.data.meta_title || fallbackTitle($page.url.pathname),
+    page.data.title || page.data.meta_title || fallbackTitle(page.url.pathname),
   );
-  let metaDescription = $derived($page.data.meta_description || DEFAULT_DESCRIPTION);
+  let metaDescription = $derived(page.data.meta_description || DEFAULT_DESCRIPTION);
 
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
@@ -125,9 +126,9 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
-  <meta property="og:title" content={$page.data.meta_title || pageTitle} />
+  <meta property="og:title" content={page.data.meta_title || pageTitle} />
   <meta property="og:description" content={metaDescription} />
-  <meta property="og:image" content={$page.data.meta_image ?? `${$page.url.origin}/msot-og.jpg`} />
+  <meta property="og:image" content={page.data.meta_image ?? `${SITE_URL}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:description" content={metaDescription} />
 </svelte:head>
@@ -165,7 +166,7 @@
         : ''}"
     >
       <img
-        src={($page.data.title === "MSOT | Resources" || $page.data.title === "MSOT | Contact") &&
+        src={(page.data.title === "MSOT | Resources" || page.data.title === "MSOT | Contact") &&
         !isTransitioning
           ? msotLogoKhaki
           : msotLogo}
