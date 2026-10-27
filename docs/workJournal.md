@@ -267,7 +267,7 @@ pre-existing problem the link now shares), #83 (the footer row wraps at
 561–767px), #84 (the detector also matches comments) and #85 (an unused
 `noindex` field, and the Vimeo Referer).
 
-## 2026-10-27 — The home a11y scan stops pinning the hidden rotating word's opacity (#TBD)
+## 2026-10-27 — The home a11y scan stops pinning the hidden rotating word's opacity (#99)
 
 The fleet test audit (`reddoorla/reddoor-workspace` `audits/2026-10-26-fleet-test-audit/report.md`, batch D) flagged one assertion in `tests/smoke/home-a11y.spec.ts`: before the axe scan, "/ passes color-contrast and heading-order" required the "Direct Results" heading to have computed `opacity` 0. That pins a design value, the `weGetTone` choice that hides the word two steps from the lit one (this journal's color-contrast entry), so it went. A designer who later gives every inactive word 75% would bring back the cut-off "DIRECT" at 1024 and 390, and no test now says so; axe still passes that, since 75% `text-dark` on `bg-mid` is 3.30:1 against the 3:1 large-text bar. The line was also the scan's precondition (the rotation still at index 0), and nothing is lost there: the kept "contract expertise" pass check cannot tell index 0 from index 2, but the two are symmetric. The rest of the file is unchanged, and all four of its tests pass against a production build (`vite build`, 2 m 12 s here).
 
