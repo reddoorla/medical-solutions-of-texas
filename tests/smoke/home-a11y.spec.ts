@@ -30,10 +30,89 @@ for (const viewport of VIEWPORTS) {
   }) => {
     await openSettled(page, viewport.width, viewport.height);
 
-    await expect(page.getByRole("heading", { name: /direct\s*results/i })).toHaveCSS(
-      "opacity",
-      "0",
-    );
+    // axe does not report the rotating words two steps from the lit one, even
+    // when they are visible (review 1: "DIRECT" at 50% passed at 2.1:1). So every
+    // run of text in them that paints must clear the large-text bar against its
+    // ground, measured on the text itself: opacity and visibility can sit on the
+    // heading, a span inside it or a wrapper around it.
+    const painted = await page
+      .getByRole("heading", {
+        name: /^(priority\s*access|contract\s*expertise|direct\s*results)$/i,
+        includeHidden: true,
+      })
+      .evaluateAll((headings) => {
+        // Any CSS colour to rgb 0-255 and alpha 0-1, through a canvas.
+        const ctx = document.createElement("canvas").getContext("2d")!;
+        const rgba = (c: string) => {
+          ctx.clearRect(0, 0, 1, 1);
+          ctx.fillStyle = c;
+          ctx.fillRect(0, 0, 1, 1);
+          const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+          return { rgb: [r!, g!, b!], a: a! / 255 };
+        };
+        const lin = (c: number) => {
+          const v = c / 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        const lum = ([r, g, b]: number[]) => 0.2126 * lin(r!) + 0.7152 * lin(g!) + 0.0722 * lin(b!);
+        const out: { text: string; ratio: number }[] = [];
+        for (const heading of headings) {
+          const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const text = node.textContent!.trim();
+            if (!text) continue;
+            const el = node.parentElement!;
+            const style = getComputedStyle(el);
+            if (style.visibility !== "visible") continue;
+            // Clipped away by an overflow ancestor: nothing of it paints.
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            let box = range.getBoundingClientRect();
+            let clippedAway = box.width * box.height === 0;
+            for (let n: Element | null = el; n && !clippedAway; n = n.parentElement) {
+              if (getComputedStyle(n).overflow === "visible") continue;
+              const clip = n.getBoundingClientRect();
+              const w = Math.min(box.right, clip.right) - Math.max(box.left, clip.left);
+              const h = Math.min(box.bottom, clip.bottom) - Math.max(box.top, clip.top);
+              if (w <= 0 || h <= 0) clippedAway = true;
+              else
+                box = new DOMRect(Math.max(box.left, clip.left), Math.max(box.top, clip.top), w, h);
+            }
+            if (clippedAway) continue;
+            // Opacity from the text's element up to the element that paints its
+            // ground: everything in between fades the text against that ground.
+            let alpha = rgba(style.color).a;
+            let ground = { rgb: [255, 255, 255], a: 1 };
+            for (let n: Element | null = el; n; n = n.parentElement) {
+              const bg = rgba(getComputedStyle(n).backgroundColor);
+              if (bg.a > 0) {
+                ground = bg;
+                break;
+              }
+              alpha *= Number(getComputedStyle(n).opacity);
+            }
+            if (alpha === 0) continue;
+            const color = rgba(style.color).rgb;
+            const shown = color.map((c, i) => c * alpha + ground.rgb[i]! * (1 - alpha));
+            const [hi, lo] = [lum(shown), lum(ground.rgb)].sort((x, y) => y - x);
+            out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05) });
+          }
+        }
+        return out;
+      });
+    expect(
+      painted.some((p) => /priority/i.test(p.text)),
+      "the lit word is measured",
+    ).toBe(true);
+    for (const { text, ratio } of painted)
+      expect(
+        ratio,
+        `"${text}" paints, so it needs ${MIN_CONTRAST}:1 against its ground`,
+      ).toBeGreaterThanOrEqual(MIN_CONTRAST);
+
+    // The rotating words stay in the accessibility tree whichever one is lit.
+    for (const name of [/^priority\s*access$/i, /^contract\s*expertise$/i, /^direct\s*results$/i])
+      await expect(page.getByRole("heading", { name })).toBeAttached();
 
     const results = await new AxeBuilder({ page }).withRules(RULES).analyze();
     const scanned = [
