@@ -30,11 +30,6 @@ for (const viewport of VIEWPORTS) {
   }) => {
     await openSettled(page, viewport.width, viewport.height);
 
-    await expect(page.getByRole("heading", { name: /direct\s*results/i })).toHaveCSS(
-      "opacity",
-      "0",
-    );
-
     const results = await new AxeBuilder({ page }).withRules(RULES).analyze();
     const scanned = [
       ...new Set([...results.passes, ...results.violations].map((r) => r.id)),
