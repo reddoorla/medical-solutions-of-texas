@@ -266,3 +266,19 @@ Filed as minors: #82 (white footer text on khaki is about 3.36:1, a
 pre-existing problem the link now shares), #83 (the footer row wraps at
 561–767px), #84 (the detector also matches comments) and #85 (an unused
 `noindex` field, and the Vimeo Referer).
+
+## 2026-10-24 — SvelteKit 3 and adapter-netlify 7, onto a new `staging` branch (#91, `0343a63`)
+
+Overnight, Renovate opened `@sveltejs/kit` ^3 as a security PR (#90, GHSA-27mw-82g8-phjj, fixed only in 3.0). It could not pass: kit 3 refuses to start beside `svelte.config.js`. The migration lands on a new `staging` branch and reaches `main` only through the operator's promotion PR (#93). It follows the recipe from eight other fleet sites (reddoor-maintenance P1-53), with what revogen#108 found that morning. `@reddoorla/maintenance` went from 0.95 to 0.109.1, the first release with kit 3's `createKitConfig`.
+
+**Defects the migration would have shipped without these changes:**
+
+- **`$app/stores` in the root layout and `+error.svelte`.** On kit 3.1 it throws `app_stores_removed`, so every page answered 500. Putting it back as a mutation kept Playwright's web server from ever starting. Both files now use `$app/state`.
+- **The fallback `og:image`.** It was built from `page.url.origin`, and kit 2 took Netlify's `URL` as `prerender.origin` for that. Kit 3 removed the option, so six prerendered pages would have advertised `http://sveltekit-prerender/msot-og.jpg`. The image now uses `$lib/site`'s `SITE_URL`, which this repo's `CLAUDE.md` already names as the one canonical origin. `paths.origin`, kit 3's replacement, stays unset: it would also become the only origin the contact form's CSRF check accepts.
+- **Undeclared environment variables.** Kit 3 exposes only what `src/env.ts` declares. Without the file, the form's ingest URL and token read as `undefined`, and the build only warned. With the reads moved to `$app/env/*`, svelte-check now rejects an undeclared variable.
+
+**Belief corrected on review.** The a11y audit's error-page coverage was an accident. Under maintenance 0.95 the audit loaded `/dev/animate-in`, a fixture this site never had, and so axe-scanned the 404 page. 0.109 skips the absent fixture, which left `+error.svelte` with no a11y scan at all, in a PR that edits it. A smoke test now runs axe on a real 404. An `<img>` without alt there turns it red. `reddoor.absentFixtures` makes the audit report `pass` again instead of `warn`.
+
+`scripts/prerender-origin.mjs` checks the built output. It fails on the placeholder, on this host over http or on a subdomain (the stale-www sitemap class), and on Netlify's `URL`. It builds with `URL` set to a sentinel, because nothing here should read it: the netlify.app mirror builds with its own. Its control names the three files that carry the origin whatever Prismic holds. An earlier count of eight carriers would have failed on any editor filling a page's `meta_image`.
+
+**Measured on the deployed `staging` URL:** `/health` was byte-identical to medicalsolutionsoftx.com's. The smoke suite passed 19 of 19 on staging. On production it passed 16, plus 3 that were flaky and passed on retry.

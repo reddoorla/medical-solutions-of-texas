@@ -20,9 +20,9 @@
     status = 301
     force = true
 
-# Baseline security headers for all responses. CSP is emitted per-response by
-# SvelteKit (see `kit.csp` in svelte.config.js) so it is intentionally omitted
-# here to avoid conflicting duplicates.
+# Baseline security headers for all responses. No CSP here: this site sets no
+# `csp` in sveltekit.config.js, and the one policy it sends is
+# /slice-simulator's frame-ancestors, from src/hooks.server.ts.
 [[headers]]
     for = "/*"
     [headers.values]
