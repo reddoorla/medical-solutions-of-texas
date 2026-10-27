@@ -30,6 +30,54 @@ for (const viewport of VIEWPORTS) {
   }) => {
     await openSettled(page, viewport.width, viewport.height);
 
+    // axe does not report the rotating words two steps from the lit one, even
+    // when they are visible (review 1: "DIRECT" at 50% passed at 2.1:1). So each
+    // word must be hidden or clear the large-text bar against its ground.
+    const words = page.getByRole("heading", {
+      name: /^(priority\s*access|contract\s*expertise|direct\s*results)$/i,
+      includeHidden: true,
+    });
+    await expect(words.filter({ hasText: /direct/i })).toBeAttached();
+    for (const word of await words.all()) {
+      const seen = await word.evaluate((el) => {
+        const style = getComputedStyle(el);
+        const opacity = Number(style.opacity);
+        if (style.visibility === "hidden" || opacity === 0) return null;
+        // Any CSS colour to rgb 0-255 and alpha 0-1, through a canvas.
+        const ctx = document.createElement("canvas").getContext("2d")!;
+        const rgba = (c: string) => {
+          ctx.clearRect(0, 0, 1, 1);
+          ctx.fillStyle = c;
+          ctx.fillRect(0, 0, 1, 1);
+          const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+          return { rgb: [r!, g!, b!], a: a! / 255 };
+        };
+        let ground = { rgb: [255, 255, 255], a: 1 };
+        for (let n = el.parentElement; n; n = n.parentElement) {
+          const bg = rgba(getComputedStyle(n).backgroundColor);
+          if (bg.a > 0) {
+            ground = bg;
+            break;
+          }
+        }
+        const text = rgba(style.color);
+        const alpha = text.a * opacity;
+        const shown = text.rgb.map((c, i) => c * alpha + ground.rgb[i]! * (1 - alpha));
+        const lin = (c: number) => {
+          const v = c / 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        const lum = ([r, g, b]: number[]) => 0.2126 * lin(r!) + 0.7152 * lin(g!) + 0.0722 * lin(b!);
+        const [hi, lo] = [lum(shown), lum(ground.rgb)].sort((x, y) => y - x);
+        return { text: el.textContent!.trim(), ratio: (hi! + 0.05) / (lo! + 0.05) };
+      });
+      if (seen)
+        expect(
+          seen.ratio,
+          `"${seen.text}" is visible, so it needs ${MIN_CONTRAST}:1 against its ground`,
+        ).toBeGreaterThanOrEqual(MIN_CONTRAST);
+    }
+
     const results = await new AxeBuilder({ page }).withRules(RULES).analyze();
     const scanned = [
       ...new Set([...results.passes, ...results.violations].map((r) => r.id)),
