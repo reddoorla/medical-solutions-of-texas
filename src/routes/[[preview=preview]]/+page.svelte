@@ -592,14 +592,19 @@
     opacity: 0.1;
   }
 
+  .support-text {
+    container-type: inline-size;
+  }
+
   .support-text h3 {
     font-feature-settings:
       "liga" off,
       "clig" off;
     font-family: "rigid-square";
-    /* 50px from 527px up; below that the longest word ("UNDERSTANDING") would
-       run past a phone's edge, so it scales with the screen. */
-    font-size: min(50px, 9.5vw);
+    /* 50px wherever the column fits it. "UNDERSTANDING" is about 8.8em wide,
+       so below a ~476px column (a phone, or a tablet's half-width column) the
+       words scale with the column instead of running past it. */
+    font-size: min(50px, 10.5cqi);
     font-style: normal;
     font-weight: 400;
     line-height: 1.2;
