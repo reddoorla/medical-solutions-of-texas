@@ -319,7 +319,7 @@
         </div>
         <div class="bg-mid relative pt-4 w-full">
           <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h3>
-          <div class="text-dark w-80">
+          <div class="text-dark w-full max-w-80">
             MSOT makes medical care possible from the war fighter all the way to the retiree and all
             phases of service inbetween.
           </div>
@@ -466,7 +466,11 @@
           thought possible. They're an invaluable partnership and wealth of knowledge when it comes
           to selling to the DoD and VA hospital systems.”
         </p>
-        <img src={revogenLogo} alt="veteran owned small business logo" class="h-32 max-w-[350px]" />
+        <img
+          src={revogenLogo}
+          alt="veteran owned small business logo"
+          class="h-32 max-w-[min(350px,100%)] object-contain"
+        />
       </div>
     </div>
   </ContentWidth>
@@ -588,15 +592,26 @@
     opacity: 0.1;
   }
 
+  .support-text {
+    container-type: inline-size;
+  }
+
   .support-text h3 {
     font-feature-settings:
       "liga" off,
       "clig" off;
     font-family: "rigid-square";
-    font-size: 50px;
+    /* 50px wherever the column fits it. "UNDERSTANDING" is about 8.8em wide,
+       so below a ~476px column (a phone, or a tablet's half-width column) the
+       words scale with the column instead of running past it. */
+    font-size: min(50px, 9.5vw); /* for a browser without container units */
+    font-size: min(50px, 10.5cqi);
     font-style: normal;
     font-weight: 400;
-    line-height: 60px; /* 120% */
+    line-height: 1.2;
     text-transform: uppercase;
+    /* The words fade in; without this, `duration-1000` also animates the
+       font size whenever the screen is resized. */
+    transition-property: opacity;
   }
 </style>
