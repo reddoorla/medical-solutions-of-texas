@@ -282,3 +282,19 @@ Overnight, Renovate opened `@sveltejs/kit` ^3 as a security PR (#90, GHSA-27mw-8
 `scripts/prerender-origin.mjs` checks the built output. It fails on the placeholder, on this host over http or on a subdomain (the stale-www sitemap class), and on Netlify's `URL`. It builds with `URL` set to a sentinel, because nothing here should read it: the netlify.app mirror builds with its own. Its control names the three files that carry the origin whatever Prismic holds. An earlier count of eight carriers would have failed on any editor filling a page's `meta_image`.
 
 **Measured on the deployed `staging` URL:** `/health` was byte-identical to medicalsolutionsoftx.com's. The smoke suite passed 19 of 19 on staging. On production it passed 16, plus 3 that were flaky and passed on retry.
+
+## 2026-10-28 — No page is wider than a phone (P1-85, PR into `staging`)
+
+The operator, from his phone at 7:36am PT: "msot is messed up on mobile, looks like it's specifically on pages where text is bigger than the content width", and later "the overflow is also causing layout issues on safari". He was right on both counts. Measured on production at the iPhone 14 profile (WebKit, 390px), `/` scrolled to 462px and `/about` to 433px. At 320px, `/` reached 459px and `/about` 398px.
+
+**Five causes, two of them not text:**
+
+- The home page's `.support-text` words were a fixed 50px, and single words don't wrap. "UNDERSTANDING" ended at 463px on a 412px Pixel 7, "TRANSPARENCY" at 435px and "INACCESSIBLE" at 404px. The size is now `min(50px, 9.5vw)`, so it is unchanged from 527px up and about 37px on an iPhone 14.
+- The `/about` team cards set names `text-nowrap` at 30px, so "COURTNEY ALEXANDER" ended at 444px. The same was true in the popup. Names now wrap below `md`.
+- The home page's "End User In Mind" copy is a fixed `w-80` (320px), so at a 320px width it ran past the edge. An ancestor clips it, so it didn't widen the page; the words were just cut off. It is now `w-full max-w-80`.
+- The Revogen testimonial logo was `h-32 max-w-[350px]`, 335px wide inside a 320px screen. It is now `max-w-[min(350px,100%)] object-contain`.
+- The `/about` decorative dots sit at `-right-[10%]` of a column that is full width on a phone. Their row now clips on x below `md`, and is unchanged above.
+
+**Why the fleet's browser audit called it `/partners` and not `/` or `/about`.** Chromium's mobile emulation does not scroll an overflowing page; it widens the layout viewport and zooms out. On the Pixel 7, `innerWidth` read 441 on `/` and 434 on `/about` instead of 412. The audit's test, `scrollWidth > innerWidth + 2`, compares two numbers that grow together, so it passed both broken pages. Its one failure, `/partners [Pixel 7]` on 10-28, did not reproduce in three Chromium and three WebKit readings. One `domcontentloaded` reading of `/` caught the 1440px and 1920px images at their natural size before the stylesheet applied (scroll width 1928). That race is the likeliest source of the `/partners` failure. Both are the instrument's, and are filed in reddoor-maintenance.
+
+`tests/smoke/mobile-overflow.spec.ts` loads six routes at 390px and 320px in a plain desktop context, which has no zoom-out. It fails on either a scroll width past the viewport or any text past the edge outside a fixed layer. That exception is for the header's desktop links, which sit off-screen at a phone width and never reach the page's flow. Each of the five fixes, reverted alone, turns it red. A first version checked only scroll width and stayed green with the `w-80` revert: the clipped copy widened nothing. That is why the text check exists.

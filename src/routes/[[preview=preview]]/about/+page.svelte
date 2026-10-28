@@ -163,7 +163,9 @@
         },
       ]}
     />
-    <div class="my-44 flex flex-col md:flex-row justify-start items-start w-full">
+    <div
+      class="my-44 flex flex-col md:flex-row justify-start items-start w-full overflow-x-clip md:overflow-x-visible"
+    >
       <div class="relative w-full md:w-[40%] h-fit mr-12 xl:mr-[20%]">
         <img alt="dots" src={dots} class=" w-2/5 absolute -bottom-[10%] -right-[10%]" />
         <img

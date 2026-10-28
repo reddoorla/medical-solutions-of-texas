@@ -319,7 +319,7 @@
         </div>
         <div class="bg-mid relative pt-4 w-full">
           <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h3>
-          <div class="text-dark w-80">
+          <div class="text-dark w-full max-w-80">
             MSOT makes medical care possible from the war fighter all the way to the retiree and all
             phases of service inbetween.
           </div>
@@ -466,7 +466,11 @@
           thought possible. They're an invaluable partnership and wealth of knowledge when it comes
           to selling to the DoD and VA hospital systems.”
         </p>
-        <img src={revogenLogo} alt="veteran owned small business logo" class="h-32 max-w-[350px]" />
+        <img
+          src={revogenLogo}
+          alt="veteran owned small business logo"
+          class="h-32 max-w-[min(350px,100%)] object-contain"
+        />
       </div>
     </div>
   </ContentWidth>
@@ -593,10 +597,12 @@
       "liga" off,
       "clig" off;
     font-family: "rigid-square";
-    font-size: 50px;
+    /* 50px from 527px up; below that the longest word ("UNDERSTANDING") would
+       run past a phone's edge, so it scales with the screen. */
+    font-size: min(50px, 9.5vw);
     font-style: normal;
     font-weight: 400;
-    line-height: 60px; /* 120% */
+    line-height: 1.2;
     text-transform: uppercase;
   }
 </style>
