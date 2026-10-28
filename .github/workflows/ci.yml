@@ -13,6 +13,6 @@ jobs:
       node-version: "24"
       # The deploy-preview comment defaults to the repo name, but this repo has
       # two Netlify sites. msot-landing serves medicalsolutionsoftx.com and
-      # built every PR measured (#105, #106, #108, #109), into staging and main;
-      # medical-solutions-of-texas skipped #106, so its link 404ed there.
+      # built every PR measured, into staging and main; medical-solutions-of-texas
+      # skips most PRs into staging (#94, #98, #100, #101, #106, #110 404ed).
       netlify-site: "msot-landing"
