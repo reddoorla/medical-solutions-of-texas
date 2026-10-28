@@ -604,10 +604,14 @@
     /* 50px wherever the column fits it. "UNDERSTANDING" is about 8.8em wide,
        so below a ~476px column (a phone, or a tablet's half-width column) the
        words scale with the column instead of running past it. */
+    font-size: min(50px, 9.5vw); /* for a browser without container units */
     font-size: min(50px, 10.5cqi);
     font-style: normal;
     font-weight: 400;
     line-height: 1.2;
     text-transform: uppercase;
+    /* The words fade in; without this, `duration-1000` also animates the
+       font size whenever the screen is resized. */
+    transition-property: opacity;
   }
 </style>
