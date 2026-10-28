@@ -310,6 +310,7 @@ Each image is now a `<picture>`: the desktop art in a `<source media="(min-width
 reddoorla/medical-solutions-of-texas#102 has the same root cause in the nav. Its links and "Open menu" button now both render, and CSS chooses at 769px. Reading that code turned up a second defect: the menu icon carried `md:hidden`, which in Tailwind v4 is ≥768px, while its button showed through 768px. At exactly 768px (a portrait iPad mini) the menu button was invisible.
 
 The tests are `tests/smoke/mobile-images.spec.ts` (390px and 1440px, on `/` and `/process`) and `tests/smoke/nav-breakpoint.spec.ts` (JS off, at 390, 768, 769 and 1440). The image spec names the file only for the SVGs. Imagetools' dev URLs are `/@imagetools/<hash>`, with no file name, so the doctor is told apart by the aspect of what loaded: 1.815 for desktop, 1.295 for mobile. On unchanged `staging` the mobile cases fail and the desktop cases pass, so the instrument passes on known-good input. Six mutations each turned a spec red:
+
 - each of a timeline and the doctor put back on the ternary;
 - each of two media queries moved;
 - `md:hidden` back on the icon;
