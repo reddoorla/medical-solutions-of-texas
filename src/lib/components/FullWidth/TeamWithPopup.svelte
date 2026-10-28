@@ -61,7 +61,7 @@
   </div>
   <div class="w-full h-[2px] bg-light mt-6"></div>
   <h5 class="text-light mt-4 text-left">{title}</h5>
-  <h3 class="text-white mt-2 text-left text-nowrap">{name}</h3>
+  <h3 class="text-white mt-2 text-left xl:text-nowrap">{name}</h3>
 </button>
 {#if showOverlay}
   <div
@@ -78,7 +78,7 @@
         </div>
         <div class="w-full h-[2px] bg-light mt-6"></div>
         <h5 class="text-light mt-6 text-center lg:text-left">{title}</h5>
-        <h3 class="text-white mt-6 text-nowrap text-center lg:text-left">
+        <h3 class="text-white mt-6 xl:text-nowrap text-center lg:text-left">
           {name}
         </h3>
       </div>
