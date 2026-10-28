@@ -206,17 +206,21 @@
   >
     <ContentWidth class="h-full flex flex-row justify-between items-center">
       <div></div>
-      {#if viewportWidth > 768}
-        <div class="flex flex-row items-center justify-between gap-12 transition-transform">
-          {#each NAV_LINKS as item (item.href)}
-            <a href={item.href}>{item.label}</a>
-          {/each}
-        </div>
-      {:else}
-        <button onclick={() => (isOverlayVisible = true)} aria-label="Open menu">
-          <Menu class="text-[#998B6A] md:hidden" size={48} strokeWidth={1.5} />
-        </button>
-      {/if}
+      <!-- CSS chooses, so the prerendered HTML is already right on a phone (#102). -->
+      <div
+        class="hidden min-[769px]:flex flex-row items-center justify-between gap-12 transition-transform"
+      >
+        {#each NAV_LINKS as item (item.href)}
+          <a href={item.href}>{item.label}</a>
+        {/each}
+      </div>
+      <button
+        class="min-[769px]:hidden"
+        onclick={() => (isOverlayVisible = true)}
+        aria-label="Open menu"
+      >
+        <Menu class="text-[#998B6A]" size={48} strokeWidth={1.5} />
+      </button>
     </ContentWidth>
   </nav>
 

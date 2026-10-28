@@ -5,9 +5,21 @@
   import placeholder from "../../assets/images/background_placeholder.svg";
   import ContentWidth from "../ContentWidth/ContentWidth.svelte";
 
+  /** What an imagetools `?as=run` import yields. */
+  interface RunImage {
+    sources: Record<string, string>;
+    img: { src: string; w: number; h: number };
+  }
+
   interface Props {
     /** Plain URL string, or an imagetools `?as=run` meta object for responsive output. */
     src?: string | Record<string, unknown>;
+    /**
+     * An imagetools `?as=run` image shown below 1024px instead of `src` (which
+     * must then be one too). A `<picture>` media query chooses, so the browser
+     * picks before hydration and fetches only the one it shows.
+     */
+    mobileSrc?: Record<string, unknown>;
     altText?: string;
     placeholderSide?: string;
     vimeoId?: string;
@@ -19,6 +31,7 @@
 
   let {
     src = placeholder,
+    mobileSrc,
     altText = "background image",
     placeholderSide = "right",
     vimeoId = "",
@@ -51,6 +64,32 @@
           ? 'lg:w-[45%] md:h-auto'
           : ''} -z-10"
       />
+    {:else if mobileSrc}
+      {@const desktop = src as unknown as RunImage}
+      {@const mobile = mobileSrc as unknown as RunImage}
+      <picture>
+        {#each Object.entries(desktop.sources) as [format, srcset] (format)}
+          <source
+            media="(min-width: 1024px)"
+            type="image/{format}"
+            {srcset}
+            width={desktop.img.w}
+            height={desktop.img.h}
+          />
+        {/each}
+        {#each Object.entries(mobile.sources) as [format, srcset] (format)}
+          <source type="image/{format}" {srcset} />
+        {/each}
+        <img
+          src={mobile.img.src}
+          alt={altText}
+          width={mobile.img.w}
+          height={mobile.img.h}
+          loading="eager"
+          decoding="async"
+          class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover -z-10"
+        />
+      </picture>
     {:else}
       <Img
         {src}

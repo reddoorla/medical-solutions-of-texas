@@ -15,8 +15,8 @@ const WIDTHS = [320, 390, 768, 820, 1024];
 
 async function gotoHydrated(page: Page, path: string, width: number) {
   await page.goto(path, { waitUntil: "load" });
-  // The layout server-renders the desktop links (`viewportWidth` starts at
-  // 1920) and swaps in the menu button on hydration; measure after the swap.
+  // The layout once server-rendered the desktop links and swapped in the menu
+  // button on hydration; CSS has chosen since #102, so this wait no longer waits.
   if (width <= 768) {
     await page.getByRole("button", { name: "Open menu" }).waitFor({ state: "attached" });
   }

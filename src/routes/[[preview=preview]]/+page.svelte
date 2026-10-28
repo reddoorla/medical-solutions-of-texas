@@ -328,16 +328,19 @@
     </div></ContentWidth
   >
 </section>
-<section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline1 : timeline1_mobile}
-    alt="timelines"
-    width={viewportWidth > 768 ? 1440 : 359}
-    height="650"
-    loading="lazy"
-    decoding="async"
-    class="w-full"
-  />
+<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+  <picture>
+    <source media="(min-width: 769px)" srcset={timeline1} width="1440" height="650" />
+    <img
+      src={timeline1_mobile}
+      alt="timelines"
+      width="359"
+      height="650"
+      loading="lazy"
+      decoding="async"
+      class="w-full"
+    />
+  </picture>
 </section>
 <section class="bg-mid py-20" bind:this={painTrigger}>
   <ContentWidth class="flex flex-col mb-10 md:mb-20 md:flex-row relative">
@@ -431,16 +434,19 @@
   </ContentWidth>
 </section>
 
-<section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline2 : timeline2_mobile}
-    alt="timelines"
-    width={viewportWidth > 768 ? 1440 : 359}
-    height="650"
-    loading="lazy"
-    decoding="async"
-    class="w-full"
-  />
+<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+  <picture>
+    <source media="(min-width: 769px)" srcset={timeline2} width="1440" height="650" />
+    <img
+      src={timeline2_mobile}
+      alt="timelines"
+      width="359"
+      height="650"
+      loading="lazy"
+      decoding="async"
+      class="w-full"
+    />
+  </picture>
 </section>
 <section class="bg-mid py-32">
   <ContentWidth>
@@ -511,19 +517,23 @@
     <BracketButton class="text-dark mb-12" href="/process">Learn More</BracketButton>
   </ContentWidth>
 </section>
-<section class="bg-light w-screen aspect-[5/2] relative">
-  <img
-    src={viewportWidth > 768 ? timeline3 : timeline3_mobile}
-    alt="timelines"
-    width={viewportWidth > 768 ? 1440 : 359}
-    height="650"
-    loading="lazy"
-    decoding="async"
-    class="w-full"
-  />
+<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+  <picture>
+    <source media="(min-width: 769px)" srcset={timeline3} width="1440" height="650" />
+    <img
+      src={timeline3_mobile}
+      alt="timelines"
+      width="359"
+      height="650"
+      loading="lazy"
+      decoding="async"
+      class="w-full"
+    />
+  </picture>
 </section>
 <ScreenWidthImage
-  src={viewportWidth < 1024 ? ctaImageMobile : ctaImage}
+  src={ctaImage}
+  mobileSrc={ctaImageMobile}
   class="flex flex-col items-start justify-end py-32"
   darken
 >
