@@ -162,7 +162,7 @@
   </ContentWidth>
 </section>
 
-<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+<section class="bg-light w-screen relative">
   <picture>
     <source media="(min-width: 769px)" srcset={timeline} width="1438" height="748" />
     <img src={timeline_mobile} alt="timelines" width="385" height="1055" class="w-full" />

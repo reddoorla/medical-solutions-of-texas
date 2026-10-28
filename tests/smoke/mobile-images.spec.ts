@@ -44,7 +44,11 @@ async function loaded(page: Page, selector: string) {
   // image nears the viewport, and `currentSrc` reads "" until then.
   await img.scrollIntoViewIfNeeded();
   await expect
-    .poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0))
+    // The timeline SVGs are 0.3-1.5MB, and a dev server under parallel load
+    // took up to 5.5s for one; the default 5s poll flaked.
+    .poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0), {
+      timeout: 20_000,
+    })
     .toBe(true);
   return img.evaluate((el: HTMLImageElement) => ({
     src: el.currentSrc,

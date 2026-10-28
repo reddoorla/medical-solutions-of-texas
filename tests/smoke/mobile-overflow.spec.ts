@@ -13,13 +13,11 @@ import { test, expect, type Page } from "@playwright/test";
 const ROUTES = ["/", "/about", "/process", "/partners", "/resources", "/contact"];
 const WIDTHS = [320, 390, 768, 820, 1024];
 
-async function gotoHydrated(page: Page, path: string, width: number) {
+async function gotoHydrated(page: Page, path: string) {
+  // The layout used to server-render the desktop links and swap in the menu
+  // button on hydration, so this waited for the swap; since #102 CSS chooses,
+  // and the prerendered nav is already the phone's.
   await page.goto(path, { waitUntil: "load" });
-  // The layout once server-rendered the desktop links and swapped in the menu
-  // button on hydration; CSS has chosen since #102, so this wait no longer waits.
-  if (width <= 768) {
-    await page.getByRole("button", { name: "Open menu" }).waitFor({ state: "attached" });
-  }
   await page.evaluate(() => document.fonts.ready);
 }
 
@@ -46,7 +44,7 @@ for (const width of WIDTHS) {
 
     for (const path of ROUTES) {
       test(`${path} has no horizontal overflow`, async ({ page }) => {
-        await gotoHydrated(page, path, width);
+        await gotoHydrated(page, path);
         const { scrollWidth, clientWidth, offenders } = await measure(page);
         expect(scrollWidth, `page is wider than ${clientWidth}px`).toBeLessThanOrEqual(clientWidth);
         expect(offenders, `text past the ${clientWidth}px edge`).toEqual([]);

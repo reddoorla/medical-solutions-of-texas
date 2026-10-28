@@ -328,7 +328,7 @@
     </div></ContentWidth
   >
 </section>
-<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+<section class="bg-light w-screen relative">
   <picture>
     <source media="(min-width: 769px)" srcset={timeline1} width="1440" height="650" />
     <img
@@ -434,7 +434,7 @@
   </ContentWidth>
 </section>
 
-<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+<section class="bg-light w-screen relative">
   <picture>
     <source media="(min-width: 769px)" srcset={timeline2} width="1440" height="650" />
     <img
@@ -517,7 +517,7 @@
     <BracketButton class="text-dark mb-12" href="/process">Learn More</BracketButton>
   </ContentWidth>
 </section>
-<section class="bg-light w-screen min-[769px]:aspect-[5/2] relative">
+<section class="bg-light w-screen relative">
   <picture>
     <source media="(min-width: 769px)" srcset={timeline3} width="1440" height="650" />
     <img

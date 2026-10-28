@@ -8,7 +8,7 @@
   /** What an imagetools `?as=run` import yields. */
   interface RunImage {
     sources: Record<string, string>;
-    img: { src: string; w: number; h: number };
+    img: { src: string; w: number; h: number; lqip?: string };
   }
 
   interface Props {
@@ -47,6 +47,10 @@
   // at least wide enough that its aspect-derived height reaches 100vh. The
   // previous JS viewport ternary (bound after hydration) rendered a wrong first
   // frame and shifted the hero once real dimensions arrived (CLS 0.119).
+  // svelte-img's placeholder while the image loads, which its <Img> sets itself.
+  const lqipBackground = (lqip: string) =>
+    lqip[0] === "#" ? lqip : `url(data:image/webp;base64,${lqip}) no-repeat center/cover`;
+
   const coverBox = "w-[max(100vw,177.78vh)] aspect-video";
 </script>
 
@@ -87,6 +91,7 @@
           height={mobile.img.h}
           loading="eager"
           decoding="async"
+          style:background={mobile.img.lqip && lqipBackground(mobile.img.lqip)}
           class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover -z-10"
         />
       </picture>
