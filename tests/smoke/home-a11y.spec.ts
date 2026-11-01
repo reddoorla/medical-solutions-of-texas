@@ -56,22 +56,6 @@ for (const viewport of VIEWPORTS) {
         };
         const lum = ([r, g, b]: number[]) => 0.2126 * lin(r!) + 0.7152 * lin(g!) + 0.0722 * lin(b!);
         const out: { text: string; ratio: number; unmodelled: string }[] = [];
-        // The rotating words can sit below the fold (1350: y 2651 on a 940px
-        // viewport). Scroll the first one with a box into the middle so the
-        // occlusion sampling sees it, and put the scroll back before returning.
-        // handleScroll reads the position only from a scroll event, which fires
-        // after this returns, so by then the scroll is undone and the rotation
-        // does not move.
-        const scrollX = window.scrollX;
-        const scrollY = window.scrollY;
-        const shown = headings.find((h) => h.getBoundingClientRect().height > 0);
-        if (shown) {
-          const r = shown.getBoundingClientRect();
-          window.scrollTo({
-            top: scrollY + r.top + r.height / 2 - innerHeight / 2,
-            behavior: "instant" as ScrollBehavior,
-          });
-        }
         for (const heading of headings) {
           const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
           for (let node = walker.nextNode(); node; node = walker.nextNode()) {
@@ -99,27 +83,6 @@ for (const viewport of VIEWPORTS) {
                 box = new DOMRect(Math.max(box.left, clip.left), Math.max(box.top, clip.top), w, h);
             }
             if (clippedAway) continue;
-            // A positioned sibling can paint over the word (at 1350 the opaque
-            // .bg-mid block covers the far word). Sample the clipped box: if no
-            // sample's topmost hit lies inside the text's own element, nothing of
-            // it is seen, so it is not measured.
-            const samples: [number, number][] = [
-              [0.5, 0.5],
-              [0.2, 0.5],
-              [0.8, 0.5],
-              [0.5, 0.2],
-              [0.5, 0.8],
-            ];
-            const seen = samples.some(([fx, fy]) => {
-              const x = box.left + box.width * fx;
-              const y = box.top + box.height * fy;
-              if (x < 0 || y < 0 || x >= innerWidth || y >= innerHeight) return false;
-              const hit = document
-                .elementsFromPoint(x, y)
-                .find((e) => getComputedStyle(e).pointerEvents !== "none");
-              return !!hit && el.contains(hit);
-            });
-            if (!seen) continue;
             // Opacity from the text's element up to the element that paints its
             // ground: everything in between fades the text against that ground.
             let alpha = rgba(style.color).a;
@@ -159,7 +122,6 @@ for (const viewport of VIEWPORTS) {
             out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05), unmodelled: "" });
           }
         }
-        window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" as ScrollBehavior });
         return out;
       });
     expect(
@@ -174,10 +136,14 @@ for (const viewport of VIEWPORTS) {
       painted.filter((p) => p.unmodelled).map((p) => `${p.text}: ${p.unmodelled}`),
       "a rotating word or its ancestors paints by a rule this check does not model: its colour is not measured, so measure it by eye or extend the test",
     ).toEqual([]);
+    // Every painted run is measured, even one a sibling covers. Hit-testing reads
+    // boxes, not paint, so it cannot tell a cover that hides the word from one that
+    // does not. At 1350 the opaque .bg-mid covers the far word at index 0, so a
+    // hidden low-contrast word there fails closed by design, with a "may paint" message.
     for (const { text, ratio } of painted)
       expect(
         ratio,
-        `"${text}" paints, so it needs ${MIN_CONTRAST}:1 against its ground`,
+        `"${text}" may paint, so it needs ${MIN_CONTRAST}:1 against its ground`,
       ).toBeGreaterThanOrEqual(MIN_CONTRAST);
 
     // The rotating words stay in the accessibility tree whichever one is lit.
