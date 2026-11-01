@@ -55,7 +55,23 @@ for (const viewport of VIEWPORTS) {
           return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
         };
         const lum = ([r, g, b]: number[]) => 0.2126 * lin(r!) + 0.7152 * lin(g!) + 0.0722 * lin(b!);
-        const out: { text: string; ratio: number; filtered: boolean }[] = [];
+        const out: { text: string; ratio: number; unmodelled: string }[] = [];
+        // The rotating words can sit below the fold (1350: y 2651 on a 940px
+        // viewport). Scroll the first one with a box into the middle so the
+        // occlusion sampling sees it, and put the scroll back before returning.
+        // handleScroll reads the position only from a scroll event, which fires
+        // after this returns, so by then the scroll is undone and the rotation
+        // does not move.
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+        const shown = headings.find((h) => h.getBoundingClientRect().height > 0);
+        if (shown) {
+          const r = shown.getBoundingClientRect();
+          window.scrollTo({
+            top: scrollY + r.top + r.height / 2 - innerHeight / 2,
+            behavior: "instant" as ScrollBehavior,
+          });
+        }
         for (const heading of headings) {
           const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
           for (let node = walker.nextNode(); node; node = walker.nextNode()) {
@@ -83,45 +99,80 @@ for (const viewport of VIEWPORTS) {
                 box = new DOMRect(Math.max(box.left, clip.left), Math.max(box.top, clip.top), w, h);
             }
             if (clippedAway) continue;
+            // A positioned sibling can paint over the word (at 1350 the opaque
+            // .bg-mid block covers the far word). Sample the clipped box: if no
+            // sample's topmost hit lies inside the text's own element, nothing of
+            // it is seen, so it is not measured.
+            const samples: [number, number][] = [
+              [0.5, 0.5],
+              [0.2, 0.5],
+              [0.8, 0.5],
+              [0.5, 0.2],
+              [0.5, 0.8],
+            ];
+            const seen = samples.some(([fx, fy]) => {
+              const x = box.left + box.width * fx;
+              const y = box.top + box.height * fy;
+              if (x < 0 || y < 0 || x >= innerWidth || y >= innerHeight) return false;
+              const hit = document
+                .elementsFromPoint(x, y)
+                .find((e) => getComputedStyle(e).pointerEvents !== "none");
+              return !!hit && el.contains(hit);
+            });
+            if (!seen) continue;
             // Opacity from the text's element up to the element that paints its
             // ground: everything in between fades the text against that ground.
             let alpha = rgba(style.color).a;
             let ground = { rgb: [255, 255, 255], a: 1 };
-            let filtered = false;
+            let unmodelled = "";
             for (let n: Element | null = el; n; n = n.parentElement) {
-              // A filter changes the painted colour of the text and its ground
-              // by a rule this loop does not model, so it is reported, not measured.
-              if (getComputedStyle(n).filter !== "none") filtered = true;
-              const bg = rgba(getComputedStyle(n).backgroundColor);
+              // Each of these paints the text by a rule this loop does not model,
+              // so the word is reported, not measured. Gradient text is the case
+              // that matters: its colour is transparent, so alpha reads 0.
+              const cs = getComputedStyle(n);
+              const fill = cs.getPropertyValue("-webkit-text-fill-color");
+              const found = [
+                cs.filter !== "none" && `filter: ${cs.filter}`,
+                cs.backgroundImage !== "none" && `background-image: ${cs.backgroundImage}`,
+                (cs.backgroundClip === "text" ||
+                  cs.getPropertyValue("-webkit-background-clip") === "text") &&
+                  "background-clip: text",
+                fill !== cs.color && `-webkit-text-fill-color: ${fill} (color: ${cs.color})`,
+                cs.mixBlendMode !== "normal" && `mix-blend-mode: ${cs.mixBlendMode}`,
+              ].filter(Boolean);
+              if (found.length && !unmodelled) unmodelled = found.join("; ");
+              const bg = rgba(cs.backgroundColor);
               if (bg.a > 0) {
                 ground = bg;
                 break;
               }
-              alpha *= Number(getComputedStyle(n).opacity);
+              alpha *= Number(cs.opacity);
             }
-            if (filtered) {
-              out.push({ text, ratio: 0, filtered: true });
+            if (unmodelled) {
+              out.push({ text, ratio: 0, unmodelled });
               continue;
             }
             if (alpha === 0) continue;
             const color = rgba(style.color).rgb;
             const shown = color.map((c, i) => c * alpha + ground.rgb[i]! * (1 - alpha));
             const [hi, lo] = [lum(shown), lum(ground.rgb)].sort((x, y) => y - x);
-            out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05), filtered: false });
+            out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05), unmodelled: "" });
           }
         }
+        window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" as ScrollBehavior });
         return out;
       });
     expect(
       painted.some((p) => /priority/i.test(p.text)),
       "the lit word is measured",
     ).toBe(true);
-    // The home page puts no filter on a rotating word or its ancestors (the only
-    // filter in app.css is on .multi-item-clear), so a filtered word is a finding:
-    // its colour is not measured, and a filter can lighten it below 3:1 unseen.
+    // The home page sets none of these on a rotating word or its ancestors (the
+    // only filter in app.css is on .multi-item-clear), so one found is a finding:
+    // the paint is not modelled here, and it can recolour or lighten the word
+    // below 3:1 unseen. The diff names the property found.
     expect(
-      painted.filter((p) => p.filtered).map((p) => p.text),
-      "a filter on a painted rotating word or its ancestors is not measured: measure it by eye or extend the test",
+      painted.filter((p) => p.unmodelled).map((p) => `${p.text}: ${p.unmodelled}`),
+      "a rotating word or its ancestors paints by a rule this check does not model: its colour is not measured, so measure it by eye or extend the test",
     ).toEqual([]);
     for (const { text, ratio } of painted)
       expect(
