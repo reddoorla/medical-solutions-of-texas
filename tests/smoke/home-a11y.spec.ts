@@ -55,7 +55,7 @@ for (const viewport of VIEWPORTS) {
           return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
         };
         const lum = ([r, g, b]: number[]) => 0.2126 * lin(r!) + 0.7152 * lin(g!) + 0.0722 * lin(b!);
-        const out: { text: string; ratio: number }[] = [];
+        const out: { text: string; ratio: number; filtered: boolean }[] = [];
         for (const heading of headings) {
           const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
           for (let node = walker.nextNode(); node; node = walker.nextNode()) {
@@ -70,6 +70,10 @@ for (const viewport of VIEWPORTS) {
             let box = range.getBoundingClientRect();
             let clippedAway = box.width * box.height === 0;
             for (let n: Element | null = el; n && !clippedAway; n = n.parentElement) {
+              // overflow does not clip through display: contents (no box, rect
+              // 0×0) or a non-replaced inline box, so those clip nothing.
+              const display = getComputedStyle(n).display;
+              if (display === "contents" || display === "inline") continue;
               if (getComputedStyle(n).overflow === "visible") continue;
               const clip = n.getBoundingClientRect();
               const w = Math.min(box.right, clip.right) - Math.max(box.left, clip.left);
@@ -83,7 +87,11 @@ for (const viewport of VIEWPORTS) {
             // ground: everything in between fades the text against that ground.
             let alpha = rgba(style.color).a;
             let ground = { rgb: [255, 255, 255], a: 1 };
+            let filtered = false;
             for (let n: Element | null = el; n; n = n.parentElement) {
+              // A filter changes the painted colour of the text and its ground
+              // by a rule this loop does not model, so it is reported, not measured.
+              if (getComputedStyle(n).filter !== "none") filtered = true;
               const bg = rgba(getComputedStyle(n).backgroundColor);
               if (bg.a > 0) {
                 ground = bg;
@@ -91,11 +99,15 @@ for (const viewport of VIEWPORTS) {
               }
               alpha *= Number(getComputedStyle(n).opacity);
             }
+            if (filtered) {
+              out.push({ text, ratio: 0, filtered: true });
+              continue;
+            }
             if (alpha === 0) continue;
             const color = rgba(style.color).rgb;
             const shown = color.map((c, i) => c * alpha + ground.rgb[i]! * (1 - alpha));
             const [hi, lo] = [lum(shown), lum(ground.rgb)].sort((x, y) => y - x);
-            out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05) });
+            out.push({ text, ratio: (hi! + 0.05) / (lo! + 0.05), filtered: false });
           }
         }
         return out;
@@ -104,6 +116,13 @@ for (const viewport of VIEWPORTS) {
       painted.some((p) => /priority/i.test(p.text)),
       "the lit word is measured",
     ).toBe(true);
+    // The home page puts no filter on a rotating word or its ancestors (the only
+    // filter in app.css is on .multi-item-clear), so a filtered word is a finding:
+    // its colour is not measured, and a filter can lighten it below 3:1 unseen.
+    expect(
+      painted.filter((p) => p.filtered).map((p) => p.text),
+      "a filter on a painted rotating word or its ancestors is not measured: measure it by eye or extend the test",
+    ).toEqual([]);
     for (const { text, ratio } of painted)
       expect(
         ratio,
