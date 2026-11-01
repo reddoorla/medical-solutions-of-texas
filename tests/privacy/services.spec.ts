@@ -17,7 +17,7 @@ const sources = sourceFiles("src")
   )
   .map((path) => readFileSync(path, "utf8"));
 const loads = (pattern: RegExp) => sources.some((s) => pattern.test(s));
-const svelteConfig = readFileSync("svelte.config.js", "utf8");
+const svelteConfig = readFileSync("sveltekit.config.js", "utf8");
 
 const DETECTORS: Record<PrivacyService | "googleFonts" | "youtube", () => boolean> = {
   forms: () => sources.some((s) => /\bcreateIngest(Action|Endpoint)\s*\(/.test(s)),

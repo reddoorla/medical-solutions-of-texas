@@ -14,7 +14,6 @@
   import Footer from "$lib/components/Footer.svelte";
 
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
-  let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
 
   let threeStepTrigger: HTMLElement | undefined = $state();
   let isthreeStepActive = $state(false);
@@ -39,7 +38,7 @@
 </script>
 
 <svelte:head><title>MSOT | Process</title></svelte:head>
-<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
+<svelte:window bind:innerHeight={viewportHeight} />
 
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />
 <div
@@ -163,8 +162,11 @@
   </ContentWidth>
 </section>
 
-<section class="bg-light w-screen md:aspect-[5/2] relative">
-  <img src={viewportWidth > 768 ? timeline : timeline_mobile} alt="timelines" class="w-full" />
+<section class="bg-light w-screen relative">
+  <picture>
+    <source media="(min-width: 769px)" srcset={timeline} width="1438" height="748" />
+    <img src={timeline_mobile} alt="timelines" width="385" height="1055" class="w-full" />
+  </picture>
 </section>
 
 <section class="bg-light pt-32 pb-48">
