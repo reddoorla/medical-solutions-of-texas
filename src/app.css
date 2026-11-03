@@ -259,28 +259,6 @@
     }
   }
 
-  /* svelte-select global stylings (not scoped — the wrapper components
-	   render svelte-select's classnames into the DOM and we override them here). */
-  .indicators {
-    display: none !important;
-    opacity: 0 !important;
-  }
-
-  .svelte-select {
-    border-radius: 3px !important;
-    border: 1px solid #cbc3a400 !important;
-    cursor: pointer !important;
-    background-color: #ffffffcc !important;
-  }
-
-  .svelte-select-list {
-    cursor: pointer !important;
-  }
-
-  .svelte-select input {
-    cursor: pointer !important;
-  }
-
   ::placeholder {
     color: #534422 !important;
   }
@@ -292,37 +270,6 @@
   input,
   textarea {
     opacity: 80% !important;
-  }
-
-  .multi-item-clear {
-    cursor: pointer !important;
-    transform: translateY(-0.5px);
-    color: #534422 !important;
-    margin-left: 1em !important;
-    filter: invert(25%) sepia(15%) saturate(703%) hue-rotate(178deg) brightness(99%) contrast(85%);
-    transition: all 300ms cubic-bezier(0.5, 0, 0, 1);
-  }
-
-  .multi-item-clear:hover {
-    opacity: 0.4;
-  }
-
-  .multi-item {
-    margin-right: 3em !important;
-    background-color: transparent !important;
-    outline-color: #534422 !important;
-  }
-
-  .multi-item-text,
-  .svelte-select-list {
-    transform: translateY(1px);
-    color: #534422 !important;
-    font-size: 14px !important;
-    font-style: normal;
-  }
-
-  .selected-item {
-    color: #534422 !important;
   }
 
   .outlined {

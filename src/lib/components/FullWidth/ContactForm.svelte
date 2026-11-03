@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import * as env from "$app/env/public";
   import { loadTurnstile } from "$lib/turnstile";
-  import StyledSingleSelect from "./StyledSingleSelect.svelte";
+  import dropdownArrow from "$lib/assets/icons/dropdown-arrow-light.svg";
   import BracketButton from "../Buttons/BracketButton.svelte";
 
   interface Props {
@@ -16,18 +16,6 @@
     form = null,
     formTs,
   }: Props = $props();
-
-  type SelectOption = {
-    index?: number;
-    value?: string;
-    label?: string;
-  };
-
-  let selectValue: SelectOption = $state({
-    index: 0,
-    value: "Select Interest",
-    label: "Select Interest",
-  });
 
   let submitting = $state(false);
 
@@ -120,8 +108,33 @@
         </label>
       </div>
     </div>
-    <StyledSingleSelect placeholder="Select Interest" items={PRODUCTS} bind:value={selectValue} />
-    <input name="select" type="text" bind:value={selectValue.value} hidden />
+    <!--
+      A native select, replacing svelte-select (2026-11-03). The placeholder
+      option is `hidden`, not `disabled`, so an untouched form still sends
+      select=Select Interest, as the svelte-select version's hidden input did.
+    -->
+    <label class="group relative block w-full">
+      <span class="sr-only">Interest</span>
+      <select
+        name="select"
+        class="block w-full h-[42px] appearance-none cursor-pointer rounded-[3px] border border-transparent bg-white/80 pl-4 pr-[42px] text-dark"
+      >
+        <option value="Select Interest" selected hidden>Select Interest</option>
+        {#each PRODUCTS as product (product)}
+          <option value={product}>{product}</option>
+        {/each}
+      </select>
+      <span
+        class="absolute h-full aspect-square right-0 top-0 flex items-center justify-center pointer-events-none"
+        aria-hidden="true"
+      >
+        <img
+          src={dropdownArrow}
+          alt=""
+          class="transition-all group-hover:opacity-55 group-focus-within:opacity-55"
+        />
+      </span>
+    </label>
 
     <label>
       <span class="sr-only">Your Message</span>
