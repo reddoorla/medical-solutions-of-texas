@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { PRIVACY_PATH } from "$lib/privacy/policy";
+  import FooterIdentity from "./FooterIdentity.svelte";
   import ContentWidth from "./ContentWidth/ContentWidth.svelte";
   import BracketButton from "./Buttons/BracketButton.svelte";
   import vosbLogo from "$lib/assets/icons/logos/vosb_white.svg";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import { onMount } from "svelte";
 
-  let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
 
   let ctaTrigger: HTMLElement | undefined = $state();
@@ -25,7 +24,7 @@
   });
 </script>
 
-<svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
+<svelte:window bind:innerHeight={viewportHeight} />
 
 <section class="bg-[#998B6A] py-44">
   <ContentWidth>
@@ -53,37 +52,21 @@
   </ContentWidth>
 </section>
 
-<footer class=" h-56 md:h-48 bg-[#998B6A]">
-  <ContentWidth class="flex flex-row justify-between  py-6 h-36 sm:h-full border-t-2 border-white">
-    <div class="flex flex-col justify-between items-start">
+<footer class="py-6 bg-[#998B6A]">
+  <ContentWidth
+    class="flex flex-row gap-6 justify-between items-start pt-6 border-t-2 border-white"
+  >
+    <div class="flex flex-col gap-4 items-start min-w-0">
       <a href="/" class="bump self-start h-16 md:h-20 relative"
         ><img
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
-          alt="msot logo"
+          alt="Medical Solutions of Texas home"
         /></a
       >
-      <div class="label text-white flex flex-row flex-wrap gap-x-2">
-        {#if viewportWidth > 560}
-          <span>
-            {"©" +
-              new Date().getFullYear() +
-              " - Medical Solutions of Texas  |   All Rights Reserved  |"}
-          </span>
-        {/if}
-        <a
-          href={PRIVACY_PATH}
-          data-testid="footer-privacy-link"
-          class="label text-white underline hover:text-light">Privacy Policy</a
-        >
-      </div>
+      <FooterIdentity />
     </div>
-    <img src={vosbLogo} alt="vosb logo" class="h-16 md:h-24" />
+    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24 self-start" />
   </ContentWidth>
-  {#if viewportWidth <= 560}
-    <div class="label text-white w-full text-center px-2">
-      {"©" + new Date().getFullYear() + " - Medical Solutions of Texas"} <br /> All Rights Reserved
-    </div>
-  {/if}
 </footer>

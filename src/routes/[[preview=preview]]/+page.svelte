@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { PRIVACY_PATH } from "$lib/privacy/policy";
+  import FooterIdentity from "$lib/components/FooterIdentity.svelte";
+  import { DEFINITION } from "$lib/identity";
   import VimeoGate from "$lib/components/VimeoGate.svelte";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
@@ -248,6 +249,9 @@
         <img src={vosbLogo} alt="veteran owned small business logo" class="opacity-90 h-40" />
         <img src={txFlag} alt="texas flag" width="53" height="35" class="opacity-50" />
       </div>
+      <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
+        {DEFINITION}
+      </p>
       <div class="text-white text-center leading-normal md:text-[24px]">
         Our expertise, VOSB (Veteran Owned Small Business) status, and deep network of relationships
         allows us to offer solutions where others hit roadblocks.
@@ -560,39 +564,21 @@
   </div>
 </ScreenWidthImage>
 
-<footer class=" h-56 md:h-48 py-6 bg-[#140F09]">
-  <ContentWidth class="flex flex-row justify-between h-36 sm:h-full">
-    <div class="flex flex-col justify-between items-start">
+<footer class="py-6 bg-[#140F09]">
+  <ContentWidth class="flex flex-row gap-6 justify-between items-start">
+    <div class="flex flex-col gap-4 items-start min-w-0">
       <a href="/" class="bump self-start h-16 md:h-20 relative"
         ><img
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
-          alt="msot logo"
+          alt="Medical Solutions of Texas home"
         /></a
       >
-      <div class="label text-white flex flex-row flex-wrap gap-x-2">
-        {#if viewportWidth > 560}
-          <span>
-            {"©" +
-              new Date().getFullYear() +
-              " - Medical Solutions of Texas  |   All Rights Reserved  |"}
-          </span>
-        {/if}
-        <a
-          href={PRIVACY_PATH}
-          data-testid="footer-privacy-link"
-          class="label text-white underline hover:text-light">Privacy Policy</a
-        >
-      </div>
+      <FooterIdentity />
     </div>
-    <img src={vosbLogo} alt="vosb logo" class="h-16 md:h-24" />
+    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24 self-start" />
   </ContentWidth>
-  {#if viewportWidth <= 560}
-    <div class="label text-white w-full text-center px-2">
-      {"©" + new Date().getFullYear() + " - Medical Solutions of Texas"} <br /> All Rights Reserved
-    </div>
-  {/if}
 </footer>
 
 <style>
