@@ -5,6 +5,31 @@
   "repeatable": false,
   "status": true,
   "json": {
+    "Hero": {
+      "hero_line": {
+        "type": "StructuredText",
+        "config": {
+          "label": "hero line, computers and tablets (shown in capitals) (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Connecting DoW + VA Hospitals with (Shift+Enter) Med-Surg Suppliers",
+          "single": "paragraph"
+        }
+      },
+      "hero_subtitle": {
+        "type": "Text",
+        "config": {
+          "label": "hero subtitle",
+          "placeholder": "Leave empty to keep: We bridge the gap between clinical demand and government procurement to support America’s Armed Services and our Veterans."
+        }
+      },
+      "hero_line_phone": {
+        "type": "StructuredText",
+        "config": {
+          "label": "hero line, phones (shown in capitals) (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Connecting (Shift+Enter) DoW + VA (Shift+Enter) Hospitals (Shift+Enter) w/ Med-Surg (Shift+Enter) Suppliers",
+          "single": "paragraph"
+        }
+      }
+    },
     "Your Trusted Partner": {
       "trusted_heading": {
         "type": "Text",
@@ -93,6 +118,113 @@
         "config": {
           "label": "paragraph",
           "placeholder": "Leave empty to keep: MSOT makes medical care possible from the war fighter all the way to the retiree and al…"
+        }
+      }
+    },
+    "Timelines": {
+      "timeline_1_heading": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 1 (after The Clinician in Mind): step 02 heading (shown in capitals)",
+          "placeholder": "Leave empty to keep: Deployment overseas"
+        }
+      },
+      "timeline_1_text": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 1: step 02 text",
+          "placeholder": "Leave empty to keep: Critical medical supplies save lives in forward deployed environments."
+        }
+      },
+      "timeline_2_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 2 (after We’re here to help): eyebrow, computers only (shown in capitals)",
+          "placeholder": "Leave empty to keep: The Clinician in Mind"
+        }
+      },
+      "timeline_2_heading": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 2: step 03 heading (shown in capitals)",
+          "placeholder": "Leave empty to keep: Raising a family"
+        }
+      },
+      "timeline_2_text": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 2: step 03 text",
+          "placeholder": "Leave empty to keep: Medical care and procedures for service men, women and family members."
+        }
+      },
+      "timeline_3_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 3 (after Getting started): eyebrow, computers only (shown in capitals)",
+          "placeholder": "Leave empty to keep: The Clinician in Mind"
+        }
+      },
+      "timeline_3_heading": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 3: step 06 heading (shown in capitals)",
+          "placeholder": "Leave empty to keep: Veteran & retiree"
+        }
+      },
+      "timeline_3_text": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 3: step 06 text",
+          "placeholder": "Leave empty to keep: Caring for our veterans after retirement"
+        }
+      },
+      "timeline_label_1": {
+        "type": "Text",
+        "config": {
+          "label": "step label 01, on all three timelines (shown in capitals after 01)",
+          "placeholder": "Leave empty to keep: Start date: 18 y.o."
+        }
+      },
+      "timeline_label_2": {
+        "type": "Text",
+        "config": {
+          "label": "step label 02, on all three timelines (shown in capitals after 02)",
+          "placeholder": "Leave empty to keep: Deployment overseas"
+        }
+      },
+      "timeline_label_3": {
+        "type": "Text",
+        "config": {
+          "label": "step label 03, on all three timelines (shown in capitals after 03)",
+          "placeholder": "Leave empty to keep: Raising a family"
+        }
+      },
+      "timeline_label_4": {
+        "type": "Text",
+        "config": {
+          "label": "step label 04, on all three timelines (shown in capitals after 04)",
+          "placeholder": "Leave empty to keep: Active Duty Service in the US"
+        }
+      },
+      "timeline_label_5": {
+        "type": "Text",
+        "config": {
+          "label": "step label 05, on all three timelines (shown in capitals after 05)",
+          "placeholder": "Leave empty to keep: Surgical procedure"
+        }
+      },
+      "timeline_label_6": {
+        "type": "Text",
+        "config": {
+          "label": "step label 06, on all three timelines (shown in capitals after 06)",
+          "placeholder": "Leave empty to keep: 85 y.o. veteran & retiree"
+        }
+      },
+      "timeline_3_hidden_label": {
+        "type": "Text",
+        "config": {
+          "label": "timeline 3, computers: last step label, behind the veteran’s photo (shown in capitals)",
+          "placeholder": "Leave empty to keep: Veteran + retiree"
         }
       }
     },
