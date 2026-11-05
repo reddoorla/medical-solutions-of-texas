@@ -30,6 +30,20 @@
     w.dataLayer.push({ event: "msot_contact_submit", form_name: "contact" });
   }
 
+  // The server screens out spam with a decoy success: a filled honeypot, or a
+  // send under 800ms after the form was served (createIngestAction's
+  // MIN_FILL_MS). Neither may count as a conversion, so the same two screens
+  // run here. The client measures from when the form appeared, which is later
+  // than when the server stamped it, so a send that passes here passes there.
+  const MIN_FILL_MS = 800;
+  let shownAt = 0;
+  $effect(() => {
+    shownAt = performance.now();
+  });
+  const screenedOut = (formData: FormData) =>
+    String(formData.get("bot-field") ?? "").trim() !== "" ||
+    performance.now() - shownAt < MIN_FILL_MS;
+
   // Optional Cloudflare Turnstile — dark until PUBLIC_TURNSTILE_SITE_KEY is set;
   // rendered explicitly (works on full load + SPA nav). createIngestAction reads
   // the injected cf-turnstile-response input and forwards it for central verify.
@@ -81,10 +95,11 @@
       // The fleet's form-e2e probe marks its submissions testMode=true; it
       // must never count as a LinkedIn conversion.
       const probe = formData.get("testMode") === "true";
+      const spam = screenedOut(formData);
       return async ({ result, update }) => {
         await update();
         submitting = false;
-        if (result.type === "success" && !probe) pushContactSubmit();
+        if (result.type === "success" && !probe && !spam) pushContactSubmit();
       };
     }}
   >

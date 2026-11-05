@@ -24,7 +24,9 @@ async function watchGtm(page: Page) {
 
 async function loadIdle(page: Page, path = "/") {
   await page.goto(path, { waitUntil: "load" });
-  await page.waitForTimeout(2000);
+  // Longer than a Lighthouse run's quiet window, so a loader that waited
+  // for idle or a timer would still be caught.
+  await page.waitForTimeout(5000);
 }
 
 const gtmEvents = (page: Page) =>
@@ -76,7 +78,8 @@ const ENGAGE: Record<string, (page: Page) => Promise<void>> = {
     await page.mouse.up();
   },
   "a wheel turn": (page) => page.mouse.wheel(0, 40),
-  "a mouse move": (page) => page.mouse.move(40, 40),
+  // Along one axis only, so the zero-movement filter must check both.
+  "a mouse move": (page) => page.mouse.move(40, 0),
 };
 
 for (const [name, engage] of Object.entries(ENGAGE)) {
@@ -113,7 +116,9 @@ const RESULTS = {
   failure: { type: "failure", status: 400, data: '[{"error":1},"Please try again."]' },
 };
 
-async function submit(page: Page, result: keyof typeof RESULTS, testMode = false) {
+type Send = { testMode?: boolean; honeypot?: boolean; tooFast?: boolean };
+
+async function submit(page: Page, result: keyof typeof RESULTS, send: Send = {}) {
   await watchGtm(page);
   await page.route("**/contact**", async (route) => {
     if (route.request().method() !== "POST") return route.fallback();
@@ -125,7 +130,7 @@ async function submit(page: Page, result: keyof typeof RESULTS, testMode = false
   });
   await page.goto("/contact", { waitUntil: "networkidle" });
   const form = page.locator("form");
-  if (testMode) {
+  if (send.testMode) {
     await form.evaluate((f) => {
       const input = document.createElement("input");
       input.type = "hidden";
@@ -137,6 +142,17 @@ async function submit(page: Page, result: keyof typeof RESULTS, testMode = false
   await form.getByPlaceholder("Email").fill("person@example.com");
   await form.getByPlaceholder("Your Name / Company").fill("A Person");
   await form.getByPlaceholder("Your Message").fill("A message with details");
+  // The honeypot is hidden from people, so only a script fills it.
+  if (send.honeypot) {
+    await form
+      .locator('input[name="bot-field"]')
+      .evaluate((el: HTMLInputElement) => (el.value = "spam"));
+  }
+  // A person takes longer than the server's 800ms fill screen.
+  await page.waitForTimeout(900);
+  // Too fast: from here the clock reads as if no time had passed since the
+  // form appeared.
+  if (send.tooFast) await page.evaluate(() => (performance.now = () => 0));
   await form.getByRole("button", { name: "Submit" }).click();
   if (result === "success") {
     await expect(page.getByRole("status")).toContainText("your message has been sent");
@@ -168,5 +184,15 @@ test("a failed send pushes nothing", async ({ page }) => {
 });
 
 test("the form-e2e probe's testMode send pushes nothing", async ({ page }) => {
-  expect(await submit(page, "success", true)).toEqual([]);
+  expect(await submit(page, "success", { testMode: true })).toEqual([]);
+});
+
+// The server answers spam it screens out with a decoy success, so these get
+// the same "sent" banner as a real send, and must not count as conversions.
+test("a send with the honeypot filled pushes nothing", async ({ page }) => {
+  expect(await submit(page, "success", { honeypot: true })).toEqual([]);
+});
+
+test("a send faster than the server's 800ms fill screen pushes nothing", async ({ page }) => {
+  expect(await submit(page, "success", { tooFast: true })).toEqual([]);
 });

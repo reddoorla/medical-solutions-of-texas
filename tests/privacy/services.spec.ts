@@ -25,8 +25,9 @@ const DETECTORS: Record<PrivacyService | "googleFonts" | "youtube", () => boolea
   ga4: () => sources.some((s) => /googletagmanager\.com\/gtag\/js|\binitAnalytics\s*\(/.test(s)),
   gtm: () => loads(/googletagmanager\.com\/gtm\.js/),
   // The LinkedIn Insight Tag is never in the site's code: MSOT Marketing's
-  // Tag Manager container fires it. So the container's ID is what loads it.
-  linkedin: () => loads(/GTM-T4RZ2F54/),
+  // Tag Manager container fires it. So the loader called with the container's
+  // ID is what loads it (not the ID in a comment).
+  linkedin: () => loads(/"GTM-T4RZ2F54"\)/),
   adobeFonts: () => loads(/https:\/\/use\.typekit\.net\//),
   vimeo: () => loads(/https:\/\/player\.vimeo\.com\//),
   netlify: () => svelteConfig.includes("@sveltejs/adapter-netlify"),
