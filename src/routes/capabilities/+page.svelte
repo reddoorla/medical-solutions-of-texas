@@ -138,7 +138,10 @@
     <h2 class="text-2xl font-semibold text-white">Contact</h2>
     <address class="not-italic">
       {identity.name} ({identity.shortName})<br />
-      <a href={`tel:${identity.phoneE164}`} class="underline hover:text-white">{identity.phone}</a>
+      {#if identity.phoneE164}<a
+          href={`tel:${identity.phoneE164}`}
+          class="underline hover:text-white">{identity.phone}</a
+        >{:else}{identity.phone}{/if}
       ·
       <a
         href={`mailto:${identity.email}`}

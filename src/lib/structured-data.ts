@@ -8,17 +8,20 @@
 // FAQPage and Person markup Marketing also asked for, which Reddoor's response
 // declines with sources (Google: "Structured data isn't required for
 // generative AI search").
-import { SITE_URL } from "$lib/site";
-import type { Identity } from "$lib/identity";
+import { SITE_URL } from "./site.js";
+import type { Identity } from "./identity";
 
 const HOME = `${SITE_URL}/`;
 export const ORGANIZATION_ID = `${HOME}#organization`;
 export const WEBSITE_ID = `${HOME}#website`;
 
-/** "+18333074418" → "+1-833-307-4418", the form §13a gives. */
-function dashedPhone(e164: string): string {
-  const d = e164.replace(/\D/g, "");
-  return `+${d[0]}-${d.slice(1, 4)}-${d.slice(4, 7)}-${d.slice(7)}`;
+/**
+ * "+18333074418" → "+1-833-307-4418", the form §13a gives. Any other country's
+ * number stays in its E.164 form, since its grouping differs.
+ */
+export function dashedPhone(e164: string): string {
+  const m = e164.match(/^\+1(\d{3})(\d{3})(\d{4})$/);
+  return m ? `+1-${m[1]}-${m[2]}-${m[3]}` : e164;
 }
 
 export function homeGraph(identity: Identity) {
@@ -45,7 +48,8 @@ export function homeGraph(identity: Identity) {
           postalCode: a.postalCode,
           addressCountry: a.country,
         },
-        telephone: dashedPhone(identity.phoneE164),
+        // No telephone at all when the phone field holds no dialable number.
+        ...(identity.phoneE164 ? { telephone: dashedPhone(identity.phoneE164) } : {}),
         email: identity.email,
         naics: identity.naics,
         identifier: [

@@ -191,24 +191,24 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
- * Item in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
+ * Item in *Site settings → more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.*
  */
 export interface SettingsDocumentDataMoreContractsItem {
 	/**
-	 * name field in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
+	 * name field in *Site settings → more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: e.g. DLA ECAT Contract (Just in Time)
+	 * - **Placeholder**: e.g. GSA MAS Contract
 	 * - **API ID Path**: settings.more_contracts[].label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	label: prismic.KeyTextField;
 	
 	/**
-	 * number field in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
+	 * number field in *Site settings → more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: e.g. SPE2DE-25-D-A012
+	 * - **Placeholder**: e.g. 47QSWA00X0000
 	 * - **API ID Path**: settings.more_contracts[].value
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -290,7 +290,7 @@ interface SettingsDocumentData {
 	tagline: prismic.KeyTextField;
 	
 	/**
-	 * definition (Home, every page's footer, and the search-engine description) field in *Site settings*
+	 * definition (Home, every page's footer, and Google's structured data) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…
@@ -379,7 +379,7 @@ interface SettingsDocumentData {
 	 * phone, as printed. The Contact page's SEO description also states it: edit that too. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: 833.307.4418 (the number only, no extension)
+	 * - **Placeholder**: Leave empty to keep: 833.307.4418
 	 * - **API ID Path**: settings.phone
 	 * - **Tab**: Address and contact
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -440,7 +440,7 @@ interface SettingsDocumentData {
 	naics: prismic.KeyTextField;
 	
 	/**
-	 * DLA ECAT contract number (Just in Time) field in *Site settings*
+	 * DLA ECAT contract number (Just in Time). To retire or rename this vehicle, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: SPE2DE-25-D-A012
@@ -451,7 +451,7 @@ interface SettingsDocumentData {
 	ecat_jit: prismic.KeyTextField;
 	
 	/**
-	 * DLA ECAT contract number (Direct Vendor Delivery) field in *Site settings*
+	 * DLA ECAT contract number (Direct Vendor Delivery). To retire or rename this vehicle, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: SPE2DE-25-D-A011
@@ -462,7 +462,7 @@ interface SettingsDocumentData {
 	ecat_dvd: prismic.KeyTextField;
 	
 	/**
-	 * DAPA number (Medical/Surgical) field in *Site settings*
+	 * DAPA number (Medical/Surgical). To retire or rename this vehicle, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: SP0200-11-H-0018
@@ -473,7 +473,7 @@ interface SettingsDocumentData {
 	dapa_med: prismic.KeyTextField;
 	
 	/**
-	 * DAPA number (Equipment) field in *Site settings*
+	 * DAPA number (Equipment). To retire or rename this vehicle, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: SP0200-11-H-0003
@@ -484,7 +484,7 @@ interface SettingsDocumentData {
 	dapa_equip: prismic.KeyTextField;
 	
 	/**
-	 * more contract vehicles (shown on /capabilities and in search-engine markup) field in *Site settings*
+	 * more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown. field in *Site settings*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*

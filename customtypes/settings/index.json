@@ -44,7 +44,7 @@
       "definition": {
         "type": "Text",
         "config": {
-          "label": "definition (Home, every page's footer, and the search-engine description)",
+          "label": "definition (Home, every page's footer, and Google's structured data)",
           "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…"
         }
       },
@@ -103,7 +103,7 @@
         "type": "Text",
         "config": {
           "label": "phone, as printed. The Contact page's SEO description also states it: edit that too.",
-          "placeholder": "Leave empty to keep: 833.307.4418 (the number only, no extension)"
+          "placeholder": "Leave empty to keep: 833.307.4418"
         }
       },
       "email": {
@@ -146,49 +146,49 @@
       "ecat_jit": {
         "type": "Text",
         "config": {
-          "label": "DLA ECAT contract number (Just in Time)",
+          "label": "DLA ECAT contract number (Just in Time). To retire or rename this vehicle, ask Reddoor.",
           "placeholder": "Leave empty to keep: SPE2DE-25-D-A012"
         }
       },
       "ecat_dvd": {
         "type": "Text",
         "config": {
-          "label": "DLA ECAT contract number (Direct Vendor Delivery)",
+          "label": "DLA ECAT contract number (Direct Vendor Delivery). To retire or rename this vehicle, ask Reddoor.",
           "placeholder": "Leave empty to keep: SPE2DE-25-D-A011"
         }
       },
       "dapa_med": {
         "type": "Text",
         "config": {
-          "label": "DAPA number (Medical/Surgical)",
+          "label": "DAPA number (Medical/Surgical). To retire or rename this vehicle, ask Reddoor.",
           "placeholder": "Leave empty to keep: SP0200-11-H-0018"
         }
       },
       "dapa_equip": {
         "type": "Text",
         "config": {
-          "label": "DAPA number (Equipment)",
+          "label": "DAPA number (Equipment). To retire or rename this vehicle, ask Reddoor.",
           "placeholder": "Leave empty to keep: SP0200-11-H-0003"
         }
       },
       "more_contracts": {
         "type": "Group",
         "config": {
-          "label": "more contract vehicles (shown on /capabilities and in search-engine markup)",
+          "label": "more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.",
           "repeat": true,
           "fields": {
             "label": {
               "type": "Text",
               "config": {
                 "label": "name",
-                "placeholder": "e.g. DLA ECAT Contract (Just in Time)"
+                "placeholder": "e.g. GSA MAS Contract"
               }
             },
             "value": {
               "type": "Text",
               "config": {
                 "label": "number",
-                "placeholder": "e.g. SPE2DE-25-D-A012"
+                "placeholder": "e.g. 47QSWA00X0000"
               }
             }
           }

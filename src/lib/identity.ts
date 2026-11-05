@@ -113,12 +113,17 @@ export const ADDRESS_LINE = addressLine(IDENTITY.address);
 /**
  * "833.307.4418" → "+18333074418": the first North American number in the
  * field, so an extension in any wording ("ext. 2", "extension 2", "press 2")
- * or a second number is not dialled. A field with no such number keeps its
- * digits as they are.
+ * or a second number is not dialled. A number written with its own "+"
+ * country code ("+44 20 7946 0958") keeps it. Anything else ("TBD", a typo
+ * with a digit too many) gives "": the pages then print the phone with no
+ * call link, rather than a link that dials the wrong number.
  */
 export function toE164(phone: string): string {
-  const m = phone.match(/^\D*(?:\+?1\D*)?(\d{3})\D*(\d{3})\D*(\d{4})(?!\d)/);
-  return m ? `+1${m[1]}${m[2]}${m[3]}` : `+${phone.replace(/\D/g, "")}`;
+  const m = phone.match(/^[^\d+]*(?:\+?1\D*)?(\d{3})\D*(\d{3})\D*(\d{4})(?!\d)/);
+  // A leading "+" other than "+1" never matches: [^\d+]* cannot pass it.
+  if (m) return `+1${m[1]}${m[2]}${m[3]}`;
+  const intl = phone.trim().match(/^\+[\d\s().-]{7,}$/);
+  return intl ? `+${phone.replace(/\D/g, "")}` : "";
 }
 
 /** Today's wording, every field: what the site shows with no `settings` document. */

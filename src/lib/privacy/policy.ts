@@ -11,9 +11,12 @@ export function privacyOwner(identity: Identity): string {
 
 export const PRIVACY_PATH = "/privacy";
 
+// The page reads neither legalName nor contactEmail: it takes both from the
+// site's merged identity (privacyOwner() and the identity's email). They stay
+// here as today's values for tests/smoke/privacy.spec.ts. Edit the identity,
+// not these.
 export const PRIVACY_VALUES = {
-  // The owner, from the same identity as the footer's legal line. The page
-  // itself reads privacyOwner() over the site's merged identity.
+  // The owner, from the same identity as the footer's legal line.
   legalName: privacyOwner(CODE_IDENTITY),
   contactEmail: "info@MedicalSolutionsofTX.com",
   effectiveDate: "2026-11-04",

@@ -8,6 +8,7 @@ import {
   toE164,
 } from "../../src/lib/identity";
 import { PAGE_SEO, pageDescription } from "../../src/lib/seo";
+import { dashedPhone, homeGraph } from "../../src/lib/structured-data";
 import type { SettingsDocument } from "../../prismicio-types";
 
 // MSOT's identity (§12a) moves into Prismic's `settings` singleton (the
@@ -135,6 +136,17 @@ test("toE164 gives today's hard-coded form for today's phone, and drops an exten
   ]) {
     expect(toE164(odd), odd).toBe("+18333074418");
   }
+  // A number with its own country code keeps it; anything not dialable gives
+  // "", and the pages then print the phone with no call link.
+  expect(toE164("+44 20 7946 0958")).toBe("+442079460958");
+  for (const bad of ["TBD", "Call us", "833.307.44189", "ext 12 833.307.4418"]) {
+    expect(toE164(bad), bad).toBe("");
+  }
+  expect(dashedPhone("+18333074418")).toBe("+1-833-307-4418");
+  expect(dashedPhone("+442079460958")).toBe("+442079460958");
+  const noNumber = mergeIdentity(doc({ phone: "TBD", same_as: [] }));
+  expect(noNumber.phoneE164).toBe("");
+  expect(homeGraph(noNumber)["@graph"][0]).not.toHaveProperty("telephone");
 });
 
 // The contact page's Prismic `meta_description` (published 11-05) wins over

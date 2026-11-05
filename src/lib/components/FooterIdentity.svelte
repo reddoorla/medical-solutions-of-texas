@@ -18,7 +18,9 @@
   <p class="label">{identity.businessType} · {identity.tagline}</p>
   <address class="label not-italic">
     {addressLine(identity.address)} ·
-    <a href={`tel:${identity.phoneE164}`} class="hover:text-light">{identity.phone}</a> ·
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light"
+        >{identity.phone}</a
+      >{:else}{identity.phone}{/if} ·
     <a href={`mailto:${identity.email}`} class="hover:text-light [overflow-wrap:anywhere]"
       >{identity.email}</a
     >
