@@ -104,6 +104,8 @@ test("a missing page is titled 'Page not found | MSOT', with no canonical", asyn
 
 // §12e / Xicmo H1 check: one <h1> naming the page, in the server HTML.
 const ONE_H1: Record<string, string> = {
+  // Decision 2026-11-05-1527: Home's existing box heading became its <h1>.
+  "/": "Your Trusted Partner",
   "/about": "About MSOT",
   "/process": "Our Process",
   "/partners": "Our Partners",
