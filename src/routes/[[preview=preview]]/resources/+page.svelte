@@ -29,6 +29,16 @@
     </div>
   </ContentWidth>
 </section>
+<!-- The Capabilities Statement as a page of text (§14c); same pattern as the
+     Charge Sheet block above. -->
+<section class="bg-mid">
+  <ContentWidth class="border-t-2 border-dark flex flex-col md:flex-row py-10">
+    <div class="md:w-1/2 pr-12 flex flex-col gap-10 items-start">
+      <h3 class="text-dark">CAPABILITIES STATEMENT</h3>
+      <BracketButton class="text-dark" href="/capabilities">READ IT</BracketButton>
+    </div>
+  </ContentWidth>
+</section>
 <section class="bg-mid pt-24">
   <ContentWidth class="flex flex-col md:flex-row justify-between py-10">
     <div class="md:w-[calc(33%-20px)] flex flex-col mt-12 md:mt-0">
