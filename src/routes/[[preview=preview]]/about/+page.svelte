@@ -62,8 +62,10 @@
 
 <div class="w-full h-screen">
   <ContentWidth class="h-full flex flex-row justify-between items-center py-32 relative">
-    <h1 class="text-mid mb-12 opacity-60 w-fit">About</h1>
-    <h1 class="text-mid mb-12 opacity-60 w-fit">MSOT</h1>
+    <!-- One heading for the page, spread across the band as two words were. -->
+    <h1 class="text-mid mb-12 opacity-60 w-full flex flex-row justify-between">
+      <span>About</span> <span>MSOT</span>
+    </h1>
   </ContentWidth>
 </div>
 
