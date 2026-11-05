@@ -67,8 +67,10 @@ for (const [path, want] of Object.entries(EXPECTED)) {
     expect(metaContent(html, "property", "og:description")).toEqual([want.description]);
 
     const canonical = path === "/" ? SITE : `${SITE}${path}`;
-    expect(all(html, /<link rel="canonical" href="([^"]*)"/g)).toEqual([canonical]);
-    expect(metaContent(html, "property", "og:url")).toEqual([canonical]);
+    // The Privacy Policy is noindex while it is a draft, and then has no canonical.
+    const noindex = /<meta name="robots" content="noindex"/.test(html);
+    expect(all(html, /<link rel="canonical" href="([^"]*)"/g)).toEqual(noindex ? [] : [canonical]);
+    expect(metaContent(html, "property", "og:url")).toEqual(noindex ? [] : [canonical]);
   });
 }
 
@@ -168,4 +170,42 @@ for (const [width, size] of [
       expect(style.slice(1)).toEqual(["300", size, "uppercase"]);
     });
   }
+}
+
+test("a /preview URL takes its page's title and the canonical without the prefix", async ({
+  request,
+}) => {
+  const html = await (await request.get("/preview/about")).text();
+  expect(all(html, /<title>([^<]*)<\/title>/g)).toEqual([EXPECTED["/about"].title]);
+  expect(all(html, /<link rel="canonical" href="([^"]*)"/g)).toEqual([`${SITE}/about`]);
+});
+
+// "Let's get started" became div.h1: pin the h1 look at each breakpoint the
+// stylesheet sets, and that the merged page headings still span the band.
+for (const [width, size] of [
+  [1440, "140px"],
+  [1100, "110px"],
+  [900, "82px"],
+  [700, "60px"],
+  [390, "50px"],
+] as const) {
+  test(`at ${width}px the CTA line keeps the h1 look, and About's words sit at the band's ends`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/about", { waitUntil: "networkidle" });
+    const style = await page
+      .locator("div.h1")
+      .first()
+      .evaluate((el) => [getComputedStyle(el).fontFamily, getComputedStyle(el).fontSize]);
+    expect(style[0]).toMatch(/barlow-condensed/);
+    expect(style[1]).toBe(size);
+    const [a, b] = await page
+      .locator("h1 > span")
+      .evaluateAll((els) => els.map((e) => e.getBoundingClientRect()));
+    const band = await page.locator("h1").evaluate((e) => e.getBoundingClientRect());
+    expect(Math.abs(a.left - band.left)).toBeLessThan(2);
+    expect(Math.abs(b.right - band.right)).toBeLessThan(2);
+    expect(band.width).toBeGreaterThan(width * 0.8);
+  });
 }

@@ -6,7 +6,7 @@
   import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
   import { SITE_URL } from "$lib/site";
-  import { PAGE_SEO, NOT_FOUND_TITLE, routeKey, canonicalUrl } from "$lib/seo";
+  import { PAGE_SEO, NOT_FOUND_TITLE, ERROR_TITLE, routeKey, canonicalUrl } from "$lib/seo";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -57,7 +57,9 @@
   // title from the URL: it once read "MSOT | Llms.txt".
   let pageTitle = $derived(
     isError
-      ? NOT_FOUND_TITLE
+      ? page.status === 404
+        ? NOT_FOUND_TITLE
+        : ERROR_TITLE
       : page.data.meta_title ||
           PAGE_SEO[route]?.title ||
           page.data.title ||
@@ -144,7 +146,8 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
-  {#if !isError}
+  <!-- No canonical on an error, or on a page that asks not to be indexed. -->
+  {#if !isError && !page.data.noindex}
     <link rel="canonical" href={canonicalUrl(page.url.pathname)} />
     <meta property="og:url" content={canonicalUrl(page.url.pathname)} />
   {/if}
