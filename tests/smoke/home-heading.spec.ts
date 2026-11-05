@@ -73,13 +73,24 @@ for (const [width, size] of [
   });
 }
 
-test("Home's Capabilities Statement button opens /capabilities, and Home links no PDF", async ({
+// The button opens the corrected PDF again, in a new tab (the operator, 11-05:
+// "link the corrected pdf rather than the unstyled page"); #146 had sent it to
+// /capabilities. The click's dataLayer push is pinned in tag-manager.spec.ts.
+test("Home's Capabilities Statement button opens the PDF in a new tab, and is Home's one PDF link", async ({
   request,
 }) => {
   const html = await (await request.get("/")).text();
-  const links = [...html.matchAll(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g)].filter((m) =>
+  const links = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)].filter((m) =>
     /Capabilities Statement/i.test(m[2].replace(/<[^>]+>/g, " ")),
   );
-  expect(links.map((m) => m[1])).toEqual(["/capabilities"]);
-  expect(html).not.toMatch(/\.pdf\b/i);
+  expect(links).toHaveLength(1);
+  const attrs = links[0][1];
+  expect(attrs).toMatch(/\bhref="\/pdfs\/MSOT_Capabilities\.pdf"/);
+  expect(attrs).toMatch(/\btarget="_blank"/);
+  expect(attrs).toMatch(/\brel="noopener"/);
+  // The name keeps the visible words and warns of the PDF and the new tab.
+  expect(attrs).toMatch(/\baria-label="Capabilities Statement \(PDF, opens in a new tab\)"/);
+  expect([...html.matchAll(/href="([^"]*\.pdf)"/gi)].map((m) => m[1])).toEqual([
+    "/pdfs/MSOT_Capabilities.pdf",
+  ]);
 });
