@@ -192,9 +192,14 @@
   <ContentWidth>
     <h4 class="text-light my-20">The Team</h4>
 
-    <div class="w-full flex flex-col lg:flex-row gap-y-20 items-center justify-between flex-wrap">
+    <!-- Rows centre, and the column gap is what justify-between gave a full row
+         of three cards (w-72 at lg, w-96 at xl), so a short last row sits centred
+         under the row above instead of splitting across its columns. -->
+    <div
+      class="w-full flex flex-col lg:flex-row gap-y-20 items-center lg:items-start justify-center flex-wrap lg:gap-x-[calc((100%-54rem)/2)] xl:gap-x-[calc((100%-72rem)/2)]"
+    >
       {#each teamArray as person, i (i)}
-        <div class="last:mx-auto">
+        <div>
           <TeamWithPopup
             name={person.name}
             title={person.title}

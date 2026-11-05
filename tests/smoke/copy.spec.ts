@@ -9,7 +9,7 @@ import { test, expect, type Page } from "@playwright/test";
 const PAGES = ["/", "/about", "/partners", "/process", "/resources", "/contact", "/privacy"];
 
 // The Revogen testimonial is the customer's own words and stays verbatim (Home
-// and Partners), so its two DoD phrases are the only ones allowed.
+// and Partners), so its two DoD phrases are allowed, on those two pages only.
 const REVOGEN_QUOTE_DOD = [
   /into the DoD system/gi,
   /selling\s+to the DoD and VA hospital systems/gi,
@@ -24,10 +24,12 @@ const DOD = /\bDoD\b|\bD\.O\.D\b|Department of Defense/i;
 const END_USER = /\bend[\s-]?users?\b/i;
 const FORMER_STAFF = /Albert Turgon|Tim Watson/i;
 
-function stripAllowed(text: string, path: string): string {
+function stripAllowed(text: string, path: string, allowHeldHero: boolean): string {
   let t = text;
-  for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
-  if (path === "/") t = t.replace(HELD_HERO_DOD, "");
+  if (path === "/" || path === "/partners") {
+    for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
+  }
+  if (path === "/" && allowHeldHero) t = t.replace(HELD_HERO_DOD, "");
   return t;
 }
 
@@ -51,9 +53,13 @@ function expectCopyRules(text: string, where: string) {
 
 /** Rendered text with every accordion opened, plus alt, aria-label and title values. */
 async function renderedText(page: Page): Promise<string> {
-  for (const button of await page.locator("button:has(h4)").all()) {
-    if (await button.isVisible()) await button.click();
-  }
+  // Accordian.svelte: each question is a <button> holding an <h4>, and its
+  // answer <p> exists only while open. Count both, so a click that did nothing
+  // (before hydration, or after a markup change) fails instead of passing blind.
+  const buttons = page.locator("button:has(h4)");
+  const count = await buttons.count();
+  for (let i = 0; i < count; i++) await buttons.nth(i).click();
+  await expect(page.locator("button:has(h4) p")).toHaveCount(count);
   await page.waitForTimeout(600);
   return page.evaluate(() => {
     const attrs = [...document.querySelectorAll("[alt],[aria-label],[title]")].map((el) =>
@@ -69,7 +75,9 @@ for (const path of PAGES) {
   }) => {
     const res = await request.get(path);
     expect(res.status()).toBe(200);
-    expectCopyRules(stripAllowed(serverText(await res.text()), ""), "server HTML");
+    // The held hero is not in server HTML at all (it renders after mount), so
+    // this reading allows it nowhere: stricter than the rendered one, on purpose.
+    expectCopyRules(stripAllowed(serverText(await res.text()), path, false), "server HTML");
   });
 
   for (const width of [1440, 390]) {
@@ -78,7 +86,7 @@ for (const path of PAGES) {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path, { waitUntil: "networkidle" });
-      expectCopyRules(stripAllowed(await renderedText(page), path), `rendered ${width}px`);
+      expectCopyRules(stripAllowed(await renderedText(page), path, true), `rendered ${width}px`);
     });
   }
 }
