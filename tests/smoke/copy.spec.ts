@@ -6,7 +6,16 @@ import { test, expect, type Page } from "@playwright/test";
 //     title, aria-label, meta content): what a crawler or AI assistant gets;
 //  2. the rendered page at desktop and phone widths with every accordion
 //     opened: what a visitor can see, including text written in by JavaScript.
-const PAGES = ["/", "/about", "/partners", "/process", "/resources", "/contact", "/privacy"];
+const PAGES = [
+  "/",
+  "/about",
+  "/partners",
+  "/process",
+  "/resources",
+  "/contact",
+  "/privacy",
+  "/capabilities",
+];
 
 // The Revogen testimonial is the customer's own words and stays verbatim (Home
 // and Partners), so its two DoD phrases are allowed, on those two pages only.

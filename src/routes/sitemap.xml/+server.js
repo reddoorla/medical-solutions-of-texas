@@ -2,6 +2,7 @@ import { createClient } from "$lib/prismicio";
 // Canonical origin imported from a single $lib constant, never re-hardcoded, so
 // the sitemap stays in lockstep with the rest of the site's absolute URLs.
 import { SITE_URL } from "$lib/site";
+import { PRIVACY_POLICY_DRAFT, PRIVACY_PATH } from "$lib/privacy/policy";
 
 // Prerendered alongside the rest of the site, so Netlify serves it as a static file.
 export const prerender = true;
@@ -20,6 +21,13 @@ const TYPE_PATHS = {
 /** @type {Set<string>} */
 const RETIRED_UIDS = new Set(["rep-login"]);
 
+// Routes written in code, not Prismic. They carry no <lastmod>: Google uses it
+// only when it is "consistently and verifiably accurate", and nothing records
+// when a code change altered these pages' content. The Privacy Policy is listed
+// once it leaves draft, because a draft is noindex.
+/** @type {string[]} */
+const CODE_ROUTES = ["/capabilities", ...(PRIVACY_POLICY_DRAFT ? [] : [PRIVACY_PATH])];
+
 export async function GET({ fetch }) {
   const client = createClient({ fetch });
   const docs = await client.dangerouslyGetAll().catch(() => []);
@@ -35,6 +43,8 @@ export async function GET({ fetch }) {
       `  <url>\n    <loc>${loc}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""}\n  </url>`,
     );
   }
+
+  for (const path of CODE_ROUTES) urls.push(`  <url>\n    <loc>${SITE_URL}${path}</loc>\n  </url>`);
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
