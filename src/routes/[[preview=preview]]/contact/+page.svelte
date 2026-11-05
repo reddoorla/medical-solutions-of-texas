@@ -2,6 +2,7 @@
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import ContactForm from "$lib/components/FullWidth/ContactForm.svelte";
+  import { IDENTITY } from "$lib/identity";
   import type { ActionData, PageData } from "./$types";
 
   // Success/error now come from the server action result, not a `?success=true`
@@ -18,13 +19,17 @@
         class="mt-12 lg:mt-0 w-full lg:w-1/2 flex flex-col gap-8 text-dark text-[24px] leading-normal"
       >
         <div>We’d love to hear from you.</div>
-        <div>
-          4903 Golden Quail, Suite 120 <br /> San Antonio, TX 78240
-        </div>
-        <div>
-          Phone: 833.307.4418 <br />
-          info@MedicalSolutionsofTX.com
-        </div>
+        <address class="not-italic flex flex-col gap-8">
+          <div>
+            {IDENTITY.address.street} <br />
+            {IDENTITY.address.city}, {IDENTITY.address.region}
+            {IDENTITY.address.postalCode}
+          </div>
+          <div>
+            Phone: <a href={`tel:${IDENTITY.phoneE164}`}>{IDENTITY.phone}</a> <br />
+            <a href={`mailto:${IDENTITY.email}`}>{IDENTITY.email}</a>
+          </div>
+        </address>
       </div>
       <div class="w-full lg:w-1/2">
         <ContactForm {form} formTs={data.formTs} />
