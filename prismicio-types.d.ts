@@ -47,6 +47,171 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 /**
+ * Item in *About page → the list, top to bottom*
+ */
+export interface AboutPageDocumentDataServicesItem {
+	/**
+	 * title field in *About page → the list, top to bottom*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's four.
+	 * - **API ID Path**: about_page.services[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * answer (each paragraph is a line) field in *About page → the list, top to bottom*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Enter starts a new line, shown as typed. Left empty, the row shows its title alone.
+	 * - **API ID Path**: about_page.services[].answer
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	answer: prismic.RichTextField;
+}
+
+/**
+ * Content for About page documents
+ */
+interface AboutPageDocumentData {
+	/**
+	 * page heading, left word field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: About
+	 * - **API ID Path**: about_page.heading_left
+	 * - **Tab**: About MSOT
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_left: prismic.KeyTextField;
+	
+	/**
+	 * page heading, right word field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT
+	 * - **API ID Path**: about_page.heading_right
+	 * - **Tab**: About MSOT
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_right: prismic.KeyTextField;/**
+	 * box heading field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: what differentiates us
+	 * - **API ID Path**: about_page.differentiates_heading
+	 * - **Tab**: What Differentiates Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	differentiates_heading: prismic.KeyTextField;
+	
+	/**
+	 * line under the definition field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We are defined by expertise and experience.
+	 * - **API ID Path**: about_page.defined_text
+	 * - **Tab**: What Differentiates Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	defined_text: prismic.KeyTextField;
+	
+	/**
+	 * experience paragraph field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: With 20 years’ worth of experience in Air Force logistics and nearly 50 years in medical device sales on our leadership team, we know the VA and DoW healthcare landscape better than anyone. We enable med-surg suppliers to find and access opportunities that they wouldn’t have been able to tap into alone.
+	 * - **API ID Path**: about_page.experience_text
+	 * - **Tab**: What Differentiates Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	experience_text: prismic.KeyTextField;/**
+	 * heading field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What We Do For You
+	 * - **API ID Path**: about_page.services_heading
+	 * - **Tab**: What We Do For You
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	services_heading: prismic.KeyTextField;
+	
+	/**
+	 * the list, top to bottom field in *About page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about_page.services[]
+	 * - **Tab**: What We Do For You
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	services: prismic.GroupField<Simplify<AboutPageDocumentDataServicesItem>>;/**
+	 * eyebrow field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Who We Are
+	 * - **API ID Path**: about_page.who_eyebrow
+	 * - **Tab**: Who We Are
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	who_eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * heading field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We have what you’re looking for
+	 * - **API ID Path**: about_page.who_heading
+	 * - **Tab**: Who We Are
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	who_heading: prismic.KeyTextField;
+	
+	/**
+	 * first paragraph field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT was founded by a team of medical sales experts in 2022. With a career running Air Force logistics on bases in the continental United States and at forward deployment locations overseas, we have the experience to know how to work within the complex system of military contracts and procurement.
+	 * - **API ID Path**: about_page.who_text_1
+	 * - **Tab**: Who We Are
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	who_text_1: prismic.KeyTextField;
+	
+	/**
+	 * second paragraph (the third, on who MSOT works with, is in Settings) field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We spent our careers grappling with the difficulties in getting and keeping VA hospitals and DoW bases equipped with med-surg supplies, from the side of a logistics officer and the side of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization uniquely suited to connect med-surg suppliers with VA and DoW contracts.
+	 * - **API ID Path**: about_page.who_text_2
+	 * - **Tab**: Who We Are
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	who_text_2: prismic.KeyTextField;/**
+	 * heading (the cards are Team member documents) field in *About page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: The Team
+	 * - **API ID Path**: about_page.team_heading
+	 * - **Tab**: The Team
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	team_heading: prismic.KeyTextField;
+}
+
+/**
+ * About page document from Prismic
+ *
+ * - **API ID**: `about_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<AboutPageDocumentData>, "about_page", Lang>;
+
+/**
  * Item in *form replies → replies*
  */
 export interface FormRepliesDocumentDataRepliesItem {
@@ -1204,7 +1369,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = FormRepliesDocument | HomePageDocument | PageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -1259,6 +1424,9 @@ declare module "@prismicio/client" {
 	
 	namespace Content {
 		export type {
+			AboutPageDocument,
+			AboutPageDocumentData,
+			AboutPageDocumentDataServicesItem,
 			FormRepliesDocument,
 			FormRepliesDocumentData,
 			FormRepliesDocumentDataRepliesItem,

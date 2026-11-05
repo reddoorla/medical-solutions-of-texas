@@ -53,3 +53,30 @@ export function lines(value: RichTextField | null | undefined, fallback: string[
     .filter(Boolean);
   return out.length ? out : fallback;
 }
+
+/**
+ * A rich-text field of paragraphs as plain text, one line per paragraph, for a
+ * block that keeps its line breaks (white-space: pre-wrap). Spaces are kept as
+ * typed, since such a block shows them; empty paragraphs at either end are
+ * dropped. Empty, it is the code's wording.
+ */
+export function paragraphs(value: RichTextField | null | undefined, fallback: string): string {
+  if (!isFilled.richText(value)) return fallback;
+  // An empty paragraph at either end would show as a blank line.
+  const out = asText(value, { separator: "\n" }).replace(/^\n+|\n+$/g, "");
+  return out.trim() ? out : fallback;
+}
+
+/**
+ * A repeatable group's rows, each read by `pick`, which returns null for a row
+ * too empty to show. With no row to show, the code's rows: the list is
+ * replaced whole, not merged row by row, so Marketing can reorder or shorten it.
+ */
+export function rows<R, T>(
+  group: readonly R[] | null | undefined,
+  pick: (row: R) => T | null,
+  fallback: T[],
+): T[] {
+  const out = (group ?? []).map(pick).filter((r): r is T => r !== null);
+  return out.length ? out : fallback;
+}
