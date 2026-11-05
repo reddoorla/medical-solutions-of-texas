@@ -1,6 +1,7 @@
 <script lang="ts">
   import FooterIdentity from "$lib/components/FooterIdentity.svelte";
   import { DEFINITION } from "$lib/identity";
+  import HomeJsonLd from "$lib/components/HomeJsonLd.svelte";
   import VimeoGate from "$lib/components/VimeoGate.svelte";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
@@ -169,6 +170,9 @@
 <svelte:head><title>{data.title || "Medical Solutions of Texas"}</title></svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
+
+<!-- Organization + WebSite JSON-LD, Home only (§13a), built from $lib/identity. -->
+<HomeJsonLd />
 
 <ScreenWidthImage
   class="fixed -z-10"
