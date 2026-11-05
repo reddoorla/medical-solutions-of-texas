@@ -17,25 +17,22 @@
   import TeamWithPopup from "$lib/components/FullWidth/TeamWithPopup.svelte";
 
   import placeholder from "$lib/assets/images/profile_placeholder.png";
-  import { teamAlt, teamFromPrismic, type TeamCard } from "$lib/team";
+  import { buildTeam, type CurrentCard } from "$lib/team";
 
   let { data } = $props();
 
-  // Today's cards, with no bio: they show until Marketing's team_member
-  // documents exist in Prismic. David Lange's image is tim.png until Marketing
-  // confirms whose face it is.
-  const CURRENT: Omit<TeamCard, "alt">[] = [
+  // Today's cards. Each stays until Marketing publishes that person's
+  // team_member document in Prismic (see $lib/team). David Lange's image is
+  // tim.png until Marketing confirms whose face it is.
+  const CURRENT: CurrentCard[] = [
     { name: "Jon Hood", title: "CEO", headshot: jonHood },
     { name: "David Lange", title: "President", headshot: tim },
     { name: "Kylene Carse", title: "Chief Financial Officer", headshot: kylene },
     { name: "Courtney Alexander", title: "Government Accounts Coordinator", headshot: courtney },
     { name: "Kathy Castro", title: "Operations Administrator", headshot: kathy },
   ];
-  const CURRENT_CARDS: TeamCard[] = CURRENT.map((c) => ({ ...c, alt: teamAlt(c.name, c.title) }));
-  const CURRENT_HEADSHOTS = Object.fromEntries(CURRENT.map((c) => [c.name, c.headshot]));
 
-  const fromPrismic = $derived(teamFromPrismic(data.team ?? [], CURRENT_HEADSHOTS, placeholder));
-  const team = $derived(fromPrismic.length ? fromPrismic : CURRENT_CARDS);
+  const team = $derived(buildTeam(data.team ?? [], CURRENT, placeholder));
 </script>
 
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />

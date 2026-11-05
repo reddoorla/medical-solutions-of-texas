@@ -16,7 +16,7 @@
       "job_title": {
         "type": "Text",
         "config": {
-          "label": "title",
+          "label": "job title",
           "placeholder": "Title, as on the site (e.g. CEO)"
         }
       },
@@ -41,8 +41,7 @@
         "config": {
           "label": "LinkedIn",
           "placeholder": "Optional: the person's LinkedIn profile URL",
-          "select": "web",
-          "allowTargetBlank": true
+          "select": "web"
         }
       },
       "order": {

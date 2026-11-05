@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { teamFromPrismic } from "../../src/lib/team";
+import { buildTeam } from "../../src/lib/team";
 import type { TeamMemberDocument } from "../../prismicio-types";
 
 // MSOT Marketing's Developer Brief Part 1, §8 and §9: bios and headshots
-// editable in Prismic (a `team_member` type), with today's cards until the
-// documents exist.
+// editable in Prismic (a `team_member` type), with today's cards staying until
+// each person's document exists.
 
 const doc = (data: Record<string, unknown>) => ({ data }) as unknown as TeamMemberDocument;
+const NONE = { headshot: {}, bio: [], linkedin: { link_type: "Any" }, order: null };
 const IMAGE = {
   url: "https://images.prismic.io/msot/jon.jpg?auto=format",
   dimensions: { width: 800, height: 800 },
@@ -17,63 +18,71 @@ const IMAGE = {
   edit: { x: 0, y: 0, zoom: 1, background: "transparent" },
 };
 const BIO = [{ type: "paragraph", text: "Jon Hood founded MSOT.", spans: [] }];
-const CURRENT = { "Kylene Carse": "/kylene.png" };
+const CURRENT = [
+  { name: "Jon Hood", title: "CEO", headshot: "/jon.svg" },
+  { name: "David Lange", title: "President", headshot: "/tim.png" },
+  { name: "Kylene Carse", title: "Chief Financial Officer", headshot: "/kylene.png" },
+];
+const names = (cards: { name: string }[]) => cards.map((c) => c.name);
 
-test("teamFromPrismic orders, skips nameless documents and never leaves a card empty", () => {
-  const cards = teamFromPrismic(
+test("buildTeam: with no documents, today's cards in today's order", () => {
+  const cards = buildTeam([], CURRENT, "/placeholder.png");
+  expect(names(cards)).toEqual(["Jon Hood", "David Lange", "Kylene Carse"]);
+  expect(cards[1].alt).toBe("David Lange, President, Medical Solutions of Texas.");
+  expect(cards[1].bio).toBeUndefined();
+});
+
+test("buildTeam: one published document replaces its card and keeps everyone else", () => {
+  const cards = buildTeam(
     [
       doc({
-        name: "Kathy Castro",
-        job_title: "Operations Administrator",
-        headshot: {},
-        bio: [],
-        linkedin: { link_type: "Any" },
-        order: null,
-      }),
-      doc({
-        name: "Kylene Carse",
-        job_title: "Chief Financial Officer",
-        headshot: {},
-        bio: [],
-        linkedin: { link_type: "Any" },
-        order: 3,
-      }),
-      doc({
-        name: null,
-        job_title: "Nobody",
-        headshot: IMAGE,
-        bio: BIO,
-        linkedin: { link_type: "Any" },
-        order: 0,
-      }),
-      doc({
+        ...NONE,
         name: "Jon Hood",
         job_title: "CEO",
         headshot: IMAGE,
         bio: BIO,
         linkedin: { link_type: "Web", url: "https://www.linkedin.com/in/jon-hood" },
-        order: 1,
       }),
     ],
     CURRENT,
     "/placeholder.png",
   );
-  expect(cards.map((c) => c.name)).toEqual(["Jon Hood", "Kylene Carse", "Kathy Castro"]);
-  const [jon, kylene, kathy] = cards;
-  expect(jon.alt).toBe("Jon Hood, CEO, Medical Solutions of Texas.");
+  expect(names(cards)).toEqual(["Jon Hood", "David Lange", "Kylene Carse"]);
+  const jon = cards[0];
   expect(jon.headshot).toMatch(/^https:\/\/images\.prismic\.io\/msot\/jon\.jpg\?/);
   expect(jon.headshot).toContain("w=768");
   expect(jon.bio).toEqual(BIO);
   expect(jon.linkedin).toBe("https://www.linkedin.com/in/jon-hood");
-  // No headshot yet: keep the image the site already shows for them (§8).
+  expect(cards[1].headshot).toBe("/tim.png");
+});
+
+test("buildTeam: order places people, a new person is added, nothing is ever empty", () => {
+  const cards = buildTeam(
+    [
+      // No headshot yet: keeps the image the site shows for them (§8).
+      doc({ ...NONE, name: "Kylene Carse", job_title: "Chief Financial Officer", order: 1 }),
+      // New, with no headshot and no current image: the placeholder.
+      doc({ ...NONE, name: "New Hire", job_title: null, order: 2 }),
+      // Skipped: no name, or only spaces.
+      doc({ ...NONE, name: null, job_title: "Nobody", order: 0 }),
+      doc({ ...NONE, name: "   ", job_title: "Nobody", order: 0 }),
+    ],
+    CURRENT,
+    "/placeholder.png",
+  );
+  // Kylene's order 1 ties Jon's place in today's list (1st), and New Hire's 2
+  // ties David's (2nd); ties go by name.
+  expect(names(cards)).toEqual(["Jon Hood", "Kylene Carse", "David Lange", "New Hire"]);
+  const kylene = cards.find((c) => c.name === "Kylene Carse")!;
   expect(kylene.headshot).toBe("/kylene.png");
   expect(kylene.bio).toBeUndefined();
   expect(kylene.linkedin).toBeUndefined();
-  // No current image either: the placeholder, never an empty card.
-  expect(kathy.headshot).toBe("/placeholder.png");
+  const hire = cards.find((c) => c.name === "New Hire")!;
+  expect(hire.headshot).toBe("/placeholder.png");
+  expect(hire.alt).toBe("New Hire, Medical Solutions of Texas.");
 });
 
-test("the team_member model holds name, title, headshot, bio, LinkedIn and order", () => {
+test("the team_member model holds name, job title, headshot, bio, LinkedIn and order", () => {
   const model = JSON.parse(readFileSync("customtypes/team_member/index.json", "utf8"));
   expect(model.id).toBe("team_member");
   expect(model.repeatable).toBe(true);
@@ -94,14 +103,16 @@ test("the team_member model holds name, title, headshot, bio, LinkedIn and order
   expect(model.json.Main.headshot.config.constraint).toEqual({ width: 800, height: 800 });
 });
 
+const cardNames = (html: string) =>
+  [...html.matchAll(/data-testid="team-card"[\s\S]*?<h3\b[^>]*>([^<]*)<\/h3>/g)].map((m) =>
+    m[1].trim(),
+  );
+
 test("until Prismic has team documents, /about shows today's five cards, with §8's alt text and no bio", async ({
   request,
 }) => {
   const html = await (await request.get("/about")).text();
-  const cards = [...html.matchAll(/data-testid="team-card"[\s\S]*?<h3\b[^>]*>([^<]*)<\/h3>/g)].map(
-    (m) => m[1].trim(),
-  );
-  expect(cards).toEqual([
+  expect(cardNames(html)).toEqual([
     "Jon Hood",
     "David Lange",
     "Kylene Carse",
@@ -119,6 +130,30 @@ test("until Prismic has team documents, /about shows today's five cards, with §
   }
   expect(html).not.toContain('data-testid="team-bio"');
   expect(html).not.toMatch(/Lorem ipsum/i);
+});
+
+// `vite dev` serves two fixture documents at /about?team-fixture
+// (src/lib/team-fixture.ts): Jon Hood with a bio and LinkedIn, and a new hire.
+test("a published document shows its bio and LinkedIn link, and the other cards stay", async ({
+  page,
+  request,
+}) => {
+  const html = await (await request.get("/about?team-fixture")).text();
+  expect(cardNames(html)).toEqual([
+    "Jon Hood",
+    "David Lange",
+    "Kylene Carse",
+    "Courtney Alexander",
+    "Kathy Castro",
+    "Fixture New Hire",
+  ]);
+  await page.goto("/about?team-fixture");
+  const jon = page.getByTestId("team-card").first();
+  await expect(jon.getByTestId("team-bio")).toHaveText("Fixture bio for Jon Hood.");
+  const link = jon.getByRole("link", { name: "LinkedIn profile of Jon Hood (opens in a new tab)" });
+  await expect(link).toHaveAttribute("href", "https://www.linkedin.com/in/fixture-jon-hood");
+  await expect(link).toHaveAttribute("target", "_blank");
+  await expect(page.getByTestId("team-bio")).toHaveCount(1);
 });
 
 test("a team card with no popup is not a button", async ({ page }) => {

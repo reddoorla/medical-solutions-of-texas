@@ -206,7 +206,7 @@ interface TeamMemberDocumentData {
 	name: prismic.KeyTextField;
 	
 	/**
-	 * title field in *Team member*
+	 * job title field in *Team member*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Title, as on the site (e.g. CEO)
