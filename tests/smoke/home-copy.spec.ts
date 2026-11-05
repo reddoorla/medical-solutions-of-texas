@@ -103,9 +103,6 @@ const visible = (html: string) =>
 // Fields Home shows in an attribute, not as text.
 const ATTRIBUTES: Record<string, string> = {
   vosb_logo_alt: "alt",
-  timeline_1_alt: "alt",
-  timeline_2_alt: "alt",
-  timeline_3_alt: "alt",
   partner_logo_alt: "alt",
 };
 
@@ -128,6 +125,19 @@ test("Home reads the document: every field, in every section", async ({ request 
       expect(shown, field).toMatch(new RegExp(`Fixture ${field}(?!\\w)`));
     }
   }
+  // Each field sits where its string sits: in the page's order, so two fields
+  // swapped (the hero's and the closing section's "Contact Us", the problem and
+  // answer columns) fail. "We'll Get You"'s video title mounts later; skip it.
+  const order = Object.keys(HOME_COPY).filter((f) => f !== "video_title");
+  const firstAt = (f: string) => page.search(new RegExp(`Fixture ${f}(?!\\w)`));
+  expect(
+    [...order].sort((a, b) => firstAt(a) - firstAt(b)),
+    "fields in page order",
+  ).toEqual(order);
+  // The VOSB alt is the hero's logo, not the footer's.
+  expect(page).toMatch(/alt="Fixture vosb_logo_alt"[\s\S]*Fixture trusted_text/);
+  // The Capabilities button's accessible name starts with its visible label.
+  expect(page).toContain('aria-label="Fixture capabilities_button (PDF, opens in a new tab)"');
   // "Getting started"'s steps keep their line break.
   for (const step of ["step_1", "step_2", "step_3"]) {
     expect(page, step).toMatch(new RegExp(`Fixture ${step} 1\\s*<br\\s*/?>\\s*Fixture ${step} 2`));

@@ -164,7 +164,11 @@ for (const viewport of VIEWPORTS) {
     expect(violations).toEqual([]);
 
     const contrastPasses =
-      results.passes.find((r) => r.id === "color-contrast")?.nodes.map((n) => n.html) ?? [];
+      results.passes
+        .find((r) => r.id === "color-contrast")
+        // Svelte's hydration markers (<!---->) are not content; a heading
+        // rendered from Prismic lines has them around its <br>.
+        ?.nodes.map((n) => n.html.replace(/<!--[\s\S]*?-->/g, "")) ?? [];
     expect(
       contrastPasses.some((html) => /contract\s*(<br[^>]*>)?\s*expertise/i.test(html)),
       "axe judged the inactive word next to the lit one",

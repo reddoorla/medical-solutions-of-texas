@@ -30,14 +30,14 @@
       "contact_button": {
         "type": "Text",
         "config": {
-          "label": "first button",
+          "label": "first button (shown in capitals)",
           "placeholder": "Leave empty to keep: Contact Us"
         }
       },
       "capabilities_button": {
         "type": "Text",
         "config": {
-          "label": "second button",
+          "label": "second button (shown in capitals)",
           "placeholder": "Leave empty to keep: Capabilities Statement"
         }
       }
@@ -53,38 +53,38 @@
       "we_get_heading": {
         "type": "Text",
         "config": {
-          "label": "heading over the video",
+          "label": "heading over the video (shown in capitals)",
           "placeholder": "Leave empty to keep: We'll Get You"
         }
       },
       "we_get_1": {
         "type": "StructuredText",
         "config": {
-          "label": "first rotating line (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: Priority / Access",
+          "label": "first rotating line (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Priority (Shift+Enter) Access",
           "single": "paragraph"
         }
       },
       "we_get_2": {
         "type": "StructuredText",
         "config": {
-          "label": "second rotating line (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: contract / expertise",
+          "label": "second rotating line (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: contract (Shift+Enter) expertise",
           "single": "paragraph"
         }
       },
       "we_get_3": {
         "type": "StructuredText",
         "config": {
-          "label": "third rotating line (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: Direct / Results",
+          "label": "third rotating line (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Direct (Shift+Enter) Results",
           "single": "paragraph"
         }
       },
       "clinician_heading": {
         "type": "Text",
         "config": {
-          "label": "subheading",
+          "label": "subheading (shown in capitals)",
           "placeholder": "Leave empty to keep: The Clinician in Mind"
         }
       },
@@ -96,97 +96,74 @@
         }
       }
     },
-    "Timelines": {
-      "timeline_1_alt": {
-        "type": "Text",
-        "config": {
-          "label": "first timeline image: description for screen readers",
-          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
-        }
-      },
-      "timeline_2_alt": {
-        "type": "Text",
-        "config": {
-          "label": "second timeline image: description for screen readers",
-          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
-        }
-      },
-      "timeline_3_alt": {
-        "type": "Text",
-        "config": {
-          "label": "third timeline image: description for screen readers",
-          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
-        }
-      }
-    },
     "We Know What to Do": {
       "know_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (shown in capitals)",
           "placeholder": "Leave empty to keep: We Know What to Do"
         }
       },
       "problem_heading": {
         "type": "Text",
         "config": {
-          "label": "left column heading",
+          "label": "left column heading (shown in capitals)",
           "placeholder": "Leave empty to keep: Government Contracts Are"
         }
       },
       "problem_1": {
         "type": "Text",
         "config": {
-          "label": "left column, first word",
+          "label": "left column, first word (shown in capitals)",
           "placeholder": "Leave empty to keep: opaque"
         }
       },
       "problem_2": {
         "type": "Text",
         "config": {
-          "label": "left column, second word",
+          "label": "left column, second word (shown in capitals)",
           "placeholder": "Leave empty to keep: confusing"
         }
       },
       "problem_3": {
         "type": "Text",
         "config": {
-          "label": "left column, third word",
+          "label": "left column, third word (shown in capitals)",
           "placeholder": "Leave empty to keep: inaccessible"
         }
       },
       "answer_heading": {
         "type": "Text",
         "config": {
-          "label": "right column heading",
+          "label": "right column heading (shown in capitals)",
           "placeholder": "Leave empty to keep: What You’ll get With MSOT"
         }
       },
       "answer_1": {
         "type": "Text",
         "config": {
-          "label": "right column, first word",
+          "label": "right column, first word (shown in capitals)",
           "placeholder": "Leave empty to keep: transparency"
         }
       },
       "answer_2": {
         "type": "Text",
         "config": {
-          "label": "right column, second word",
+          "label": "right column, second word (shown in capitals)",
           "placeholder": "Leave empty to keep: understanding"
         }
       },
       "answer_3": {
         "type": "Text",
         "config": {
-          "label": "right column, third word",
+          "label": "right column, third word (shown in capitals)",
           "placeholder": "Leave empty to keep: access"
         }
       },
       "help_heading": {
         "type": "Text",
         "config": {
-          "label": "heading below",
+          "label": "heading below (shown in capitals)",
           "placeholder": "Leave empty to keep: We’re here to help"
         }
       },
@@ -202,7 +179,7 @@
       "partner_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (shown in capitals)",
           "placeholder": "Leave empty to keep: Our Partner"
         }
       },
@@ -225,45 +202,45 @@
       "start_heading_1": {
         "type": "Text",
         "config": {
-          "label": "heading, first line",
+          "label": "heading, first line (shown in capitals)",
           "placeholder": "Leave empty to keep: Getting started"
         }
       },
       "start_heading_2": {
         "type": "Text",
         "config": {
-          "label": "heading, second line",
+          "label": "heading, second line (shown in capitals)",
           "placeholder": "Leave empty to keep: is simple with msot"
         }
       },
       "step_1": {
         "type": "StructuredText",
         "config": {
-          "label": "step 01 (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: establish / goals",
+          "label": "step 01 (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: establish (Shift+Enter) goals",
           "single": "paragraph"
         }
       },
       "step_2": {
         "type": "StructuredText",
         "config": {
-          "label": "step 02 (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: Find Your / access points",
+          "label": "step 02 (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Find Your (Shift+Enter) access points",
           "single": "paragraph"
         }
       },
       "step_3": {
         "type": "StructuredText",
         "config": {
-          "label": "step 03 (Shift+Enter breaks the line)",
-          "placeholder": "Leave empty to keep: Set pricing / direct invoicing",
+          "label": "step 03 (shown in capitals; Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Set pricing (Shift+Enter) direct invoicing",
           "single": "paragraph"
         }
       },
       "start_button": {
         "type": "Text",
         "config": {
-          "label": "button",
+          "label": "button (shown in capitals)",
           "placeholder": "Leave empty to keep: Learn More"
         }
       }
@@ -272,21 +249,21 @@
       "cta_line": {
         "type": "Text",
         "config": {
-          "label": "large line over the photo",
+          "label": "large line over the photo (shown in capitals)",
           "placeholder": "Leave empty to keep: let’s get started"
         }
       },
       "cta_contact_button": {
         "type": "Text",
         "config": {
-          "label": "first button",
+          "label": "first button (shown in capitals)",
           "placeholder": "Leave empty to keep: Contact Us"
         }
       },
       "cta_process_button": {
         "type": "Text",
         "config": {
-          "label": "second button",
+          "label": "second button (shown in capitals)",
           "placeholder": "Leave empty to keep: Learn More"
         }
       }

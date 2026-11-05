@@ -157,7 +157,7 @@ interface HomePageDocumentData {
 	trusted_text: prismic.KeyTextField;
 	
 	/**
-	 * first button field in *Home page*
+	 * first button (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Contact Us
@@ -168,7 +168,7 @@ interface HomePageDocumentData {
 	contact_button: prismic.KeyTextField;
 	
 	/**
-	 * second button field in *Home page*
+	 * second button (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Capabilities Statement
@@ -188,7 +188,7 @@ interface HomePageDocumentData {
 	video_title: prismic.KeyTextField;
 	
 	/**
-	 * heading over the video field in *Home page*
+	 * heading over the video (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: We'll Get You
@@ -199,10 +199,10 @@ interface HomePageDocumentData {
 	we_get_heading: prismic.KeyTextField;
 	
 	/**
-	 * first rotating line (Shift+Enter breaks the line) field in *Home page*
+	 * first rotating line (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: Priority / Access
+	 * - **Placeholder**: Leave empty to keep: Priority (Shift+Enter) Access
 	 * - **API ID Path**: home_page.we_get_1
 	 * - **Tab**: We'll Get You
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -210,10 +210,10 @@ interface HomePageDocumentData {
 	we_get_1: prismic.RichTextField;
 	
 	/**
-	 * second rotating line (Shift+Enter breaks the line) field in *Home page*
+	 * second rotating line (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: contract / expertise
+	 * - **Placeholder**: Leave empty to keep: contract (Shift+Enter) expertise
 	 * - **API ID Path**: home_page.we_get_2
 	 * - **Tab**: We'll Get You
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -221,10 +221,10 @@ interface HomePageDocumentData {
 	we_get_2: prismic.RichTextField;
 	
 	/**
-	 * third rotating line (Shift+Enter breaks the line) field in *Home page*
+	 * third rotating line (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: Direct / Results
+	 * - **Placeholder**: Leave empty to keep: Direct (Shift+Enter) Results
 	 * - **API ID Path**: home_page.we_get_3
 	 * - **Tab**: We'll Get You
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -232,7 +232,7 @@ interface HomePageDocumentData {
 	we_get_3: prismic.RichTextField;
 	
 	/**
-	 * subheading field in *Home page*
+	 * subheading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
@@ -252,38 +252,7 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	clinician_text: prismic.KeyTextField;/**
-	 * first timeline image: description for screen readers field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
-	 * - **API ID Path**: home_page.timeline_1_alt
-	 * - **Tab**: Timelines
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	timeline_1_alt: prismic.KeyTextField;
-	
-	/**
-	 * second timeline image: description for screen readers field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
-	 * - **API ID Path**: home_page.timeline_2_alt
-	 * - **Tab**: Timelines
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	timeline_2_alt: prismic.KeyTextField;
-	
-	/**
-	 * third timeline image: description for screen readers field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
-	 * - **API ID Path**: home_page.timeline_3_alt
-	 * - **Tab**: Timelines
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	timeline_3_alt: prismic.KeyTextField;/**
-	 * heading field in *Home page*
+	 * heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: We Know What to Do
@@ -294,7 +263,7 @@ interface HomePageDocumentData {
 	know_heading: prismic.KeyTextField;
 	
 	/**
-	 * left column heading field in *Home page*
+	 * left column heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Government Contracts Are
@@ -305,7 +274,7 @@ interface HomePageDocumentData {
 	problem_heading: prismic.KeyTextField;
 	
 	/**
-	 * left column, first word field in *Home page*
+	 * left column, first word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: opaque
@@ -316,7 +285,7 @@ interface HomePageDocumentData {
 	problem_1: prismic.KeyTextField;
 	
 	/**
-	 * left column, second word field in *Home page*
+	 * left column, second word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: confusing
@@ -327,7 +296,7 @@ interface HomePageDocumentData {
 	problem_2: prismic.KeyTextField;
 	
 	/**
-	 * left column, third word field in *Home page*
+	 * left column, third word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: inaccessible
@@ -338,7 +307,7 @@ interface HomePageDocumentData {
 	problem_3: prismic.KeyTextField;
 	
 	/**
-	 * right column heading field in *Home page*
+	 * right column heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: What You’ll get With MSOT
@@ -349,7 +318,7 @@ interface HomePageDocumentData {
 	answer_heading: prismic.KeyTextField;
 	
 	/**
-	 * right column, first word field in *Home page*
+	 * right column, first word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: transparency
@@ -360,7 +329,7 @@ interface HomePageDocumentData {
 	answer_1: prismic.KeyTextField;
 	
 	/**
-	 * right column, second word field in *Home page*
+	 * right column, second word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: understanding
@@ -371,7 +340,7 @@ interface HomePageDocumentData {
 	answer_2: prismic.KeyTextField;
 	
 	/**
-	 * right column, third word field in *Home page*
+	 * right column, third word (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: access
@@ -382,7 +351,7 @@ interface HomePageDocumentData {
 	answer_3: prismic.KeyTextField;
 	
 	/**
-	 * heading below field in *Home page*
+	 * heading below (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: We’re here to help
@@ -402,7 +371,7 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	help_text: prismic.KeyTextField;/**
-	 * heading field in *Home page*
+	 * heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Our Partner
@@ -433,7 +402,7 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	partner_logo_alt: prismic.KeyTextField;/**
-	 * heading, first line field in *Home page*
+	 * heading, first line (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Getting started
@@ -444,7 +413,7 @@ interface HomePageDocumentData {
 	start_heading_1: prismic.KeyTextField;
 	
 	/**
-	 * heading, second line field in *Home page*
+	 * heading, second line (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: is simple with msot
@@ -455,10 +424,10 @@ interface HomePageDocumentData {
 	start_heading_2: prismic.KeyTextField;
 	
 	/**
-	 * step 01 (Shift+Enter breaks the line) field in *Home page*
+	 * step 01 (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: establish / goals
+	 * - **Placeholder**: Leave empty to keep: establish (Shift+Enter) goals
 	 * - **API ID Path**: home_page.step_1
 	 * - **Tab**: Getting Started
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -466,10 +435,10 @@ interface HomePageDocumentData {
 	step_1: prismic.RichTextField;
 	
 	/**
-	 * step 02 (Shift+Enter breaks the line) field in *Home page*
+	 * step 02 (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: Find Your / access points
+	 * - **Placeholder**: Leave empty to keep: Find Your (Shift+Enter) access points
 	 * - **API ID Path**: home_page.step_2
 	 * - **Tab**: Getting Started
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -477,10 +446,10 @@ interface HomePageDocumentData {
 	step_2: prismic.RichTextField;
 	
 	/**
-	 * step 03 (Shift+Enter breaks the line) field in *Home page*
+	 * step 03 (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep: Set pricing / direct invoicing
+	 * - **Placeholder**: Leave empty to keep: Set pricing (Shift+Enter) direct invoicing
 	 * - **API ID Path**: home_page.step_3
 	 * - **Tab**: Getting Started
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -488,7 +457,7 @@ interface HomePageDocumentData {
 	step_3: prismic.RichTextField;
 	
 	/**
-	 * button field in *Home page*
+	 * button (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Learn More
@@ -497,7 +466,7 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	start_button: prismic.KeyTextField;/**
-	 * large line over the photo field in *Home page*
+	 * large line over the photo (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: let’s get started
@@ -508,7 +477,7 @@ interface HomePageDocumentData {
 	cta_line: prismic.KeyTextField;
 	
 	/**
-	 * first button field in *Home page*
+	 * first button (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Contact Us
@@ -519,7 +488,7 @@ interface HomePageDocumentData {
 	cta_contact_button: prismic.KeyTextField;
 	
 	/**
-	 * second button field in *Home page*
+	 * second button (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Learn More

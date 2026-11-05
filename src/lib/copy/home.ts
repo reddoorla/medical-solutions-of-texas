@@ -21,12 +21,6 @@ export const HOME_COPY = {
   clinician_heading: "The Clinician in Mind",
   clinician_text:
     "MSOT makes medical care possible from the war fighter all the way to the retiree and all phases of service in between.",
-  timeline_1_alt:
-    "A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 02, deployment overseas: critical medical supplies save lives in forward deployed environments.",
-  timeline_2_alt:
-    "A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 03, raising a family: medical care and procedures for service men, women and family members.",
-  timeline_3_alt:
-    "A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 06, veteran and retiree: caring for our veterans after retirement.",
   know_heading: "We Know What to Do",
   problem_heading: "Government Contracts Are",
   problem_1: "opaque",
@@ -71,9 +65,6 @@ export function homeCopy(doc: HomePageDocument | null) {
     we_get_3: lines(d?.we_get_3, HOME_COPY.we_get_3),
     clinician_heading: text(d?.clinician_heading, HOME_COPY.clinician_heading),
     clinician_text: text(d?.clinician_text, HOME_COPY.clinician_text),
-    timeline_1_alt: text(d?.timeline_1_alt, HOME_COPY.timeline_1_alt),
-    timeline_2_alt: text(d?.timeline_2_alt, HOME_COPY.timeline_2_alt),
-    timeline_3_alt: text(d?.timeline_3_alt, HOME_COPY.timeline_3_alt),
     know_heading: text(d?.know_heading, HOME_COPY.know_heading),
     problem_heading: text(d?.problem_heading, HOME_COPY.problem_heading),
     problem_1: text(d?.problem_1, HOME_COPY.problem_1),

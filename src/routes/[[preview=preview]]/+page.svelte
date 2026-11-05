@@ -365,7 +365,7 @@
     <source media="(min-width: 769px)" srcset={timeline1} width="1440" height="650" />
     <img
       src={timeline1_mobile}
-      alt={copy.timeline_1_alt}
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 02, deployment overseas: critical medical supplies save lives in forward deployed environments."
       width="359"
       height="650"
       loading="lazy"
@@ -471,7 +471,7 @@
     <source media="(min-width: 769px)" srcset={timeline2} width="1440" height="650" />
     <img
       src={timeline2_mobile}
-      alt={copy.timeline_2_alt}
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 03, raising a family: medical care and procedures for service men, women and family members."
       width="359"
       height="650"
       loading="lazy"
@@ -552,7 +552,7 @@
     <source media="(min-width: 769px)" srcset={timeline3} width="1440" height="650" />
     <img
       src={timeline3_mobile}
-      alt={copy.timeline_3_alt}
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 06, veteran and retiree: caring for our veterans after retirement."
       width="359"
       height="650"
       loading="lazy"
