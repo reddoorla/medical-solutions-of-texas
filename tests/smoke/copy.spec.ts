@@ -20,6 +20,12 @@ const REVOGEN_QUOTE_DOD = [
 // after JavaScript, so the rendered check allows exactly that line, on Home only.
 const HELD_HERO_DOD = /Connecting\s+DoD \+ VA\s+Hospitals/gi;
 
+// About's first sentence carries Marketing's approved bridge (Developer Brief
+// Part 2, §12f), the one place the old name is said on purpose: "Department of
+// War (DoW), formerly the Department of Defense (DoD)". Allowed as that whole
+// phrase, on About only; DoD anywhere else on About still fails.
+const ABOUT_DOW_BRIDGE = /Department of War \(DoW\),\s+formerly the Department of Defense \(DoD\)/i;
+
 const DOD = /\bDoD\b|\bD\.O\.D\b|Department of Defense/i;
 const END_USER = /\bend[\s-]?users?\b/i;
 const FORMER_STAFF = /Albert Turgon|Tim Watson/i;
@@ -30,6 +36,8 @@ function stripAllowed(text: string, path: string, allowHeldHero: boolean): strin
     for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
   }
   if (path === "/" && allowHeldHero) t = t.replace(HELD_HERO_DOD, "");
+  // Not global: §12f allows the bridge once, then "DoW" everywhere after.
+  if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
   return t;
 }
 
