@@ -5,7 +5,16 @@ import { test, expect } from "@playwright/test";
 // The expected strings are written out here, not imported from
 // src/lib/identity.ts, so a wrong value there fails this test instead of
 // passing it along.
-const PAGES = ["/", "/about", "/partners", "/process", "/resources", "/contact", "/privacy"];
+const PAGES = [
+  "/",
+  "/about",
+  "/partners",
+  "/process",
+  "/resources",
+  "/contact",
+  "/privacy",
+  "/capabilities",
+];
 
 const FOOTER_LINES = [
   "Medical Solutions of Texas (MSOT)",

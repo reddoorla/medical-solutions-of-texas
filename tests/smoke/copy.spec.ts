@@ -55,6 +55,10 @@ function stripAllowed(text: string, path: string, allowHeldHero: boolean): strin
   if (path === "/" && !allowHeldHero) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
   // Not global: §12f allows the bridge once, then "DoW" everywhere after.
   if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
+  // Timeline step 03 keeps Marketing's approved wording (Part 2 §14b, "approved Oct 29"),
+  // which puts DoW first; the operator, 11-05: use it as approved. Only that exact line,
+  // only on /process, is exempt from the house-order rule.
+  if (path === "/process") t = t.replace(STEP_03_APPROVED, "");
   return t;
 }
 
@@ -77,12 +81,7 @@ function expectCopyRules(text: string, where: string) {
   expect(text, `${where}: DoD outside the Revogen quote`).not.toMatch(DOD);
   expect(text, `${where}: "end user"`).not.toMatch(END_USER);
   expect(text, `${where}: a former staff member`).not.toMatch(FORMER_STAFF);
-  // Timeline step 03 keeps Marketing's approved wording (Part 2 §14b, "approved Oct 29"),
-  // which puts DoW first; the operator, 11-05: use it as approved. Only that exact line is exempt.
-  const houseOrder = text.replace(STEP_03_APPROVED, "");
-  expect(houseOrder, `${where}: house order is "VA and DoW"`).not.toMatch(
-    /\bDoW\s*(?:and|&|\+)\s*VA\b/i,
-  );
+  expect(text, `${where}: house order is "VA and DoW"`).not.toMatch(/\bDoW\s*(?:and|&|\+)\s*VA\b/i);
 }
 
 /** Rendered text with every accordion opened, plus alt, aria-label and title values. */
