@@ -1,4 +1,4 @@
-import { dev } from "$app/env";
+import { building, dev } from "$app/env";
 import { createClient } from "$lib/prismicio";
 import { loadIdentity, mergeIdentity } from "$lib/identity";
 
@@ -19,7 +19,7 @@ export const load = async ({ cookies, fetch }) => {
   const identity =
     dev && cookies.get("msot-settings-fixture")
       ? mergeIdentity((await import("$lib/settings-fixture")).SETTINGS_FIXTURE)
-      : await loadIdentity(createClient({ fetch, cookies }));
+      : await loadIdentity(createClient({ fetch, cookies }), { strict: building });
 
   return {
     isPreviewSession,

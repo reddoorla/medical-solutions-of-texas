@@ -23,9 +23,10 @@
       <p
         class="text-dark md:text-[24px] text-sm leading-normal text-pretty break-words hyphens-manual w-full"
       >
-        4903 Golden Quail, Suite 120 <br />
-        San Antonio, TX 78240 <br /><br />
-        Phone: 833.307.4418 <br />
+        {identity.address.street} <br />
+        {identity.address.city}, {identity.address.region}
+        {identity.address.postalCode} <br /><br />
+        Phone: {identity.phone} <br />
         customerservice&shy;@MedicalSolutionsofTX.com
       </p>
       <BracketButton class="text-dark" href="/contact">Contact Us</BracketButton>

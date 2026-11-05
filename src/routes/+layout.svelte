@@ -6,7 +6,7 @@
   import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
   import { SITE_URL } from "$lib/site";
-  import { PAGE_SEO, routeKey, canonicalUrl } from "$lib/seo";
+  import { PAGE_SEO, pageDescription, routeKey, canonicalUrl } from "$lib/seo";
   import type { Identity } from "$lib/identity";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
@@ -64,7 +64,7 @@
   );
   let metaDescription = $derived(
     (!isError && page.data.meta_description) ||
-      (!isError && PAGE_SEO[route]?.description) ||
+      (!isError && pageDescription(route, data.identity)) ||
       data.identity.defaultDescription,
   );
   // The khaki logo sits on the two light-backed pages. It used to key off the

@@ -11,7 +11,13 @@
 // per visitor. The values below stay as the fallback, field by field: an empty
 // field in the document shows today's wording, so the model can land before
 // the document exists, and a half-filled document changes only what was filled.
-import { isFilled, NotFoundError, type Client } from "@prismicio/client";
+import {
+  isFilled,
+  NotFoundError,
+  RepositoryNotFoundError,
+  type Client,
+  type LinkField,
+} from "@prismicio/client";
 import type { SettingsDocument } from "../../prismicio-types";
 
 export const IDENTITY = {
@@ -104,9 +110,12 @@ export const addressLine = (a: Identity["address"]) =>
 
 export const ADDRESS_LINE = addressLine(IDENTITY.address);
 
-/** "833.307.4418" → "+18333074418". A ten-digit US number gains its +1. */
+/**
+ * "833.307.4418" → "+18333074418". A ten-digit US number gains its +1. An
+ * extension ("ext. 2", "x12", "#3") is not part of the number and is dropped.
+ */
 export function toE164(phone: string): string {
-  const d = phone.replace(/\D/g, "");
+  const d = phone.split(/\s*(?:ext\.?|x|#)\s*\d*\s*$/i)[0].replace(/\D/g, "");
   return `+${d.length === 10 ? `1${d}` : d}`;
 }
 
@@ -123,6 +132,10 @@ export const CODE_IDENTITY: Identity = {
   errorTitle: ERROR_TITLE,
   defaultDescription: DEFAULT_DESCRIPTION,
 };
+
+/** A filled web link's URL, or "". */
+const linkUrl = (link: LinkField | null | undefined) =>
+  isFilled.link(link) && "url" in link && link.url ? link.url.trim() : "";
 
 /** A filled text field, trimmed; else the fallback. */
 const pick = (value: string | null | undefined, fallback: string) =>
@@ -152,7 +165,7 @@ export function mergeIdentity(
     const value = pick(r.value, "");
     if (label && value) contracts.push({ label, value });
   }
-  const sameAs = (d.same_as ?? []).map((r) => pick(r.url, "")).filter(Boolean);
+  const sameAs = (d.same_as ?? []).map((r) => linkUrl(r.url)).filter(Boolean);
   return {
     name: pick(d.name, code.name),
     shortName: pick(d.short_name, code.shortName),
@@ -185,17 +198,34 @@ export function mergeIdentity(
 }
 
 /**
- * The site's identity for this build. With no `settings` document yet (the
- * model reaches Prismic only when it merges to `main`, and Marketing publishes
- * after that), the API answers NotFoundError and today's wording stands. Any
- * other error is a real failure, and the build stops rather than quietly ship
- * the code's values.
+ * The site's identity. With no `settings` document yet (the model reaches
+ * Prismic only when it merges to `main`, and Marketing publishes after that),
+ * the API answers NotFoundError and today's wording stands.
+ *
+ * `strict` is set while building: any other error then stops the build rather
+ * than quietly ship the code's values into a prerendered page. A wrong
+ * repository name (RepositoryNotFoundError, a kind of NotFoundError) is such
+ * an error. At request time (the 404 page, Contact's form, /slice-simulator,
+ * any /preview page) an error falls back to today's wording and is logged: an
+ * editor's expired preview cookie or a Prismic outage must not turn every
+ * server-rendered page into a 500.
  */
-export async function loadIdentity(client: Pick<Client, "getSingle">): Promise<Identity> {
+export async function loadIdentity(
+  client: Pick<Client, "getSingle">,
+  { strict }: { strict: boolean },
+): Promise<Identity> {
   try {
     return mergeIdentity((await client.getSingle("settings")) as SettingsDocument);
   } catch (e) {
-    if (e instanceof NotFoundError) return CODE_IDENTITY;
-    throw e;
+    if (e instanceof NotFoundError && !(e instanceof RepositoryNotFoundError)) {
+      return CODE_IDENTITY;
+    }
+    if (strict) throw e;
+    console.error("settings: falling back to the code's identity:", e);
+    return CODE_IDENTITY;
   }
 }
+
+/** /contact's meta description (Marketing's §12e wording), from the identity. */
+export const contactDescription = (identity: Identity) =>
+  `Contact MSOT at ${addressLine(identity.address)}, or call ${identity.phone}.`;

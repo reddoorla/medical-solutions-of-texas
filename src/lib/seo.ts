@@ -6,7 +6,8 @@
 // `meta_description` wins, then these, then the Prismic document title. On
 // 2026-11-04 every published `page` document had both SEO fields empty and a
 // title like "MSOT | About", so these are what the site shows.
-import { SITE_URL } from "$lib/site";
+import { SITE_URL } from "./site.js";
+import { CODE_IDENTITY, contactDescription, type Identity } from "./identity";
 
 type PageSeo = { title: string; description: string };
 
@@ -38,8 +39,9 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
   "/contact": {
     title: "Contact MSOT · San Antonio, TX",
-    description:
-      "Contact MSOT at 4903 Golden Quail, Suite 120, San Antonio, TX 78240, or call 833.307.4418.",
+    // Built from the identity, so a changed address or phone changes it too;
+    // pageDescription() gives the merged identity's version.
+    description: contactDescription(CODE_IDENTITY),
   },
   // Not in Marketing's table: from the Capabilities Statement's own words.
   "/capabilities": {
@@ -55,6 +57,11 @@ export const PAGE_SEO: Record<string, PageSeo> = {
       "What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.",
   },
 };
+
+/** A route's description from the table, with /contact's from `identity`. */
+export function pageDescription(route: string, identity: Identity): string | undefined {
+  return route === "/contact" ? contactDescription(identity) : PAGE_SEO[route]?.description;
+}
 
 /** The route without the optional `/preview` segment or a trailing slash. */
 export function routeKey(pathname: string): string {

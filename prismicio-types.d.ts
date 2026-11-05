@@ -191,11 +191,11 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
- * Item in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+ * Item in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
  */
 export interface SettingsDocumentDataContractsItem {
 	/**
-	 * label field in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+	 * label field in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: e.g. DLA ECAT Contract (Just in Time)
@@ -205,7 +205,7 @@ export interface SettingsDocumentDataContractsItem {
 	label: prismic.KeyTextField;
 	
 	/**
-	 * number field in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+	 * number field in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: e.g. SPE2DE-25-D-A012
@@ -216,18 +216,18 @@ export interface SettingsDocumentDataContractsItem {
 }
 
 /**
- * Item in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary)*
+ * Item in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.*
  */
 export interface SettingsDocumentDataSameAsItem {
 	/**
-	 * URL field in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary)*
+	 * page field in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.*
 	 *
-	 * - **Field Type**: Text
+	 * - **Field Type**: Link
 	 * - **Placeholder**: The full address, starting https://
 	 * - **API ID Path**: settings.same_as[].url
-	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	url: prismic.KeyTextField;
+	url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
@@ -293,7 +293,7 @@ interface SettingsDocumentData {
 	 * definition (Home, and the search-engine description of MSOT) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…
 	 * - **API ID Path**: settings.definition
 	 * - **Tab**: Who MSOT is
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -304,7 +304,7 @@ interface SettingsDocumentData {
 	 * definition (About, first sentence) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB)… formerly the Department of Defense (DoD)…
 	 * - **API ID Path**: settings.definition_about
 	 * - **Tab**: Who MSOT is
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -315,7 +315,7 @@ interface SettingsDocumentData {
 	 * works with (end of About’s Who we are) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas (MSOT) works with medical-surgical manufacturers and federal healthcare facilities.
 	 * - **API ID Path**: settings.works_with
 	 * - **Tab**: Who MSOT is
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -379,7 +379,7 @@ interface SettingsDocumentData {
 	 * phone, as printed field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: 833.307.4418
+	 * - **Placeholder**: Leave empty to keep: 833.307.4418 (the number only, no extension)
 	 * - **API ID Path**: settings.phone
 	 * - **Tab**: Address and contact
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -440,7 +440,7 @@ interface SettingsDocumentData {
 	naics: prismic.KeyTextField;
 	
 	/**
-	 * contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment) field in *Site settings*
+	 * contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -451,7 +451,7 @@ interface SettingsDocumentData {
 	contracts: prismic.GroupField<Simplify<SettingsDocumentDataContractsItem>>;
 	
 	/**
-	 * pages about MSOT elsewhere (LinkedIn, GSA eLibrary) field in *Site settings*
+	 * pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two. field in *Site settings*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -485,7 +485,7 @@ interface SettingsDocumentData {
 	 * description for a page that has none field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…
 	 * - **API ID Path**: settings.default_description
 	 * - **Tab**: Page titles
 	 * - **Documentation**: https://prismic.io/docs/fields/text

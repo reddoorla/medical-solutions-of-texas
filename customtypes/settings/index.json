@@ -45,21 +45,21 @@
         "type": "Text",
         "config": {
           "label": "definition (Home, and the search-engine description of MSOT)",
-          "placeholder": "Leave empty to keep the current wording"
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…"
         }
       },
       "definition_about": {
         "type": "Text",
         "config": {
           "label": "definition (About, first sentence)",
-          "placeholder": "Leave empty to keep the current wording"
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB)… formerly the Department of Defense (DoD)…"
         }
       },
       "works_with": {
         "type": "Text",
         "config": {
           "label": "works with (end of About’s Who we are)",
-          "placeholder": "Leave empty to keep the current wording"
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) works with medical-surgical manufacturers and federal healthcare facilities."
         }
       }
     },
@@ -103,7 +103,7 @@
         "type": "Text",
         "config": {
           "label": "phone, as printed",
-          "placeholder": "Leave empty to keep: 833.307.4418"
+          "placeholder": "Leave empty to keep: 833.307.4418 (the number only, no extension)"
         }
       },
       "email": {
@@ -146,7 +146,7 @@
       "contracts": {
         "type": "Group",
         "config": {
-          "label": "contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)",
+          "label": "contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.",
           "repeat": true,
           "fields": {
             "label": {
@@ -169,14 +169,15 @@
       "same_as": {
         "type": "Group",
         "config": {
-          "label": "pages about MSOT elsewhere (LinkedIn, GSA eLibrary)",
+          "label": "pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.",
           "repeat": true,
           "fields": {
             "url": {
-              "type": "Text",
+              "type": "Link",
               "config": {
-                "label": "URL",
-                "placeholder": "The full address, starting https://"
+                "label": "page",
+                "placeholder": "The full address, starting https://",
+                "select": "web"
               }
             }
           }
@@ -202,7 +203,7 @@
         "type": "Text",
         "config": {
           "label": "description for a page that has none",
-          "placeholder": "Leave empty to keep the current wording"
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…"
         }
       }
     }

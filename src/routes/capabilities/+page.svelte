@@ -38,6 +38,8 @@
     { vehicle: "FSS", number: identity.fss, note: "VA Schedule 65 II A" },
     { vehicle: "DAPA", number: dapaMed.value, note: "Medical/Surgical" },
     { vehicle: "DAPA", number: dapaEquip.value, note: "Equipment" },
+    // A vehicle Marketing adds in the settings document, past today's four.
+    ...identity.contracts.slice(4).map((c) => ({ vehicle: c.label, number: c.value, note: "" })),
   ]);
 
   const DESIGNATIONS = [
@@ -91,9 +93,9 @@
   <section class="space-y-3">
     <h2 class="text-2xl font-semibold text-white">Contract vehicles</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
-      {#each VEHICLES as v (v.number)}
+      {#each VEHICLES as v, i (i)}
         <dt class="text-white">{v.vehicle}</dt>
-        <dd>{v.number} · {v.note}</dd>
+        <dd>{v.note ? `${v.number} · ${v.note}` : v.number}</dd>
       {/each}
     </dl>
   </section>
