@@ -6,6 +6,7 @@
   import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
   import { SITE_URL } from "$lib/site";
+  import { PAGE_SEO, NOT_FOUND_TITLE, ERROR_TITLE, routeKey, canonicalUrl } from "$lib/seo";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -34,7 +35,7 @@
     "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the VA and DoW.";
 
   // Route-derived title so an untitled Prismic doc still yields a unique, human
-  // <title> ("/process" -> "MSOT | Process") instead of an empty/duplicate tag.
+  // <title> ("/rep-login" -> "MSOT | Rep Login") instead of an empty/duplicate tag.
   function fallbackTitle(pathname: string): string {
     const seg = pathname
       .replace(/^\/+|\/+$/g, "")
@@ -49,10 +50,29 @@
     return `MSOT | ${label}`;
   }
 
+  let route = $derived(routeKey(page.url.pathname));
+  let isError = $derived(page.status >= 400);
+  // A filled Prismic SEO field wins, then Marketing's per-page wording
+  // ($lib/seo), then the Prismic document title. An error page never takes its
+  // title from the URL: it once read "MSOT | Llms.txt".
   let pageTitle = $derived(
-    page.data.title || page.data.meta_title || fallbackTitle(page.url.pathname),
+    isError
+      ? page.status === 404
+        ? NOT_FOUND_TITLE
+        : ERROR_TITLE
+      : page.data.meta_title ||
+          PAGE_SEO[route]?.title ||
+          page.data.title ||
+          fallbackTitle(page.url.pathname),
   );
-  let metaDescription = $derived(page.data.meta_description || DEFAULT_DESCRIPTION);
+  let metaDescription = $derived(
+    (!isError && page.data.meta_description) ||
+      (!isError && PAGE_SEO[route]?.description) ||
+      DEFAULT_DESCRIPTION,
+  );
+  // The khaki logo sits on the two light-backed pages. It used to key off the
+  // title "MSOT | Resources", which the titles above would have broken silently.
+  const KHAKI_LOGO_ROUTES = new Set(["/resources", "/contact"]);
 
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
@@ -126,7 +146,12 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
-  <meta property="og:title" content={page.data.meta_title || pageTitle} />
+  <!-- No canonical on an error, or on a page that asks not to be indexed. -->
+  {#if !isError && !page.data.noindex}
+    <link rel="canonical" href={canonicalUrl(page.url.pathname)} />
+    <meta property="og:url" content={canonicalUrl(page.url.pathname)} />
+  {/if}
+  <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={metaDescription} />
   <meta property="og:image" content={page.data.meta_image ?? `${SITE_URL}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
@@ -166,10 +191,7 @@
         : ''}"
     >
       <img
-        src={(page.data.title === "MSOT | Resources" || page.data.title === "MSOT | Contact") &&
-        !isTransitioning
-          ? msotLogoKhaki
-          : msotLogo}
+        src={KHAKI_LOGO_ROUTES.has(route) && !isTransitioning ? msotLogoKhaki : msotLogo}
         alt="msot logo"
       />
     </a>

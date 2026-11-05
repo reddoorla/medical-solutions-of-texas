@@ -164,7 +164,8 @@
     color: #998b6a;
   }
 
-  h1 {
+  h1,
+  .h1 {
     font-family: "barlow-condensed";
     font-size: 140px;
     font-style: normal;
@@ -173,12 +174,19 @@
     text-transform: uppercase;
   }
 
-  h2 {
+  h2,
+  .h2 {
     font-size: 80px;
     font-style: normal;
     font-weight: 300;
     line-height: 120%;
     text-transform: uppercase;
+  }
+
+  /* An <h1> styled as an h2 (Resources, Contact) keeps the h2's body font,
+     not the h1 rule's barlow-condensed, which .h2 doesn't otherwise reset. */
+  h1.h2 {
+    font-family: inherit;
   }
 
   h3 {
@@ -225,22 +233,26 @@
   }
 
   @media only screen and (max-width: 1340px) {
-    h1 {
+    h1,
+    .h1 {
       font-size: 110px;
     }
   }
 
   @media only screen and (max-width: 1024px) {
-    h1 {
+    h1,
+    .h1 {
       font-size: 82px;
     }
   }
 
   @media only screen and (max-width: 768px) {
-    h1 {
+    h1,
+    .h1 {
       font-size: 60px;
     }
-    h2 {
+    h2,
+    .h2 {
       font-size: 48px;
     }
     h4,
@@ -254,7 +266,8 @@
   }
 
   @media only screen and (max-width: 560px) {
-    h1 {
+    h1,
+    .h1 {
       font-size: 50px;
     }
   }
