@@ -160,9 +160,6 @@
       surgeonsObserver.disconnect();
     };
   });
-
-  import type { PageProps } from "./$types";
-  let { data }: PageProps = $props();
 </script>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
