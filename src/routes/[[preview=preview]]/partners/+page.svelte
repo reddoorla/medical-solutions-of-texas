@@ -49,8 +49,6 @@
   ];
 </script>
 
-<svelte:head><title>MSOT | Partners</title></svelte:head>
-
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />
 <div
   class="w-screen h-[20vh] fixed left-0 top-0 -z-10 bg-gradient-to-b from-[#140F09] via-[#140F09] to-transparent opacity-55"
@@ -59,8 +57,10 @@
 
 <div class="w-full h-screen">
   <ContentWidth class="h-full flex flex-row justify-between items-center py-32 relative">
-    <h1 class="text-mid mb-12 opacity-60 w-fit">Our</h1>
-    <h1 class="text-mid mb-12 opacity-60 w-fit">Partners</h1>
+    <!-- One heading for the page, spread across the band as two words were. -->
+    <h1 class="text-mid mb-12 opacity-60 w-full flex flex-row justify-between">
+      <span>Our</span> <span>Partners</span>
+    </h1>
   </ContentWidth>
 </div>
 

@@ -37,7 +37,6 @@
   });
 </script>
 
-<svelte:head><title>MSOT | Process</title></svelte:head>
 <svelte:window bind:innerHeight={viewportHeight} />
 
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />
@@ -48,8 +47,10 @@
 
 <div class="w-full h-screen">
   <ContentWidth class="h-full flex flex-row justify-between items-center py-32 relative">
-    <h1 class="text-mid mb-12 opacity-60 w-fit">Our</h1>
-    <h1 class="text-mid mb-12 opacity-60 w-fit">Process</h1>
+    <!-- One heading for the page, spread across the band as two words were. -->
+    <h1 class="text-mid mb-12 opacity-60 w-full flex flex-row justify-between">
+      <span>Our</span> <span>Process</span>
+    </h1>
   </ContentWidth>
 </div>
 

@@ -7,7 +7,7 @@
 
 <section class="h-96 bg-mid py-10">
   <ContentWidth class="h-full flex flex-col justify-end">
-    <h2 class="text-dark">Resources</h2>
+    <h1 class="h2 text-dark">Resources</h1>
   </ContentWidth>
 </section>
 <section class="bg-mid">

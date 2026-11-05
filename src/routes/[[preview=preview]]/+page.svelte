@@ -162,12 +162,7 @@
       surgeonsObserver.disconnect();
     };
   });
-
-  import type { PageProps } from "./$types";
-  let { data }: PageProps = $props();
 </script>
-
-<svelte:head><title>{data.title || "Medical Solutions of Texas"}</title></svelte:head>
 
 <svelte:window bind:innerWidth={viewportWidth} bind:innerHeight={viewportHeight} />
 
@@ -545,22 +540,23 @@
   class="flex flex-col items-start justify-end py-32"
   darken
 >
-  <div class="h-44 overflow-hidden relative w-full">
-    <h1 class=" text-mid add-outline absolute bottom-0 left-0 opacity-40">let’s get started</h1>
-    <h1
-      class="outlined absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
+  <!-- Decoration: the buttons below carry the call to action, so this line is not a heading. -->
+  <div class="h-44 overflow-hidden relative w-full" aria-hidden="true">
+    <div class="h1 text-mid add-outline absolute bottom-0 left-0 opacity-40">let’s get started</div>
+    <div
+      class="h1 outlined absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
         ? 'opacity-100  delay-700'
         : 'opacity-0'}"
     >
       let’s get started
-    </h1>
-    <h1
-      class=" text-mid add-outline absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
+    </div>
+    <div
+      class="h1 text-mid add-outline absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
         ? 'opacity-100 delay-[1400ms]'
         : 'opacity-0'}"
     >
       let’s get started
-    </h1>
+    </div>
   </div>
   <div class="flex flex-row gap-6 ml-2" bind:this={ctaTrigger}>
     <BracketButton class="text-mid" href="/contact">Contact Us</BracketButton>
