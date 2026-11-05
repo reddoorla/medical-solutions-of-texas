@@ -127,25 +127,28 @@
       "timeline": {
         "type": "Group",
         "config": {
-          "label": "the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.",
+          "label": "the steps, in order",
           "repeat": true,
           "fields": {
             "timing": {
               "type": "Text",
               "config": {
-                "label": "timing (e.g. Week 1)"
+                "label": "timing (e.g. Week 1)",
+                "placeholder": "May be left empty."
               }
             },
             "title": {
               "type": "Text",
               "config": {
-                "label": "title"
+                "label": "title",
+                "placeholder": "Needed, or the row is not shown. Numbered 01, 02, … as they stand; the rows replace the whole timeline, and with none the page keeps today's five."
               }
             },
             "text": {
               "type": "Text",
               "config": {
-                "label": "text"
+                "label": "text",
+                "placeholder": "May be left empty."
               }
             }
           }
@@ -163,19 +166,21 @@
       "faq": {
         "type": "Group",
         "config": {
-          "label": "the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.",
+          "label": "the questions, top to bottom",
           "repeat": true,
           "fields": {
             "question": {
               "type": "Text",
               "config": {
-                "label": "question"
+                "label": "question",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two."
               }
             },
             "answer": {
               "type": "StructuredText",
               "config": {
                 "label": "answer (each paragraph is a line)",
+                "placeholder": "Enter starts a new line, shown as typed. Left empty, the row shows its title alone.",
                 "multi": "paragraph"
               }
             }

@@ -930,34 +930,34 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
- * Item in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+ * Item in *Process page → the steps, in order*
  */
 export interface ProcessPageDocumentDataTimelineItem {
 	/**
-	 * timing (e.g. Week 1) field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 * timing (e.g. Week 1) field in *Process page → the steps, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: May be left empty.
 	 * - **API ID Path**: process_page.timeline[].timing
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	timing: prismic.KeyTextField;
 	
 	/**
-	 * title field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 * title field in *Process page → the steps, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Needed, or the row is not shown. Numbered 01, 02, … as they stand; the rows replace the whole timeline, and with none the page keeps today's five.
 	 * - **API ID Path**: process_page.timeline[].title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
 	
 	/**
-	 * text field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 * text field in *Process page → the steps, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: May be left empty.
 	 * - **API ID Path**: process_page.timeline[].text
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -965,24 +965,24 @@ export interface ProcessPageDocumentDataTimelineItem {
 }
 
 /**
- * Item in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+ * Item in *Process page → the questions, top to bottom*
  */
 export interface ProcessPageDocumentDataFaqItem {
 	/**
-	 * question field in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+	 * question field in *Process page → the questions, top to bottom*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two.
 	 * - **API ID Path**: process_page.faq[].question
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	question: prismic.KeyTextField;
 	
 	/**
-	 * answer (each paragraph is a line) field in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+	 * answer (each paragraph is a line) field in *Process page → the questions, top to bottom*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Enter starts a new line, shown as typed. Left empty, the row shows its title alone.
 	 * - **API ID Path**: process_page.faq[].answer
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
@@ -1164,7 +1164,7 @@ interface ProcessPageDocumentData {
 	timeline_heading: prismic.KeyTextField;
 	
 	/**
-	 * the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five. field in *Process page*
+	 * the steps, in order field in *Process page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -1184,7 +1184,7 @@ interface ProcessPageDocumentData {
 	faq_heading: prismic.KeyTextField;
 	
 	/**
-	 * the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two. field in *Process page*
+	 * the questions, top to bottom field in *Process page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
