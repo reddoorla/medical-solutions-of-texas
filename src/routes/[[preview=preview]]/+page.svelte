@@ -318,7 +318,7 @@
           {/if}
         </div>
         <div class="bg-mid relative pt-4 w-full">
-          <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The End User In Mind</h3>
+          <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The Clinician in Mind</h3>
           <div class="text-dark w-full max-w-80">
             MSOT makes medical care possible from the war fighter all the way to the retiree and all
             phases of service inbetween.

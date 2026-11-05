@@ -29,9 +29,9 @@
   // or a blank/duplicate <title>.
   const SITE_NAME = "Medical Solutions of Texas";
   // Last-resort description, derived from the real homepage copy (VOSB status +
-  // navigating government healthcare contracting for the DoD/VA).
+  // navigating government healthcare contracting for the VA and DoW).
   const DEFAULT_DESCRIPTION =
-    "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the DoD and VA.";
+    "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the VA and DoW.";
 
   // Route-derived title so an untitled Prismic doc still yields a unique, human
   // <title> ("/process" -> "MSOT | Process") instead of an empty/duplicate tag.

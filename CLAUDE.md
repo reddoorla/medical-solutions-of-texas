@@ -2,7 +2,7 @@
 
 The marketing site for **Medical Solutions of Texas** — a Veteran-Owned Small
 Business that helps medical vendors navigate government healthcare contracting
-for the DoD and VA — at `medicalsolutionsoftx.com`. SvelteKit 2 / Svelte 5 /
+for the VA and DoW — at `medicalsolutionsoftx.com`. SvelteKit 2 / Svelte 5 /
 Tailwind v4 / Prismic (repo `msot`), prerendered onto Netlify. The README at
 the repo root is the Reddoor scaffold's, inherited at the fork and never
 replaced; it does not describe this site.

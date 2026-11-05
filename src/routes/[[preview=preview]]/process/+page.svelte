@@ -175,7 +175,7 @@
     <Accordian
       accordianProps={[
         {
-          label: "Why does VOSB status give priority for winning VA and DoD contracts?",
+          label: "Why does VOSB status give priority for winning VA and DoW contracts?",
           content:
             "In the 2016 Kingdomware Techs., Inc. v. United States case, the Supreme Court unanimously affirmed the Rule of Two provision of a 2006 federal law. The Rule of Two mandates that VA contracts shall be set aside for veteran-owned small businesses if at least two such businesses exist that can perform the work at a reasonable price. This results in a wide swath of contracts set aside specifically for veteran-owned businesses, ones that VOSBs, like MSOT, have priority in winning.",
         },
