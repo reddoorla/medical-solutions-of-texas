@@ -8,13 +8,15 @@
   const year = new Date().getFullYear();
 </script>
 
-<div class="label text-white flex flex-col gap-1 leading-relaxed" data-testid="footer-identity">
+<div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
   <p class="label font-semibold">{IDENTITY.name} ({IDENTITY.shortName})</p>
   <p class="label">{IDENTITY.businessType} · {IDENTITY.tagline}</p>
   <address class="label not-italic">
     {ADDRESS_LINE} ·
     <a href={`tel:${IDENTITY.phoneE164}`} class="hover:text-light">{IDENTITY.phone}</a> ·
-    <a href={`mailto:${IDENTITY.email}`} class="hover:text-light break-words">{IDENTITY.email}</a>
+    <a href={`mailto:${IDENTITY.email}`} class="hover:text-light [overflow-wrap:anywhere]"
+      >{IDENTITY.email}</a
+    >
   </address>
   <p class="label">UEI {IDENTITY.uei} · CAGE {IDENTITY.cage} · FSS {IDENTITY.fss}</p>
   <p class="label">

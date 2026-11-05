@@ -52,13 +52,21 @@ for (const path of PAGES) {
     const t = squash(text(footer));
     for (const line of FOOTER_LINES) expect(t).toContain(squash(line));
     expect(t).toMatch(/©\d{4} OJH Services/);
+    // The links must dial and mail what the text says.
+    expect(footer).toContain('href="tel:+18333074418"');
+    expect(footer).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
   });
 }
 
 test("Home opens with the §12b definition, word for word, in the server HTML", async ({
   request,
 }) => {
-  expect(text(await (await request.get("/")).text())).toContain(DEFINITION);
+  const t = text(await (await request.get("/")).text());
+  expect(t).toContain(DEFINITION);
+  // §12b: directly under the hero, above "Contact Us / Capabilities Statement".
+  expect(t.indexOf(DEFINITION), "the definition sits above the buttons").toBeLessThan(
+    t.indexOf("Capabilities Statement"),
+  );
 });
 
 test("About opens with the bridged definition and ends 'Who we are' with the works-with line", async ({
@@ -80,4 +88,7 @@ test("Contact shows the confirmed address, phone and email", async ({ request })
   expect(t).toContain("4903 Golden Quail, Suite 120 San Antonio, TX 78240");
   expect(t).toContain("Phone: 833.307.4418 info@MedicalSolutionsofTX.com");
   expect(t).not.toContain("210.744.9686");
+  const html = await (await request.get("/contact")).text();
+  expect(html).toContain('href="tel:+18333074418"');
+  expect(html).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
 });

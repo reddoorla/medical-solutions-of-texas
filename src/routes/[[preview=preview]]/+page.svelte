@@ -566,7 +566,7 @@
 
 <footer class="py-6 bg-[#140F09]">
   <ContentWidth class="flex flex-row gap-6 justify-between items-start">
-    <div class="flex flex-col gap-4 items-start">
+    <div class="flex flex-col gap-4 items-start min-w-0">
       <a href="/" class="bump self-start h-16 md:h-20 relative"
         ><img
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
