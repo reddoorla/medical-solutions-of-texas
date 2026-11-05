@@ -34,37 +34,9 @@
     window.addEventListener("scroll", handleScroll);
   });
 
-  // MSOT Marketing's approved steps (Developer Brief Part 2, §14b, Oct 29,
-  // 2026), word for word but one: step 03's line puts VA first, the house order
-  // Marketing set in §12e. They replace timeline.svg, whose words were shapes and
-  // which said "Manufacturer Alpha" and 30–90 days.
-  const TIMELINE = [
-    {
-      timing: "Week 1",
-      title: "Kickoff and contract plan",
-      text: "MSOT reviews your products and picks the right path: ECAT, FSS, DAPA or a mix.",
-    },
-    {
-      timing: "Typically 45 working days or less",
-      title: "Approval and ECAT listing",
-      text: "MSOT prepares and submits the paperwork, and your products appear on ECAT once approved.",
-    },
-    {
-      timing: "About 7 days",
-      title: "Rollout to DoW bases and VA facilities",
-      text: "Your products become available to order at DoW and VA treatment facilities.",
-    },
-    {
-      timing: "Ongoing",
-      title: "Orders and cases ship",
-      text: "MSOT handles orders, invoicing and delivery from this point on.",
-    },
-    {
-      timing: "As needed",
-      title: "Contract maintenance",
-      text: "MSOT keeps your contracts current with price updates, new items and renewals.",
-    },
-  ];
+  let { data } = $props();
+  // The timeline is Marketing's approved steps (§14b); see $lib/copy/process.
+  const copy = $derived(data.copy);
 </script>
 
 <svelte:window bind:innerHeight={viewportHeight} />
@@ -79,7 +51,7 @@
   <ContentWidth class="h-full flex flex-row justify-between items-center py-32 relative">
     <!-- One heading for the page, spread across the band as two words were. -->
     <h1 class="text-mid mb-12 opacity-60 w-full flex flex-row justify-between">
-      <span>Our</span> <span>Process</span>
+      <span>{copy.heading_left}</span> <span>{copy.heading_right}</span>
     </h1>
   </ContentWidth>
 </div>
@@ -99,15 +71,12 @@
         class="text-mid absolute top-0 left-1/2 text-nowrap"
         style="transform:translate(-50%, calc(-50% + 3px))"
       >
-        Simplifying Complexity
+        {copy.simplifying_heading}
       </h4>
-      <p class="text-white text-center mt-12">Government Contracting is Complex...</p>
+      <p class="text-white text-center mt-12">{copy.complex_line}</p>
 
       <div class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg">
-        …and often feels like continuously slamming your head into a wall. We know, we’ve been
-        there. You find your access is expired. Late payments, inability to collect a PO, supply
-        chain delays or mismanagement. You’re always “almost there” to get that next contract, but
-        never quite get across the finish line. This isn’t the way things should be.
+        {copy.complex_text}
       </div>
     </div>
   </div>
@@ -115,12 +84,10 @@
     <div
       class="w-full p-6 sm:p-12 lg:px-40 relative flex flex-col items-center justify-center gap-8 mb-12"
     >
-      <p class="text-white text-center">Let’s Simplify It…</p>
+      <p class="text-white text-center">{copy.simplify_line}</p>
 
       <div class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg">
-        ...and make things work. We’ve done this for years, with many partners and many situations
-        and will help get you where you need to be. With experience comes procedure, with procedure
-        comes consistency, efficiency, and results.
+        {copy.simplify_text}
       </div>
     </div>
   </div>
@@ -136,7 +103,7 @@
       />
       <VimeoGate>
         <iframe
-          title="background video"
+          title={copy.video_title}
           src="https://player.vimeo.com/video/1025187591?background=1&dnt=1"
           class="absolute w-full aspect-video top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 contrast-[1.15]"
           frameborder="0"
@@ -144,7 +111,9 @@
       </VimeoGate>
       <div class="w-full h-full absolute top-0 left-0 bg-darken-gradient"></div>
       <div class="w-full h-full absolute top-0 left-0 bg-mid mix-blend-multiply"></div>
-      <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">OUR PROCESS</h2>
+      <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">
+        {copy.video_heading}
+      </h2>
     </div>
     <div
       bind:this={threeStepTrigger}
@@ -157,10 +126,11 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <h5 class="text-dark mt-4">
-          <span class="text-[#998B6A]">01</span> Refine
+          <span class="text-[#998B6A]">01</span>
+          {copy.step_1_title}
         </h5>
         <div class="text-dark mt-8 text-[24px] leading-normal">
-          We’ll isolate the best contracts and options for your company
+          {copy.step_1_text}
         </div>
       </div>
       <div
@@ -170,10 +140,11 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <h5 class="text-dark mt-4">
-          <span class="text-[#998B6A]">02</span> Guide
+          <span class="text-[#998B6A]">02</span>
+          {copy.step_2_title}
         </h5>
         <div class="text-dark mt-8 text-[24px] leading-normal">
-          We’ll guide you through the bureaucracy and paperwork, and get your application in
+          {copy.step_2_text}
         </div>
       </div>
       <div
@@ -183,10 +154,11 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <h5 class="text-dark mt-4">
-          <span class="text-[#998B6A]">03</span> Connect
+          <span class="text-[#998B6A]">03</span>
+          {copy.step_3_title}
         </h5>
         <div class="text-dark mt-8 text-[24px] leading-normal">
-          We’ll get you in the room with the right people to help you build further relationships
+          {copy.step_3_text}
         </div>
       </div>
     </div>
@@ -195,11 +167,11 @@
 
 <section class="bg-light pt-32">
   <ContentWidth>
-    <h3 class="text-dark mb-10">What does a typical timeline look like?</h3>
+    <h3 class="text-dark mb-10">{copy.timeline_heading}</h3>
     <!-- The step cards reuse the "01 Refine" pattern above; Erik decides
          whether the timeline gets its own design. -->
     <ol class="w-full grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8" data-testid="timeline">
-      {#each TIMELINE as step, i (step.title)}
+      {#each copy.timeline as step, i (i)}
         <li class="w-full relative">
           <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
           <!-- Two lines held at lg, so a timing that wraps (step 02, 1024–1200px)
@@ -218,21 +190,8 @@
 
 <section class="bg-light pt-32 pb-48">
   <ContentWidth>
-    <h3 class="text-dark mb-10">Common Questions & Our Answers</h3>
-    <Accordian
-      accordianProps={[
-        {
-          label: "Why does VOSB status give priority for winning VA and DoW contracts?",
-          content:
-            "In the 2016 Kingdomware Techs., Inc. v. United States case, the Supreme Court unanimously affirmed the Rule of Two provision of a 2006 federal law. The Rule of Two mandates that VA contracts shall be set aside for veteran-owned small businesses if at least two such businesses exist that can perform the work at a reasonable price. This results in a wide swath of contracts set aside specifically for veteran-owned businesses, ones that VOSBs, like MSOT, have priority in winning.",
-        },
-        {
-          label: "What does our typical timeline look like after winning a contract?",
-          content:
-            "The timeline for this process begins with a medical manufacturer getting approval on the ECAT, typically 45 working days or less. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to VA facilities and military bases takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surg equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
-        },
-      ]}
-    />
+    <h3 class="text-dark mb-10">{copy.faq_heading}</h3>
+    <Accordian accordianProps={copy.faq.map((r) => ({ label: r.question, content: r.answer }))} />
   </ContentWidth>
 </section>
 

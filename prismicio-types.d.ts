@@ -930,6 +930,283 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Item in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+ */
+export interface ProcessPageDocumentDataTimelineItem {
+	/**
+	 * timing (e.g. Week 1) field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.timeline[].timing
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timing: prismic.KeyTextField;
+	
+	/**
+	 * title field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.timeline[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * text field in *Process page → the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five.*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.timeline[].text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	text: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+ */
+export interface ProcessPageDocumentDataFaqItem {
+	/**
+	 * question field in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.faq[].question
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	question: prismic.KeyTextField;
+	
+	/**
+	 * answer (each paragraph is a line) field in *Process page → the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two.*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.faq[].answer
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	answer: prismic.RichTextField;
+}
+
+/**
+ * Content for Process page documents
+ */
+interface ProcessPageDocumentData {
+	/**
+	 * page heading, left word field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our
+	 * - **API ID Path**: process_page.heading_left
+	 * - **Tab**: Our Process
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_left: prismic.KeyTextField;
+	
+	/**
+	 * page heading, right word field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Process
+	 * - **API ID Path**: process_page.heading_right
+	 * - **Tab**: Our Process
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_right: prismic.KeyTextField;/**
+	 * box heading field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Simplifying Complexity
+	 * - **API ID Path**: process_page.simplifying_heading
+	 * - **Tab**: Simplifying Complexity
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	simplifying_heading: prismic.KeyTextField;
+	
+	/**
+	 * line in the box field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Government Contracting is Complex...
+	 * - **API ID Path**: process_page.complex_line
+	 * - **Tab**: Simplifying Complexity
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	complex_line: prismic.KeyTextField;
+	
+	/**
+	 * paragraph in the box field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: …and often feels like continuously slamming your head into a wall. We know, we’ve been there. You find your access is expired. Late payments, inability to collect a PO, supply chain delays or mismanagement. You’re always “almost there” to get that next contract, but never quite get across the finish line. This isn’t the way things should be.
+	 * - **API ID Path**: process_page.complex_text
+	 * - **Tab**: Simplifying Complexity
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	complex_text: prismic.KeyTextField;
+	
+	/**
+	 * line under the box field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Let’s Simplify It…
+	 * - **API ID Path**: process_page.simplify_line
+	 * - **Tab**: Simplifying Complexity
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	simplify_line: prismic.KeyTextField;
+	
+	/**
+	 * paragraph under the box field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: ...and make things work. We’ve done this for years, with many partners and many situations and will help get you where you need to be. With experience comes procedure, with procedure comes consistency, efficiency, and results.
+	 * - **API ID Path**: process_page.simplify_text
+	 * - **Tab**: Simplifying Complexity
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	simplify_text: prismic.KeyTextField;/**
+	 * background video's title (read by screen readers) field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: background video
+	 * - **API ID Path**: process_page.video_title
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	video_title: prismic.KeyTextField;
+	
+	/**
+	 * heading on the video field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: OUR PROCESS
+	 * - **API ID Path**: process_page.video_heading
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	video_heading: prismic.KeyTextField;
+	
+	/**
+	 * step 01 title field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Refine
+	 * - **API ID Path**: process_page.step_1_title
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_1_title: prismic.KeyTextField;
+	
+	/**
+	 * step 01 text field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’ll isolate the best contracts and options for your company
+	 * - **API ID Path**: process_page.step_1_text
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_1_text: prismic.KeyTextField;
+	
+	/**
+	 * step 02 title field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Guide
+	 * - **API ID Path**: process_page.step_2_title
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_2_title: prismic.KeyTextField;
+	
+	/**
+	 * step 02 text field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’ll guide you through the bureaucracy and paperwork, and get your application in
+	 * - **API ID Path**: process_page.step_2_text
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_2_text: prismic.KeyTextField;
+	
+	/**
+	 * step 03 title field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Connect
+	 * - **API ID Path**: process_page.step_3_title
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_3_title: prismic.KeyTextField;
+	
+	/**
+	 * step 03 text field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’ll get you in the room with the right people to help you build further relationships
+	 * - **API ID Path**: process_page.step_3_text
+	 * - **Tab**: Refine, Guide, Connect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	step_3_text: prismic.KeyTextField;/**
+	 * heading field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What does a typical timeline look like?
+	 * - **API ID Path**: process_page.timeline_heading
+	 * - **Tab**: Timeline
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_heading: prismic.KeyTextField;
+	
+	/**
+	 * the steps, in order (numbered 01, 02, … as they stand). A step needs a title, or it is not shown. With no steps, the page keeps today's five. field in *Process page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.timeline[]
+	 * - **Tab**: Timeline
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	timeline: prismic.GroupField<Simplify<ProcessPageDocumentDataTimelineItem>>;/**
+	 * heading field in *Process page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Common Questions & Our Answers
+	 * - **API ID Path**: process_page.faq_heading
+	 * - **Tab**: Common Questions
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	faq_heading: prismic.KeyTextField;
+	
+	/**
+	 * the questions, top to bottom. A row needs a question, or it is not shown; an answer left empty shows the question alone. With no rows, the page keeps today's two. field in *Process page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: process_page.faq[]
+	 * - **Tab**: Common Questions
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	faq: prismic.GroupField<Simplify<ProcessPageDocumentDataFaqItem>>;
+}
+
+/**
+ * Process page document from Prismic
+ *
+ * - **API ID**: `process_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProcessPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ProcessPageDocumentData>, "process_page", Lang>;
+
+/**
  * Item in *Site settings → more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.*
  */
 export interface SettingsDocumentDataMoreContractsItem {
@@ -1369,7 +1646,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | ProcessPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -1435,6 +1712,10 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			ProcessPageDocument,
+			ProcessPageDocumentData,
+			ProcessPageDocumentDataTimelineItem,
+			ProcessPageDocumentDataFaqItem,
 			SettingsDocument,
 			SettingsDocumentData,
 			SettingsDocumentDataMoreContractsItem,
