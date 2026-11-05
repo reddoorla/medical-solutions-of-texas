@@ -9,14 +9,14 @@
       "name": {
         "type": "Text",
         "config": {
-          "label": "name",
+          "label": "name. Page titles and the Contact page's SEO description say \"MSOT\" in their own wording: to change those, ask Reddoor.",
           "placeholder": "Leave empty to keep: Medical Solutions of Texas"
         }
       },
       "short_name": {
         "type": "Text",
         "config": {
-          "label": "short name",
+          "label": "short name. Page titles and the Contact page's SEO description keep \"MSOT\" in their own wording: to change those, ask Reddoor.",
           "placeholder": "Leave empty to keep: MSOT"
         }
       },

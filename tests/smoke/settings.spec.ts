@@ -46,6 +46,15 @@ test("while building, any other error stops the build instead of shipping the co
   await expect(loadIdentity(wrongRepo, { strict: true })).rejects.toThrow("Repository not found");
 });
 
+test('only the client\'s own "No documents were returned" counts as no document', async () => {
+  // Any other 404 from the Content API carries its response: at build it stops
+  // the build like any other error, rather than pass as "no document yet".
+  const otherNotFound = client(async () => {
+    throw new NotFoundError("Some other 404", "", { type: "api_notfound_error" });
+  });
+  await expect(loadIdentity(otherNotFound, { strict: true })).rejects.toThrow("Some other 404");
+});
+
 test("at request time an error (an expired preview cookie, an outage) falls back to today's wording", async () => {
   const expired = client(async () => {
     throw new Error("This preview token has expired");
@@ -139,7 +148,19 @@ test("toE164 gives today's hard-coded form for today's phone, and drops an exten
   // A number with its own country code keeps it; anything not dialable gives
   // "", and the pages then print the phone with no call link.
   expect(toE164("+44 20 7946 0958")).toBe("+442079460958");
-  for (const bad of ["TBD", "Call us", "833.307.44189", "ext 12 833.307.4418"]) {
+  for (const bad of [
+    "TBD",
+    "Call us",
+    "833.307.44189",
+    "ext 12 833.307.4418",
+    // A digit short or long, or the "1" misplaced: never a wrong number.
+    "+1 833 307 441",
+    "+1 833 307 44181",
+    "1833307441",
+    "+833.307.4418",
+    "+44 1234",
+    "+44 1234 5678 9012 3456",
+  ]) {
     expect(toE164(bad), bad).toBe("");
   }
   expect(dashedPhone("+18333074418")).toBe("+1-833-307-4418");

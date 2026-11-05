@@ -113,17 +113,26 @@ export const ADDRESS_LINE = addressLine(IDENTITY.address);
 /**
  * "833.307.4418" → "+18333074418": the first North American number in the
  * field, so an extension in any wording ("ext. 2", "extension 2", "press 2")
- * or a second number is not dialled. A number written with its own "+"
- * country code ("+44 20 7946 0958") keeps it. Anything else ("TBD", a typo
- * with a digit too many) gives "": the pages then print the phone with no
- * call link, rather than a link that dials the wrong number.
+ * or a second number is not dialled. A North American area code and exchange
+ * never start with 0 or 1, so a number missing a digit cannot be read as one
+ * with its "1" taken for the area code. A number written with its own "+"
+ * country code ("+44 20 7946 0958") keeps it, if it has 8 to 15 digits, does
+ * not start "+1" (a "+1" number that is not North American is a typo), and is
+ * not ten digits shaped like a North American number.
+ * Anything else ("TBD", a typo with a digit too many or too few) gives "":
+ * the pages then print the phone with no call link, rather than a link that
+ * dials the wrong number.
  */
 export function toE164(phone: string): string {
-  const m = phone.match(/^[^\d+]*(?:\+?1\D*)?(\d{3})\D*(\d{3})\D*(\d{4})(?!\d)/);
+  const m = phone.match(/^[^\d+]*(?:\+?1\D*)?([2-9]\d{2})\D*([2-9]\d{2})\D*(\d{4})(?!\d)/);
   // A leading "+" other than "+1" never matches: [^\d+]* cannot pass it.
   if (m) return `+1${m[1]}${m[2]}${m[3]}`;
-  const intl = phone.trim().match(/^\+[\d\s().-]{7,}$/);
-  return intl ? `+${phone.replace(/\D/g, "")}` : "";
+  if (!/^\+[\d\s().-]{7,}$/.test(phone.trim())) return "";
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("1") || digits.length < 8 || digits.length > 15) return "";
+  // "+833.307.4418" is a North American number missing its "1", not a call
+  // abroad: ten digits shaped like one get no link rather than a wrong one.
+  return /^[2-9]\d{2}[2-9]\d{6}$/.test(digits) ? "" : `+${digits}`;
 }
 
 /** Today's wording, every field: what the site shows with no `settings` document. */
@@ -208,9 +217,19 @@ export function mergeIdentity(
 }
 
 /**
+ * True only for getSingle's "No documents were returned": a NotFoundError the
+ * client throws itself, with no API response attached (@prismicio/client 7.23,
+ * `dist/Client.js` line 200). Any other 404 from the Content API carries its
+ * response, and a wrong repository name (RepositoryNotFoundError, which also
+ * has none) is a misconfiguration; neither means "no document yet".
+ */
+export const isNoDocument = (e: unknown) =>
+  e instanceof NotFoundError && !(e instanceof RepositoryNotFoundError) && e.response === undefined;
+
+/**
  * The site's identity. With no `settings` document yet (the model reaches
  * Prismic only when it merges to `main`, and Marketing publishes after that),
- * the API answers NotFoundError and today's wording stands.
+ * the API answers "No documents were returned" and today's wording stands.
  *
  * `strict` is set while building: any other error then stops the build rather
  * than quietly ship the code's values into a prerendered page. A wrong
@@ -227,9 +246,7 @@ export async function loadIdentity(
   try {
     return mergeIdentity((await client.getSingle("settings")) as SettingsDocument);
   } catch (e) {
-    if (e instanceof NotFoundError && !(e instanceof RepositoryNotFoundError)) {
-      return CODE_IDENTITY;
-    }
+    if (isNoDocument(e)) return CODE_IDENTITY;
     if (strict) throw e;
     console.error("settings: falling back to the code's identity:", e);
     return CODE_IDENTITY;

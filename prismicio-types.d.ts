@@ -235,7 +235,7 @@ export interface SettingsDocumentDataSameAsItem {
  */
 interface SettingsDocumentData {
 	/**
-	 * name field in *Site settings*
+	 * name. Page titles and the Contact page's SEO description say "MSOT" in their own wording: to change those, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas
@@ -246,7 +246,7 @@ interface SettingsDocumentData {
 	name: prismic.KeyTextField;
 	
 	/**
-	 * short name field in *Site settings*
+	 * short name. Page titles and the Contact page's SEO description keep "MSOT" in their own wording: to change those, ask Reddoor. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: MSOT
