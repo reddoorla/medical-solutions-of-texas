@@ -51,6 +51,8 @@ for (const path of PAGES) {
     expect(footer).toMatch(/<address[\s>][\s\S]*Golden Quail[\s\S]*<\/address>/);
     const t = squash(text(footer));
     for (const line of FOOTER_LINES) expect(t).toContain(squash(line));
+    // §12b: the definition is also "the footer description" (the operator, 11-05).
+    expect(t).toContain(squash(DEFINITION));
     expect(t).toMatch(/©\d{4} OJH Services/);
     // The links must dial and mail what the text says.
     expect(footer).toContain('href="tel:+18333074418"');

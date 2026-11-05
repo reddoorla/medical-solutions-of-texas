@@ -70,11 +70,19 @@ function serverText(html: string): string {
   return [body, ...attrs].join(" ").replace(/\s+/g, " ");
 }
 
+const STEP_03_APPROVED =
+  "Your products become available to order at DoW and VA treatment facilities.";
+
 function expectCopyRules(text: string, where: string) {
   expect(text, `${where}: DoD outside the Revogen quote`).not.toMatch(DOD);
   expect(text, `${where}: "end user"`).not.toMatch(END_USER);
   expect(text, `${where}: a former staff member`).not.toMatch(FORMER_STAFF);
-  expect(text, `${where}: house order is "VA and DoW"`).not.toMatch(/\bDoW\s*(?:and|&|\+)\s*VA\b/i);
+  // Timeline step 03 keeps Marketing's approved wording (Part 2 §14b, "approved Oct 29"),
+  // which puts DoW first; the operator, 11-05: use it as approved. Only that exact line is exempt.
+  const houseOrder = text.replace(STEP_03_APPROVED, "");
+  expect(houseOrder, `${where}: house order is "VA and DoW"`).not.toMatch(
+    /\bDoW\s*(?:and|&|\+)\s*VA\b/i,
+  );
 }
 
 /** Rendered text with every accordion opened, plus alt, aria-label and title values. */

@@ -37,7 +37,7 @@ const TIMELINE = [
     "About 7 days",
     "03",
     "Rollout to DoW bases and VA facilities",
-    "Your products become available to order at VA and DoW treatment facilities.",
+    "Your products become available to order at DoW and VA treatment facilities.",
   ],
   [
     "Ongoing",
