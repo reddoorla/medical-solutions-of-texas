@@ -244,9 +244,9 @@
       </h2>
 
       <div class="flex flex-row items-center justify-center gap-5">
-        <img src={usFlag} alt="us flag" width="57" height="37" class="opacity-50" />
-        <img src={vosbLogo} alt="veteran owned small business logo" class="opacity-90 h-40" />
-        <img src={txFlag} alt="texas flag" width="53" height="35" class="opacity-50" />
+        <img src={usFlag} alt="" width="57" height="37" class="opacity-50" />
+        <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="opacity-90 h-40" />
+        <img src={txFlag} alt="" width="53" height="35" class="opacity-50" />
       </div>
       <div class="text-white text-center leading-normal md:text-[24px]">
         Our expertise, VOSB (Veteran Owned Small Business) status, and deep network of relationships
@@ -267,7 +267,7 @@
     <div bind:this={surgeonsContainer} class="w-full aspect-[5/2] bg-dark relative overflow-hidden">
       <Img
         src={surgeonsVideoPlaceholder}
-        alt="surgeons placeholder"
+        alt=""
         class="w-full h-full absolute top-0 left-0 object-cover"
       />
       {#if surgeonsInView}
@@ -333,7 +333,7 @@
     <source media="(min-width: 769px)" srcset={timeline1} width="1440" height="650" />
     <img
       src={timeline1_mobile}
-      alt="timelines"
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 02, deployment overseas: critical medical supplies save lives in forward deployed environments."
       width="359"
       height="650"
       loading="lazy"
@@ -439,7 +439,7 @@
     <source media="(min-width: 769px)" srcset={timeline2} width="1440" height="650" />
     <img
       src={timeline2_mobile}
-      alt="timelines"
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 03, raising a family: medical care and procedures for service men, women and family members."
       width="359"
       height="650"
       loading="lazy"
@@ -472,11 +472,7 @@
           thought possible. They're an invaluable partnership and wealth of knowledge when it comes
           to selling to the DoD and VA hospital systems.”
         </p>
-        <img
-          src={revogenLogo}
-          alt="veteran owned small business logo"
-          class="h-32 max-w-[min(350px,100%)] object-contain"
-        />
+        <img src={revogenLogo} alt="Revogen" class="h-32 max-w-[min(350px,100%)] object-contain" />
       </div>
     </div>
   </ContentWidth>
@@ -522,7 +518,7 @@
     <source media="(min-width: 769px)" srcset={timeline3} width="1440" height="650" />
     <img
       src={timeline3_mobile}
-      alt="timelines"
+      alt="A timeline of the six stages of a service member's life: start date at 18, deployment overseas, raising a family, active duty service in the U.S., a surgical procedure, and veteran and retiree at 85. Step 06, veteran and retiree: caring for our veterans after retirement."
       width="359"
       height="650"
       loading="lazy"
@@ -586,7 +582,7 @@
         >
       </div>
     </div>
-    <img src={vosbLogo} alt="vosb logo" class="h-16 md:h-24" />
+    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24" />
   </ContentWidth>
   {#if viewportWidth <= 560}
     <div class="label text-white w-full text-center px-2">

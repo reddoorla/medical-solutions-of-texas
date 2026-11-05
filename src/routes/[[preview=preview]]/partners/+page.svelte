@@ -27,25 +27,27 @@
 
   import Footer from "$lib/components/Footer.svelte";
 
+  // Each client logo carries its company's name, so who MSOT works with is
+  // text, not only pictures (Developer Brief Part 2, §14b).
   const imageArray = [
-    revogenDuo,
-    cibolo,
-    caerus,
-    aegis,
-    leith,
-    centinel,
-    spinal,
-    edge,
-    ctl,
-    fourWeb,
-    difusion,
-    metalogix,
-    expanding,
-    aurora,
-    axial,
-    bridge,
-    signus,
-    nexxt,
+    { src: revogenDuo, name: "Revogen" },
+    { src: cibolo, name: "Cibolo Spine" },
+    { src: caerus, name: "Caerus" },
+    { src: aegis, name: "Aegis Spine" },
+    { src: leith, name: "Leith Medical" },
+    { src: centinel, name: "Centinel Spine" },
+    { src: spinal, name: "Spinal Simplicity" },
+    { src: edge, name: "EDGe Surgical" },
+    { src: ctl, name: "CTL Amedica" },
+    { src: fourWeb, name: "4WEB Medical" },
+    { src: difusion, name: "Difusion Technologies" },
+    { src: metalogix, name: "Metalogix" },
+    { src: expanding, name: "Expanding Innovations" },
+    { src: aurora, name: "Aurora" },
+    { src: axial, name: "Axial Biologics" },
+    { src: bridge, name: "Bonebridge" },
+    { src: signus, name: "SIGNUS" },
+    { src: nexxt, name: "Nexxt Spine" },
   ];
 </script>
 
@@ -81,7 +83,7 @@
       >
         working with the best
       </h4>
-      <img src={revogenLogo} alt="revogen logo" class="w-64 brightness-0 invert" />
+      <img src={revogenLogo} alt="Revogen" class="w-64 brightness-0 invert" />
 
       <div class="text-white text-center leading-normal md:text-[24px] max-w-[900px]">
         MSOT made the process of getting our product into the DoD system easier than we ever thought
@@ -112,10 +114,10 @@
     <h4 class="text-dark mb-12">Our Clients</h4>
     <div class="h-0.5 bg-dark w-full"></div>
     <div class="w-full mt-12 flex flex-row flex-wrap gap-x-12 gap-y-24 justify-evenly items-center">
-      {#each imageArray as image, i (i)}
+      {#each imageArray as image (image.name)}
         <img
-          src={image}
-          alt="partner logo"
+          src={image.src}
+          alt={image.name}
           class="w-1/3 lg:w-1/4 xl:w-1/5 max-w-52 max-h-24 object-scale-down"
         />
       {/each}

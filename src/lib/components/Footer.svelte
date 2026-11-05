@@ -79,7 +79,7 @@
         >
       </div>
     </div>
-    <img src={vosbLogo} alt="vosb logo" class="h-16 md:h-24" />
+    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24" />
   </ContentWidth>
   {#if viewportWidth <= 560}
     <div class="label text-white w-full text-center px-2">
