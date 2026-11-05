@@ -5,13 +5,11 @@
   import hero from "$lib/assets/images/about/aboutHero.jpg?as=run";
   import dots from "$lib/assets/dots.svg";
   import patch from "$lib/assets/images/about/patch.jpg";
-  import albert from "$lib/assets/images/generic_headshots/albert.png";
   import tim from "$lib/assets/images/generic_headshots/tim.png";
   import kathy from "$lib/assets/images/generic_headshots/kathy.png";
   import kylene from "$lib/assets/images/generic_headshots/kylene.png";
   import courtney from "$lib/assets/images/generic_headshots/courtney.png";
   import jonHood from "$lib/assets/images/generic_headshots/Jon Hood.svg";
-  import timWatson from "$lib/assets/images/generic_headshots/Tim Watson.svg";
 
   import Accordian from "$lib/components/FullWidth/Accordian.svelte";
   import Footer from "$lib/components/Footer.svelte";
@@ -32,18 +30,6 @@
       name: "David Lange",
       title: "President",
       image: tim,
-      bio: LOREM,
-    },
-    {
-      name: "Albert Turgon",
-      title: "Chief Operating Officer",
-      image: albert,
-      bio: LOREM,
-    },
-    {
-      name: "Tim Watson",
-      title: "Chief Commercial Officer",
-      image: timWatson,
       bio: LOREM,
     },
     {
@@ -105,7 +91,7 @@
 
       <div class="text-white text-center leading-normal md:text-[24px]">
         With 20 years worth of experience in Air Force logistics and nearly 50 years in medical
-        device sales on our leadership team, we know the DoD & VA healthcare landscape better than
+        device sales on our leadership team, we know the VA and DoW healthcare landscape better than
         anyone. We enable med-surg suppliers to find and access opportunities that they wouldn’t
         have been able to tap into alone.
       </div>
@@ -198,9 +184,9 @@
           of military contracts and procurement.
           <br /> <br />
           We spent our careers grappling with the difficulties in getting and keeping VA hospitals and
-          DoD bases equipped with med-surg supplies, from the side of a logistics officer and the side
+          DoW bases equipped with med-surg supplies, from the side of a logistics officer and the side
           of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization
-          uniquely suited to connect med-surg suppliers with VA and DoD contracts.
+          uniquely suited to connect med-surg suppliers with VA and DoW contracts.
           <br /> <br />
           {WORKS_WITH}
         </div>
@@ -212,9 +198,14 @@
   <ContentWidth>
     <h4 class="text-light my-20">The Team</h4>
 
-    <div class="w-full flex flex-col lg:flex-row gap-y-20 items-center justify-between flex-wrap">
+    <!-- Rows centre, and the column gap is what justify-between gave a full row
+         of three cards (w-72 at lg, w-96 at xl), so a short last row sits centred
+         under the row above instead of splitting across its columns. -->
+    <div
+      class="w-full flex flex-col lg:flex-row gap-y-20 items-center lg:items-start justify-center flex-wrap lg:gap-x-[calc((100%-54rem)/2)] xl:gap-x-[calc((100%-72rem)/2)]"
+    >
       {#each teamArray as person, i (i)}
-        <div class="last:mx-auto">
+        <div>
           <TeamWithPopup
             name={person.name}
             title={person.title}

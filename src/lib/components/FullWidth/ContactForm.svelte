@@ -12,7 +12,7 @@
   }
 
   let {
-    PRODUCTS = ["VA Contracts", "DoD Contracts", "Both"],
+    PRODUCTS = ["VA Contracts", "DoW Contracts", "Both"],
     form = null,
     formTs,
   }: Props = $props();

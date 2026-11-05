@@ -99,7 +99,7 @@
 
       <div class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg">
         Our most successful partnerships are with companies who are looking to expand their product
-        offering into DoD and VA facilities, who have the flexibility and mindset to work with the
+        offering into VA and DoW facilities, who have the flexibility and mindset to work with the
         government and who believe it's meaningful to be a part of offering the best healthcare
         possible to our active duty and veteran population in the United States.
       </div>
