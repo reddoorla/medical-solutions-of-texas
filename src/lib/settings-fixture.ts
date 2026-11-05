@@ -13,13 +13,9 @@ export const SETTINGS_FIXTURE = {
     definition_about: "Fixture definition for About.",
     works_with: "Fixture works-with for About.",
     not_found_title: "Fixture not found | MSOT",
-    contracts: [
-      { label: "", value: "FIXTURE-ECAT-JIT" },
-      { label: "", value: "" },
-      { label: "", value: "" },
-      { label: "", value: "" },
-      { label: "Fixture Vehicle", value: "FIXTURE-NEW-1" },
-    ],
+    email: "fixture@example.com",
+    ecat_jit: "FIXTURE-ECAT-JIT",
+    more_contracts: [{ label: "Fixture Vehicle", value: "FIXTURE-NEW-1" }],
     same_as: [{ url: { link_type: "Web", url: "https://example.com/fixture-msot" } }],
   },
 } as unknown as SettingsDocument;

@@ -44,7 +44,7 @@
       "definition": {
         "type": "Text",
         "config": {
-          "label": "definition (Home, and the search-engine description of MSOT)",
+          "label": "definition (Home, every page's footer, and the search-engine description)",
           "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…"
         }
       },
@@ -67,7 +67,7 @@
       "street": {
         "type": "Text",
         "config": {
-          "label": "street",
+          "label": "street. The Contact page's SEO description also states it: edit that too.",
           "placeholder": "Leave empty to keep: 4903 Golden Quail, Suite 120"
         }
       },
@@ -102,7 +102,7 @@
       "phone": {
         "type": "Text",
         "config": {
-          "label": "phone, as printed",
+          "label": "phone, as printed. The Contact page's SEO description also states it: edit that too.",
           "placeholder": "Leave empty to keep: 833.307.4418 (the number only, no extension)"
         }
       },
@@ -143,16 +143,44 @@
           "placeholder": "Leave empty to keep: 423450"
         }
       },
-      "contracts": {
+      "ecat_jit": {
+        "type": "Text",
+        "config": {
+          "label": "DLA ECAT contract number (Just in Time)",
+          "placeholder": "Leave empty to keep: SPE2DE-25-D-A012"
+        }
+      },
+      "ecat_dvd": {
+        "type": "Text",
+        "config": {
+          "label": "DLA ECAT contract number (Direct Vendor Delivery)",
+          "placeholder": "Leave empty to keep: SPE2DE-25-D-A011"
+        }
+      },
+      "dapa_med": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA number (Medical/Surgical)",
+          "placeholder": "Leave empty to keep: SP0200-11-H-0018"
+        }
+      },
+      "dapa_equip": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA number (Equipment)",
+          "placeholder": "Leave empty to keep: SP0200-11-H-0003"
+        }
+      },
+      "more_contracts": {
         "type": "Group",
         "config": {
-          "label": "contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.",
+          "label": "more contract vehicles (shown on /capabilities and in search-engine markup)",
           "repeat": true,
           "fields": {
             "label": {
               "type": "Text",
               "config": {
-                "label": "label",
+                "label": "name",
                 "placeholder": "e.g. DLA ECAT Contract (Just in Time)"
               }
             },
@@ -169,7 +197,7 @@
       "same_as": {
         "type": "Group",
         "config": {
-          "label": "pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.",
+          "label": "pages about MSOT elsewhere. Empty keeps today's two (LinkedIn, GSA eLibrary); a filled list replaces both, so list every page.",
           "repeat": true,
           "fields": {
             "url": {

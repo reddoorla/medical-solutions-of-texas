@@ -191,36 +191,36 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
- * Item in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
+ * Item in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
  */
-export interface SettingsDocumentDataContractsItem {
+export interface SettingsDocumentDataMoreContractsItem {
 	/**
-	 * label field in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
+	 * name field in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: e.g. DLA ECAT Contract (Just in Time)
-	 * - **API ID Path**: settings.contracts[].label
+	 * - **API ID Path**: settings.more_contracts[].label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	label: prismic.KeyTextField;
 	
 	/**
-	 * number field in *Site settings → contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor.*
+	 * number field in *Site settings → more contract vehicles (shown on /capabilities and in search-engine markup)*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: e.g. SPE2DE-25-D-A012
-	 * - **API ID Path**: settings.contracts[].value
+	 * - **API ID Path**: settings.more_contracts[].value
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	value: prismic.KeyTextField;
 }
 
 /**
- * Item in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.*
+ * Item in *Site settings → pages about MSOT elsewhere. Empty keeps today's two (LinkedIn, GSA eLibrary); a filled list replaces both, so list every page.*
  */
 export interface SettingsDocumentDataSameAsItem {
 	/**
-	 * page field in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two.*
+	 * page field in *Site settings → pages about MSOT elsewhere. Empty keeps today's two (LinkedIn, GSA eLibrary); a filled list replaces both, so list every page.*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: The full address, starting https://
@@ -290,7 +290,7 @@ interface SettingsDocumentData {
 	tagline: prismic.KeyTextField;
 	
 	/**
-	 * definition (Home, and the search-engine description of MSOT) field in *Site settings*
+	 * definition (Home, every page's footer, and the search-engine description) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…
@@ -321,7 +321,7 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	works_with: prismic.KeyTextField;/**
-	 * street field in *Site settings*
+	 * street. The Contact page's SEO description also states it: edit that too. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: 4903 Golden Quail, Suite 120
@@ -376,7 +376,7 @@ interface SettingsDocumentData {
 	country: prismic.KeyTextField;
 	
 	/**
-	 * phone, as printed field in *Site settings*
+	 * phone, as printed. The Contact page's SEO description also states it: edit that too. field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: 833.307.4418 (the number only, no extension)
@@ -440,18 +440,62 @@ interface SettingsDocumentData {
 	naics: prismic.KeyTextField;
 	
 	/**
-	 * contract vehicles. Rows 1 to 4 are, in order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment. /capabilities shows their numbers under its own names; a label shows in search-engine markup only. A fifth row shows on /capabilities with its label. An empty field keeps today's value, so a row cannot be removed here: ask Reddoor. field in *Site settings*
+	 * DLA ECAT contract number (Just in Time) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: SPE2DE-25-D-A012
+	 * - **API ID Path**: settings.ecat_jit
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_jit: prismic.KeyTextField;
+	
+	/**
+	 * DLA ECAT contract number (Direct Vendor Delivery) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: SPE2DE-25-D-A011
+	 * - **API ID Path**: settings.ecat_dvd
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_dvd: prismic.KeyTextField;
+	
+	/**
+	 * DAPA number (Medical/Surgical) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: SP0200-11-H-0018
+	 * - **API ID Path**: settings.dapa_med
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_med: prismic.KeyTextField;
+	
+	/**
+	 * DAPA number (Equipment) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: SP0200-11-H-0003
+	 * - **API ID Path**: settings.dapa_equip
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_equip: prismic.KeyTextField;
+	
+	/**
+	 * more contract vehicles (shown on /capabilities and in search-engine markup) field in *Site settings*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.contracts[]
+	 * - **API ID Path**: settings.more_contracts[]
 	 * - **Tab**: Registrations
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	contracts: prismic.GroupField<Simplify<SettingsDocumentDataContractsItem>>;
+	more_contracts: prismic.GroupField<Simplify<SettingsDocumentDataMoreContractsItem>>;
 	
 	/**
-	 * pages about MSOT elsewhere (LinkedIn, GSA eLibrary). Empty keeps today's two. field in *Site settings*
+	 * pages about MSOT elsewhere. Empty keeps today's two (LinkedIn, GSA eLibrary); a filled list replaces both, so list every page. field in *Site settings*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -649,7 +693,7 @@ declare module "@prismicio/client" {
 			PageDocumentDataSlicesSlice,
 			SettingsDocument,
 			SettingsDocumentData,
-			SettingsDocumentDataContractsItem,
+			SettingsDocumentDataMoreContractsItem,
 			SettingsDocumentDataSameAsItem,
 			TeamMemberDocument,
 			TeamMemberDocumentData,

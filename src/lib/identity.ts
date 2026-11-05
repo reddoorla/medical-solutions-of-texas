@@ -111,12 +111,14 @@ export const addressLine = (a: Identity["address"]) =>
 export const ADDRESS_LINE = addressLine(IDENTITY.address);
 
 /**
- * "833.307.4418" → "+18333074418". A ten-digit US number gains its +1. An
- * extension ("ext. 2", "x12", "#3") is not part of the number and is dropped.
+ * "833.307.4418" → "+18333074418": the first North American number in the
+ * field, so an extension in any wording ("ext. 2", "extension 2", "press 2")
+ * or a second number is not dialled. A field with no such number keeps its
+ * digits as they are.
  */
 export function toE164(phone: string): string {
-  const d = phone.split(/\s*(?:ext\.?|x|#)\s*\d*\s*$/i)[0].replace(/\D/g, "");
-  return `+${d.length === 10 ? `1${d}` : d}`;
+  const m = phone.match(/^\D*(?:\+?1\D*)?(\d{3})\D*(\d{3})\D*(\d{4})(?!\d)/);
+  return m ? `+1${m[1]}${m[2]}${m[3]}` : `+${phone.replace(/\D/g, "")}`;
 }
 
 /** Today's wording, every field: what the site shows with no `settings` document. */
@@ -142,9 +144,10 @@ const pick = (value: string | null | undefined, fallback: string) =>
   isFilled.keyText(value) && value.trim() ? value.trim() : fallback;
 
 /**
- * The `settings` document over today's wording, field by field. Contract rows
- * merge by position, because /capabilities reads the four vehicles in order;
- * a row past today's four counts only with both its label and number. The
+ * The `settings` document over today's wording, field by field. Today's four
+ * contract vehicles keep their names and take their numbers from four fields,
+ * because /capabilities reads them in order; an added vehicle counts only with
+ * both its name and number. The
  * `sameAs` list is the document's filled URLs when it has any, else today's.
  * The phone's E.164 form follows the printed phone.
  */
@@ -155,12 +158,14 @@ export function mergeIdentity(
   if (!doc) return code;
   const d = doc.data;
   const phone = pick(d.phone, code.phone);
-  const rows = d.contracts ?? [];
+  // Today's four vehicles keep their names; their numbers have a field each.
+  const numbers = [d.ecat_jit, d.ecat_dvd, d.dapa_med, d.dapa_equip];
   const contracts = code.contracts.map((c, i) => ({
-    label: pick(rows[i]?.label, c.label),
-    value: pick(rows[i]?.value, c.value),
+    label: c.label,
+    value: pick(numbers[i], c.value),
   }));
-  for (const r of rows.slice(code.contracts.length)) {
+  // A vehicle Marketing adds needs both its name and its number.
+  for (const r of d.more_contracts ?? []) {
     const label = pick(r.label, "");
     const value = pick(r.value, "");
     if (label && value) contracts.push({ label, value });

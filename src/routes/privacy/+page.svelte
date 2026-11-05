@@ -11,7 +11,7 @@
 
   const has = (service: (typeof PRIVACY_SERVICES)[number]) => PRIVACY_SERVICES.includes(service);
   const owner = $derived(privacyOwner(page.data.identity));
-  const email = PRIVACY_VALUES.contactEmail;
+  const email = $derived(page.data.identity.email);
   const effective = formatEffectiveDate(PRIVACY_VALUES.effectiveDate) ?? "[effective date]";
 </script>
 

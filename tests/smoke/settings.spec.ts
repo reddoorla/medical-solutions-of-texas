@@ -56,9 +56,7 @@ test("at request time an error (an expired preview cookie, an outage) falls back
 
 test("a filled field wins, field by field, and the E.164 phone follows the printed one", async () => {
   const identity = await loadIdentity(
-    client(async () =>
-      doc({ phone: "512.555.0100", uei: "  NEWUEI  ", contracts: [], same_as: [] }),
-    ),
+    client(async () => doc({ phone: "512.555.0100", uei: "  NEWUEI  ", same_as: [] })),
     { strict: true },
   );
   expect(identity.phone).toBe("512.555.0100");
@@ -72,7 +70,7 @@ test("a filled field wins, field by field, and the E.164 phone follows the print
 
 test("an empty or blank field falls back to today's wording", () => {
   const identity = mergeIdentity(
-    doc({ name: "", tagline: "   ", phone: null, street: "", contracts: [], same_as: [] }),
+    doc({ name: "", tagline: "   ", phone: null, street: "", same_as: [] }),
   );
   expect(identity.name).toBe("Medical Solutions of Texas");
   expect(identity.tagline).toBe("Federal med-surg contracting for the VA and DoW");
@@ -80,16 +78,17 @@ test("an empty or blank field falls back to today's wording", () => {
   expect(identity.address.street).toBe("4903 Golden Quail, Suite 120");
 });
 
-test("contract rows merge by position; a new row needs both its label and number", () => {
+test("today's four vehicles keep their names and take their own number fields; an added one needs both", () => {
   const identity = mergeIdentity(
     doc({
-      contracts: [
-        { label: "", value: "NEW-JIT" },
-        { label: null, value: null },
-        { label: "DAPA (Medical/Surgical)", value: "" },
-        { label: "DAPA (Equipment)", value: "SP0200-11-H-0003" },
+      ecat_jit: "NEW-JIT",
+      ecat_dvd: null,
+      dapa_med: "  ",
+      dapa_equip: "NEW-EQUIP",
+      more_contracts: [
         { label: "New vehicle", value: "NEW-1" },
         { label: "Half a row", value: "" },
+        { label: null, value: "NO-NAME" },
       ],
       same_as: [],
     }),
@@ -98,22 +97,19 @@ test("contract rows merge by position; a new row needs both its label and number
     { label: "DLA ECAT Contract (Just in Time)", value: "NEW-JIT" },
     { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "SPE2DE-25-D-A011" },
     { label: "DAPA (Medical/Surgical)", value: "SP0200-11-H-0018" },
-    { label: "DAPA (Equipment)", value: "SP0200-11-H-0003" },
+    { label: "DAPA (Equipment)", value: "NEW-EQUIP" },
     { label: "New vehicle", value: "NEW-1" },
   ]);
 });
 
 test("sameAs: the document's filled URLs when it has any, else today's two", () => {
-  expect(
-    mergeIdentity(doc({ contracts: [], same_as: [{ url: { link_type: "Any" } }] })).sameAs,
-  ).toEqual([
+  expect(mergeIdentity(doc({ same_as: [{ url: { link_type: "Any" } }] })).sameAs).toEqual([
     "https://www.linkedin.com/company/medical-solutions-of-texas",
     "https://www.gsaelibrary.gsa.gov/ElibMain/home.do/contractorInfo.do?contractNumber=36F79725D0204&contractorName=OJH+SERVICES,+INC.&executeQuery=YES",
   ]);
   expect(
     mergeIdentity(
       doc({
-        contracts: [],
         same_as: [
           { url: { link_type: "Web", url: "https://example.com/msot" } },
           { url: { link_type: "Any" } },
@@ -128,6 +124,17 @@ test("toE164 gives today's hard-coded form for today's phone, and drops an exten
   expect(toE164("833.307.4418 ext. 2")).toBe("+18333074418");
   expect(toE164("833-307-4418 x12")).toBe("+18333074418");
   expect(toE164("1 (833) 307-4418")).toBe("+18333074418");
+  for (const odd of [
+    "833.307.4418 extension 2",
+    "833.307.4418 Ext: 2",
+    "833.307.4418 (ext. 2)",
+    "833.307.4418 ext 2.",
+    "833.307.4418, press 2",
+    "833.307.4418 / 210.744.9686",
+    "+1 833 307 4418",
+  ]) {
+    expect(toE164(odd), odd).toBe("+18333074418");
+  }
 });
 
 // The contact page's Prismic `meta_description` (published 11-05) wins over
@@ -136,7 +143,7 @@ test("/contact's fallback description is Marketing's wording, built from the ide
   expect(contactDescription(CODE_IDENTITY)).toBe(
     "Contact MSOT at 4903 Golden Quail, Suite 120, San Antonio, TX 78240, or call 833.307.4418.",
   );
-  const moved = mergeIdentity(doc({ phone: "512.555.0100", contracts: [], same_as: [] }));
+  const moved = mergeIdentity(doc({ phone: "512.555.0100", same_as: [] }));
   expect(pageDescription("/contact", moved)).toBe(
     "Contact MSOT at 4903 Golden Quail, Suite 120, San Antonio, TX 78240, or call 512.555.0100.",
   );
@@ -194,10 +201,21 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
   expect(caps).toContain("UEI FIXTUREUEI01 CAGE 6ZM08");
   expect(caps).toContain("Fixture Vehicle FIXTURE-NEW-1");
 
-  // No page mixes the document's phone with today's.
+  // The privacy policy's contact address is the document's email too.
+  const privacy = await get("/privacy");
+  expect(privacy).toContain('href="mailto:fixture@example.com"');
+  expect(privacy).not.toContain("mailto:info@MedicalSolutionsofTX.com");
+
+  // No page mixes the document's phone with today's. The <meta> tags are left
+  // out, and so is SvelteKit's serialized page data, which carries the same
+  // field: /contact's description is its Prismic page document's own field
+  // (published 11-05), which wins over code, and states the phone; the
+  // settings model's phone and street labels say to edit it too.
   for (const path of ["/", "/about", "/contact", "/resources", "/capabilities", "/privacy"]) {
-    const html = await get(path);
-    expect(text(html), path).not.toContain("833.307.4418");
+    const html = (await get(path))
+      .replace(/<meta\b[^>]*>/g, "")
+      .replace(/<script(?![^>]*ld\+json)[\s\S]*?<\/script>/gi, "");
+    expect(html, path).not.toContain("833.307.4418");
     expect(html, path).not.toContain("+18333074418");
     expect(html, path).not.toContain("833-307-4418");
   }
