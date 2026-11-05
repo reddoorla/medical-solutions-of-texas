@@ -1,0 +1,295 @@
+{
+  "format": "custom",
+  "id": "home_page",
+  "label": "Home page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Your Trusted Partner": {
+      "trusted_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Your Trusted Partner"
+        }
+      },
+      "vosb_logo_alt": {
+        "type": "Text",
+        "config": {
+          "label": "VOSB logo: description for screen readers",
+          "placeholder": "Leave empty to keep: Veteran-Owned Small Business (VOSB)"
+        }
+      },
+      "trusted_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph under the definition",
+          "placeholder": "Leave empty to keep: Our expertise, VOSB (Veteran-Owned Small Business) status, and deep network of relation…"
+        }
+      },
+      "contact_button": {
+        "type": "Text",
+        "config": {
+          "label": "first button",
+          "placeholder": "Leave empty to keep: Contact Us"
+        }
+      },
+      "capabilities_button": {
+        "type": "Text",
+        "config": {
+          "label": "second button",
+          "placeholder": "Leave empty to keep: Capabilities Statement"
+        }
+      }
+    },
+    "We'll Get You": {
+      "video_title": {
+        "type": "Text",
+        "config": {
+          "label": "video: description for screen readers",
+          "placeholder": "Leave empty to keep: background video"
+        }
+      },
+      "we_get_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading over the video",
+          "placeholder": "Leave empty to keep: We'll Get You"
+        }
+      },
+      "we_get_1": {
+        "type": "StructuredText",
+        "config": {
+          "label": "first rotating line (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Priority / Access",
+          "single": "paragraph"
+        }
+      },
+      "we_get_2": {
+        "type": "StructuredText",
+        "config": {
+          "label": "second rotating line (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: contract / expertise",
+          "single": "paragraph"
+        }
+      },
+      "we_get_3": {
+        "type": "StructuredText",
+        "config": {
+          "label": "third rotating line (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Direct / Results",
+          "single": "paragraph"
+        }
+      },
+      "clinician_heading": {
+        "type": "Text",
+        "config": {
+          "label": "subheading",
+          "placeholder": "Leave empty to keep: The Clinician in Mind"
+        }
+      },
+      "clinician_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph",
+          "placeholder": "Leave empty to keep: MSOT makes medical care possible from the war fighter all the way to the retiree and al…"
+        }
+      }
+    },
+    "Timelines": {
+      "timeline_1_alt": {
+        "type": "Text",
+        "config": {
+          "label": "first timeline image: description for screen readers",
+          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
+        }
+      },
+      "timeline_2_alt": {
+        "type": "Text",
+        "config": {
+          "label": "second timeline image: description for screen readers",
+          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
+        }
+      },
+      "timeline_3_alt": {
+        "type": "Text",
+        "config": {
+          "label": "third timeline image: description for screen readers",
+          "placeholder": "Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…"
+        }
+      }
+    },
+    "We Know What to Do": {
+      "know_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: We Know What to Do"
+        }
+      },
+      "problem_heading": {
+        "type": "Text",
+        "config": {
+          "label": "left column heading",
+          "placeholder": "Leave empty to keep: Government Contracts Are"
+        }
+      },
+      "problem_1": {
+        "type": "Text",
+        "config": {
+          "label": "left column, first word",
+          "placeholder": "Leave empty to keep: opaque"
+        }
+      },
+      "problem_2": {
+        "type": "Text",
+        "config": {
+          "label": "left column, second word",
+          "placeholder": "Leave empty to keep: confusing"
+        }
+      },
+      "problem_3": {
+        "type": "Text",
+        "config": {
+          "label": "left column, third word",
+          "placeholder": "Leave empty to keep: inaccessible"
+        }
+      },
+      "answer_heading": {
+        "type": "Text",
+        "config": {
+          "label": "right column heading",
+          "placeholder": "Leave empty to keep: What You’ll get With MSOT"
+        }
+      },
+      "answer_1": {
+        "type": "Text",
+        "config": {
+          "label": "right column, first word",
+          "placeholder": "Leave empty to keep: transparency"
+        }
+      },
+      "answer_2": {
+        "type": "Text",
+        "config": {
+          "label": "right column, second word",
+          "placeholder": "Leave empty to keep: understanding"
+        }
+      },
+      "answer_3": {
+        "type": "Text",
+        "config": {
+          "label": "right column, third word",
+          "placeholder": "Leave empty to keep: access"
+        }
+      },
+      "help_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading below",
+          "placeholder": "Leave empty to keep: We’re here to help"
+        }
+      },
+      "help_text": {
+        "type": "Text",
+        "config": {
+          "label": "line under it",
+          "placeholder": "Leave empty to keep: Take the headache and confusion out of dealing with government healthcare"
+        }
+      }
+    },
+    "Our Partner": {
+      "partner_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Our Partner"
+        }
+      },
+      "partner_quote": {
+        "type": "Text",
+        "config": {
+          "label": "quote, with its quotation marks",
+          "placeholder": "Leave empty to keep: “MSOT made the process of getting our product into the DoD system easier than we ever t…"
+        }
+      },
+      "partner_logo_alt": {
+        "type": "Text",
+        "config": {
+          "label": "partner logo: the partner's name",
+          "placeholder": "Leave empty to keep: Revogen"
+        }
+      }
+    },
+    "Getting Started": {
+      "start_heading_1": {
+        "type": "Text",
+        "config": {
+          "label": "heading, first line",
+          "placeholder": "Leave empty to keep: Getting started"
+        }
+      },
+      "start_heading_2": {
+        "type": "Text",
+        "config": {
+          "label": "heading, second line",
+          "placeholder": "Leave empty to keep: is simple with msot"
+        }
+      },
+      "step_1": {
+        "type": "StructuredText",
+        "config": {
+          "label": "step 01 (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: establish / goals",
+          "single": "paragraph"
+        }
+      },
+      "step_2": {
+        "type": "StructuredText",
+        "config": {
+          "label": "step 02 (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Find Your / access points",
+          "single": "paragraph"
+        }
+      },
+      "step_3": {
+        "type": "StructuredText",
+        "config": {
+          "label": "step 03 (Shift+Enter breaks the line)",
+          "placeholder": "Leave empty to keep: Set pricing / direct invoicing",
+          "single": "paragraph"
+        }
+      },
+      "start_button": {
+        "type": "Text",
+        "config": {
+          "label": "button",
+          "placeholder": "Leave empty to keep: Learn More"
+        }
+      }
+    },
+    "Let's Get Started": {
+      "cta_line": {
+        "type": "Text",
+        "config": {
+          "label": "large line over the photo",
+          "placeholder": "Leave empty to keep: let’s get started"
+        }
+      },
+      "cta_contact_button": {
+        "type": "Text",
+        "config": {
+          "label": "first button",
+          "placeholder": "Leave empty to keep: Contact Us"
+        }
+      },
+      "cta_process_button": {
+        "type": "Text",
+        "config": {
+          "label": "second button",
+          "placeholder": "Leave empty to keep: Learn More"
+        }
+      }
+    }
+  }
+}

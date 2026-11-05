@@ -119,6 +119,428 @@ interface FormRepliesDocumentData {
  */
 export type FormRepliesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<FormRepliesDocumentData>, "form_replies", Lang>;
 
+/**
+ * Content for Home page documents
+ */
+interface HomePageDocumentData {
+	/**
+	 * heading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your Trusted Partner
+	 * - **API ID Path**: home_page.trusted_heading
+	 * - **Tab**: Your Trusted Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	trusted_heading: prismic.KeyTextField;
+	
+	/**
+	 * VOSB logo: description for screen readers field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Veteran-Owned Small Business (VOSB)
+	 * - **API ID Path**: home_page.vosb_logo_alt
+	 * - **Tab**: Your Trusted Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	vosb_logo_alt: prismic.KeyTextField;
+	
+	/**
+	 * paragraph under the definition field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our expertise, VOSB (Veteran-Owned Small Business) status, and deep network of relation…
+	 * - **API ID Path**: home_page.trusted_text
+	 * - **Tab**: Your Trusted Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	trusted_text: prismic.KeyTextField;
+	
+	/**
+	 * first button field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact Us
+	 * - **API ID Path**: home_page.contact_button
+	 * - **Tab**: Your Trusted Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_button: prismic.KeyTextField;
+	
+	/**
+	 * second button field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Capabilities Statement
+	 * - **API ID Path**: home_page.capabilities_button
+	 * - **Tab**: Your Trusted Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	capabilities_button: prismic.KeyTextField;/**
+	 * video: description for screen readers field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: background video
+	 * - **API ID Path**: home_page.video_title
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	video_title: prismic.KeyTextField;
+	
+	/**
+	 * heading over the video field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We'll Get You
+	 * - **API ID Path**: home_page.we_get_heading
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	we_get_heading: prismic.KeyTextField;
+	
+	/**
+	 * first rotating line (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Priority / Access
+	 * - **API ID Path**: home_page.we_get_1
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	we_get_1: prismic.RichTextField;
+	
+	/**
+	 * second rotating line (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: contract / expertise
+	 * - **API ID Path**: home_page.we_get_2
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	we_get_2: prismic.RichTextField;
+	
+	/**
+	 * third rotating line (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Direct / Results
+	 * - **API ID Path**: home_page.we_get_3
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	we_get_3: prismic.RichTextField;
+	
+	/**
+	 * subheading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
+	 * - **API ID Path**: home_page.clinician_heading
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	clinician_heading: prismic.KeyTextField;
+	
+	/**
+	 * paragraph field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT makes medical care possible from the war fighter all the way to the retiree and al…
+	 * - **API ID Path**: home_page.clinician_text
+	 * - **Tab**: We'll Get You
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	clinician_text: prismic.KeyTextField;/**
+	 * first timeline image: description for screen readers field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
+	 * - **API ID Path**: home_page.timeline_1_alt
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_1_alt: prismic.KeyTextField;
+	
+	/**
+	 * second timeline image: description for screen readers field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
+	 * - **API ID Path**: home_page.timeline_2_alt
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_2_alt: prismic.KeyTextField;
+	
+	/**
+	 * third timeline image: description for screen readers field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: A timeline of the six stages of a service member's life: start date at 18, deployment o…
+	 * - **API ID Path**: home_page.timeline_3_alt
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_3_alt: prismic.KeyTextField;/**
+	 * heading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We Know What to Do
+	 * - **API ID Path**: home_page.know_heading
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	know_heading: prismic.KeyTextField;
+	
+	/**
+	 * left column heading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Government Contracts Are
+	 * - **API ID Path**: home_page.problem_heading
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	problem_heading: prismic.KeyTextField;
+	
+	/**
+	 * left column, first word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: opaque
+	 * - **API ID Path**: home_page.problem_1
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	problem_1: prismic.KeyTextField;
+	
+	/**
+	 * left column, second word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: confusing
+	 * - **API ID Path**: home_page.problem_2
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	problem_2: prismic.KeyTextField;
+	
+	/**
+	 * left column, third word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: inaccessible
+	 * - **API ID Path**: home_page.problem_3
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	problem_3: prismic.KeyTextField;
+	
+	/**
+	 * right column heading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What You’ll get With MSOT
+	 * - **API ID Path**: home_page.answer_heading
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	answer_heading: prismic.KeyTextField;
+	
+	/**
+	 * right column, first word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: transparency
+	 * - **API ID Path**: home_page.answer_1
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	answer_1: prismic.KeyTextField;
+	
+	/**
+	 * right column, second word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: understanding
+	 * - **API ID Path**: home_page.answer_2
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	answer_2: prismic.KeyTextField;
+	
+	/**
+	 * right column, third word field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: access
+	 * - **API ID Path**: home_page.answer_3
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	answer_3: prismic.KeyTextField;
+	
+	/**
+	 * heading below field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’re here to help
+	 * - **API ID Path**: home_page.help_heading
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	help_heading: prismic.KeyTextField;
+	
+	/**
+	 * line under it field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Take the headache and confusion out of dealing with government healthcare
+	 * - **API ID Path**: home_page.help_text
+	 * - **Tab**: We Know What to Do
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	help_text: prismic.KeyTextField;/**
+	 * heading field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our Partner
+	 * - **API ID Path**: home_page.partner_heading
+	 * - **Tab**: Our Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partner_heading: prismic.KeyTextField;
+	
+	/**
+	 * quote, with its quotation marks field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: “MSOT made the process of getting our product into the DoD system easier than we ever t…
+	 * - **API ID Path**: home_page.partner_quote
+	 * - **Tab**: Our Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partner_quote: prismic.KeyTextField;
+	
+	/**
+	 * partner logo: the partner's name field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Revogen
+	 * - **API ID Path**: home_page.partner_logo_alt
+	 * - **Tab**: Our Partner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partner_logo_alt: prismic.KeyTextField;/**
+	 * heading, first line field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Getting started
+	 * - **API ID Path**: home_page.start_heading_1
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	start_heading_1: prismic.KeyTextField;
+	
+	/**
+	 * heading, second line field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: is simple with msot
+	 * - **API ID Path**: home_page.start_heading_2
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	start_heading_2: prismic.KeyTextField;
+	
+	/**
+	 * step 01 (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: establish / goals
+	 * - **API ID Path**: home_page.step_1
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	step_1: prismic.RichTextField;
+	
+	/**
+	 * step 02 (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Find Your / access points
+	 * - **API ID Path**: home_page.step_2
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	step_2: prismic.RichTextField;
+	
+	/**
+	 * step 03 (Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Set pricing / direct invoicing
+	 * - **API ID Path**: home_page.step_3
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	step_3: prismic.RichTextField;
+	
+	/**
+	 * button field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Learn More
+	 * - **API ID Path**: home_page.start_button
+	 * - **Tab**: Getting Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	start_button: prismic.KeyTextField;/**
+	 * large line over the photo field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: let’s get started
+	 * - **API ID Path**: home_page.cta_line
+	 * - **Tab**: Let's Get Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_line: prismic.KeyTextField;
+	
+	/**
+	 * first button field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact Us
+	 * - **API ID Path**: home_page.cta_contact_button
+	 * - **Tab**: Let's Get Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_contact_button: prismic.KeyTextField;
+	
+	/**
+	 * second button field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Learn More
+	 * - **API ID Path**: home_page.cta_process_button
+	 * - **Tab**: Let's Get Started
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_process_button: prismic.KeyTextField;
+}
+
+/**
+ * Home page document from Prismic
+ *
+ * - **API ID**: `home_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomePageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomePageDocumentData>, "home_page", Lang>;
+
 type PageDocumentDataSlicesSlice = RichTextSlice
 
 /**
@@ -272,7 +694,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = FormRepliesDocument | PageDocument | TeamMemberDocument;
+export type AllDocumentTypes = FormRepliesDocument | HomePageDocument | PageDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -330,6 +752,8 @@ declare module "@prismicio/client" {
 			FormRepliesDocument,
 			FormRepliesDocumentData,
 			FormRepliesDocumentDataRepliesItem,
+			HomePageDocument,
+			HomePageDocumentData,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
