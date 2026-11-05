@@ -24,9 +24,10 @@ const REVOGEN_QUOTE_DOD = [
   /selling\s+to the DoD and VA hospital systems/gi,
 ];
 
-// The Home hero is held out of this change: it is SVG lettering on desktop, and
-// which line becomes Home's heading waits on MSOT. On phones it renders as text
-// after JavaScript, so the rendered check allows exactly that line, on Home only.
+// The Home hero is held out of this change: it is SVG lettering on desktop,
+// and its words wait on MSOT and Erik (Home's <h1> is now "Your Trusted
+// Partner", decision 2026-11-05-1527). On phones it renders as text after
+// JavaScript, so the rendered check allows exactly that line, on Home only.
 const HELD_HERO_DOD = /Connecting\s+DoD \+ VA\s+Hospitals/gi;
 
 // About's first sentence carries Marketing's approved bridge (Developer Brief
