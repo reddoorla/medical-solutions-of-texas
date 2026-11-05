@@ -49,6 +49,7 @@ function expectCopyRules(text: string, where: string) {
   expect(text, `${where}: DoD outside the Revogen quote`).not.toMatch(DOD);
   expect(text, `${where}: "end user"`).not.toMatch(END_USER);
   expect(text, `${where}: a former staff member`).not.toMatch(FORMER_STAFF);
+  expect(text, `${where}: house order is "VA and DoW"`).not.toMatch(/\bDoW\s*(?:and|&|\+)\s*VA\b/i);
 }
 
 /** Rendered text with every accordion opened, plus alt, aria-label and title values. */
