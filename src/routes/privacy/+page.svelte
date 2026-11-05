@@ -82,6 +82,11 @@
       {#if has("ga4")}
         <li>To understand how the site is used and improve it.</li>
       {/if}
+      {#if has("linkedin")}
+        <li>
+          To measure our LinkedIn advertising and show our ads to people who have visited the site.
+        </li>
+      {/if}
     </ul>
     <p>We do not sell your personal information.</p>
   </section>
@@ -123,6 +128,25 @@
           reports for us. You can opt out with Google's
           <a href="https://tools.google.com/dlpage/gaoptout" class="underline hover:text-white"
             >browser add-on</a
+          >.
+        </li>
+      {/if}
+      {#if has("gtm")}
+        <li data-testid="service-gtm">
+          Google Tag Manager loads our advertising tag, described next, after you first move the
+          mouse, scroll, click, tap or press a key on a page. Google receives your IP address and
+          browser details when it loads.
+        </li>
+      {/if}
+      {#if has("linkedin")}
+        <li data-testid="service-linkedin">
+          We use the LinkedIn Insight Tag to measure the effectiveness of our LinkedIn advertising
+          and to show relevant ads to people who have visited our site. LinkedIn may set cookies and
+          collect information such as the page visited and browser details. LinkedIn does not share
+          personal information that identifies you with us. You can manage LinkedIn ad settings at
+          <a
+            href="https://www.linkedin.com/psettings/advertising"
+            class="underline hover:text-white">linkedin.com/psettings/advertising</a
           >.
         </li>
       {/if}
