@@ -10,7 +10,7 @@ import type { TeamMemberDocument } from "../../prismicio-types";
 const doc = (data: Record<string, unknown>) => ({ data }) as unknown as TeamMemberDocument;
 const NONE = { headshot: {}, bio: [], linkedin: { link_type: "Any" }, order: null };
 const IMAGE = {
-  url: "https://images.prismic.io/msot/jon.jpg?auto=format",
+  url: "https://images.prismic.io/msot/jon.jpg",
   dimensions: { width: 800, height: 800 },
   alt: null,
   copyright: null,
@@ -51,6 +51,8 @@ test("buildTeam: one published document replaces its card and keeps everyone els
   const jon = cards[0];
   expect(jon.headshot).toMatch(/^https:\/\/images\.prismic\.io\/msot\/jon\.jpg\?/);
   expect(jon.headshot).toContain("w=768");
+  // §8: "WebP or AVIF with a JPG fallback", which Prismic's imgix serves by format.
+  expect(jon.headshot).toContain("auto=format");
   expect(jon.bio).toEqual(BIO);
   expect(jon.linkedin).toBe("https://www.linkedin.com/in/jon-hood");
   expect(cards[1].headshot).toBe("/tim.png");
@@ -70,9 +72,9 @@ test("buildTeam: order places people, a new person is added, nothing is ever emp
     CURRENT,
     "/placeholder.png",
   );
-  // "order N" means Nth: a document goes ahead of a card still in today's
-  // place N, whatever the names.
-  expect(names(cards)).toEqual(["Kylene Carse", "Jon Hood", "New Hire", "David Lange"]);
+  // "order N" means Nth: Kylene first, the new hire second, then today's
+  // cards with no document in today's order.
+  expect(names(cards)).toEqual(["Kylene Carse", "New Hire", "Jon Hood", "David Lange"]);
   const kylene = cards.find((c) => c.name === "Kylene Carse")!;
   expect(kylene.headshot).toBe("/kylene.png");
   expect(kylene.bio).toBeUndefined();
@@ -91,8 +93,102 @@ test("buildTeam: the last person in today's list, given order 1, comes first", (
   expect(names(cards)).toEqual(["Kylene Carse", "Jon Hood", "David Lange"]);
 });
 
+// Round 3: today's five cards, published one at a time and numbered 1 to 5.
+const FIVE = [
+  { name: "Jon Hood", title: "CEO", headshot: "/jon.svg" },
+  { name: "David Lange", title: "President", headshot: "/tim.png" },
+  { name: "Kylene Carse", title: "Chief Financial Officer", headshot: "/kylene.png" },
+  { name: "Courtney Alexander", title: "Operations", headshot: "/courtney.png" },
+  { name: "Kathy Castro", title: "Accounts", headshot: "/kathy.png" },
+];
+const placed = (orders: [string, number][], extra: string[] = []) =>
+  names(
+    buildTeam(
+      [
+        ...orders.map(([name, order]) => doc({ ...NONE, name, job_title: "T", order })),
+        ...extra.map((name) => doc({ ...NONE, name, job_title: "T" })),
+      ],
+      FIVE,
+      "/placeholder.png",
+    ),
+  );
+
+test("buildTeam: order N is the Nth place even when only some people have documents", () => {
+  // Jon alone at 5 is 5th, not 4th.
+  expect(placed([["Jon Hood", 5]])).toEqual([
+    "David Lange",
+    "Kylene Carse",
+    "Courtney Alexander",
+    "Kathy Castro",
+    "Jon Hood",
+  ]);
+  // Kylene 1 and Courtney 2: Courtney is 2nd.
+  expect(
+    placed([
+      ["Kylene Carse", 1],
+      ["Courtney Alexander", 2],
+    ]),
+  ).toEqual(["Kylene Carse", "Courtney Alexander", "Jon Hood", "David Lange", "Kathy Castro"]);
+  // Kathy 1 and a new hire 2: the new hire is 2nd.
+  expect(
+    placed([
+      ["Kathy Castro", 1],
+      ["New Hire", 2],
+    ]),
+  ).toEqual([
+    "Kathy Castro",
+    "New Hire",
+    "Jon Hood",
+    "David Lange",
+    "Kylene Carse",
+    "Courtney Alexander",
+  ]);
+  // Jon at 2 puts David first.
+  expect(placed([["Jon Hood", 2]])).toEqual([
+    "David Lange",
+    "Jon Hood",
+    "Kylene Carse",
+    "Courtney Alexander",
+    "Kathy Castro",
+  ]);
+  // All five numbered 5 to 1: exactly reversed.
+  expect(
+    placed([
+      ["Jon Hood", 5],
+      ["David Lange", 4],
+      ["Kylene Carse", 3],
+      ["Courtney Alexander", 2],
+      ["Kathy Castro", 1],
+    ]),
+  ).toEqual(["Kathy Castro", "Courtney Alexander", "Kylene Carse", "David Lange", "Jon Hood"]);
+  // A document with no order keeps today's place; a new person with no order
+  // goes after today's cards; an order past the end goes last of all.
+  expect(placed([["Kylene Carse", 99]], ["David Lange", "New Hire"])).toEqual([
+    "Jon Hood",
+    "David Lange",
+    "Courtney Alexander",
+    "Kathy Castro",
+    "New Hire",
+    "Kylene Carse",
+  ]);
+  // Two at 1 go by name, and both come before the rest.
+  expect(
+    placed([
+      ["Kathy Castro", 1],
+      ["Courtney Alexander", 1],
+    ]),
+  ).toEqual(["Courtney Alexander", "Kathy Castro", "Jon Hood", "David Lange", "Kylene Carse"]);
+});
+
 test("buildTeam: case, spacing or a pasted non-breaking space never makes a second card", () => {
-  for (const typed of ["jon hood", "Jon  Hood", "Jon\u00a0Hood", " Jon Hood "]) {
+  for (const typed of [
+    "jon hood",
+    "Jon  Hood",
+    "Jon\u00a0Hood",
+    " Jon Hood ",
+    "Jon\u200b Hood",
+    "\ufeffJon Hood",
+  ]) {
     const cards = buildTeam(
       [doc({ ...NONE, name: typed, job_title: "CEO", bio: BIO })],
       CURRENT,
@@ -196,4 +292,7 @@ test("a team card with no popup is not a button", async ({ page }) => {
   const card = page.getByTestId("team-card").first();
   await expect(card.getByRole("heading", { name: "Jon Hood" })).toBeAttached();
   await expect(card.locator("button")).toHaveCount(0);
+  // No button role and no empty tab stop, on the card or inside it.
+  await expect(card.getByRole("button")).toHaveCount(0);
+  await expect(card.locator("[tabindex]")).toHaveCount(0);
 });

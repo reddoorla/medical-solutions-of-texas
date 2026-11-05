@@ -25,38 +25,46 @@ export type TeamCard = {
 export type CurrentCard = { name: string; title: string; headshot: string };
 
 /** Case, spacing and pasted non-breaking spaces don't make a different person. */
-const nameKey = (name: string) => name.trim().replace(/\s+/g, " ").toLowerCase();
+const cleanName = (name: string) =>
+  name
+    .replace(/[\u200b-\u200d\u2060\ufeff]/g, "")
+    .trim()
+    .replace(/\s+/g, " ");
+const nameKey = (name: string) => cleanName(name).toLowerCase();
 
 export const teamAlt = (name: string, title: string) =>
   title ? `${name}, ${title}, Medical Solutions of Texas.` : `${name}, Medical Solutions of Texas.`;
 
 /**
  * The team: today's cards in their order, each replaced by a Prismic document
- * with the same name (ignoring case and spacing), plus any new people. A
- * document's `order` is its position: 1 is first. A card with no document
- * keeps its place in today's list, and a document whose order equals that
- * place goes ahead of it, so "order 1" always means first. Documents with the
+ * with the same name (ignoring case, spacing and zero-width characters), plus
+ * any new people. A document's `order` is its position: 1 is first, 2 is
+ * second, whoever else has a document. The documents with an order are placed
+ * by it; everyone else (today's cards with no document, then documents with
+ * no order) fills the remaining places in today's order. Documents with the
  * same order go by name. A document with no name is skipped, and of two with
- * the same name the first in the API's order (by `order`) wins. A person whose headshot hasn't
- * come in keeps the image the site already shows for them (§8: "keep their
- * current image until it does"), else the placeholder: never an empty card.
+ * the same name the first in the API's order (by `order`) wins. A person whose
+ * headshot hasn't come in keeps the image the site already shows for them
+ * (§8: "keep their current image until it does"), else the placeholder: never
+ * an empty card.
  */
 export function buildTeam(
   docs: TeamMemberDocument[],
   current: CurrentCard[],
   placeholder: string,
 ): TeamCard[] {
-  const cards = new Map<string, TeamCard & { order: number; fromDoc: boolean }>();
+  const cards = new Map<string, TeamCard & { order: number; placed: boolean; fromDoc: boolean }>();
   current.forEach((c, i) => {
     cards.set(nameKey(c.name), {
       ...c,
       alt: teamAlt(c.name, c.title),
       order: i + 1,
+      placed: false,
       fromDoc: false,
     });
   });
   for (const d of docs) {
-    const name = d.data.name?.trim().replace(/\s+/g, " ");
+    const name = d.data.name ? cleanName(d.data.name) : "";
     if (!name) continue;
     const key = nameKey(name);
     const today = cards.get(key);
@@ -78,14 +86,26 @@ export function buildTeam(
       alt: teamAlt(name, title),
       bio: isFilled.richText(d.data.bio) ? d.data.bio : undefined,
       linkedin: isFilled.link(d.data.linkedin) ? (d.data.linkedin.url ?? undefined) : undefined,
+      // A document with no order keeps the person's place in today's list.
       order: d.data.order ?? today?.order ?? Infinity,
+      placed: d.data.order != null,
       fromDoc: true,
     });
   }
-  return [...cards.values()]
-    .sort(
-      (a, b) =>
-        a.order - b.order || Number(b.fromDoc) - Number(a.fromDoc) || a.name.localeCompare(b.name),
-    )
-    .map(({ order: _order, fromDoc: _fromDoc, ...card }) => card);
+  const all = [...cards.values()];
+  const placed = all
+    .filter((c) => c.placed)
+    .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+  const rest = all
+    .filter((c) => !c.placed)
+    .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+  // Insert in ascending order, so "order N" lands in place N. A tie goes right
+  // after the person it ties with; an order past the end goes last.
+  let prev = -1;
+  for (const c of placed) {
+    const at = Math.min(Math.max(Math.ceil(c.order - 1), prev + 1, 0), rest.length);
+    rest.splice(at, 0, c);
+    prev = at;
+  }
+  return rest.map(({ order: _order, placed: _placed, fromDoc: _fromDoc, ...card }) => card);
 }
