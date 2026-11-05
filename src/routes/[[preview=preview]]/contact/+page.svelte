@@ -2,12 +2,12 @@
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import ContactForm from "$lib/components/FullWidth/ContactForm.svelte";
-  import { IDENTITY } from "$lib/identity";
   import type { ActionData, PageData } from "./$types";
 
   // Success/error now come from the server action result, not a `?success=true`
   // URL param (that was the old Netlify Forms redirect convention).
   let { data, form }: { data: PageData; form: ActionData } = $props();
+  const identity = $derived(data.identity);
 </script>
 
 <section class="bg-light pt-64 pb-32">
@@ -21,13 +21,14 @@
         <div>We’d love to hear from you.</div>
         <address class="not-italic flex flex-col gap-8">
           <div>
-            {IDENTITY.address.street} <br />
-            {IDENTITY.address.city}, {IDENTITY.address.region}
-            {IDENTITY.address.postalCode}
+            {identity.address.street} <br />
+            {identity.address.city}, {identity.address.region}
+            {identity.address.postalCode}
           </div>
           <div>
-            Phone: <a href={`tel:${IDENTITY.phoneE164}`}>{IDENTITY.phone}</a> <br />
-            <a href={`mailto:${IDENTITY.email}`}>{IDENTITY.email}</a>
+            Phone: {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`}>{identity.phone}</a
+              >{:else}{identity.phone}{/if} <br />
+            <a href={`mailto:${identity.email}`}>{identity.email}</a>
           </div>
         </address>
       </div>

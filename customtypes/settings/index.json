@@ -1,0 +1,239 @@
+{
+  "format": "custom",
+  "id": "settings",
+  "label": "Site settings",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Who MSOT is": {
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "name. Page titles and the Contact page's SEO description say \"MSOT\" in their own wording: to change those, ask Reddoor.",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas"
+        }
+      },
+      "short_name": {
+        "type": "Text",
+        "config": {
+          "label": "short name. Page titles and the Contact page's SEO description keep \"MSOT\" in their own wording: to change those, ask Reddoor.",
+          "placeholder": "Leave empty to keep: MSOT"
+        }
+      },
+      "legal_name": {
+        "type": "Text",
+        "config": {
+          "label": "legal name",
+          "placeholder": "Leave empty to keep: OJH Services, Inc."
+        }
+      },
+      "business_type": {
+        "type": "Text",
+        "config": {
+          "label": "business type",
+          "placeholder": "Leave empty to keep: Veteran-Owned Small Business (VOSB)"
+        }
+      },
+      "tagline": {
+        "type": "Text",
+        "config": {
+          "label": "tagline",
+          "placeholder": "Leave empty to keep: Federal med-surg contracting for the VA and DoW"
+        }
+      },
+      "definition": {
+        "type": "Text",
+        "config": {
+          "label": "definition (Home, every page's footer, and Google's structured data)",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical…"
+        }
+      },
+      "definition_about": {
+        "type": "Text",
+        "config": {
+          "label": "definition (About, first sentence)",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB)… formerly the Department of Defense (DoD)…"
+        }
+      },
+      "works_with": {
+        "type": "Text",
+        "config": {
+          "label": "works with (end of About’s Who we are)",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas (MSOT) works with medical-surgical manufacturers and federal healthcare facilities."
+        }
+      }
+    },
+    "Address and contact": {
+      "street": {
+        "type": "Text",
+        "config": {
+          "label": "street. The Contact page's SEO description also states it: edit that too.",
+          "placeholder": "Leave empty to keep: 4903 Golden Quail, Suite 120"
+        }
+      },
+      "city": {
+        "type": "Text",
+        "config": {
+          "label": "city",
+          "placeholder": "Leave empty to keep: San Antonio"
+        }
+      },
+      "region": {
+        "type": "Text",
+        "config": {
+          "label": "state",
+          "placeholder": "Leave empty to keep: TX"
+        }
+      },
+      "postal_code": {
+        "type": "Text",
+        "config": {
+          "label": "ZIP code",
+          "placeholder": "Leave empty to keep: 78240"
+        }
+      },
+      "country": {
+        "type": "Text",
+        "config": {
+          "label": "country code",
+          "placeholder": "Leave empty to keep: US"
+        }
+      },
+      "phone": {
+        "type": "Text",
+        "config": {
+          "label": "phone, as printed. The Contact page's SEO description also states it: edit that too.",
+          "placeholder": "Leave empty to keep: 833.307.4418"
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "email",
+          "placeholder": "Leave empty to keep: info@MedicalSolutionsofTX.com"
+        }
+      }
+    },
+    "Registrations": {
+      "uei": {
+        "type": "Text",
+        "config": {
+          "label": "UEI",
+          "placeholder": "Leave empty to keep: Z7Q8TN9HMRC4"
+        }
+      },
+      "cage": {
+        "type": "Text",
+        "config": {
+          "label": "CAGE code",
+          "placeholder": "Leave empty to keep: 6ZM08"
+        }
+      },
+      "fss": {
+        "type": "Text",
+        "config": {
+          "label": "FSS contract number",
+          "placeholder": "Leave empty to keep: 36F797-25-D-0204"
+        }
+      },
+      "naics": {
+        "type": "Text",
+        "config": {
+          "label": "primary NAICS",
+          "placeholder": "Leave empty to keep: 423450"
+        }
+      },
+      "ecat_jit": {
+        "type": "Text",
+        "config": {
+          "label": "DLA ECAT contract number (Just in Time). To retire or rename this vehicle, ask Reddoor.",
+          "placeholder": "Leave empty to keep: SPE2DE-25-D-A012"
+        }
+      },
+      "ecat_dvd": {
+        "type": "Text",
+        "config": {
+          "label": "DLA ECAT contract number (Direct Vendor Delivery). To retire or rename this vehicle, ask Reddoor.",
+          "placeholder": "Leave empty to keep: SPE2DE-25-D-A011"
+        }
+      },
+      "dapa_med": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA number (Medical/Surgical). To retire or rename this vehicle, ask Reddoor.",
+          "placeholder": "Leave empty to keep: SP0200-11-H-0018"
+        }
+      },
+      "dapa_equip": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA number (Equipment). To retire or rename this vehicle, ask Reddoor.",
+          "placeholder": "Leave empty to keep: SP0200-11-H-0003"
+        }
+      },
+      "more_contracts": {
+        "type": "Group",
+        "config": {
+          "label": "more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "name",
+                "placeholder": "e.g. GSA MAS Contract"
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "number",
+                "placeholder": "e.g. 47QSWA00X0000"
+              }
+            }
+          }
+        }
+      },
+      "same_as": {
+        "type": "Group",
+        "config": {
+          "label": "pages about MSOT elsewhere. Empty keeps today's two (LinkedIn, GSA eLibrary); a filled list replaces both, so list every page.",
+          "repeat": true,
+          "fields": {
+            "url": {
+              "type": "Link",
+              "config": {
+                "label": "page",
+                "placeholder": "The full address, starting https://",
+                "select": "web"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Page titles": {
+      "not_found_title": {
+        "type": "Text",
+        "config": {
+          "label": "title of the page-not-found page",
+          "placeholder": "Leave empty to keep: Page not found | MSOT"
+        }
+      },
+      "error_title": {
+        "type": "Text",
+        "config": {
+          "label": "title of the error page",
+          "placeholder": "Leave empty to keep: Something went wrong | MSOT"
+        }
+      },
+      "default_description": {
+        "type": "Text",
+        "config": {
+          "label": "description for a page that has none",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…"
+        }
+      }
+    }
+  }
+}

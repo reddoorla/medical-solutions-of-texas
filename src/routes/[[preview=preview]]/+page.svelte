@@ -1,10 +1,10 @@
 <script lang="ts">
   import FooterIdentity from "$lib/components/FooterIdentity.svelte";
-  import { DEFINITION } from "$lib/identity";
   import HomeJsonLd from "$lib/components/HomeJsonLd.svelte";
   import VimeoGate from "$lib/components/VimeoGate.svelte";
   import Lines from "$lib/components/Lines.svelte";
   import type { PageData } from "./$types";
+  import { page } from "$app/state";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
   import txFlag from "$lib/assets/icons/logos/txFlag.svg";
@@ -38,6 +38,18 @@
   // The copy is the home_page document over today's wording ($lib/copy/home).
   let { data }: { data: PageData } = $props();
   const copy = $derived(data.copy);
+
+  // Marketing's PDF-download conversion is a Custom Event trigger on this push,
+  // not a GTM link-click trigger: Tag Manager loads on the first interaction, so
+  // a first click on the PDF would beat its click listener (#144). GTM reads the
+  // queued push when it loads. A middle-click counts too (it fires auxclick, not
+  // click); "Open in new tab" from the context menu fires neither, so it can't
+  // be counted. No personal data.
+  function pushCapabilitiesDownload() {
+    const w = window as unknown as { dataLayer?: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: "msot_capabilities_download" });
+  }
 
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
@@ -258,7 +270,7 @@
         <img src={txFlag} alt="" width="53" height="35" class="opacity-50" />
       </div>
       <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
-        {DEFINITION}
+        {page.data.identity.definition}
       </p>
       <div class="text-white text-center leading-normal md:text-[24px]">
         {copy.trusted_text}
@@ -267,8 +279,16 @@
         <BracketButton href="/contact" class="text-mid button-text"
           >{copy.contact_button}</BracketButton
         >
-        <BracketButton href="/capabilities" class="text-mid button-text"
-          >{copy.capabilities_button}</BracketButton
+        <!-- A new tab keeps Home open, so a Tag Manager that this click only
+             starts loading can still read the queued download event. -->
+        <BracketButton
+          href="/pdfs/MSOT_Capabilities.pdf"
+          target="_blank"
+          rel="noopener"
+          click={pushCapabilitiesDownload}
+          auxclick={(e) => e.button === 1 && pushCapabilitiesDownload()}
+          ariaLabel={`${copy.capabilities_button} (PDF, opens in a new tab)`}
+          class="text-mid button-text">{copy.capabilities_button}</BracketButton
         >
       </div>
     </div>

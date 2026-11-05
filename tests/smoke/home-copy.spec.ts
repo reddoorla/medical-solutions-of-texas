@@ -32,7 +32,7 @@ test("lines: Shift+Enter breaks the heading; blank lines drop; empty keeps today
   expect(lines(null, ["a", "b"])).toEqual(["a", "b"]);
 });
 
-test("loadSingle: the client's own \"No documents were returned\" is no document", async () => {
+test('loadSingle: the client\'s own "No documents were returned" is no document', async () => {
   const none = client(async () => {
     throw new NotFoundError("No documents were returned", "", undefined);
   });
@@ -110,7 +110,9 @@ const ATTRIBUTES: Record<string, string> = {
 };
 
 test("Home reads the document: every field, in every section", async ({ request }) => {
-  const html = await (await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })).text();
+  const html = await (
+    await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })
+  ).text();
   const shown = visible(html);
   const page = html.replace(/<script[\s\S]*?<\/script>/gi, "");
   for (const [field, today] of Object.entries(HOME_COPY)) {
@@ -157,9 +159,7 @@ test("Home's phone width breaks We'll Get You across lines, from the document", 
   baseURL,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page
-    .context()
-    .addCookies([{ name: "msot-home-fixture", value: "1", url: baseURL ?? "" }]);
+  await page.context().addCookies([{ name: "msot-home-fixture", value: "1", url: baseURL ?? "" }]);
   await page.route("**/player.vimeo.com/**", (r) => r.abort());
   await page.goto("/");
   const heading = page.locator("h2", { hasText: "Fixture we_get_1 1" });
