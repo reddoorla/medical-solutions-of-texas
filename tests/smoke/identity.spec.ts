@@ -84,7 +84,9 @@ for (const path of PAGES) {
     const open = details.match(/^<details[^>]*>/)![0];
     expect(open, "closed by default: no open attribute").not.toMatch(/\sopen(?:[\s=>]|$)/);
     expect(details).toMatch(/<summary[\s>][\s\S]*Company details[\s\S]*<\/summary>/);
-    expect(details).toMatch(/<address[\s>][^]*?Golden Quail[^]*?<\/address>/);
+    expect(details, "the street address sits inside one <address>").toMatch(
+      /<address[^>]*>(?:(?!<\/address>)[^])*Golden Quail/,
+    );
     const inside = squash(text(details));
     const out = squash(text(outside));
     for (const line of IN_DETAILS) {
@@ -94,32 +96,49 @@ for (const path of PAGES) {
     for (const line of ALWAYS_VISIBLE) expect(out).toContain(squash(line));
     expect(outside).toContain('href="tel:+18333074418"');
     expect(outside).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
-    expect(outside).toMatch(/<address[\s>][^]*?href="tel:[^]*?<\/address>/);
+    expect(outside, "the phone link sits inside one <address>").toMatch(
+      /<address[^>]*>(?:(?!<\/address>)[^])*href="tel:/,
+    );
     expect(outside).toContain('data-testid="footer-privacy-link"');
   });
 }
 
 for (const path of ["/", "/about"]) {
-  test(`${path}: the footer's details open and close from the keyboard, without JavaScript`, async ({
-    browser,
-  }) => {
-    const context = await browser.newContext({ javaScriptEnabled: false });
-    const page = await context.newPage();
-    await page.goto(path);
-    const block = page.getByTestId("footer-identity");
-    const uei = block.getByText("UEI Z7Q8TN9HMRC4");
-    await expect(block.getByRole("link", { name: "833.307.4418" })).toBeVisible();
-    await expect(block.getByRole("link", { name: "Privacy Policy" })).toBeVisible();
-    await expect(uei).toBeHidden();
-    const summary = block.locator("details > summary");
-    await summary.focus();
-    await page.keyboard.press("Enter");
-    await expect(uei).toBeVisible();
-    await expect(block.getByText(DEFINITION)).toBeVisible();
-    await page.keyboard.press("Enter");
-    await expect(uei).toBeHidden();
-    await context.close();
-  });
+  for (const width of [1440, 390]) {
+    test(`${path} at ${width}px: name, phone, email and © are in view; the details open and close from the keyboard, without JavaScript`, async ({
+      browser,
+    }) => {
+      const context = await browser.newContext({
+        javaScriptEnabled: false,
+        viewport: { width, height: 900 },
+      });
+      const page = await context.newPage();
+      await page.goto(path);
+      const block = page.getByTestId("footer-identity");
+      for (const visible of [
+        block.getByText("Medical Solutions of Texas (MSOT)", { exact: true }),
+        block.getByRole("link", { name: "833.307.4418" }),
+        block.getByRole("link", { name: "info@MedicalSolutionsofTX.com" }),
+        block.getByText(/©\d{4}\s+OJH Services/),
+        block.getByRole("link", { name: "Privacy Policy" }),
+      ])
+        await expect(visible).toBeVisible();
+      const uei = block.getByText("UEI Z7Q8TN9HMRC4");
+      await expect(uei).toBeHidden();
+      // Reach the summary by Tab, as a keyboard user does: a summary taken out
+      // of the tab order would never get focus here.
+      const summary = block.locator("details > summary");
+      await block.getByRole("link", { name: "info@MedicalSolutionsofTX.com" }).focus();
+      await page.keyboard.press("Tab");
+      await expect(summary).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(uei).toBeVisible();
+      await expect(block.getByText(DEFINITION)).toBeVisible();
+      await page.keyboard.press("Enter");
+      await expect(uei).toBeHidden();
+      await context.close();
+    });
+  }
 }
 
 for (const path of PAGES) {

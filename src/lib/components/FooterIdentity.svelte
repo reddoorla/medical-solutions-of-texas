@@ -19,8 +19,15 @@
 <div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
   <p class="label font-semibold">{IDENTITY.name} ({IDENTITY.shortName})</p>
   <address class="label not-italic">
-    <a href={`tel:${IDENTITY.phoneE164}`} class="hover:text-light">{IDENTITY.phone}</a> ·
-    <a href={`mailto:${IDENTITY.email}`} class="hover:text-light [overflow-wrap:anywhere]"
+    <!-- Below sm the two don't fit on one line: each takes its own, with no
+         separator left dangling at the end of the first. -->
+    <a href={`tel:${IDENTITY.phoneE164}`} class="hover:text-light">{IDENTITY.phone}</a><span
+      class="max-sm:hidden"
+      >&nbsp;·
+    </span>
+    <a
+      href={`mailto:${IDENTITY.email}`}
+      class="hover:text-light [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
       >{IDENTITY.email}</a
     >
   </address>
