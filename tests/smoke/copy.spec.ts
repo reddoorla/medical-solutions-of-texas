@@ -35,6 +35,11 @@ const HELD_HERO_DOD = /Connecting\s+DoD \+ VA\s+Hospitals/gi;
 // phrase, on About only; DoD anywhere else on About still fails.
 const ABOUT_DOW_BRIDGE = /Department of War \(DoW\),\s+formerly the Department of Defense \(DoD\)/i;
 
+// Home's Organization JSON-LD keeps one DoD entry in knowsAbout, on
+// Marketing's word (Developer Brief Part 2, §13a: "Keep the DoD entry"). Allowed
+// as that whole phrase, once, on Home only.
+const HOME_KNOWS_ABOUT_DOD = /Department of Defense \(DoD\) medical procurement/;
+
 const DOD = /\bDoD\b|\bD\.O\.D\b|Department of Defense/i;
 const END_USER = /\bend[\s-]?users?\b/i;
 const FORMER_STAFF = /Albert Turgon|Tim Watson/i;
@@ -45,6 +50,8 @@ function stripAllowed(text: string, path: string, allowHeldHero: boolean): strin
     for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
   }
   if (path === "/" && allowHeldHero) t = t.replace(HELD_HERO_DOD, "");
+  // Server reading only: the JSON-LD is not in the rendered text.
+  if (path === "/" && !allowHeldHero) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
   // Not global: §12f allows the bridge once, then "DoW" everywhere after.
   if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
   return t;
