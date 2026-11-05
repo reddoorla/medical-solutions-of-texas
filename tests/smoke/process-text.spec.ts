@@ -202,24 +202,31 @@ for (const path of ["/", "/about", "/partners", "/process"]) {
   });
 }
 
-// The old <button> laid the answer beside the question from 1280px (xl) and
+// The old <button> laid the answer beside the question from 1340px (xl) and
 // below it on smaller screens; the <details> version keeps that.
-for (const [width, beside] of [
-  [1440, true],
-  [390, false],
+for (const [path, width, beside] of [
+  ["/about", 1440, true],
+  ["/process", 1340, true],
+  ["/process", 1440, true],
+  ["/about", 390, false],
 ] as const) {
-  test(`About at ${width}px: an open answer sits ${beside ? "beside" : "below"} its question`, async ({
+  test(`${path} at ${width}px: an open answer sits ${beside ? "beside" : "below"} its question`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/about", { waitUntil: "networkidle" });
+    await page.goto(path, { waitUntil: "networkidle" });
     const item = page.locator("details").first();
+    const plus = item.locator("svg").first();
+    expect(await plus.evaluate((e) => getComputedStyle(e).rotate)).toBe("none");
     await item.locator("summary").click();
     await page.waitForTimeout(700);
+    // The plus turns to a cross when open, as before.
+    expect(await plus.evaluate((e) => getComputedStyle(e).rotate)).toBe("45deg");
     const q = await item.locator("summary h4").evaluate((e) => e.getBoundingClientRect());
     const a = await item.locator("p").evaluate((e) => e.getBoundingClientRect());
     if (beside) {
       expect(a.left).toBeGreaterThan(q.left + width * 0.3);
+      expect(a.left, "the answer clears the question").toBeGreaterThanOrEqual(q.right + 24);
       expect(a.top).toBeLessThan(q.bottom + 40);
     } else {
       expect(a.top).toBeGreaterThanOrEqual(q.bottom);

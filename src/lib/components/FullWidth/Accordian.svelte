@@ -21,10 +21,10 @@
 
 <div class="w-full flex flex-col border-dark border-b-2">
   {#each accordianProps as accordian, i (i)}
-    <!-- From 1280px the answer sits beside the question, as the old button laid
+    <!-- From 1340px (the site's xl) the answer sits beside the question, as the old button laid
          them out; where a browser can't lay out <details> as a grid, it sits below. -->
     <details
-      class="accordian group relative w-full border-t-2 border-dark xl:grid xl:grid-cols-2 xl:items-start"
+      class="accordian group relative w-full border-t-2 border-dark xl:grid xl:grid-cols-[minmax(max-content,1fr)_1fr] xl:items-start"
     >
       <summary class="w-full cursor-pointer list-none">
         <Plus
