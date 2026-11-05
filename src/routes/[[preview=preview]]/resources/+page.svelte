@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { IDENTITY } from "$lib/identity";
   import { Download } from "@lucide/svelte";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
@@ -48,7 +49,7 @@
       >
         <a href="/pdfs/MSOT_FSSCatalog.pdf" class="bump" target="_blank" rel="noopener noreferrer">
           <h4 class="text-dark hover:opacity-90 transition-opacity">
-            FSS Catalog (Contract # 36F79725D0204)
+            FSS Catalog (Contract # {IDENTITY.fss})
           </h4>
         </a>
         <a

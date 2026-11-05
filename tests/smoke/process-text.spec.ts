@@ -10,7 +10,7 @@ const html = async (request: import("@playwright/test").APIRequestContext, path:
 
 const FAQ_ANSWERS = [
   "In the 2016 Kingdomware Techs., Inc. v. United States case",
-  "The timeline for this process begins with a Medical Manufacturer getting approval on the ECAT. Typically 45 working days or less.",
+  "The timeline for this process begins with a medical manufacturer getting approval on the ECAT, typically 45 working days or less.",
 ];
 
 const ABOUT_ANSWERS = [
