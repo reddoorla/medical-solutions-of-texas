@@ -43,8 +43,8 @@ async function submitContactForm(page: Page, choose?: string): Promise<Request> 
 }
 
 test("choosing an interest submits it as the `select` field", async ({ page }) => {
-  const request = await submitContactForm(page, "DoD Contracts");
-  expect(submittedField(request, "select")).toBe("DoD Contracts");
+  const request = await submitContactForm(page, "DoW Contracts");
+  expect(submittedField(request, "select")).toBe("DoW Contracts");
 });
 
 test("an untouched select still submits `select=Select Interest`, as svelte-select's hidden input did", async ({
@@ -57,8 +57,8 @@ test("an untouched select still submits `select=Select Interest`, as svelte-sele
 test("the select offers the three interests by name", async ({ page }) => {
   await page.goto("/contact", { waitUntil: "networkidle" });
   const options = page.locator('select[name="select"] option:not([hidden])');
-  await expect(options).toHaveText(["VA Contracts", "DoD Contracts", "Both"]);
+  await expect(options).toHaveText(["VA Contracts", "DoW Contracts", "Both"]);
   expect(
     await options.evaluateAll((els) => els.map((e) => (e as HTMLOptionElement).value)),
-  ).toEqual(["VA Contracts", "DoD Contracts", "Both"]);
+  ).toEqual(["VA Contracts", "DoW Contracts", "Both"]);
 });
