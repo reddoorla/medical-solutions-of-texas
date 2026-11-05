@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { readdirSync, existsSync } from "node:fs";
+import { readdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { sitemapEntries } from "../../src/lib/sitemap.js";
 import { CODE_BUILT_UIDS } from "../../src/lib/code-routes.js";
@@ -72,7 +72,11 @@ test("every page route built in code is a reserved uid", () => {
   );
   expect(built.length).toBeGreaterThan(6);
   for (const name of built) expect(CODE_BUILT_UIDS, name).toContain(name);
-  expect(CODE_BUILT_UIDS).toContain("home");
+  // Both ways: a stale entry would stop a Prismic page with that uid forever.
+  expect([...CODE_BUILT_UIDS].sort()).toEqual([...built, "home"].sort());
+  // The catch-all reserves exactly this list (#142).
+  const catchAll = readFileSync(join(routes, "[[preview=preview]]/[uid]/+page.server.js"), "utf8");
+  expect(catchAll).toMatch(/const RESERVED_UIDS = CODE_BUILT_UIDS;/);
 });
 
 test("the served sitemap gives no lastmod for any page built in code", async ({ request }) => {
@@ -81,9 +85,10 @@ test("the served sitemap gives no lastmod for any page built in code", async ({ 
   const locs = entries.map((e) => e.match(/<loc>([^<]*)<\/loc>/)![1]);
   for (const path of ["/", "/about", "/process", "/partners", "/contact", "/resources"])
     expect(locs, path).toContain(SITE + path);
+  // Written out, not read from the list under test.
+  const CODE_BUILT_PATHS = ["/", "/about", "/process", "/partners", "/contact", "/resources"];
   for (const e of entries) {
     const path = e.match(/<loc>([^<]*)<\/loc>/)![1].slice(SITE.length) || "/";
-    const uid = path === "/" ? "home" : path.slice(1);
-    if (CODE_BUILT_UIDS.includes(uid)) expect(e, path).not.toContain("<lastmod>");
+    if (CODE_BUILT_PATHS.includes(path)) expect(e, path).not.toContain("<lastmod>");
   }
 });
