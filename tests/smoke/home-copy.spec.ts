@@ -94,7 +94,6 @@ test("homeCopy: no document is today's wording; a filled field wins, field by fi
   expect(today.timeline_2_eyebrow).toBe("The Clinician in Mind");
   expect(today.timeline_3_heading).toBe("Veteran & retiree");
   expect(today.timeline_label_6).toBe("85 y.o. veteran & retiree");
-  expect(today.timeline_3_hidden_label).toBe("Veteran + retiree");
   expect(today.partner_quote).toMatch(/^“MSOT made the process .* DoD and VA hospital systems\.”$/);
 
   const some = homeCopy(doc({ help_heading: "New help", step_1: para("New\nsteps") }));
@@ -172,7 +171,6 @@ test("Home reads the document: every field, in every section", async ({ request 
     "Caring for our veterans",
     "Start date",
     "Surgical procedure",
-    "Veteran + retiree",
     "Your Trusted Partner",
     "deep network of relationships",
     "We'll Get You",

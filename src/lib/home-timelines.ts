@@ -53,8 +53,13 @@ export type TimelineLayout = {
   body: Place;
   /** Each step's label, desktop and phone; a missing side hides it there. */
   labels: Place[];
-  /** Timeline 3's own last label on desktop, behind the veteran's photo. */
-  hiddenLabel?: Box;
+  /**
+   * Timeline 3's own last label on desktop, word for word from Figma. The
+   * veteran's photo covers it, so no visitor sees it; it stays in code rather
+   * than become a Prismic field no editor could check (a field can't be
+   * deleted once pushed).
+   */
+  hiddenLabel?: Box & { text: string };
 };
 
 const labelsWithout = (step: number, last = DESKTOP_LABELS[5]): Place[] =>
@@ -112,6 +117,6 @@ export const TIMELINES: TimelineLayout[] = [
       phone,
       desktop: i === 5 ? undefined : DESKTOP_LABELS[i],
     })),
-    hiddenLabel: { x: 1217, y: 463, w: 136 },
+    hiddenLabel: { x: 1217, y: 463, w: 136, text: "Veteran + retiree" },
   },
 ];

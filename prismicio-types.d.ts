@@ -124,7 +124,7 @@ export type FormRepliesDocument<Lang extends string = string> = prismic.PrismicD
  */
 interface HomePageDocumentData {
 	/**
-	 * hero line, computers and tablets (shown in capitals) (Shift+Enter breaks the line) field in *Home page*
+	 * hero line, screens wider than 768px (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: Leave empty to keep: Connecting DoW + VA Hospitals with (Shift+Enter) Med-Surg Suppliers
@@ -146,7 +146,7 @@ interface HomePageDocumentData {
 	hero_subtitle: prismic.KeyTextField;
 	
 	/**
-	 * hero line, phones (shown in capitals) (Shift+Enter breaks the line) field in *Home page*
+	 * hero line, screens 768px wide or less (shown in capitals; Shift+Enter breaks the line) field in *Home page*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: Leave empty to keep: Connecting (Shift+Enter) DoW + VA (Shift+Enter) Hospitals (Shift+Enter) w/ Med-Surg (Shift+Enter) Suppliers
@@ -283,7 +283,7 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	clinician_text: prismic.KeyTextField;/**
-	 * timeline 1 (after The Clinician in Mind): step 02 heading (shown in capitals) field in *Home page*
+	 * timeline 1 (after The Clinician in Mind): step 02 heading (shown in capitals; step label 02 repeats it, so change both) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Deployment overseas
@@ -305,7 +305,7 @@ interface HomePageDocumentData {
 	timeline_1_text: prismic.KeyTextField;
 	
 	/**
-	 * timeline 2 (after We’re here to help): eyebrow, computers only (shown in capitals) field in *Home page*
+	 * timeline 2 (after We’re here to help): eyebrow, screens wider than 768px (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
@@ -316,7 +316,7 @@ interface HomePageDocumentData {
 	timeline_2_eyebrow: prismic.KeyTextField;
 	
 	/**
-	 * timeline 2: step 03 heading (shown in capitals) field in *Home page*
+	 * timeline 2: step 03 heading (shown in capitals; step label 03 repeats it, so change both) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Raising a family
@@ -338,7 +338,7 @@ interface HomePageDocumentData {
 	timeline_2_text: prismic.KeyTextField;
 	
 	/**
-	 * timeline 3 (after Getting started): eyebrow, computers only (shown in capitals) field in *Home page*
+	 * timeline 3 (after Getting started): eyebrow, screens wider than 768px (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
@@ -382,7 +382,7 @@ interface HomePageDocumentData {
 	timeline_label_1: prismic.KeyTextField;
 	
 	/**
-	 * step label 02, on all three timelines (shown in capitals after 02) field in *Home page*
+	 * step label 02, on all three timelines (shown in capitals after 02; timeline 1's heading repeats it, so change both) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Deployment overseas
@@ -393,7 +393,7 @@ interface HomePageDocumentData {
 	timeline_label_2: prismic.KeyTextField;
 	
 	/**
-	 * step label 03, on all three timelines (shown in capitals after 03) field in *Home page*
+	 * step label 03, on all three timelines (shown in capitals after 03; timeline 2's heading repeats it, so change both) field in *Home page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Raising a family
@@ -434,18 +434,7 @@ interface HomePageDocumentData {
 	 * - **Tab**: Timelines
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	timeline_label_6: prismic.KeyTextField;
-	
-	/**
-	 * timeline 3, computers: last step label, behind the veteran’s photo (shown in capitals) field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Veteran + retiree
-	 * - **API ID Path**: home_page.timeline_3_hidden_label
-	 * - **Tab**: Timelines
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	timeline_3_hidden_label: prismic.KeyTextField;/**
+	timeline_label_6: prismic.KeyTextField;/**
 	 * heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text

@@ -525,7 +525,6 @@
     n={3}
     layout={TIMELINES[2]}
     eyebrow={copy.timeline_3_eyebrow}
-    hiddenLabel={copy.timeline_3_hidden_label}
     labelsHidden
     heading={copy.timeline_3_heading}
     body={copy.timeline_3_text}
@@ -629,7 +628,7 @@
     left: 0;
     top: 0;
     width: calc(100cqw * 1153 / 1155);
-    font-family: "barlow-condensed";
+    font-family: "barlow-condensed", "Arial Narrow", sans-serif;
     font-weight: 600;
     font-size: calc(100cqw * 148 / 1155);
     line-height: 1.2;
@@ -641,13 +640,15 @@
     left: calc(100cqw * 887 / 1155);
     top: calc(100cqw * 221 / 1155);
     width: calc(100cqw * 274 / 1155);
-    font-family: "rigid-square";
+    font-family: "rigid-square", "helvetica", sans-serif;
     font-weight: 400;
     font-size: calc(100cqw * 17 / 1155);
     line-height: 1.3;
     color: #fff;
   }
-  @media (max-width: 768px) {
+  /* The exact complement of the min-width query below (a 768.5px width falls
+     on one side, never neither). */
+  @media not all and (min-width: 769px) {
     .hero-fit {
       display: none;
     }

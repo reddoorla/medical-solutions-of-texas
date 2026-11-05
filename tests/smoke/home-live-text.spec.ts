@@ -80,8 +80,12 @@ for (const width of [1440, 1100, 390]) {
       );
       expect(s.heading).toHaveLength(1);
     }
-    await expect(page.locator(".hero-line")).toBeVisible({ visible: !phone });
-    await expect(page.locator("p.h1", { hasText: "Hospitals" })).toBeVisible({ visible: phone });
+    // checkVisibility, not toBeVisible: a desktop line left showing on a phone
+    // can collapse to a zero-size box, which toBeVisible counts as hidden.
+    const shown = (sel: string) => page.locator(sel).evaluate((el) => el.checkVisibility());
+    expect(await shown(".hero-line"), "desktop hero line").toBe(!phone);
+    expect(await shown(".hero-subtitle"), "desktop subtitle").toBe(!phone);
+    expect(await shown("p.h1"), "phone hero line").toBe(phone);
   });
 }
 
@@ -112,31 +116,105 @@ test("each front layer comes after the words, so the photos paint over the label
   }
 });
 
-// Positions, in the picture's units, from the hand-off: a label's box is turned
-// 90° clockwise about its top-left corner, so after the turn its right edge is
-// that corner's x.
-for (const [width, unit, label01, heading1] of [
-  [1440, 1440, 237, 607],
-  [1100, 1440, 237, 607],
-  [390, 359, 59.5, 36.25],
+// Positions, in the picture's units, from the hand-off, for every box a
+// visitor sees: [left, top, width]. A label's box is turned 90° clockwise about
+// its top-left corner, so after the turn its right edge is that corner's x and
+// its height is its width.
+type B = [number, number, number];
+const H = (x: number, y: number): B[] => [
+  [x, y, 266],
+  [x, y + 34, 266],
+];
+const DL: B[] = [
+  [237, 462.73, 187],
+  [431, 462.73, 173],
+  [629, 462.73, 214],
+  [823.13, 462.73, 136.65],
+  [1020.25, 462.73, 175.5],
+  [1217, 462.73, 124.27],
+];
+const PL: B[] = [
+  [59.5, 463.19, 187],
+  [103.5, 463.19, 173],
+  [147.5, 463.19, 214],
+  [206.5, 463.19, 136.65],
+  [250.5, 463.19, 175.5],
+  [310.5, 463.19, 105.2],
+];
+const PLACES = {
+  desktop: [
+    { eyebrow: [], text: H(607, 105), labels: [DL[0], DL[2], DL[3], DL[4], DL[5]] },
+    {
+      eyebrow: [[147, 34, 334.35]],
+      text: [
+        [814.72, 103.24, 266],
+        [814.72, 137.24, 266],
+      ],
+      labels: [DL[0], DL[1], DL[3], DL[4], [1217, 463, 126.43]],
+    },
+    {
+      eyebrow: [[148, 36, 334.35]],
+      text: [
+        [838.09, 103.24, 266],
+        [838.09, 137.24, 266],
+      ],
+      labels: [...DL.slice(0, 5), [1217, 463, 136]],
+    },
+  ],
+  phone: [0, 1, 2].map(() => ({
+    eyebrow: [],
+    text: [
+      [36.25, 73.62, 266],
+      [36.25, 111.62, 266],
+    ],
+    labels: PL,
+  })),
+} as Record<string, { eyebrow: B[]; text: B[]; labels: B[] }[]>;
+
+for (const [width, unit] of [
+  [1440, 1440],
+  [1100, 1440],
+  [390, 359],
 ] as const) {
-  test(`at ${width}px the words sit where the pictures drew them`, async ({ page }) => {
+  test(`at ${width}px every word sits where the pictures drew it`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
-    const tl = page.locator('[data-testid="timeline-1"]');
-    await tl.scrollIntoViewIfNeeded();
     await page.evaluate(() => document.fonts.ready);
-    const g = await tl.evaluate((el) => {
-      const box = el.getBoundingClientRect();
-      const li = el.querySelector("li")!.getBoundingClientRect();
-      const h = el.querySelector("h4")!.getBoundingClientRect();
-      return { w: box.width, left: box.left, top: box.top, li, h };
-    });
-    const k = g.w / unit;
-    expect(Math.abs(g.li.right - g.left - label01 * k), "label 01's x").toBeLessThan(1);
-    const y = width <= 768 ? 463.19 : 462.73;
-    expect(Math.abs(g.li.top - g.top - y * k), "label 01's y").toBeLessThan(1);
-    expect(Math.abs(g.h.left - g.left - heading1 * k), "the heading's x").toBeLessThan(1);
+    const places = PLACES[width <= 768 ? "phone" : "desktop"];
+    for (const [i, want] of places.entries()) {
+      const g = await page.locator(`[data-testid="timeline-${i + 1}"]`).evaluate((el) => {
+        const box = el.getBoundingClientRect();
+        const rects = (sel: string) =>
+          [...el.querySelectorAll(sel)]
+            .filter((e) => e.checkVisibility())
+            .map((e) => e.getBoundingClientRect().toJSON() as DOMRect);
+        return {
+          box: box.toJSON() as DOMRect,
+          eyebrow: rects(".eyebrow"),
+          text: rects("h4, .body"),
+          labels: rects("li"),
+        };
+      });
+      const k = g.box.width / unit;
+      const near = (got: number, wantU: number, what: string) =>
+        expect(Math.abs(got - wantU * k), `timeline ${i + 1} ${what}`).toBeLessThan(1);
+      for (const kind of ["eyebrow", "text"] as const) {
+        expect(g[kind]).toHaveLength(want[kind].length);
+        g[kind].forEach((r, j) => {
+          const [x, y, w] = want[kind][j];
+          near(r.left - g.box.left, x, `${kind} ${j} x`);
+          near(r.top - g.box.top, y, `${kind} ${j} y`);
+          near(r.width, w, `${kind} ${j} width`);
+        });
+      }
+      expect(g.labels).toHaveLength(want.labels.length);
+      g.labels.forEach((r, j) => {
+        const [x, y, w] = want.labels[j];
+        near(r.right - g.box.left, x, `label ${j} x`);
+        near(r.top - g.box.top, y, `label ${j} y`);
+        near(r.height, w, `label ${j} width`);
+      });
+    }
   });
 }
 

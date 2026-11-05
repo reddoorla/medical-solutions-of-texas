@@ -142,5 +142,12 @@ test("Home's hero exemption covers only the approved line", () => {
     "Connecting DoW + VA Hospitals with Med-Surg Suppliers",
   ])
     expect(stripAllowed(bad, "/about", true), bad).toMatch(/\bDoW\s*\+\s*VA\b/);
-  expect(stripAllowed("Connecting DoW + VA Hospitals", "/", true)).toMatch(/DoW \+ VA/);
+  // On Home itself, anything but the whole approved line still fails.
+  for (const bad of [
+    "Connecting DoW + VA Hospitals",
+    "Connecting DoW + VA Hospitals and Clinics with Med-Surg Suppliers",
+    "Serving DoW + VA Hospitals with Med-Surg Suppliers",
+    "We work with DoW + VA teams",
+  ])
+    expect(stripAllowed(bad, "/", true), bad).toMatch(/\bDoW\s*\+\s*VA\b/);
 });

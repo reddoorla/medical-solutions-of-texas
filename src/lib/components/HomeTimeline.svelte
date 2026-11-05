@@ -15,7 +15,6 @@
     heading,
     body,
     labels,
-    hiddenLabel,
     labelsHidden = false,
   }: {
     n: number;
@@ -25,7 +24,6 @@
     body: string;
     /** The six steps' words, without their numerals. */
     labels: string[];
-    hiddenLabel?: string;
     /** Timelines 2 and 3 repeat the six steps; a screen reader hears them once. */
     labelsHidden?: boolean;
   } = $props();
@@ -73,8 +71,10 @@
         {labels[i]}
       </li>
     {/each}
-    {#if hiddenLabel && layout.hiddenLabel}
-      <li class="t label desktop-only" style={at(layout.hiddenLabel)}>{hiddenLabel}</li>
+    {#if layout.hiddenLabel}
+      <li class="t label desktop-only" style={at(layout.hiddenLabel)}>
+        {layout.hiddenLabel.text}
+      </li>
     {/if}
   </ol>
   <picture>
@@ -162,7 +162,9 @@
     display: none;
   }
 
-  @media (max-width: 768px) {
+  /* The exact complement of the <source>s' (min-width: 769px): a fractional
+     width such as 768.5px (browser zoom) falls on one side, never neither. */
+  @media not all and (min-width: 769px) {
     .tl {
       aspect-ratio: 359 / 650;
     }
