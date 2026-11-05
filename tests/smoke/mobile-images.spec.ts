@@ -15,7 +15,7 @@ type Image = { path: string; selector: string; desktop: Art; mobile: Art };
 
 const timeline = (n: number): Image => ({
   path: "/",
-  selector: `img[alt="timelines"] >> nth=${n - 1}`,
+  selector: `img[alt^="A timeline of"] >> nth=${n - 1}`,
   desktop: { file: new RegExp(`/timeline${n}(\\.[\\w-]+)?\\.svg$`), aspect: 1440 / 650 },
   mobile: { file: new RegExp(`/timeline${n}_mobile(\\.[\\w-]+)?\\.svg$`), aspect: 359 / 650 },
 });
@@ -29,12 +29,6 @@ const IMAGES: Image[] = [
     selector: 'section:has(.h1:text-is("let’s get started")) img >> nth=0',
     desktop: { aspect: 6869 / 3784 },
     mobile: { aspect: 3564 / 2752 },
-  },
-  {
-    path: "/process",
-    selector: 'img[alt="timelines"]',
-    desktop: { file: /\/timeline(\.[\w-]+)?\.svg$/, aspect: 1438 / 748 },
-    mobile: { file: /\/timeline_mobile(\.[\w-]+)?\.svg$/, aspect: 385 / 1055 },
   },
 ];
 

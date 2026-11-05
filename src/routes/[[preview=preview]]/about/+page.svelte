@@ -159,22 +159,22 @@
       class="my-44 flex flex-col md:flex-row justify-start items-start w-full overflow-x-clip md:overflow-x-visible"
     >
       <div class="relative w-full md:w-[40%] h-fit mr-12 xl:mr-[20%]">
-        <img alt="dots" src={dots} class=" w-2/5 absolute -bottom-[10%] -right-[10%]" />
+        <img alt="" src={dots} class=" w-2/5 absolute -bottom-[10%] -right-[10%]" />
         <img
-          alt="dots"
+          alt=""
           src={dots}
           class=" w-2/5 absolute -bottom-[10%] right-[30%] translate-x-[-0.8px]"
         />
         <img
-          alt="dots"
+          alt=""
           src={dots}
           class=" w-2/5 absolute -bottom-[10%] right-[70%] translate-x-[-0.8px]"
         />
         <div
           class="w-2/5 absolute -bottom-[10%] bg-light h-full right-[90%] translate-x-[-0.8px]"
         ></div>
-        <img alt="pats" src={patch} class="w-full opacity-0" />
-        <img alt="pats" src={patch} class="w-full absolute top-0 sepia-[0.65]" />
+        <img alt="" src={patch} class="w-full opacity-0" />
+        <img alt="" src={patch} class="w-full absolute top-0 sepia-[0.65]" />
       </div>
       <div class="relative mt-20 md:mt-0 w-full md:w-1/2 xl:w-2/5 xl:pr-[10%] flex flex-col gap-5">
         <h5 class="text-dark">Who We Are</h5>

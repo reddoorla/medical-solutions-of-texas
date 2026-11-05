@@ -69,13 +69,13 @@ function expectCopyRules(text: string, where: string) {
 
 /** Rendered text with every accordion opened, plus alt, aria-label and title values. */
 async function renderedText(page: Page): Promise<string> {
-  // Accordian.svelte: each question is a <button> holding an <h4>, and its
-  // answer <p> exists only while open. Count both, so a click that did nothing
-  // (before hydration, or after a markup change) fails instead of passing blind.
-  const buttons = page.locator("button:has(h4)");
-  const count = await buttons.count();
-  for (let i = 0; i < count; i++) await buttons.nth(i).click();
-  await expect(page.locator("button:has(h4) p")).toHaveCount(count);
+  // Accordian.svelte: each question is a <summary> holding an <h4>, inside a
+  // <details>. Open them all and count, so a click that did nothing (or a
+  // markup change) fails instead of passing blind.
+  const summaries = page.locator("details > summary:has(h4)");
+  const count = await summaries.count();
+  for (let i = 0; i < count; i++) await summaries.nth(i).click();
+  await expect(page.locator("details[open]:has(> summary h4)")).toHaveCount(count);
   await page.waitForTimeout(600);
   return page.evaluate(() => {
     const attrs = [...document.querySelectorAll("[alt],[aria-label],[title]")].map((el) =>
