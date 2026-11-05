@@ -190,7 +190,89 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = FormRepliesDocument | PageDocument;
+/**
+ * Content for Team member documents
+ */
+interface TeamMemberDocumentData {
+	/**
+	 * name field in *Team member*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Full name, as on the site (e.g. Jon Hood)
+	 * - **API ID Path**: team_member.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * title field in *Team member*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Title, as on the site (e.g. CEO)
+	 * - **API ID Path**: team_member.job_title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	job_title: prismic.KeyTextField;
+	
+	/**
+	 * headshot field in *Team member*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: team_member.headshot
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	headshot: prismic.ImageField<never>;
+	
+	/**
+	 * bio field in *Team member*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: 50–90 words, third person. Say VOSB (never SDVOSB), clinicians, and VA and DoW.
+	 * - **API ID Path**: team_member.bio
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	bio: prismic.RichTextField;
+	
+	/**
+	 * LinkedIn field in *Team member*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Optional: the person's LinkedIn profile URL
+	 * - **API ID Path**: team_member.linkedin
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	linkedin: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * order field in *Team member*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: Position on the About page: 1 is first
+	 * - **API ID Path**: team_member.order
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	order: prismic.NumberField;
+}
+
+/**
+ * Team member document from Prismic
+ *
+ * - **API ID**: `team_member`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
+
+export type AllDocumentTypes = FormRepliesDocument | PageDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -251,6 +333,8 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			TeamMemberDocument,
+			TeamMemberDocumentData,
 			AllDocumentTypes,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,

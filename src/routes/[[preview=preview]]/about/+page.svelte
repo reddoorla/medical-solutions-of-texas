@@ -16,42 +16,26 @@
   import { DEFINITION_ABOUT, WORKS_WITH } from "$lib/identity";
   import TeamWithPopup from "$lib/components/FullWidth/TeamWithPopup.svelte";
 
-  const LOREM =
-    "Lorem ipsum odor amet, consectetuer adipiscing elit. Maecenas felis feugiat nulla nisl proin? Vel ultricies senectus faucibus morbi vulputate. Facilisis natoque duis maecenas netus vel arcu elementum. Posuere facilisi gravida malesuada potenti vel taciti blandit. Integer nibh diam diam lectus nullam varius venenatis. Habitant quis pellentesque vulputate hac amet. Sodales euismod purus vehicula scelerisque cursus facilisi. Torquent quisque nibh ante duis nisl. Ridiculus ultricies natoque eros eget phasellus odio enim. Lectus adipiscing tristique tempor convallis ridiculus eleifend. Vehicula accumsan enim augue porta sodales tortor risus. Consectetur vestibulum laoreet ullamcorper quisque potenti sit erat libero. Sodales mattis cursus ex amet primis hac ligula. Vulputate mi luctus est euismod tortor tincidunt. Porttitor in curabitur aliquam, rhoncus eget nam vestibulum fringilla. Tincidunt ante ligula euismod fringilla lectus. Fusce habitant fringilla porta; sit imperdiet sit ultrices ipsum. Leo euismod lacinia placerat suscipit congue. Gravida phasellus diam facilisi habitasse; risus duis fusce?";
+  import placeholder from "$lib/assets/images/profile_placeholder.png";
+  import { teamAlt, teamFromPrismic, type TeamCard } from "$lib/team";
 
-  const teamArray = [
-    {
-      name: "Jon Hood",
-      title: "CEO",
-      image: jonHood,
-      bio: LOREM,
-    },
-    {
-      name: "David Lange",
-      title: "President",
-      image: tim,
-      bio: LOREM,
-    },
-    {
-      name: "Kylene Carse",
-      title: "Chief Financial Officer",
-      image: kylene,
-      bio: LOREM,
-    },
+  let { data } = $props();
 
-    {
-      name: "Courtney Alexander",
-      title: "Government Accounts Coordinator",
-      image: courtney,
-      bio: LOREM,
-    },
-    {
-      name: "Kathy Castro",
-      title: "Operations Administrator",
-      image: kathy,
-      bio: LOREM,
-    },
+  // Today's cards, with no bio: they show until Marketing's team_member
+  // documents exist in Prismic. David Lange's image is tim.png until Marketing
+  // confirms whose face it is.
+  const CURRENT: Omit<TeamCard, "alt">[] = [
+    { name: "Jon Hood", title: "CEO", headshot: jonHood },
+    { name: "David Lange", title: "President", headshot: tim },
+    { name: "Kylene Carse", title: "Chief Financial Officer", headshot: kylene },
+    { name: "Courtney Alexander", title: "Government Accounts Coordinator", headshot: courtney },
+    { name: "Kathy Castro", title: "Operations Administrator", headshot: kathy },
   ];
+  const CURRENT_CARDS: TeamCard[] = CURRENT.map((c) => ({ ...c, alt: teamAlt(c.name, c.title) }));
+  const CURRENT_HEADSHOTS = Object.fromEntries(CURRENT.map((c) => [c.name, c.headshot]));
+
+  const fromPrismic = $derived(teamFromPrismic(data.team ?? [], CURRENT_HEADSHOTS, placeholder));
+  const team = $derived(fromPrismic.length ? fromPrismic : CURRENT_CARDS);
 </script>
 
 <ScreenWidthImage class="fixed -z-10" src={hero} darken backdrop />
@@ -206,13 +190,15 @@
     <div
       class="w-full flex flex-col lg:flex-row gap-y-20 items-center lg:items-start justify-center flex-wrap lg:gap-x-[calc((100%-54rem)/2)] xl:gap-x-[calc((100%-72rem)/2)]"
     >
-      {#each teamArray as person, i (i)}
-        <div>
+      {#each team as person, i (i)}
+        <div data-testid="team-card">
           <TeamWithPopup
             name={person.name}
             title={person.title}
-            headshot={person.image}
-            bio={person.bio}
+            headshot={person.headshot}
+            alt={person.alt}
+            richBio={person.bio}
+            linkedin={person.linkedin}
             noclick
           />
         </div>

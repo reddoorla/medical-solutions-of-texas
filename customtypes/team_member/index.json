@@ -1,0 +1,57 @@
+{
+  "format": "custom",
+  "id": "team_member",
+  "label": "Team member",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "name",
+          "placeholder": "Full name, as on the site (e.g. Jon Hood)"
+        }
+      },
+      "job_title": {
+        "type": "Text",
+        "config": {
+          "label": "title",
+          "placeholder": "Title, as on the site (e.g. CEO)"
+        }
+      },
+      "headshot": {
+        "type": "Image",
+        "config": {
+          "label": "headshot",
+          "constraint": { "width": 800, "height": 800 },
+          "thumbnails": []
+        }
+      },
+      "bio": {
+        "type": "StructuredText",
+        "config": {
+          "label": "bio",
+          "placeholder": "50–90 words, third person. Say VOSB (never SDVOSB), clinicians, and VA and DoW.",
+          "multi": "paragraph,strong,em"
+        }
+      },
+      "linkedin": {
+        "type": "Link",
+        "config": {
+          "label": "LinkedIn",
+          "placeholder": "Optional: the person's LinkedIn profile URL",
+          "select": "web",
+          "allowTargetBlank": true
+        }
+      },
+      "order": {
+        "type": "Number",
+        "config": {
+          "label": "order",
+          "placeholder": "Position on the About page: 1 is first"
+        }
+      }
+    }
+  }
+}
