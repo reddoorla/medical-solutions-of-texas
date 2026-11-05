@@ -73,7 +73,7 @@
       <p class="text-white text-center">We are defined by expertise and experience.</p>
 
       <div class="text-white text-center leading-normal md:text-[24px]">
-        With 20 years worth of experience in Air Force logistics and nearly 50 years in medical
+        With 20 years’ worth of experience in Air Force logistics and nearly 50 years in medical
         device sales on our leadership team, we know the VA and DoW healthcare landscape better than
         anyone. We enable med-surg suppliers to find and access opportunities that they wouldn’t
         have been able to tap into alone.
@@ -107,18 +107,18 @@
     <Accordian
       accordianProps={[
         {
-          label: "Sign Dapas",
+          label: "Sign DAPAs",
           content:
             "Distribution and pricing agreements allow you to set prices and gain direct access to the military market.",
         },
         {
-          label: "Get Listed in the E-CAT",
+          label: "Get Listed in the ECAT",
           content:
             "Getting listed in an e-catalog gives you the advantage of increased reach, better customer engagement, the ability to collect valuable customer data, and a more streamlined way to showcase products with updated information readily available, ultimately boosting sales potential.",
         },
         {
           label: "Win FSS Contracts",
-          content: `You'll have access to be awarded to the the nine VA FSS programs: 
+          content: `You'll have access to be awarded to the nine VA FSS programs: 
 65 I B Drugs, Pharmaceuticals, & Hematology Related Products
 65 II A    Medical Equipment & Supplies
 65 II C    Dental Equipment & Supplies

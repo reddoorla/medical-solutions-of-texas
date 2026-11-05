@@ -21,7 +21,6 @@
       <link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
     </noscript>
 
-    <!-- Google tag (gtag.js): GA4, hard-coded, counts every page view. -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ0WQMEE8L"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -32,23 +31,10 @@
 
       gtag("config", "G-BZ0WQMEE8L");
     </script>
-    <!--
-      Google Tag Manager (GTM-T4RZ2F54, MSOT Marketing's container; it fires the
-      LinkedIn Insight Tag). It loads on the visitor's first pointer, wheel, key
-      or touch event, the same events as VimeoGate.svelte (a pointermove only
-      if the pointer really moved), never on page load:
-      the LinkedIn tag's third-party cookies take Lighthouse Best Practices from
-      100 to about 78 when they load unprompted (decision 2207, answer 1). No
-      <noscript> iframe: without JavaScript it loads a frame that runs no tags.
-      GA4 stays above, outside GTM, so page views are never counted twice.
-    -->
     <script>
       (function (w, d, id) {
         var events = ["pointerdown", "pointermove", "wheel", "keydown", "touchstart"];
         function load(e) {
-          // Chromium fires a pointermove with no movement when the layout shifts
-          // under a resting cursor (4 of 6 headless loads of /contact). It is
-          // not a visitor, so it must not load the tag in a Lighthouse run.
           if (e.type === "pointermove" && !e.movementX && !e.movementY) return;
           events.forEach(function (e) {
             w.removeEventListener(e, load);

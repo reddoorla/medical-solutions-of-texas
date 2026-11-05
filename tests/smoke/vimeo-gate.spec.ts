@@ -31,6 +31,19 @@ test("an unattended load requests no Vimeo player", async ({ page, context }) =>
   expect((await context.cookies()).filter((c) => c.name === "__cf_bm")).toEqual([]);
 });
 
+test("a pointermove with no movement (Chromium's own, after a layout shift) mounts nothing", async ({
+  page,
+}) => {
+  const requests = watchVimeo(page);
+  await loadIdle(page);
+  await page.evaluate(() =>
+    window.dispatchEvent(new PointerEvent("pointermove", { movementX: 0, movementY: 0 })),
+  );
+  await page.waitForTimeout(1000);
+  await expect(page.locator(vimeoFrame)).toHaveCount(0);
+  expect(requests).toEqual([]);
+});
+
 test("a key press mounts the Vimeo player", async ({ page }) => {
   await loadIdle(page);
   await expectMountsAfter(page, () => page.keyboard.press("Shift"));

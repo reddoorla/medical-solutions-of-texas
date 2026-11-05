@@ -118,7 +118,7 @@
       <p class="text-white text-center">Let’s Simplify It…</p>
 
       <div class="text-white text-center leading-normal md:text-[24px] max-w-screen-lg">
-        ...and make things work. We’ve done this for years, with many, partners and many situations
+        ...and make things work. We’ve done this for years, with many partners and many situations
         and will help get you where you need to be. With experience comes procedure, with procedure
         comes consistency, efficiency, and results.
       </div>
@@ -186,7 +186,7 @@
           <span class="text-[#998B6A]">03</span> Connect
         </h5>
         <div class="text-dark mt-8 text-[24px] leading-normal">
-          We’ll get you in the room with the right people to help you build further relationship
+          We’ll get you in the room with the right people to help you build further relationships
         </div>
       </div>
     </div>
@@ -205,10 +205,10 @@
           <!-- Two lines held at lg, so a timing that wraps (step 02, 1024–1200px)
                doesn't push its title below the others. -->
           <p class="label text-[#998B6A] mt-4 lg:min-h-[2lh]">{step.timing}</p>
-          <h5 class="text-dark mt-2">
+          <h4 class="h5 text-dark mt-2">
             <span class="text-[#998B6A]">{String(i + 1).padStart(2, "0")}</span>
             {step.title}
-          </h5>
+          </h4>
           <p class="text-dark mt-4 text-[18px] leading-normal">{step.text}</p>
         </li>
       {/each}
@@ -229,7 +229,7 @@
         {
           label: "What does our typical timeline look like after winning a contract?",
           content:
-            "The timeline for this process begins with a Medical Manufacturer getting approval on the ECAT. Typically 45 working days or less. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to military bases and VA facilities takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surge equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
+            "The timeline for this process begins with a medical manufacturer getting approval on the ECAT, typically 45 working days or less. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to VA facilities and military bases takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surg equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
         },
       ]}
     />

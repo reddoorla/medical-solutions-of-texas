@@ -252,7 +252,7 @@
         {DEFINITION}
       </p>
       <div class="text-white text-center leading-normal md:text-[24px]">
-        Our expertise, VOSB (Veteran Owned Small Business) status, and deep network of relationships
+        Our expertise, VOSB (Veteran-Owned Small Business) status, and deep network of relationships
         allows us to offer solutions where others hit roadblocks.
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
@@ -324,7 +324,7 @@
           <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The Clinician in Mind</h3>
           <div class="text-dark w-full max-w-80">
             MSOT makes medical care possible from the war fighter all the way to the retiree and all
-            phases of service inbetween.
+            phases of service in between.
           </div>
         </div>
       </div>
