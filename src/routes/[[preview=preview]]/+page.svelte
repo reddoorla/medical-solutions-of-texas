@@ -208,10 +208,13 @@
       {:else}
         <ContentWidth class="h-full flex flex-col justify-end py-32 relative">
           <div class="h-24"></div>
-          <h1 class="text-mid mb-12 opacity-60">
+          <!-- Decoration with the h1 look, not the page's heading: Home's <h1> is
+               "Your Trusted Partner" below, in the server HTML (decision
+               2026-11-05-1527). This line renders only after mount, on phones. -->
+          <p class="h1 text-mid mb-12 opacity-60">
             Connecting <br /> DoD + VA <br /> Hospitals <br /> w/ Med-Surg
             <br /> Suppliers
-          </h1>
+          </p>
           <div
             class="text-white transition-opacity duration-1000 ease-out {showSubtitle
               ? 'opacity-100'
@@ -236,12 +239,12 @@
       <div
         class="absolute top-0 right-0 w-6 sm:w-1/6 md:w-1/4 lg:w-1/3 h-0 border-mid border-t-[6px]"
       ></div>
-      <h2
+      <h1
         class="h4 text-mid absolute top-0 left-1/2 text-nowrap"
         style="transform:translate(-50%, calc(-50% + 3px))"
       >
         Your Trusted Partner
-      </h2>
+      </h1>
 
       <div class="flex flex-row items-center justify-center gap-5">
         <img src={usFlag} alt="" width="57" height="37" class="opacity-50" />
@@ -257,7 +260,7 @@
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
         <BracketButton href="/contact" class="text-mid button-text">Contact Us</BracketButton>
-        <BracketButton href="/pdfs/MSOT_Capabilities.pdf" class="text-mid button-text"
+        <BracketButton href="/capabilities" class="text-mid button-text"
           >Capabilities Statement</BracketButton
         >
       </div>
