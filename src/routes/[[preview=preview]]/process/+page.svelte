@@ -35,7 +35,7 @@
   });
 
   let { data } = $props();
-  // The timeline is Marketing's approved steps (§14b); see $lib/copy/process.
+  // The page's copy, from Prismic over today's wording; see $lib/copy/process.
   const copy = $derived(data.copy);
 </script>
 

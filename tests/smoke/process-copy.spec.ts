@@ -51,11 +51,11 @@ test("processCopy: no document is today's wording; a filled field wins, field by
     "Why does VOSB status give priority for winning VA and DoW contracts?",
     "What does our typical timeline look like after winning a contract?",
   ]);
-  expect(today.faq[0].answer).toMatch(
-    /^In the 2016 Kingdomware Techs\., Inc\. v\. United States case, .* priority in winning\.$/,
+  expect(today.faq[0].answer).toBe(
+    "In the 2016 Kingdomware Techs., Inc. v. United States case, the Supreme Court unanimously affirmed the Rule of Two provision of a 2006 federal law. The Rule of Two mandates that VA contracts shall be set aside for veteran-owned small businesses if at least two such businesses exist that can perform the work at a reasonable price. This results in a wide swath of contracts set aside specifically for veteran-owned businesses, ones that VOSBs, like MSOT, have priority in winning.",
   );
-  expect(today.faq[1].answer).toMatch(
-    /^The timeline for this process begins .* duration of the agreement\.$/,
+  expect(today.faq[1].answer).toBe(
+    "The timeline for this process begins with a medical manufacturer getting approval on the ECAT, typically 45 working days or less. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to VA facilities and military bases takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surg equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
   );
 
   const some = processCopy(
