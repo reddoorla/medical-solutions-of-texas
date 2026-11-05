@@ -128,8 +128,8 @@ for (const viewport of VIEWPORTS) {
       painted.some((p) => /priority/i.test(p.text)),
       "the lit word is measured",
     ).toBe(true);
-    // The home page sets none of these on a rotating word or its ancestors (the
-    // only filter in app.css is on .multi-item-clear), so one found is a finding:
+    // The home page sets none of these on a rotating word or its ancestors
+    // (app.css has no filter at all since #117), so one found is a finding:
     // the paint is not modelled here, and it can recolour or lighten the word
     // below 3:1 unseen. The diff names the property found.
     expect(

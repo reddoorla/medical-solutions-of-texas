@@ -189,6 +189,12 @@
     font-family: inherit;
   }
 
+  /* An <h4> styled as an h5 (the Process timeline's step titles) keeps the
+     h5's body font, not the h4 rule's barlow-condensed. */
+  h4.h5 {
+    font-family: inherit;
+  }
+
   h3 {
     font-size: 30px;
     font-style: normal;

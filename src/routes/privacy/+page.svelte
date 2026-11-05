@@ -158,8 +158,8 @@
       {/if}
       {#if has("vimeo")}
         <li data-testid="service-vimeo">
-          Some pages show video from Vimeo. Vimeo receives your IP address when the video loads, and
-          its player may set cookies.
+          Some pages show video from Vimeo. Vimeo receives your IP address and this site’s address
+          when the video loads, and its player may set cookies.
         </li>
       {/if}
       {#if has("netlify")}
