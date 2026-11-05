@@ -24,14 +24,20 @@ export type TeamCard = {
 
 export type CurrentCard = { name: string; title: string; headshot: string };
 
+/** Case, spacing and pasted non-breaking spaces don't make a different person. */
+const nameKey = (name: string) => name.trim().replace(/\s+/g, " ").toLowerCase();
+
 export const teamAlt = (name: string, title: string) =>
   title ? `${name}, ${title}, Medical Solutions of Texas.` : `${name}, Medical Solutions of Texas.`;
 
 /**
  * The team: today's cards in their order, each replaced by a Prismic document
- * with the same name, plus any new people. A document's `order` places it (1
- * is first); a card with no document keeps its place in today's list; ties go
- * by name. A document with no name is skipped. A person whose headshot hasn't
+ * with the same name (ignoring case and spacing), plus any new people. A
+ * document's `order` is its position: 1 is first. A card with no document
+ * keeps its place in today's list, and a document whose order equals that
+ * place goes ahead of it, so "order 1" always means first. Documents with the
+ * same order go by name. A document with no name is skipped, and of two with
+ * the same name the first in the API's order (by `order`) wins. A person whose headshot hasn't
  * come in keeps the image the site already shows for them (§8: "keep their
  * current image until it does"), else the placeholder: never an empty card.
  */
@@ -40,14 +46,21 @@ export function buildTeam(
   current: CurrentCard[],
   placeholder: string,
 ): TeamCard[] {
-  const cards = new Map<string, TeamCard & { order: number }>();
+  const cards = new Map<string, TeamCard & { order: number; fromDoc: boolean }>();
   current.forEach((c, i) => {
-    cards.set(c.name, { ...c, alt: teamAlt(c.name, c.title), order: i + 1 });
+    cards.set(nameKey(c.name), {
+      ...c,
+      alt: teamAlt(c.name, c.title),
+      order: i + 1,
+      fromDoc: false,
+    });
   });
   for (const d of docs) {
-    const name = d.data.name?.trim();
+    const name = d.data.name?.trim().replace(/\s+/g, " ");
     if (!name) continue;
-    const today = cards.get(name);
+    const key = nameKey(name);
+    const today = cards.get(key);
+    if (today?.fromDoc) continue;
     const title = d.data.job_title?.trim() || today?.title || "";
     const headshot =
       asImageSrc(d.data.headshot, {
@@ -58,7 +71,7 @@ export function buildTeam(
       }) ??
       today?.headshot ??
       placeholder;
-    cards.set(name, {
+    cards.set(key, {
       name,
       title,
       headshot,
@@ -66,9 +79,13 @@ export function buildTeam(
       bio: isFilled.richText(d.data.bio) ? d.data.bio : undefined,
       linkedin: isFilled.link(d.data.linkedin) ? (d.data.linkedin.url ?? undefined) : undefined,
       order: d.data.order ?? today?.order ?? Infinity,
+      fromDoc: true,
     });
   }
   return [...cards.values()]
-    .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
-    .map(({ order: _order, ...card }) => card);
+    .sort(
+      (a, b) =>
+        a.order - b.order || Number(b.fromDoc) - Number(a.fromDoc) || a.name.localeCompare(b.name),
+    )
+    .map(({ order: _order, fromDoc: _fromDoc, ...card }) => card);
 }

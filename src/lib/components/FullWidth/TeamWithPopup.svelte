@@ -60,6 +60,7 @@
      no empty tab stop, and a bio's LinkedIn link is valid inside it. -->
 <svelte:element
   this={noclick ? "div" : "button"}
+  role={noclick ? undefined : "button"}
   class="w-64 md:w-96 lg:w-72 xl:w-96 opacity-90 {noclick ? '' : 'hover:opacity-100'}"
   onclick={noclick ? undefined : toggleOverlay}
 >

@@ -70,9 +70,9 @@ test("buildTeam: order places people, a new person is added, nothing is ever emp
     CURRENT,
     "/placeholder.png",
   );
-  // Kylene's order 1 ties Jon's place in today's list (1st), and New Hire's 2
-  // ties David's (2nd); ties go by name.
-  expect(names(cards)).toEqual(["Jon Hood", "Kylene Carse", "David Lange", "New Hire"]);
+  // "order N" means Nth: a document goes ahead of a card still in today's
+  // place N, whatever the names.
+  expect(names(cards)).toEqual(["Kylene Carse", "Jon Hood", "New Hire", "David Lange"]);
   const kylene = cards.find((c) => c.name === "Kylene Carse")!;
   expect(kylene.headshot).toBe("/kylene.png");
   expect(kylene.bio).toBeUndefined();
@@ -80,6 +80,39 @@ test("buildTeam: order places people, a new person is added, nothing is ever emp
   const hire = cards.find((c) => c.name === "New Hire")!;
   expect(hire.headshot).toBe("/placeholder.png");
   expect(hire.alt).toBe("New Hire, Medical Solutions of Texas.");
+});
+
+test("buildTeam: the last person in today's list, given order 1, comes first", () => {
+  const cards = buildTeam(
+    [doc({ ...NONE, name: "Kylene Carse", job_title: "Chief Financial Officer", order: 1 })],
+    CURRENT,
+    "/placeholder.png",
+  );
+  expect(names(cards)).toEqual(["Kylene Carse", "Jon Hood", "David Lange"]);
+});
+
+test("buildTeam: case, spacing or a pasted non-breaking space never makes a second card", () => {
+  for (const typed of ["jon hood", "Jon  Hood", "Jon\u00a0Hood", " Jon Hood "]) {
+    const cards = buildTeam(
+      [doc({ ...NONE, name: typed, job_title: "CEO", bio: BIO })],
+      CURRENT,
+      "/placeholder.png",
+    );
+    expect(cards, JSON.stringify(typed)).toHaveLength(3);
+    expect(cards[0].bio, JSON.stringify(typed)).toEqual(BIO);
+  }
+});
+
+test("buildTeam: of two documents with one name, the first (by order) wins", () => {
+  const cards = buildTeam(
+    [
+      doc({ ...NONE, name: "Jon Hood", job_title: "CEO", order: 1 }),
+      doc({ ...NONE, name: "Jon Hood", job_title: "Chief Executive", order: 4 }),
+    ],
+    CURRENT,
+    "/placeholder.png",
+  );
+  expect(cards.filter((c) => c.name === "Jon Hood").map((c) => c.title)).toEqual(["CEO"]);
 });
 
 test("the team_member model holds name, job title, headshot, bio, LinkedIn and order", () => {
@@ -139,16 +172,18 @@ test("a published document shows its bio and LinkedIn link, and the other cards 
   request,
 }) => {
   const html = await (await request.get("/about?team-fixture")).text();
+  // The new hire's order 1 puts it first, and Jon's document (no order) keeps
+  // his place: both at 1, by name.
   expect(cardNames(html)).toEqual([
+    "Fixture New Hire",
     "Jon Hood",
     "David Lange",
     "Kylene Carse",
     "Courtney Alexander",
     "Kathy Castro",
-    "Fixture New Hire",
   ]);
   await page.goto("/about?team-fixture");
-  const jon = page.getByTestId("team-card").first();
+  const jon = page.getByTestId("team-card").nth(1);
   await expect(jon.getByTestId("team-bio")).toHaveText("Fixture bio for Jon Hood.");
   const link = jon.getByRole("link", { name: "LinkedIn profile of Jon Hood (opens in a new tab)" });
   await expect(link).toHaveAttribute("href", "https://www.linkedin.com/in/fixture-jon-hood");

@@ -22,7 +22,7 @@ export const TEAM_FIXTURE = [
       headshot: {},
       bio: [],
       linkedin: { link_type: "Any" },
-      order: 6,
+      order: 1,
     },
   },
 ] as unknown as TeamMemberDocument[];
