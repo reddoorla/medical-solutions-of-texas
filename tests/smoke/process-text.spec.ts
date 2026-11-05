@@ -190,11 +190,14 @@ test("Home: images with words say them; decorative images say nothing", async ({
   expect(a.filter((x) => x === "Veteran-Owned Small Business (VOSB)")).toHaveLength(2);
   expect(a).toContain("Revogen");
   expect(a).not.toContain("veteran owned small business logo");
-  const timelines = a.filter((x) => x.startsWith("A timeline of"));
-  expect(timelines).toHaveLength(3);
-  expect(timelines[0]).toContain("deployment overseas: critical medical supplies save lives");
-  expect(timelines[1]).toContain("raising a family: medical care and procedures");
-  expect(timelines[2]).toContain("veteran and retiree: caring for our veterans after retirement");
+  // The timelines' words are live text since 11-05, so their layers say
+  // nothing and no picture describes them.
+  expect(a.filter((x) => x.startsWith("A timeline of"))).toHaveLength(0);
+  const layers = [
+    ...(await html(request, "/")).matchAll(/<img\b[^>]*\bclass="layer [^"]*"[^>]*>/g),
+  ];
+  expect(layers).toHaveLength(6);
+  for (const [img] of layers) expect(img).toMatch(/\balt=""/);
 });
 
 for (const path of ["/", "/about", "/partners", "/process"]) {

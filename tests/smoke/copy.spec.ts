@@ -24,11 +24,12 @@ const REVOGEN_QUOTE_DOD = [
   /selling\s+to the DoD and VA hospital systems/gi,
 ];
 
-// The Home hero is held out of this change: it is SVG lettering on desktop,
-// and its words wait on MSOT and Erik (Home's <h1> is now "Your Trusted
-// Partner", decision 2026-11-05-1527). On phones it renders as text after
-// JavaScript, so the rendered check allows exactly that line, on Home only.
-const HELD_HERO_DOD = /Connecting\s+DoD \+ VA\s+Hospitals/gi;
+// Home's hero line puts DoW first on the operator's word (11-05, decision
+// 2026-11-05-2005: "Connecting DoW + VA Hospitals with Med-Surg Suppliers"), as
+// Marketing's Figma has it. Only that line is exempt from the house-order rule,
+// in its desktop and phone wordings, on Home only. It is server-rendered text
+// now, so both readings allow it; any other "DoW + VA" still fails.
+const HERO_APPROVED = /Connecting\s+DoW \+ VA\s+Hospitals\s+(?:with|w\/)\s+Med-Surg\s+Suppliers/gi;
 
 // About's first sentence carries Marketing's approved bridge (Developer Brief
 // Part 2, §12f), the one place the old name is said on purpose: "Department of
@@ -45,14 +46,14 @@ const DOD = /\bDoD\b|\bD\.O\.D\b|Department of Defense/i;
 const END_USER = /\bend[\s-]?users?\b/i;
 const FORMER_STAFF = /Albert Turgon|Tim Watson/i;
 
-function stripAllowed(text: string, path: string, allowHeldHero: boolean): string {
+function stripAllowed(text: string, path: string, server: boolean): string {
   let t = text;
   if (path === "/" || path === "/partners") {
     for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
   }
-  if (path === "/" && allowHeldHero) t = t.replace(HELD_HERO_DOD, "");
+  if (path === "/") t = t.replace(HERO_APPROVED, "");
   // Server reading only: the JSON-LD is not in the rendered text.
-  if (path === "/" && !allowHeldHero) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
+  if (path === "/" && server) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
   // Not global: §12f allows the bridge once, then "DoW" everywhere after.
   if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
   // Timeline step 03 keeps Marketing's approved wording (Part 2 §14b, "approved Oct 29"),
@@ -108,9 +109,7 @@ for (const path of PAGES) {
   }) => {
     const res = await request.get(path);
     expect(res.status()).toBe(200);
-    // The held hero is not in server HTML at all (it renders after mount), so
-    // this reading allows it nowhere: stricter than the rendered one, on purpose.
-    expectCopyRules(stripAllowed(serverText(await res.text()), path, false), "server HTML");
+    expectCopyRules(stripAllowed(serverText(await res.text()), path, true), "server HTML");
   });
 
   for (const width of [1440, 390]) {
@@ -119,7 +118,7 @@ for (const path of PAGES) {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path, { waitUntil: "networkidle" });
-      expectCopyRules(stripAllowed(await renderedText(page), path, true), `rendered ${width}px`);
+      expectCopyRules(stripAllowed(await renderedText(page), path, false), `rendered ${width}px`);
     });
   }
 }
@@ -127,4 +126,28 @@ for (const path of PAGES) {
 test("Home's section heading reads 'The Clinician in Mind'", async ({ request }) => {
   const text = serverText(await (await request.get("/")).text());
   expect(text).toContain("The Clinician in Mind");
+});
+
+// The exemption is the approved line and nothing wider: the same words in any
+// other order or shape still fail the house-order rule.
+test("Home's hero exemption covers only the approved line", () => {
+  for (const ok of [
+    "Connecting DoW + VA Hospitals with Med-Surg Suppliers",
+    "CONNECTING DOW + VA HOSPITALS WITH\nMED-SURG SUPPLIERS",
+    "Connecting DoW + VA Hospitals w/ Med-Surg Suppliers",
+  ])
+    expect(stripAllowed(ok, "/", true).trim(), ok).toBe("");
+  for (const bad of [
+    "Connecting DoW + VA Hospitals",
+    "Connecting DoW + VA Hospitals with Med-Surg Suppliers",
+  ])
+    expect(stripAllowed(bad, "/about", true), bad).toMatch(/\bDoW\s*\+\s*VA\b/);
+  // On Home itself, anything but the whole approved line still fails.
+  for (const bad of [
+    "Connecting DoW + VA Hospitals",
+    "Connecting DoW + VA Hospitals and Clinics with Med-Surg Suppliers",
+    "Serving DoW + VA Hospitals with Med-Surg Suppliers",
+    "We work with DoW + VA teams",
+  ])
+    expect(stripAllowed(bad, "/", true), bad).toMatch(/\bDoW\s*\+\s*VA\b/);
 });

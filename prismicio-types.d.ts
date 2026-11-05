@@ -124,6 +124,37 @@ export type FormRepliesDocument<Lang extends string = string> = prismic.PrismicD
  */
 interface HomePageDocumentData {
 	/**
+	 * hero line, screens wider than 768px (shown in capitals; Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Connecting DoW + VA Hospitals with (Shift+Enter) Med-Surg Suppliers
+	 * - **API ID Path**: home_page.hero_line
+	 * - **Tab**: Hero
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	hero_line: prismic.RichTextField;
+	
+	/**
+	 * hero subtitle field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We bridge the gap between clinical demand and government procurement to support America’s Armed Services and our Veterans.
+	 * - **API ID Path**: home_page.hero_subtitle
+	 * - **Tab**: Hero
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	hero_subtitle: prismic.KeyTextField;
+	
+	/**
+	 * hero line, screens 768px wide or less (shown in capitals; Shift+Enter breaks the line) field in *Home page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep: Connecting (Shift+Enter) DoW + VA (Shift+Enter) Hospitals (Shift+Enter) w/ Med-Surg (Shift+Enter) Suppliers
+	 * - **API ID Path**: home_page.hero_line_phone
+	 * - **Tab**: Hero
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	hero_line_phone: prismic.RichTextField;/**
 	 * heading field in *Home page*
 	 *
 	 * - **Field Type**: Text
@@ -252,6 +283,158 @@ interface HomePageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	clinician_text: prismic.KeyTextField;/**
+	 * timeline 1 (after The Clinician in Mind): step 02 heading (shown in capitals; step label 02 repeats it, so change both) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Deployment overseas
+	 * - **API ID Path**: home_page.timeline_1_heading
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_1_heading: prismic.KeyTextField;
+	
+	/**
+	 * timeline 1: step 02 text field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Critical medical supplies save lives in forward deployed environments.
+	 * - **API ID Path**: home_page.timeline_1_text
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_1_text: prismic.KeyTextField;
+	
+	/**
+	 * timeline 2 (after We’re here to help): eyebrow, screens wider than 768px (shown in capitals) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
+	 * - **API ID Path**: home_page.timeline_2_eyebrow
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_2_eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * timeline 2: step 03 heading (shown in capitals; step label 03 repeats it, so change both) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Raising a family
+	 * - **API ID Path**: home_page.timeline_2_heading
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_2_heading: prismic.KeyTextField;
+	
+	/**
+	 * timeline 2: step 03 text field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Medical care and procedures for service men, women and family members.
+	 * - **API ID Path**: home_page.timeline_2_text
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_2_text: prismic.KeyTextField;
+	
+	/**
+	 * timeline 3 (after Getting started): eyebrow, screens wider than 768px (shown in capitals) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: The Clinician in Mind
+	 * - **API ID Path**: home_page.timeline_3_eyebrow
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_3_eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * timeline 3: step 06 heading (shown in capitals) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Veteran & retiree
+	 * - **API ID Path**: home_page.timeline_3_heading
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_3_heading: prismic.KeyTextField;
+	
+	/**
+	 * timeline 3: step 06 text field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Caring for our veterans after retirement
+	 * - **API ID Path**: home_page.timeline_3_text
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_3_text: prismic.KeyTextField;
+	
+	/**
+	 * step label 01, on all three timelines (shown in capitals after 01) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Start date: 18 y.o.
+	 * - **API ID Path**: home_page.timeline_label_1
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_1: prismic.KeyTextField;
+	
+	/**
+	 * step label 02, on all three timelines (shown in capitals after 02; timeline 1's heading repeats it, so change both) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Deployment overseas
+	 * - **API ID Path**: home_page.timeline_label_2
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_2: prismic.KeyTextField;
+	
+	/**
+	 * step label 03, on all three timelines (shown in capitals after 03; timeline 2's heading repeats it, so change both) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Raising a family
+	 * - **API ID Path**: home_page.timeline_label_3
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_3: prismic.KeyTextField;
+	
+	/**
+	 * step label 04, on all three timelines (shown in capitals after 04) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Active Duty Service in the US
+	 * - **API ID Path**: home_page.timeline_label_4
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_4: prismic.KeyTextField;
+	
+	/**
+	 * step label 05, on all three timelines (shown in capitals after 05) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Surgical procedure
+	 * - **API ID Path**: home_page.timeline_label_5
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_5: prismic.KeyTextField;
+	
+	/**
+	 * step label 06, on all three timelines (shown in capitals after 06) field in *Home page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 85 y.o. veteran & retiree
+	 * - **API ID Path**: home_page.timeline_label_6
+	 * - **Tab**: Timelines
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	timeline_label_6: prismic.KeyTextField;/**
 	 * heading (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text

@@ -80,6 +80,20 @@ test("homeCopy: no document is today's wording; a filled field wins, field by fi
   expect(today.capabilities_button).toBe("Capabilities Statement");
   expect(today.we_get_1).toEqual(["Priority", "Access"]);
   expect(today.step_3).toEqual(["Set pricing", "direct invoicing"]);
+  expect(today.hero_line).toEqual(["Connecting DoW + VA Hospitals with", "Med-Surg Suppliers"]);
+  expect(today.hero_line_phone).toEqual([
+    "Connecting",
+    "DoW + VA",
+    "Hospitals",
+    "w/ Med-Surg",
+    "Suppliers",
+  ]);
+  expect(today.hero_subtitle).toBe(
+    "We bridge the gap between clinical demand and government procurement to support America’s Armed Services and our Veterans.",
+  );
+  expect(today.timeline_2_eyebrow).toBe("The Clinician in Mind");
+  expect(today.timeline_3_heading).toBe("Veteran & retiree");
+  expect(today.timeline_label_6).toBe("85 y.o. veteran & retiree");
   expect(today.partner_quote).toMatch(/^“MSOT made the process .* DoD and VA hospital systems\.”$/);
 
   const some = homeCopy(doc({ help_heading: "New help", step_1: para("New\nsteps") }));
@@ -142,8 +156,21 @@ test("Home reads the document: every field, in every section", async ({ request 
   for (const step of ["step_1", "step_2", "step_3"]) {
     expect(page, step).toMatch(new RegExp(`Fixture ${step} 1\\s*<br\\s*/?>\\s*Fixture ${step} 2`));
   }
+  // The hero's lines keep their breaks, on both versions.
+  for (const hero of ["hero_line", "hero_line_phone"]) {
+    expect(page, hero).toMatch(new RegExp(`Fixture ${hero} 1\\s*<br\\s*/?>\\s*Fixture ${hero} 2`));
+  }
   // No section still shows today's words.
   for (const today of [
+    "Connecting",
+    "Med-Surg",
+    "We bridge the gap",
+    "Critical medical supplies",
+    "Raising a family",
+    "Medical care and procedures",
+    "Caring for our veterans",
+    "Start date",
+    "Surgical procedure",
     "Your Trusted Partner",
     "deep network of relationships",
     "We'll Get You",
@@ -195,6 +222,9 @@ test("with no document, Home shows today's words", async ({ request }) => {
     "Your Trusted Partner",
     "We'll Get You",
     "Priority Access",
+    "Connecting DoW + VA Hospitals with Med-Surg Suppliers",
+    "Deployment overseas",
+    "Veteran & retiree",
     "We’re here to help",
     "What You’ll get With MSOT",
     "is simple with msot",

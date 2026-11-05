@@ -24,7 +24,7 @@ for (const [width, size] of [
   }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/", { waitUntil: "networkidle" });
-    // After mount: the phone hero has rendered by now, and is no heading.
+    // The phone hero shows at this width, and is no heading.
     if (width <= 768) await expect(page.locator("p.h1", { hasText: "Hospitals" })).toBeVisible();
     const h1s = await page.locator("h1").allInnerTexts();
     expect(h1s.map((t) => t.trim().toLowerCase())).toEqual(["your trusted partner"]);
