@@ -15,6 +15,7 @@
 
   import Accordian from "$lib/components/FullWidth/Accordian.svelte";
   import Footer from "$lib/components/Footer.svelte";
+  import { DEFINITION_ABOUT, WORKS_WITH } from "$lib/identity";
   import TeamWithPopup from "$lib/components/FullWidth/TeamWithPopup.svelte";
 
   const LOREM =
@@ -97,6 +98,9 @@
       >
         what differentiates us
       </h4>
+      <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
+        {DEFINITION_ABOUT}
+      </p>
       <p class="text-white text-center">We are defined by expertise and experience.</p>
 
       <div class="text-white text-center leading-normal md:text-[24px]">
@@ -197,6 +201,8 @@
           DoD bases equipped with med-surg supplies, from the side of a logistics officer and the side
           of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization
           uniquely suited to connect med-surg suppliers with VA and DoD contracts.
+          <br /> <br />
+          {WORKS_WITH}
         </div>
       </div>
     </div>
