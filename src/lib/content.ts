@@ -57,11 +57,13 @@ export function lines(value: RichTextField | null | undefined, fallback: string[
 /**
  * A rich-text field of paragraphs as plain text, one line per paragraph, for a
  * block that keeps its line breaks (white-space: pre-wrap). Spaces are kept as
- * typed, since such a block shows them. Empty, it is the code's wording.
+ * typed, since such a block shows them; empty paragraphs at either end are
+ * dropped. Empty, it is the code's wording.
  */
 export function paragraphs(value: RichTextField | null | undefined, fallback: string): string {
   if (!isFilled.richText(value)) return fallback;
-  const out = asText(value, { separator: "\n" });
+  // An empty paragraph at either end would show as a blank line.
+  const out = asText(value, { separator: "\n" }).replace(/^\n+|\n+$/g, "");
   return out.trim() ? out : fallback;
 }
 

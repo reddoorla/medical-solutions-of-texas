@@ -17,6 +17,7 @@ const doc = (data: Record<string, unknown>) => ({ data }) as unknown as AboutPag
 test("paragraphs: one line per paragraph, spaces kept; empty keeps today's wording", () => {
   expect(paragraphs(paras("a:", "65 II A    Med"), "Old")).toBe("a:\n65 II A    Med");
   expect(paragraphs(para("One"), "Old")).toBe("One");
+  expect(paragraphs(paras("", "One", "", "Two", ""), "Old")).toBe("One\n\nTwo");
   expect(paragraphs([] as never, "Old")).toBe("Old");
   expect(paragraphs(para("   "), "Old")).toBe("Old");
   expect(paragraphs(null, "Old")).toBe("Old");
