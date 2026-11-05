@@ -26,7 +26,7 @@ const IMAGES: Image[] = [
   timeline(3),
   {
     path: "/",
-    selector: 'section:has(h1:text-is("let’s get started")) img >> nth=0',
+    selector: 'section:has(.h1:text-is("let’s get started")) img >> nth=0',
     desktop: { aspect: 6869 / 3784 },
     mobile: { aspect: 3564 / 2752 },
   },

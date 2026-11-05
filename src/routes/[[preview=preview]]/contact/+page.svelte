@@ -11,7 +11,7 @@
 
 <section class="bg-light pt-64 pb-32">
   <ContentWidth>
-    <h2 class="text-dark w-full text-left">CONTACT US</h2>
+    <h1 class="h2 text-dark w-full text-left">CONTACT US</h1>
     <div class="w-full h-[2px] bg-dark mt-4"></div>
     <div class="w-full flex flex-col-reverse lg:flex-row justify-between py-16">
       <div
