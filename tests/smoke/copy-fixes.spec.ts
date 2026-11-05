@@ -65,8 +65,17 @@ test("/process: the timeline's step titles are <h4> under its <h3>, with the h5 
   const steps = page.locator('[data-testid="timeline"] li h4');
   await expect(steps).toHaveCount(5);
   await expect(page.locator('[data-testid="timeline"] h5')).toHaveCount(0);
-  const s = await steps
-    .first()
-    .evaluate((el) => [getComputedStyle(el).fontSize, getComputedStyle(el).fontWeight]);
-  expect(s).toEqual(["15px", "600"]);
+  // The same look as the page's real <h5>s ("01 Refine"), property by property.
+  const look = (el: Element) => {
+    const c = getComputedStyle(el);
+    return [c.fontFamily, c.fontSize, c.fontWeight, c.letterSpacing, c.lineHeight, c.textTransform];
+  };
+  const ref = await page.locator("h5", { hasText: "Refine" }).evaluate(look);
+  for (const w of [1440, 390]) {
+    await page.setViewportSize({ width: w, height: 900 });
+    expect(await steps.first().evaluate(look), `${w}px`).toEqual(
+      await page.locator("h5", { hasText: "Refine" }).evaluate(look),
+    );
+  }
+  expect(ref[1]).toBe("15px");
 });
