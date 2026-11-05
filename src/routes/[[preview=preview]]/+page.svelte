@@ -1,8 +1,8 @@
 <script lang="ts">
   import FooterIdentity from "$lib/components/FooterIdentity.svelte";
-  import { DEFINITION } from "$lib/identity";
   import HomeJsonLd from "$lib/components/HomeJsonLd.svelte";
   import VimeoGate from "$lib/components/VimeoGate.svelte";
+  import { page } from "$app/state";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
   import txFlag from "$lib/assets/icons/logos/txFlag.svg";
@@ -264,7 +264,7 @@
         <img src={txFlag} alt="" width="53" height="35" class="opacity-50" />
       </div>
       <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
-        {DEFINITION}
+        {page.data.identity.definition}
       </p>
       <div class="text-white text-center leading-normal md:text-[24px]">
         Our expertise, VOSB (Veteran-Owned Small Business) status, and deep network of relationships

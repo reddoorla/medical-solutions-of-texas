@@ -11,24 +11,26 @@
   // assistant reads all of it, and the browser opens it with no script.
   import { Plus } from "@lucide/svelte";
   import { PRIVACY_PATH } from "$lib/privacy/policy";
-  import { IDENTITY, ADDRESS_LINE, DEFINITION } from "$lib/identity";
+  import { page } from "$app/state";
+  import { addressLine } from "$lib/identity";
+
+  const identity = $derived(page.data.identity);
 
   const year = new Date().getFullYear();
 </script>
 
 <div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
-  <p class="label font-semibold">{IDENTITY.name} ({IDENTITY.shortName})</p>
+  <p class="label font-semibold">{identity.name} ({identity.shortName})</p>
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
-    <a href={`tel:${IDENTITY.phoneE164}`} class="hover:text-light">{IDENTITY.phone}</a><span
-      class="max-sm:hidden"
-      >&nbsp;·
-    </span>
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light"
+        >{identity.phone}</a
+      >{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
     <a
-      href={`mailto:${IDENTITY.email}`}
+      href={`mailto:${identity.email}`}
       class="hover:text-light [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
-      >{IDENTITY.email}</a
+      >{identity.email}</a
     >
   </address>
   <details class="group">
@@ -44,15 +46,15 @@
       />
     </summary>
     <div class="flex flex-col gap-1 pt-1">
-      <p class="label" data-testid="footer-definition">{DEFINITION}</p>
-      <p class="label">{IDENTITY.businessType} · {IDENTITY.tagline}</p>
-      <address class="label not-italic">{ADDRESS_LINE}</address>
-      <p class="label">UEI {IDENTITY.uei} · CAGE {IDENTITY.cage} · FSS {IDENTITY.fss}</p>
+      <p class="label" data-testid="footer-definition">{identity.definition}</p>
+      <p class="label">{identity.businessType} · {identity.tagline}</p>
+      <address class="label not-italic">{addressLine(identity.address)}</address>
+      <p class="label">UEI {identity.uei} · CAGE {identity.cage} · FSS {identity.fss}</p>
     </div>
   </details>
   <p class="label">
     ©{year}
-    {IDENTITY.legalName} dba {IDENTITY.name} |
+    {identity.legalName} dba {identity.name} |
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"

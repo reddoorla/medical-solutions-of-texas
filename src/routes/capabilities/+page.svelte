@@ -10,7 +10,8 @@
   // this page reuses the Privacy Policy's; whether it gets its own design is
   // Erik's call.
   import Footer from "$lib/components/Footer.svelte";
-  import { IDENTITY, ADDRESS_LINE } from "$lib/identity";
+  import { page } from "$app/state";
+  import { addressLine } from "$lib/identity";
 
   const PROOF = [
     { figure: "45 working days or less", line: "to contract. Industry average: 120+" },
@@ -29,14 +30,17 @@
 
   // The numbers come from $lib/identity, the same list the footer and the
   // Organization markup read; the order and notes are the PDF's.
-  const [ecatJit, ecatDvd, dapaMed, dapaEquip] = IDENTITY.contracts;
-  const VEHICLES = [
+  const identity = $derived(page.data.identity);
+  const [ecatJit, ecatDvd, dapaMed, dapaEquip] = $derived(identity.contracts);
+  const VEHICLES = $derived([
     { vehicle: "ECAT", number: ecatJit.value, note: "Just in Time" },
     { vehicle: "ECAT", number: ecatDvd.value, note: "Direct Vendor Delivery" },
-    { vehicle: "FSS", number: IDENTITY.fss, note: "VA Schedule 65 II A" },
+    { vehicle: "FSS", number: identity.fss, note: "VA Schedule 65 II A" },
     { vehicle: "DAPA", number: dapaMed.value, note: "Medical/Surgical" },
     { vehicle: "DAPA", number: dapaEquip.value, note: "Equipment" },
-  ];
+    // A vehicle Marketing adds in the settings document, past today's four.
+    ...identity.contracts.slice(4).map((c) => ({ vehicle: c.label, number: c.value, note: "" })),
+  ]);
 
   const DESIGNATIONS = [
     { scope: "Federal", items: ["VOSB (Veteran-Owned Small Business)", "Small Business"] },
@@ -89,9 +93,9 @@
   <section class="space-y-3">
     <h2 class="text-2xl font-semibold text-white">Contract vehicles</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
-      {#each VEHICLES as v (v.number)}
+      {#each VEHICLES as v, i (i)}
         <dt class="text-white">{v.vehicle}</dt>
-        <dd>{v.number} · {v.note}</dd>
+        <dd>{v.note ? `${v.number} · ${v.note}` : v.number}</dd>
       {/each}
     </dl>
   </section>
@@ -100,13 +104,13 @@
     <h2 class="text-2xl font-semibold text-white">Company data</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
       <dt class="text-white">Legal name</dt>
-      <dd>{IDENTITY.legalName}, DBA {IDENTITY.name}</dd>
+      <dd>{identity.legalName}, DBA {identity.name}</dd>
       <dt class="text-white">UEI</dt>
-      <dd>{IDENTITY.uei}</dd>
+      <dd>{identity.uei}</dd>
       <dt class="text-white">CAGE</dt>
-      <dd>{IDENTITY.cage}</dd>
+      <dd>{identity.cage}</dd>
       <dt class="text-white">NAICS</dt>
-      <dd>{IDENTITY.naics} (primary), 339112, 339113</dd>
+      <dd>{identity.naics} (primary), 339112, 339113</dd>
     </dl>
   </section>
 
@@ -133,15 +137,18 @@
   <section class="space-y-3">
     <h2 class="text-2xl font-semibold text-white">Contact</h2>
     <address class="not-italic">
-      {IDENTITY.name} ({IDENTITY.shortName})<br />
-      <a href={`tel:${IDENTITY.phoneE164}`} class="underline hover:text-white">{IDENTITY.phone}</a>
+      {identity.name} ({identity.shortName})<br />
+      {#if identity.phoneE164}<a
+          href={`tel:${identity.phoneE164}`}
+          class="underline hover:text-white">{identity.phone}</a
+        >{:else}{identity.phone}{/if}
       ·
       <a
-        href={`mailto:${IDENTITY.email}`}
-        class="underline hover:text-white [overflow-wrap:anywhere]">{IDENTITY.email}</a
+        href={`mailto:${identity.email}`}
+        class="underline hover:text-white [overflow-wrap:anywhere]">{identity.email}</a
       >
       · medicalsolutionsoftx.com<br />
-      {ADDRESS_LINE}
+      {addressLine(identity.address)}
     </address>
     <p><a href="/contact" class="underline hover:text-white">Contact us</a></p>
   </section>

@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { IDENTITY } from "$lib/identity";
+  import { page } from "$app/state";
   import { Download } from "@lucide/svelte";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import Footer from "$lib/components/Footer.svelte";
+
+  const identity = $derived(page.data.identity);
 </script>
 
 <section class="h-96 bg-mid py-10">
@@ -21,9 +23,10 @@
       <p
         class="text-dark md:text-[24px] text-sm leading-normal text-pretty break-words hyphens-manual w-full"
       >
-        4903 Golden Quail, Suite 120 <br />
-        San Antonio, TX 78240 <br /><br />
-        Phone: 833.307.4418 <br />
+        {identity.address.street} <br />
+        {identity.address.city}, {identity.address.region}
+        {identity.address.postalCode} <br /><br />
+        Phone: {identity.phone} <br />
         customerservice&shy;@MedicalSolutionsofTX.com
       </p>
       <BracketButton class="text-dark" href="/contact">Contact Us</BracketButton>
@@ -49,7 +52,7 @@
       >
         <a href="/pdfs/MSOT_FSSCatalog.pdf" class="bump" target="_blank" rel="noopener noreferrer">
           <h4 class="text-dark hover:opacity-90 transition-opacity">
-            FSS Catalog (Contract # {IDENTITY.fss})
+            FSS Catalog (Contract # {identity.fss})
           </h4>
         </a>
         <a

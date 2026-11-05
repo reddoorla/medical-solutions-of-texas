@@ -5,11 +5,13 @@
     PRIVACY_SERVICES,
     PRIVACY_VALUES,
     formatEffectiveDate,
+    privacyOwner,
   } from "$lib/privacy/policy";
+  import { page } from "$app/state";
 
   const has = (service: (typeof PRIVACY_SERVICES)[number]) => PRIVACY_SERVICES.includes(service);
-  const owner = PRIVACY_VALUES.legalName;
-  const email = PRIVACY_VALUES.contactEmail;
+  const owner = $derived(privacyOwner(page.data.identity));
+  const email = $derived(page.data.identity.email);
   const effective = formatEffectiveDate(PRIVACY_VALUES.effectiveDate) ?? "[effective date]";
 </script>
 
