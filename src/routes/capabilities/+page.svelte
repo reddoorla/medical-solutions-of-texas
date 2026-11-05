@@ -27,12 +27,15 @@
     "Dedicated Government Account Coordinators",
   ];
 
+  // The numbers come from $lib/identity, the same list the footer and the
+  // Organization markup read; the order and notes are the PDF's.
+  const [ecatJit, ecatDvd, dapaMed, dapaEquip] = IDENTITY.contracts;
   const VEHICLES = [
-    { vehicle: "ECAT", number: "SPE2DE-25-D-A012", note: "Just in Time" },
-    { vehicle: "ECAT", number: "SPE2DE-25-D-A011", note: "Direct Vendor Delivery" },
+    { vehicle: "ECAT", number: ecatJit.value, note: "Just in Time" },
+    { vehicle: "ECAT", number: ecatDvd.value, note: "Direct Vendor Delivery" },
     { vehicle: "FSS", number: IDENTITY.fss, note: "VA Schedule 65 II A" },
-    { vehicle: "DAPA", number: "SP0200-11-H-0018", note: "Medical/Surgical" },
-    { vehicle: "DAPA", number: "SP0200-11-H-0003", note: "Equipment" },
+    { vehicle: "DAPA", number: dapaMed.value, note: "Medical/Surgical" },
+    { vehicle: "DAPA", number: dapaEquip.value, note: "Equipment" },
   ];
 
   const DESIGNATIONS = [
@@ -136,7 +139,8 @@
       <a
         href={`mailto:${IDENTITY.email}`}
         class="underline hover:text-white [overflow-wrap:anywhere]">{IDENTITY.email}</a
-      ><br />
+      >
+      · medicalsolutionsoftx.com<br />
       {ADDRESS_LINE}
     </address>
     <p><a href="/contact" class="underline hover:text-white">Contact us</a></p>

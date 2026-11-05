@@ -34,6 +34,7 @@ const FACTS = [
   "With 20 years of Air Force logistics and nearly 50 years in medical device sales",
   "4903 Golden Quail, Suite 120, San Antonio, TX 78240",
   "833.307.4418",
+  "info@MedicalSolutionsofTX.com · medicalsolutionsoftx.com",
 ];
 
 test("/capabilities states the Capabilities Statement as text in the server HTML", async ({
