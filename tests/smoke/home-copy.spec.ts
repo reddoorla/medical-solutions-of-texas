@@ -114,7 +114,8 @@ test("Home reads the document: every field, in every section", async ({ request 
     await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })
   ).text();
   const shown = visible(html);
-  const page = html.replace(/<script[\s\S]*?<\/script>/gi, "");
+  // Svelte's hydration markers (<!--[-->) sit between a step's lines in dev.
+  const page = html.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<!--[\s\S]*?-->/g, "");
   for (const [field, today] of Object.entries(HOME_COPY)) {
     if (field === "video_title") continue; // mounted only after a visitor engages; below
     if (ATTRIBUTES[field]) {
@@ -164,7 +165,10 @@ test("Home's phone width breaks We'll Get You across lines, from the document", 
   await page.goto("/");
   const heading = page.locator("h2", { hasText: "Fixture we_get_1 1" });
   await expect(heading).toHaveCount(1);
-  expect(await heading.innerHTML()).toMatch(/Fixture we_get_1 1\s*<br\s*\/?>\s*Fixture we_get_1 2/);
+  // The page swaps to its phone markup once it hydrates at this width.
+  await expect
+    .poll(async () => (await heading.innerHTML()).replace(/<!--[\s\S]*?-->/g, ""))
+    .toMatch(/Fixture we_get_1 1\s*<br\s*\/?>\s*Fixture we_get_1 2/);
   // The background video's title is the document's too, once it mounts.
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 4));
   await expect(async () => {

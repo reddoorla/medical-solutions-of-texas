@@ -5,5 +5,9 @@
   let { lines, joined = false }: { lines: string[]; joined?: boolean } = $props();
 </script>
 
-{#if joined}{lines.join(" ")}{:else}{#each lines as line, i}{#if i > 0}{" "}<br
+<!-- The {" "} spaces are deliberate: Svelte trims plain whitespace at the edges
+     of an {#if} block, and the spaces around <br /> are what a crawler reads. -->
+<!-- eslint-disable svelte/no-useless-mustaches -->
+{#if joined}{lines.join(" ")}{:else}{#each lines as line, i (i)}{#if i > 0}{" "}<br
       />{" "}{/if}{line}{/each}{/if}
+<!-- eslint-enable svelte/no-useless-mustaches -->
