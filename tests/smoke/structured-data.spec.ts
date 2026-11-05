@@ -25,13 +25,14 @@ test("Home carries exactly one JSON-LD graph: Organization and WebSite, with §1
     "WebSite",
   ]);
 
-  expect(org).toMatchObject({
+  expect(org).toEqual({
+    "@type": "Organization",
     "@id": "https://medicalsolutionsoftx.com/#organization",
     name: "Medical Solutions of Texas",
     alternateName: "MSOT",
     legalName: "OJH Services, Inc.",
     url: "https://medicalsolutionsoftx.com/",
-    logo: "https://medicalsolutionsoftx.com/web-app-manifest-512x512.png",
+    logo: "https://medicalsolutionsoftx.com/msot-logo-organization.png",
     description:
       "Medical Solutions of Texas (MSOT) is a San Antonio–based Veteran-Owned Small Business (VOSB) that helps medical and surgical manufacturers get their products on federal contract (ECAT, FSS and DAPA) and into VA and Department of War (DoW) treatment facilities.",
     address: {
@@ -46,6 +47,9 @@ test("Home carries exactly one JSON-LD graph: Organization and WebSite, with §1
     email: "info@MedicalSolutionsofTX.com",
     naics: "423450",
     areaServed: { "@type": "Country", name: "United States" },
+    identifier: org.identifier,
+    knowsAbout: org.knowsAbout,
+    sameAs: org.sameAs,
   });
   expect(org.identifier).toEqual(
     [
@@ -58,8 +62,17 @@ test("Home carries exactly one JSON-LD graph: Organization and WebSite, with §1
       ["DAPA (Equipment)", "SP0200-11-H-0003"],
     ].map(([propertyID, value]) => ({ "@type": "PropertyValue", propertyID, value })),
   );
-  expect(org.knowsAbout).toHaveLength(9);
-  expect(org.knowsAbout).toContain("Department of Defense (DoD) medical procurement");
+  expect(org.knowsAbout).toEqual([
+    "Federal healthcare contracting",
+    "VA Federal Supply Schedule (FSS)",
+    "DLA Electronic Catalog (ECAT)",
+    "Distribution and Pricing Agreements (DAPA)",
+    "Department of Veterans Affairs medical procurement",
+    "Department of War (DoW) medical procurement",
+    "Department of Defense (DoD) medical procurement",
+    "Veteran-Owned Small Business (VOSB) contracting",
+    "Medical-surgical product distribution",
+  ]);
   expect(org.sameAs).toEqual([
     "https://www.linkedin.com/company/medical-solutions-of-texas",
     "https://www.gsaelibrary.gsa.gov/ElibMain/home.do/contractorInfo.do?contractNumber=36F79725D0204&contractorName=OJH+SERVICES,+INC.&executeQuery=YES",
@@ -86,6 +99,8 @@ test("the logo the markup names is a real PNG of at least 112px", async ({ reque
   expect(png.subarray(1, 4).toString()).toBe("PNG");
   expect(png.readUInt32BE(16)).toBeGreaterThanOrEqual(112);
   expect(png.readUInt32BE(20)).toBeGreaterThanOrEqual(112);
+  // Colour type 2 (RGB, no alpha): it reads on a white background.
+  expect(png[25]).toBe(2);
 });
 
 for (const path of PAGES.filter((p) => p !== "/")) {

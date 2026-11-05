@@ -41,7 +41,8 @@ function stripAllowed(text: string, path: string, allowHeldHero: boolean): strin
     for (const allowed of REVOGEN_QUOTE_DOD) t = t.replace(allowed, "");
   }
   if (path === "/" && allowHeldHero) t = t.replace(HELD_HERO_DOD, "");
-  if (path === "/") t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
+  // Server reading only: the JSON-LD is not in the rendered text.
+  if (path === "/" && !allowHeldHero) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
   // Not global: §12f allows the bridge once, then "DoW" everywhere after.
   if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
   return t;

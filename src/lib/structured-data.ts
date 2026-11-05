@@ -33,8 +33,9 @@ export function homeGraph() {
         alternateName: IDENTITY.shortName,
         legalName: IDENTITY.legalName,
         url: HOME,
-        // 512px, the site's own mark (Google's minimum is 112px).
-        logo: `${SITE_URL}/web-app-manifest-512x512.png`,
+        // The site's khaki mark on its own dark brown, 640px: Google wants a
+        // logo that reads on white, and the bare mark is pale on transparent.
+        logo: `${SITE_URL}/msot-logo-organization.png`,
         description: DEFINITION,
         address: {
           "@type": "PostalAddress",
