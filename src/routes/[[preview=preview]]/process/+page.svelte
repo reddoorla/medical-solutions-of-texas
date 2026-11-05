@@ -202,7 +202,9 @@
       {#each TIMELINE as step, i (step.title)}
         <li class="w-full relative">
           <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
-          <p class="label text-[#998B6A] mt-4">{step.timing}</p>
+          <!-- Two lines held at lg, so a timing that wraps (step 02, 1024–1200px)
+               doesn't push its title below the others. -->
+          <p class="label text-[#998B6A] mt-4 lg:min-h-[2lh]">{step.timing}</p>
           <h5 class="text-dark mt-2">
             <span class="text-[#998B6A]">{String(i + 1).padStart(2, "0")}</span>
             {step.title}
