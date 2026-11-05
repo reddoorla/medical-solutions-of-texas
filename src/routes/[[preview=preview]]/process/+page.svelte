@@ -9,8 +9,6 @@
   import Img from "@zerodevx/svelte-img";
   import hero from "$lib/assets/images/process/processHero.jpg?as=run";
   import surgeonVideoPlaceholder from "$lib/assets/images/home/surgeonsPlaceholder.jpg?as=run";
-  import timeline from "$lib/assets/images/process/timeline.svg";
-  import timeline_mobile from "$lib/assets/images/process/timeline_mobile.svg";
   import Footer from "$lib/components/Footer.svelte";
 
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
@@ -35,6 +33,38 @@
   onMount(() => {
     window.addEventListener("scroll", handleScroll);
   });
+
+  // MSOT Marketing's approved steps (Developer Brief Part 2, §14b, Oct 29,
+  // 2026), word for word but one: step 03's line puts VA first, the house order
+  // Marketing set in §12e. They replace timeline.svg, whose words were shapes and
+  // which said "Manufacturer Alpha" and 30–90 days.
+  const TIMELINE = [
+    {
+      timing: "Week 1",
+      title: "Kickoff and contract plan",
+      text: "MSOT reviews your products and picks the right path: ECAT, FSS, DAPA or a mix.",
+    },
+    {
+      timing: "Typically 45 working days or less",
+      title: "Approval and ECAT listing",
+      text: "MSOT prepares and submits the paperwork, and your products appear on ECAT once approved.",
+    },
+    {
+      timing: "About 7 days",
+      title: "Rollout to DoW bases and VA facilities",
+      text: "Your products become available to order at VA and DoW treatment facilities.",
+    },
+    {
+      timing: "Ongoing",
+      title: "Orders and cases ship",
+      text: "MSOT handles orders, invoicing and delivery from this point on.",
+    },
+    {
+      timing: "As needed",
+      title: "Contract maintenance",
+      text: "MSOT keeps your contracts current with price updates, new items and renewals.",
+    },
+  ];
 </script>
 
 <svelte:window bind:innerHeight={viewportHeight} />
@@ -101,7 +131,7 @@
     <div class="w-full aspect-[5/2] bg-light relative overflow-hidden">
       <Img
         src={surgeonVideoPlaceholder}
-        alt="surgeons placeholder"
+        alt=""
         class="w-full h-full absolute top-0 left-0 object-cover"
       />
       <VimeoGate>
@@ -163,11 +193,27 @@
   </ContentWidth>
 </section>
 
-<section class="bg-light w-screen relative">
-  <picture>
-    <source media="(min-width: 769px)" srcset={timeline} width="1438" height="748" />
-    <img src={timeline_mobile} alt="timelines" width="385" height="1055" class="w-full" />
-  </picture>
+<section class="bg-light pt-32">
+  <ContentWidth>
+    <h3 class="text-dark mb-10">What does a typical timeline look like?</h3>
+    <!-- The step cards reuse the "01 Refine" pattern above; Erik decides
+         whether the timeline gets its own design. -->
+    <ol class="w-full grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8" data-testid="timeline">
+      {#each TIMELINE as step, i (step.title)}
+        <li class="w-full relative">
+          <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
+          <!-- Two lines held at lg, so a timing that wraps (step 02, 1024–1200px)
+               doesn't push its title below the others. -->
+          <p class="label text-[#998B6A] mt-4 lg:min-h-[2lh]">{step.timing}</p>
+          <h5 class="text-dark mt-2">
+            <span class="text-[#998B6A]">{String(i + 1).padStart(2, "0")}</span>
+            {step.title}
+          </h5>
+          <p class="text-dark mt-4 text-[18px] leading-normal">{step.text}</p>
+        </li>
+      {/each}
+    </ol>
+  </ContentWidth>
 </section>
 
 <section class="bg-light pt-32 pb-48">
@@ -183,7 +229,7 @@
         {
           label: "What does our typical timeline look like after winning a contract?",
           content:
-            "The timeline for this process begins with a Medical Manufacturer getting approval on the ECAT. Typically in the span of 30 to 90 days. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to military bases and VA facilities takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surge equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
+            "The timeline for this process begins with a Medical Manufacturer getting approval on the ECAT. Typically 45 working days or less. The next critical step is ensuring compliance and readiness for the rollout phase. Once approved, the rollout to military bases and VA facilities takes place within a concise period of seven days, making the product accessible where it is most needed. Following the initial product deployment, the process transitions into a phase med-surge equipment can be provided, ensuring smooth operations and ongoing support. Finally, the timeline extends into a phase of ongoing contract maintenance, which is carried out as needed to uphold quality and reliability throughout the duration of the agreement.",
         },
       ]}
     />
