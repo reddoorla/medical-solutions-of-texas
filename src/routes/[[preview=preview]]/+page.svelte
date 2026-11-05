@@ -36,7 +36,9 @@
   // Marketing's PDF-download conversion is a Custom Event trigger on this push,
   // not a GTM link-click trigger: Tag Manager loads on the first interaction, so
   // a first click on the PDF would beat its click listener (#144). GTM reads the
-  // queued push when it loads. No personal data.
+  // queued push when it loads. A middle-click counts too (it fires auxclick, not
+  // click); "Open in new tab" from the context menu fires neither, so it can't
+  // be counted. No personal data.
   function pushCapabilitiesDownload() {
     const w = window as unknown as { dataLayer?: unknown[] };
     w.dataLayer = w.dataLayer || [];
@@ -277,7 +279,11 @@
           target="_blank"
           rel="noopener"
           click={pushCapabilitiesDownload}
-          class="text-mid button-text">Capabilities Statement</BracketButton
+          auxclick={(e) => e.button === 1 && pushCapabilitiesDownload()}
+          class="text-mid button-text"
+          >Capabilities Statement<span class="sr-only">
+            (PDF, opens in a new tab)</span
+          ></BracketButton
         >
       </div>
     </div>

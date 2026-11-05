@@ -3,6 +3,8 @@
 
   interface Props {
     click?: () => void;
+    /** A middle-click opens a link in a new tab without firing `click`. */
+    auxclick?: (e: MouseEvent) => void;
     href?: string;
     target?: string;
     rel?: string;
@@ -13,6 +15,7 @@
 
   let {
     click = () => {},
+    auxclick,
     href = "",
     target,
     rel,
@@ -35,6 +38,7 @@
       click();
       isActive = false;
     }}
+    onauxclick={auxclick}
     class="{baseClasses} {passedClasses}"
     {href}
     {target}

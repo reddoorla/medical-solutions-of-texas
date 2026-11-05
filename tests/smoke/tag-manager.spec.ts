@@ -253,6 +253,23 @@ test("each click on Home's Capabilities button pushes one event", async ({ page 
   expect(await downloads(page)).toHaveLength(2);
 });
 
+test("a middle-click on Home's Capabilities button pushes one event and opens the PDF", async ({
+  page,
+}) => {
+  await watchGtm(page);
+  await loadIdle(page);
+  const pdf = page
+    .context()
+    .waitForEvent("request", (r) => r.url().endsWith("/pdfs/MSOT_Capabilities.pdf"));
+  await page.getByRole("link", { name: "Capabilities Statement" }).click({ button: "middle" });
+  await pdf;
+  expect(await downloads(page)).toEqual([{ event: "msot_capabilities_download" }]);
+  // A right-click (button 2) also fires auxclick, and opens no tab by itself.
+  await page.getByRole("link", { name: "Capabilities Statement" }).click({ button: "right" });
+  await page.keyboard.press("Escape");
+  expect(await downloads(page)).toHaveLength(1);
+});
+
 test("an unattended load of Home pushes no download", async ({ page }) => {
   await watchGtm(page);
   await loadIdle(page);
