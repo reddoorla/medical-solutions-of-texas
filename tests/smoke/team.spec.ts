@@ -171,6 +171,16 @@ test("buildTeam: order N is the Nth place even when only some people have docume
     "New Hire",
     "Kylene Carse",
   ]);
+  // A fraction goes after the whole number below it: Kathy at 2.5 is 3rd.
+  expect(placed([["Kathy Castro", 2.5]])[2]).toBe("Kathy Castro");
+  expect(
+    placed([
+      ["Kathy Castro", 1.2],
+      ["David Lange", 1.5],
+    ]).slice(0, 3),
+  ).toEqual(["Jon Hood", "Kathy Castro", "David Lange"]);
+  // New people with no order go by name.
+  expect(placed([], ["Zed New", "Abe New"]).slice(5)).toEqual(["Abe New", "Zed New"]);
   // Two at 1 go by name, and both come before the rest.
   expect(
     placed([

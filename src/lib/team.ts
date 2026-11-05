@@ -40,8 +40,9 @@ export const teamAlt = (name: string, title: string) =>
  * with the same name (ignoring case, spacing and zero-width characters), plus
  * any new people. A document's `order` is its position: 1 is first, 2 is
  * second, whoever else has a document. The documents with an order are placed
- * by it; everyone else (today's cards with no document, then documents with
- * no order) fills the remaining places in today's order. Documents with the
+ * by it; everyone else fills the remaining places: today's cards in today's
+ * order (a document with no order keeps its person's place), then new people
+ * with no order. Documents with the
  * same order go by name. A document with no name is skipped, and of two with
  * the same name the first in the API's order (by `order`) wins. A person whose
  * headshot hasn't come in keeps the image the site already shows for them
