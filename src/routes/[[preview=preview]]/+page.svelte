@@ -33,6 +33,16 @@
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import { whenPageReady, prefersReducedMotion } from "@reddoorla/maintenance/client";
 
+  // Marketing's PDF-download conversion is a Custom Event trigger on this push,
+  // not a GTM link-click trigger: Tag Manager loads on the first interaction, so
+  // a first click on the PDF would beat its click listener (#144). GTM reads the
+  // queued push when it loads. No personal data.
+  function pushCapabilitiesDownload() {
+    const w = window as unknown as { dataLayer?: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: "msot_capabilities_download" });
+  }
+
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
 
@@ -260,8 +270,14 @@
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
         <BracketButton href="/contact" class="text-mid button-text">Contact Us</BracketButton>
-        <BracketButton href="/capabilities" class="text-mid button-text"
-          >Capabilities Statement</BracketButton
+        <!-- A new tab keeps Home open, so a Tag Manager that this click only
+             starts loading can still read the queued download event. -->
+        <BracketButton
+          href="/pdfs/MSOT_Capabilities.pdf"
+          target="_blank"
+          rel="noopener"
+          click={pushCapabilitiesDownload}
+          class="text-mid button-text">Capabilities Statement</BracketButton
         >
       </div>
     </div>

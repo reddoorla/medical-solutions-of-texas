@@ -196,3 +196,65 @@ test("a send with the honeypot filled pushes nothing", async ({ page }) => {
 test("a send faster than the server's 800ms fill screen pushes nothing", async ({ page }) => {
   expect(await submit(page, "success", { tooFast: true })).toEqual([]);
 });
+
+// --- the Capabilities PDF download --------------------------------------------
+
+// Home's button pushes `msot_capabilities_download` itself, so Marketing's
+// trigger is a Custom Event that a first click cannot outrun (#144). The PDF
+// opens in a new tab, so Home stays open for Tag Manager to read the push.
+
+const downloads = (page: Page) =>
+  page.evaluate(() =>
+    ((window as unknown as { dataLayer?: unknown[] }).dataLayer ?? [])
+      .filter((e) => (e as { event?: string })?.event === "msot_capabilities_download")
+      .map((e) =>
+        Object.fromEntries(Object.entries(e as object).filter(([k]) => !k.startsWith("gtm."))),
+      ),
+  );
+
+const clickCapabilities = async (page: Page) => {
+  // Headless Chromium hands a PDF to its download path, so the new tab never
+  // settles on the PDF's URL; its request for the PDF is what shows it opened.
+  const popup = page.waitForEvent("popup");
+  const pdf = page
+    .context()
+    .waitForEvent("request", (r) => r.url().endsWith("/pdfs/MSOT_Capabilities.pdf"));
+  await page.getByRole("link", { name: "Capabilities Statement" }).click();
+  const [tab, req] = await Promise.all([popup, pdf]);
+  expect(req.frame().page()).toBe(tab);
+  await tab.close();
+};
+
+test("a first click on Home's Capabilities button pushes msot_capabilities_download once, and Home stays open", async ({
+  page,
+}) => {
+  const requests = await watchGtm(page);
+  await loadIdle(page);
+  expect(requests, "no Tag Manager before the click").toEqual([]);
+  await clickCapabilities(page);
+  expect(await downloads(page)).toEqual([{ event: "msot_capabilities_download" }]);
+  expect(new URL(page.url()).pathname).toBe("/");
+  // The click was the first interaction: Tag Manager starts loading now, and
+  // its gtm.js event sits ahead of the download in the queue it will read.
+  await expect.poll(() => requests.length).toBe(1);
+  const order = await page.evaluate(() =>
+    ((window as unknown as { dataLayer?: unknown[] }).dataLayer ?? [])
+      .map((e) => (e as { event?: string })?.event)
+      .filter((e) => e === "gtm.js" || e === "msot_capabilities_download"),
+  );
+  expect(order).toEqual(["gtm.js", "msot_capabilities_download"]);
+});
+
+test("each click on Home's Capabilities button pushes one event", async ({ page }) => {
+  await watchGtm(page);
+  await loadIdle(page);
+  await clickCapabilities(page);
+  await clickCapabilities(page);
+  expect(await downloads(page)).toHaveLength(2);
+});
+
+test("an unattended load of Home pushes no download", async ({ page }) => {
+  await watchGtm(page);
+  await loadIdle(page);
+  expect(await downloads(page)).toEqual([]);
+});

@@ -4,6 +4,8 @@
   interface Props {
     click?: () => void;
     href?: string;
+    target?: string;
+    rel?: string;
     type?: "button" | "submit" | "reset";
     class?: string;
     children?: Snippet;
@@ -12,6 +14,8 @@
   let {
     click = () => {},
     href = "",
+    target,
+    rel,
     type = "button",
     class: passedClasses = "",
     children,
@@ -33,6 +37,8 @@
     }}
     class="{baseClasses} {passedClasses}"
     {href}
+    {target}
+    {rel}
   >
     <div class="transition-transform duration-300 text-xl {isActive ? '-translate-x-1' : ''}">
       [
