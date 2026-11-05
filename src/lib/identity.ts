@@ -25,6 +25,20 @@ export const IDENTITY = {
   uei: "Z7Q8TN9HMRC4",
   cage: "6ZM08",
   fss: "36F797-25-D-0204",
+  /** Primary NAICS; the Capabilities Statement also lists 339112 and 339113. */
+  naics: "423450",
+  /** Contract vehicles, as on the Capabilities Statement (2026). */
+  contracts: [
+    { label: "DLA ECAT Contract (Just in Time)", value: "SPE2DE-25-D-A012" },
+    { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "SPE2DE-25-D-A011" },
+    { label: "DAPA (Medical/Surgical)", value: "SP0200-11-H-0018" },
+    { label: "DAPA (Equipment)", value: "SP0200-11-H-0003" },
+  ],
+  /** Pages specifically about MSOT (§13a), never a registry's home page. */
+  sameAs: [
+    "https://www.linkedin.com/company/medical-solutions-of-texas",
+    "https://www.gsaelibrary.gsa.gov/ElibMain/home.do/contractorInfo.do?contractNumber=36F79725D0204&contractorName=OJH+SERVICES,+INC.&executeQuery=YES",
+  ],
 } as const;
 
 /** §12b, word for word: the first paragraph on Home. */
