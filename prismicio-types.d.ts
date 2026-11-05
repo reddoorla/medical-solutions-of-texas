@@ -47,24 +47,24 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 /**
- * Item in *About page → the list, top to bottom. A row needs a title, or it is not shown; an answer left empty shows the title alone. With no rows, the page keeps today's four.*
+ * Item in *About page → the list, top to bottom*
  */
 export interface AboutPageDocumentDataServicesItem {
 	/**
-	 * title field in *About page → the list, top to bottom. A row needs a title, or it is not shown; an answer left empty shows the title alone. With no rows, the page keeps today's four.*
+	 * title field in *About page → the list, top to bottom*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's four.
 	 * - **API ID Path**: about_page.services[].label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	label: prismic.KeyTextField;
 	
 	/**
-	 * answer (each paragraph is a line) field in *About page → the list, top to bottom. A row needs a title, or it is not shown; an answer left empty shows the title alone. With no rows, the page keeps today's four.*
+	 * answer (each paragraph is a line) field in *About page → the list, top to bottom*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Enter starts a new line, shown as typed. Left empty, the row shows its title alone.
 	 * - **API ID Path**: about_page.services[].answer
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
@@ -138,7 +138,7 @@ interface AboutPageDocumentData {
 	services_heading: prismic.KeyTextField;
 	
 	/**
-	 * the list, top to bottom. A row needs a title, or it is not shown; an answer left empty shows the title alone. With no rows, the page keeps today's four. field in *About page*
+	 * the list, top to bottom field in *About page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*

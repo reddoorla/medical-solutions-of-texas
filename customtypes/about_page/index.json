@@ -55,19 +55,21 @@
       "services": {
         "type": "Group",
         "config": {
-          "label": "the list, top to bottom. A row needs a title, or it is not shown; an answer left empty shows the title alone. With no rows, the page keeps today's four.",
+          "label": "the list, top to bottom",
           "repeat": true,
           "fields": {
             "label": {
               "type": "Text",
               "config": {
-                "label": "title"
+                "label": "title",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's four."
               }
             },
             "answer": {
               "type": "StructuredText",
               "config": {
                 "label": "answer (each paragraph is a line)",
+                "placeholder": "Enter starts a new line, shown as typed. Left empty, the row shows its title alone.",
                 "multi": "paragraph"
               }
             }
