@@ -13,7 +13,6 @@
 
   import Accordian from "$lib/components/FullWidth/Accordian.svelte";
   import Footer from "$lib/components/Footer.svelte";
-  import { DEFINITION_ABOUT, WORKS_WITH } from "$lib/identity";
   import TeamWithPopup from "$lib/components/FullWidth/TeamWithPopup.svelte";
 
   import placeholder from "$lib/assets/images/profile_placeholder.png";
@@ -68,7 +67,7 @@
         what differentiates us
       </h4>
       <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
-        {DEFINITION_ABOUT}
+        {data.identity.definitionAbout}
       </p>
       <p class="text-white text-center">We are defined by expertise and experience.</p>
 
@@ -171,7 +170,7 @@
           of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization
           uniquely suited to connect med-surg suppliers with VA and DoW contracts.
           <br /> <br />
-          {WORKS_WITH}
+          {data.identity.worksWith}
         </div>
       </div>
     </div>

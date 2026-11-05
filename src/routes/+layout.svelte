@@ -6,7 +6,8 @@
   import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
   import { SITE_URL } from "$lib/site";
-  import { PAGE_SEO, NOT_FOUND_TITLE, ERROR_TITLE, routeKey, canonicalUrl } from "$lib/seo";
+  import { PAGE_SEO, routeKey, canonicalUrl } from "$lib/seo";
+  import type { Identity } from "$lib/identity";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -19,7 +20,7 @@
 
   interface Props {
     children?: Snippet;
-    data: { isPreviewSession?: boolean };
+    data: { isPreviewSession?: boolean; identity: Identity };
   }
 
   let { children, data }: Props = $props();
@@ -29,10 +30,6 @@
   // is empty/absent so no page ever renders an empty <meta name="description">
   // or a blank/duplicate <title>.
   const SITE_NAME = "Medical Solutions of Texas";
-  // Last-resort description, derived from the real homepage copy (VOSB status +
-  // navigating government healthcare contracting for the VA and DoW).
-  const DEFAULT_DESCRIPTION =
-    "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the VA and DoW.";
 
   // Route-derived title so an untitled Prismic doc still yields a unique, human
   // <title> ("/rep-login" -> "MSOT | Rep Login") instead of an empty/duplicate tag.
@@ -58,8 +55,8 @@
   let pageTitle = $derived(
     isError
       ? page.status === 404
-        ? NOT_FOUND_TITLE
-        : ERROR_TITLE
+        ? data.identity.notFoundTitle
+        : data.identity.errorTitle
       : page.data.meta_title ||
           PAGE_SEO[route]?.title ||
           page.data.title ||
@@ -68,7 +65,7 @@
   let metaDescription = $derived(
     (!isError && page.data.meta_description) ||
       (!isError && PAGE_SEO[route]?.description) ||
-      DEFAULT_DESCRIPTION,
+      data.identity.defaultDescription,
   );
   // The khaki logo sits on the two light-backed pages. It used to key off the
   // title "MSOT | Resources", which the titles above would have broken silently.

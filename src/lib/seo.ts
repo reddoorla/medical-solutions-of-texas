@@ -56,9 +56,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 };
 
-export const NOT_FOUND_TITLE = "Page not found | MSOT";
-export const ERROR_TITLE = "Something went wrong | MSOT";
-
 /** The route without the optional `/preview` segment or a trailing slash. */
 export function routeKey(pathname: string): string {
   const p = pathname.replace(/^\/preview(?=\/|$)/, "").replace(/\/+$/, "");

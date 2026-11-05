@@ -1,9 +1,19 @@
 // Who MSOT is, stated once (MSOT Marketing's Developer Brief Part 2, §12a).
 // The footer, the Contact page and the Organization JSON-LD all read these
 // values, so the facts a visitor sees and the facts in the markup can't drift
-// apart. Every value is Marketing's confirmed wording; change one here only on
-// their say. A Prismic singleton was weighed and not used: these change about
-// once a year, and a typed file needs no CMS fetch on every page.
+// apart. Every value is Marketing's confirmed wording.
+//
+// Marketing edits them in Prismic's `settings` document (the operator, 11-05:
+// "all content should be in prismic, not in code"; the workspace's
+// decisions/2026-11-05-1856-msot-content-to-prismic-models-route.md). This
+// reverses the earlier call that "a Prismic singleton was weighed and not
+// used": every page is prerendered, so the fetch happens once per build, not
+// per visitor. The values below stay as the fallback, field by field: an empty
+// field in the document shows today's wording, so the model can land before
+// the document exists, and a half-filled document changes only what was filled.
+import { isFilled, NotFoundError, type Client } from "@prismicio/client";
+import type { SettingsDocument } from "../../prismicio-types";
+
 export const IDENTITY = {
   name: "Medical Solutions of Texas",
   shortName: "MSOT",
@@ -53,4 +63,139 @@ export const DEFINITION_ABOUT =
 export const WORKS_WITH =
   "Medical Solutions of Texas (MSOT) works with medical-surgical manufacturers and federal healthcare facilities.";
 
-export const ADDRESS_LINE = `${IDENTITY.address.street}, ${IDENTITY.address.city}, ${IDENTITY.address.region} ${IDENTITY.address.postalCode}`;
+/** "Page not found | MSOT" and its kin: the titles the layout gives an error page. */
+export const NOT_FOUND_TITLE = "Page not found | MSOT";
+export const ERROR_TITLE = "Something went wrong | MSOT";
+
+/**
+ * Last-resort description, derived from the real homepage copy (VOSB status +
+ * navigating government healthcare contracting for the VA and DoW).
+ */
+export const DEFAULT_DESCRIPTION =
+  "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the VA and DoW.";
+
+export type Identity = {
+  name: string;
+  shortName: string;
+  legalName: string;
+  businessType: string;
+  tagline: string;
+  address: { street: string; city: string; region: string; postalCode: string; country: string };
+  phone: string;
+  phoneE164: string;
+  email: string;
+  uei: string;
+  cage: string;
+  fss: string;
+  naics: string;
+  contracts: { label: string; value: string }[];
+  sameAs: string[];
+  definition: string;
+  definitionAbout: string;
+  worksWith: string;
+  notFoundTitle: string;
+  errorTitle: string;
+  defaultDescription: string;
+};
+
+/** The one-line address the footer and /capabilities print. */
+export const addressLine = (a: Identity["address"]) =>
+  `${a.street}, ${a.city}, ${a.region} ${a.postalCode}`;
+
+export const ADDRESS_LINE = addressLine(IDENTITY.address);
+
+/** "833.307.4418" → "+18333074418". A ten-digit US number gains its +1. */
+export function toE164(phone: string): string {
+  const d = phone.replace(/\D/g, "");
+  return `+${d.length === 10 ? `1${d}` : d}`;
+}
+
+/** Today's wording, every field: what the site shows with no `settings` document. */
+export const CODE_IDENTITY: Identity = {
+  ...IDENTITY,
+  address: { ...IDENTITY.address },
+  contracts: IDENTITY.contracts.map((c) => ({ ...c })),
+  sameAs: [...IDENTITY.sameAs],
+  definition: DEFINITION,
+  definitionAbout: DEFINITION_ABOUT,
+  worksWith: WORKS_WITH,
+  notFoundTitle: NOT_FOUND_TITLE,
+  errorTitle: ERROR_TITLE,
+  defaultDescription: DEFAULT_DESCRIPTION,
+};
+
+/** A filled text field, trimmed; else the fallback. */
+const pick = (value: string | null | undefined, fallback: string) =>
+  isFilled.keyText(value) && value.trim() ? value.trim() : fallback;
+
+/**
+ * The `settings` document over today's wording, field by field. Contract rows
+ * merge by position, because /capabilities reads the four vehicles in order;
+ * a row past today's four counts only with both its label and number. The
+ * `sameAs` list is the document's filled URLs when it has any, else today's.
+ * The phone's E.164 form follows the printed phone.
+ */
+export function mergeIdentity(
+  doc: SettingsDocument | null,
+  code: Identity = CODE_IDENTITY,
+): Identity {
+  if (!doc) return code;
+  const d = doc.data;
+  const phone = pick(d.phone, code.phone);
+  const rows = d.contracts ?? [];
+  const contracts = code.contracts.map((c, i) => ({
+    label: pick(rows[i]?.label, c.label),
+    value: pick(rows[i]?.value, c.value),
+  }));
+  for (const r of rows.slice(code.contracts.length)) {
+    const label = pick(r.label, "");
+    const value = pick(r.value, "");
+    if (label && value) contracts.push({ label, value });
+  }
+  const sameAs = (d.same_as ?? []).map((r) => pick(r.url, "")).filter(Boolean);
+  return {
+    name: pick(d.name, code.name),
+    shortName: pick(d.short_name, code.shortName),
+    legalName: pick(d.legal_name, code.legalName),
+    businessType: pick(d.business_type, code.businessType),
+    tagline: pick(d.tagline, code.tagline),
+    address: {
+      street: pick(d.street, code.address.street),
+      city: pick(d.city, code.address.city),
+      region: pick(d.region, code.address.region),
+      postalCode: pick(d.postal_code, code.address.postalCode),
+      country: pick(d.country, code.address.country),
+    },
+    phone,
+    phoneE164: toE164(phone),
+    email: pick(d.email, code.email),
+    uei: pick(d.uei, code.uei),
+    cage: pick(d.cage, code.cage),
+    fss: pick(d.fss, code.fss),
+    naics: pick(d.naics, code.naics),
+    contracts,
+    sameAs: sameAs.length ? sameAs : code.sameAs,
+    definition: pick(d.definition, code.definition),
+    definitionAbout: pick(d.definition_about, code.definitionAbout),
+    worksWith: pick(d.works_with, code.worksWith),
+    notFoundTitle: pick(d.not_found_title, code.notFoundTitle),
+    errorTitle: pick(d.error_title, code.errorTitle),
+    defaultDescription: pick(d.default_description, code.defaultDescription),
+  };
+}
+
+/**
+ * The site's identity for this build. With no `settings` document yet (the
+ * model reaches Prismic only when it merges to `main`, and Marketing publishes
+ * after that), the API answers NotFoundError and today's wording stands. Any
+ * other error is a real failure, and the build stops rather than quietly ship
+ * the code's values.
+ */
+export async function loadIdentity(client: Pick<Client, "getSingle">): Promise<Identity> {
+  try {
+    return mergeIdentity((await client.getSingle("settings")) as SettingsDocument);
+  } catch (e) {
+    if (e instanceof NotFoundError) return CODE_IDENTITY;
+    throw e;
+  }
+}

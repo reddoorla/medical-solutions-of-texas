@@ -9,7 +9,10 @@ declare global {
   namespace App {
     // interface Error {}
     // interface Locals {}
-    // interface PageData {}
+    interface PageData {
+      /** Who MSOT is, from the root layout ($lib/identity). */
+      identity: import("$lib/identity").Identity;
+    }
     // interface Platform {}
   }
 }

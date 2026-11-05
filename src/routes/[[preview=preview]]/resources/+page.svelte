@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { IDENTITY } from "$lib/identity";
+  import { page } from "$app/state";
   import { Download } from "@lucide/svelte";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import ContentWidth from "$lib/components/ContentWidth/ContentWidth.svelte";
   import Footer from "$lib/components/Footer.svelte";
+
+  const identity = $derived(page.data.identity);
 </script>
 
 <section class="h-96 bg-mid py-10">
@@ -49,7 +51,7 @@
       >
         <a href="/pdfs/MSOT_FSSCatalog.pdf" class="bump" target="_blank" rel="noopener noreferrer">
           <h4 class="text-dark hover:opacity-90 transition-opacity">
-            FSS Catalog (Contract # {IDENTITY.fss})
+            FSS Catalog (Contract # {identity.fss})
           </h4>
         </a>
         <a

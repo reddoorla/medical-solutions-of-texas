@@ -3,25 +3,28 @@
   // Footer component and Home's own footer so the two can't drift apart.
   // Server-rendered at every width: the old © line was only drawn above 560px.
   import { PRIVACY_PATH } from "$lib/privacy/policy";
-  import { IDENTITY, ADDRESS_LINE } from "$lib/identity";
+  import { page } from "$app/state";
+  import { addressLine } from "$lib/identity";
+
+  const identity = $derived(page.data.identity);
 
   const year = new Date().getFullYear();
 </script>
 
 <div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
-  <p class="label font-semibold">{IDENTITY.name} ({IDENTITY.shortName})</p>
-  <p class="label">{IDENTITY.businessType} · {IDENTITY.tagline}</p>
+  <p class="label font-semibold">{identity.name} ({identity.shortName})</p>
+  <p class="label">{identity.businessType} · {identity.tagline}</p>
   <address class="label not-italic">
-    {ADDRESS_LINE} ·
-    <a href={`tel:${IDENTITY.phoneE164}`} class="hover:text-light">{IDENTITY.phone}</a> ·
-    <a href={`mailto:${IDENTITY.email}`} class="hover:text-light [overflow-wrap:anywhere]"
-      >{IDENTITY.email}</a
+    {addressLine(identity.address)} ·
+    <a href={`tel:${identity.phoneE164}`} class="hover:text-light">{identity.phone}</a> ·
+    <a href={`mailto:${identity.email}`} class="hover:text-light [overflow-wrap:anywhere]"
+      >{identity.email}</a
     >
   </address>
-  <p class="label">UEI {IDENTITY.uei} · CAGE {IDENTITY.cage} · FSS {IDENTITY.fss}</p>
+  <p class="label">UEI {identity.uei} · CAGE {identity.cage} · FSS {identity.fss}</p>
   <p class="label">
     ©{year}
-    {IDENTITY.legalName} dba {IDENTITY.name} |
+    {identity.legalName} dba {identity.name} |
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"

@@ -191,6 +191,320 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Item in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+ */
+export interface SettingsDocumentDataContractsItem {
+	/**
+	 * label field in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: e.g. DLA ECAT Contract (Just in Time)
+	 * - **API ID Path**: settings.contracts[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * number field in *Site settings → contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: e.g. SPE2DE-25-D-A012
+	 * - **API ID Path**: settings.contracts[].value
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	value: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary)*
+ */
+export interface SettingsDocumentDataSameAsItem {
+	/**
+	 * URL field in *Site settings → pages about MSOT elsewhere (LinkedIn, GSA eLibrary)*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: The full address, starting https://
+	 * - **API ID Path**: settings.same_as[].url
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	url: prismic.KeyTextField;
+}
+
+/**
+ * Content for Site settings documents
+ */
+interface SettingsDocumentData {
+	/**
+	 * name field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas
+	 * - **API ID Path**: settings.name
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * short name field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT
+	 * - **API ID Path**: settings.short_name
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	short_name: prismic.KeyTextField;
+	
+	/**
+	 * legal name field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: OJH Services, Inc.
+	 * - **API ID Path**: settings.legal_name
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	legal_name: prismic.KeyTextField;
+	
+	/**
+	 * business type field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Veteran-Owned Small Business (VOSB)
+	 * - **API ID Path**: settings.business_type
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	business_type: prismic.KeyTextField;
+	
+	/**
+	 * tagline field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Federal med-surg contracting for the VA and DoW
+	 * - **API ID Path**: settings.tagline
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	tagline: prismic.KeyTextField;
+	
+	/**
+	 * definition (Home, and the search-engine description of MSOT) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **API ID Path**: settings.definition
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	definition: prismic.KeyTextField;
+	
+	/**
+	 * definition (About, first sentence) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **API ID Path**: settings.definition_about
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	definition_about: prismic.KeyTextField;
+	
+	/**
+	 * works with (end of About’s Who we are) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **API ID Path**: settings.works_with
+	 * - **Tab**: Who MSOT is
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	works_with: prismic.KeyTextField;/**
+	 * street field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 4903 Golden Quail, Suite 120
+	 * - **API ID Path**: settings.street
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	street: prismic.KeyTextField;
+	
+	/**
+	 * city field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: San Antonio
+	 * - **API ID Path**: settings.city
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	city: prismic.KeyTextField;
+	
+	/**
+	 * state field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: TX
+	 * - **API ID Path**: settings.region
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	region: prismic.KeyTextField;
+	
+	/**
+	 * ZIP code field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 78240
+	 * - **API ID Path**: settings.postal_code
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	postal_code: prismic.KeyTextField;
+	
+	/**
+	 * country code field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: US
+	 * - **API ID Path**: settings.country
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	country: prismic.KeyTextField;
+	
+	/**
+	 * phone, as printed field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 833.307.4418
+	 * - **API ID Path**: settings.phone
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone: prismic.KeyTextField;
+	
+	/**
+	 * email field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: info@MedicalSolutionsofTX.com
+	 * - **API ID Path**: settings.email
+	 * - **Tab**: Address and contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	email: prismic.KeyTextField;/**
+	 * UEI field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Z7Q8TN9HMRC4
+	 * - **API ID Path**: settings.uei
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	uei: prismic.KeyTextField;
+	
+	/**
+	 * CAGE code field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 6ZM08
+	 * - **API ID Path**: settings.cage
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cage: prismic.KeyTextField;
+	
+	/**
+	 * FSS contract number field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 36F797-25-D-0204
+	 * - **API ID Path**: settings.fss
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	fss: prismic.KeyTextField;
+	
+	/**
+	 * primary NAICS field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 423450
+	 * - **API ID Path**: settings.naics
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	naics: prismic.KeyTextField;
+	
+	/**
+	 * contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment) field in *Site settings*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.contracts[]
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	contracts: prismic.GroupField<Simplify<SettingsDocumentDataContractsItem>>;
+	
+	/**
+	 * pages about MSOT elsewhere (LinkedIn, GSA eLibrary) field in *Site settings*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.same_as[]
+	 * - **Tab**: Registrations
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	same_as: prismic.GroupField<Simplify<SettingsDocumentDataSameAsItem>>;/**
+	 * title of the page-not-found page field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Page not found | MSOT
+	 * - **API ID Path**: settings.not_found_title
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	not_found_title: prismic.KeyTextField;
+	
+	/**
+	 * title of the error page field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Something went wrong | MSOT
+	 * - **API ID Path**: settings.error_title
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	error_title: prismic.KeyTextField;
+	
+	/**
+	 * description for a page that has none field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep the current wording
+	 * - **API ID Path**: settings.default_description
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	default_description: prismic.KeyTextField;
+}
+
+/**
+ * Site settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
+
+/**
  * Content for Team member documents
  */
 interface TeamMemberDocumentData {
@@ -272,7 +586,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = FormRepliesDocument | PageDocument | TeamMemberDocument;
+export type AllDocumentTypes = FormRepliesDocument | PageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -333,6 +647,10 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			SettingsDocument,
+			SettingsDocumentData,
+			SettingsDocumentDataContractsItem,
+			SettingsDocumentDataSameAsItem,
 			TeamMemberDocument,
 			TeamMemberDocumentData,
 			AllDocumentTypes,

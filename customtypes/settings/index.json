@@ -1,0 +1,210 @@
+{
+  "format": "custom",
+  "id": "settings",
+  "label": "Site settings",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Who MSOT is": {
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "name",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas"
+        }
+      },
+      "short_name": {
+        "type": "Text",
+        "config": {
+          "label": "short name",
+          "placeholder": "Leave empty to keep: MSOT"
+        }
+      },
+      "legal_name": {
+        "type": "Text",
+        "config": {
+          "label": "legal name",
+          "placeholder": "Leave empty to keep: OJH Services, Inc."
+        }
+      },
+      "business_type": {
+        "type": "Text",
+        "config": {
+          "label": "business type",
+          "placeholder": "Leave empty to keep: Veteran-Owned Small Business (VOSB)"
+        }
+      },
+      "tagline": {
+        "type": "Text",
+        "config": {
+          "label": "tagline",
+          "placeholder": "Leave empty to keep: Federal med-surg contracting for the VA and DoW"
+        }
+      },
+      "definition": {
+        "type": "Text",
+        "config": {
+          "label": "definition (Home, and the search-engine description of MSOT)",
+          "placeholder": "Leave empty to keep the current wording"
+        }
+      },
+      "definition_about": {
+        "type": "Text",
+        "config": {
+          "label": "definition (About, first sentence)",
+          "placeholder": "Leave empty to keep the current wording"
+        }
+      },
+      "works_with": {
+        "type": "Text",
+        "config": {
+          "label": "works with (end of About’s Who we are)",
+          "placeholder": "Leave empty to keep the current wording"
+        }
+      }
+    },
+    "Address and contact": {
+      "street": {
+        "type": "Text",
+        "config": {
+          "label": "street",
+          "placeholder": "Leave empty to keep: 4903 Golden Quail, Suite 120"
+        }
+      },
+      "city": {
+        "type": "Text",
+        "config": {
+          "label": "city",
+          "placeholder": "Leave empty to keep: San Antonio"
+        }
+      },
+      "region": {
+        "type": "Text",
+        "config": {
+          "label": "state",
+          "placeholder": "Leave empty to keep: TX"
+        }
+      },
+      "postal_code": {
+        "type": "Text",
+        "config": {
+          "label": "ZIP code",
+          "placeholder": "Leave empty to keep: 78240"
+        }
+      },
+      "country": {
+        "type": "Text",
+        "config": {
+          "label": "country code",
+          "placeholder": "Leave empty to keep: US"
+        }
+      },
+      "phone": {
+        "type": "Text",
+        "config": {
+          "label": "phone, as printed",
+          "placeholder": "Leave empty to keep: 833.307.4418"
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "email",
+          "placeholder": "Leave empty to keep: info@MedicalSolutionsofTX.com"
+        }
+      }
+    },
+    "Registrations": {
+      "uei": {
+        "type": "Text",
+        "config": {
+          "label": "UEI",
+          "placeholder": "Leave empty to keep: Z7Q8TN9HMRC4"
+        }
+      },
+      "cage": {
+        "type": "Text",
+        "config": {
+          "label": "CAGE code",
+          "placeholder": "Leave empty to keep: 6ZM08"
+        }
+      },
+      "fss": {
+        "type": "Text",
+        "config": {
+          "label": "FSS contract number",
+          "placeholder": "Leave empty to keep: 36F797-25-D-0204"
+        }
+      },
+      "naics": {
+        "type": "Text",
+        "config": {
+          "label": "primary NAICS",
+          "placeholder": "Leave empty to keep: 423450"
+        }
+      },
+      "contracts": {
+        "type": "Group",
+        "config": {
+          "label": "contract vehicles (in this order: ECAT Just in Time, ECAT Direct Vendor Delivery, DAPA Medical/Surgical, DAPA Equipment)",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "label",
+                "placeholder": "e.g. DLA ECAT Contract (Just in Time)"
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "number",
+                "placeholder": "e.g. SPE2DE-25-D-A012"
+              }
+            }
+          }
+        }
+      },
+      "same_as": {
+        "type": "Group",
+        "config": {
+          "label": "pages about MSOT elsewhere (LinkedIn, GSA eLibrary)",
+          "repeat": true,
+          "fields": {
+            "url": {
+              "type": "Text",
+              "config": {
+                "label": "URL",
+                "placeholder": "The full address, starting https://"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Page titles": {
+      "not_found_title": {
+        "type": "Text",
+        "config": {
+          "label": "title of the page-not-found page",
+          "placeholder": "Leave empty to keep: Page not found | MSOT"
+        }
+      },
+      "error_title": {
+        "type": "Text",
+        "config": {
+          "label": "title of the error page",
+          "placeholder": "Leave empty to keep: Something went wrong | MSOT"
+        }
+      },
+      "default_description": {
+        "type": "Text",
+        "config": {
+          "label": "description for a page that has none",
+          "placeholder": "Leave empty to keep the current wording"
+        }
+      }
+    }
+  }
+}
