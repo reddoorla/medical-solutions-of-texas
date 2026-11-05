@@ -183,6 +183,12 @@
     text-transform: uppercase;
   }
 
+  /* An <h1> styled as an h2 (Resources, Contact) keeps the h2's body font,
+     not the h1 rule's barlow-condensed, which .h2 doesn't otherwise reset. */
+  h1.h2 {
+    font-family: inherit;
+  }
+
   h3 {
     font-size: 30px;
     font-style: normal;

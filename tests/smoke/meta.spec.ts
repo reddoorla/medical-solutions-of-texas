@@ -85,7 +85,8 @@ test("no two pages share a title or a description", async ({ request }) => {
 });
 
 test("a missing page is titled 'Page not found | MSOT', with no canonical", async ({ page }) => {
-  // Netlify serves the prerendered 404 for an unknown path; dev renders +error.
+  // An unknown path renders +error.svelte (adapter-netlify's SSR function in
+  // production; no 404 page is prerendered).
   const res = await page.goto("/llms.txt-does-not-exist");
   expect(res?.status()).toBe(404);
   await expect(page).toHaveTitle("Page not found | MSOT");
@@ -147,3 +148,24 @@ test("the khaki logo keys off the route, not the page title", async ({ page }) =
     expect(src ?? "", path).toMatch(khaki ? /msot_khaki/ : /msot_logo(?!_sand)/);
   }
 });
+
+// Resources and Contact had an <h2> as their page heading; it became the <h1>
+// with the h2 look. The look is pinned as computed style, because the h1 rule's
+// font-family once leaked through `.h2` and no HTML check could see it.
+for (const [width, size] of [
+  [1440, "80px"],
+  [390, "48px"],
+] as const) {
+  for (const path of ["/resources", "/contact"]) {
+    test(`${path} at ${width}px: the <h1> keeps the h2 look`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path, { waitUntil: "networkidle" });
+      const style = await page.locator("h1.h2").evaluate((el) => {
+        const c = getComputedStyle(el);
+        return [c.fontFamily, c.fontWeight, c.fontSize, c.textTransform];
+      });
+      expect(style[0]).toMatch(/^"?rigid-square"?/);
+      expect(style.slice(1)).toEqual(["300", size, "uppercase"]);
+    });
+  }
+}
