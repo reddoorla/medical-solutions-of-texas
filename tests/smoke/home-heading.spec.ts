@@ -16,6 +16,7 @@ const H4_LOOK = (size: string) => ({
 for (const [width, size] of [
   [1440, "20px"],
   [1100, "20px"],
+  [700, "16px"],
   [390, "16px"],
 ] as const) {
   test(`at ${width}px Home's one <h1> is "Your Trusted Partner", with the h4 look`, async ({
@@ -40,6 +41,17 @@ for (const [width, size] of [
     const want = H4_LOOK(size);
     expect(s.fontFamily).toMatch(want.fontFamily);
     expect({ ...s, fontFamily: "" }).toEqual({ ...want, fontFamily: "" });
+    // It still sits centred on the box's top border, as the <h2> did.
+    const [h, box, pos] = await page
+      .locator("h1")
+      .evaluate((el) => [
+        el.getBoundingClientRect().toJSON(),
+        el.parentElement!.getBoundingClientRect().toJSON(),
+        getComputedStyle(el).position,
+      ]);
+    expect(pos).toBe("absolute");
+    expect(Math.abs(h.top + h.height / 2 - box.top)).toBeLessThan(6);
+    expect(Math.abs(h.left + h.width / 2 - (box.left + box.width / 2))).toBeLessThan(2);
   });
 }
 
