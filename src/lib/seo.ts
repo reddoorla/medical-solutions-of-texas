@@ -41,6 +41,12 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     description:
       "Contact MSOT at 4903 Golden Quail, Suite 120, San Antonio, TX 78240, or call 833.307.4418.",
   },
+  // Not in Marketing's table: from the Capabilities Statement's own words.
+  "/capabilities": {
+    title: "Capabilities Statement | MSOT",
+    description:
+      "MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers.",
+  },
   // Not in Marketing's table: titled like the others, described in the
   // policy's own opening words.
   "/privacy": {

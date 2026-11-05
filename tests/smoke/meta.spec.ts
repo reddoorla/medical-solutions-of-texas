@@ -36,6 +36,11 @@ const EXPECTED: Record<string, { title: string; description: string }> = {
     description:
       "Contact MSOT at 4903 Golden Quail, Suite 120, San Antonio, TX 78240, or call 833.307.4418.",
   },
+  "/capabilities": {
+    title: "Capabilities Statement | MSOT",
+    description:
+      "MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers.",
+  },
   "/privacy": {
     title: "Privacy Policy | MSOT",
     description:
@@ -105,6 +110,7 @@ const ONE_H1: Record<string, string> = {
   "/resources": "Resources",
   "/contact": "Contact Us",
   "/privacy": "Privacy Policy",
+  "/capabilities": "Capabilities Statement",
 };
 
 for (const path of Object.keys(EXPECTED)) {
