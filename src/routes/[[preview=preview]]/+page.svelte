@@ -280,10 +280,8 @@
           rel="noopener"
           click={pushCapabilitiesDownload}
           auxclick={(e) => e.button === 1 && pushCapabilitiesDownload()}
-          class="text-mid button-text"
-          >Capabilities Statement<span class="sr-only">
-            (PDF, opens in a new tab)</span
-          ></BracketButton
+          ariaLabel="Capabilities Statement (PDF, opens in a new tab)"
+          class="text-mid button-text">Capabilities Statement</BracketButton
         >
       </div>
     </div>

@@ -88,6 +88,8 @@ test("Home's Capabilities Statement button opens the PDF in a new tab, and is Ho
   expect(attrs).toMatch(/\bhref="\/pdfs\/MSOT_Capabilities\.pdf"/);
   expect(attrs).toMatch(/\btarget="_blank"/);
   expect(attrs).toMatch(/\brel="noopener"/);
+  // The name keeps the visible words and warns of the PDF and the new tab.
+  expect(attrs).toMatch(/\baria-label="Capabilities Statement \(PDF, opens in a new tab\)"/);
   expect([...html.matchAll(/href="([^"]*\.pdf)"/gi)].map((m) => m[1])).toEqual([
     "/pdfs/MSOT_Capabilities.pdf",
   ]);

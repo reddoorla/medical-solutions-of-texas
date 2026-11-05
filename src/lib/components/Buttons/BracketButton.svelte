@@ -8,6 +8,7 @@
     href?: string;
     target?: string;
     rel?: string;
+    ariaLabel?: string;
     type?: "button" | "submit" | "reset";
     class?: string;
     children?: Snippet;
@@ -19,6 +20,7 @@
     href = "",
     target,
     rel,
+    ariaLabel,
     type = "button",
     class: passedClasses = "",
     children,
@@ -43,6 +45,7 @@
     {href}
     {target}
     {rel}
+    aria-label={ariaLabel}
   >
     <div class="transition-transform duration-300 text-xl {isActive ? '-translate-x-1' : ''}">
       [
