@@ -2,6 +2,8 @@
   import FooterIdentity from "$lib/components/FooterIdentity.svelte";
   import HomeJsonLd from "$lib/components/HomeJsonLd.svelte";
   import VimeoGate from "$lib/components/VimeoGate.svelte";
+  import Lines from "$lib/components/Lines.svelte";
+  import type { PageData } from "./$types";
   import { page } from "$app/state";
   //icons
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
@@ -32,6 +34,10 @@
   import { fade } from "svelte/transition";
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import { whenPageReady, prefersReducedMotion } from "@reddoorla/maintenance/client";
+
+  // The copy is the home_page document over today's wording ($lib/copy/home).
+  let { data }: { data: PageData } = $props();
+  const copy = $derived(data.copy);
 
   // Marketing's PDF-download conversion is a Custom Event trigger on this push,
   // not a GTM link-click trigger: Tag Manager loads on the first interaction, so
@@ -255,23 +261,24 @@
         class="h4 text-mid absolute top-0 left-1/2 text-nowrap"
         style="transform:translate(-50%, calc(-50% + 3px))"
       >
-        Your Trusted Partner
+        {copy.trusted_heading}
       </h1>
 
       <div class="flex flex-row items-center justify-center gap-5">
         <img src={usFlag} alt="" width="57" height="37" class="opacity-50" />
-        <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="opacity-90 h-40" />
+        <img src={vosbLogo} alt={copy.vosb_logo_alt} class="opacity-90 h-40" />
         <img src={txFlag} alt="" width="53" height="35" class="opacity-50" />
       </div>
       <p class="text-white text-center leading-normal md:text-[24px]" data-testid="definition">
         {page.data.identity.definition}
       </p>
       <div class="text-white text-center leading-normal md:text-[24px]">
-        Our expertise, VOSB (Veteran-Owned Small Business) status, and deep network of relationships
-        allows us to offer solutions where others hit roadblocks.
+        {copy.trusted_text}
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-        <BracketButton href="/contact" class="text-mid button-text">Contact Us</BracketButton>
+        <BracketButton href="/contact" class="text-mid button-text"
+          >{copy.contact_button}</BracketButton
+        >
         <!-- A new tab keeps Home open, so a Tag Manager that this click only
              starts loading can still read the queued download event. -->
         <BracketButton
@@ -280,8 +287,8 @@
           rel="noopener"
           click={pushCapabilitiesDownload}
           auxclick={(e) => e.button === 1 && pushCapabilitiesDownload()}
-          ariaLabel="Capabilities Statement (PDF, opens in a new tab)"
-          class="text-mid button-text">Capabilities Statement</BracketButton
+          ariaLabel={`${copy.capabilities_button} (PDF, opens in a new tab)`}
+          class="text-mid button-text">{copy.capabilities_button}</BracketButton
         >
       </div>
     </div>
@@ -299,7 +306,7 @@
       {#if surgeonsInView}
         <VimeoGate>
           <iframe
-            title="background video"
+            title={copy.video_title}
             src="https://player.vimeo.com/video/1019997302?background=1&dnt=1"
             class="absolute w-full aspect-video top-0 left-0 contrast-[1.15]"
             frameborder="0"
@@ -312,7 +319,7 @@
         class="w-full h-full absolute top-0 left-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent"
       ></div>
       <h2 class="text-mid absolute -bottom-2 md:-bottom-[14px] left-0 leading-none">
-        We'll Get You
+        {copy.we_get_heading}
       </h2>
     </div>
     <div class="-mt-6 overflow-hidden">
@@ -323,31 +330,30 @@
         >
           {#if viewportWidth > 1024}
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
-              Priority Access
+              <Lines lines={copy.we_get_1} joined />
             </h2>
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
-              contract expertise
+              <Lines lines={copy.we_get_2} joined />
             </h2>
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
-              Direct Results
+              <Lines lines={copy.we_get_3} joined />
             </h2>
           {:else}
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(0)}">
-              Priority <br /> Access
+              <Lines lines={copy.we_get_1} />
             </h2>
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(1)}">
-              contract <br /> expertise
+              <Lines lines={copy.we_get_2} />
             </h2>
             <h2 class="text-dark text-left transition duration-1000 ease-out mt-4 {weGetTone(2)}">
-              Direct <br /> Results
+              <Lines lines={copy.we_get_3} />
             </h2>
           {/if}
         </div>
         <div class="bg-mid relative pt-4 w-full">
-          <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">The Clinician in Mind</h3>
+          <h3 class="h5 text-dark mt-20 lg:mt-24 mb-5">{copy.clinician_heading}</h3>
           <div class="text-dark w-full max-w-80">
-            MSOT makes medical care possible from the war fighter all the way to the retiree and all
-            phases of service in between.
+            {copy.clinician_text}
           </div>
         </div>
       </div>
@@ -370,7 +376,7 @@
 </section>
 <section class="bg-mid py-20" bind:this={painTrigger}>
   <ContentWidth class="flex flex-col mb-10 md:mb-20 md:flex-row relative">
-    <h3 class="text-dark">We Know What to Do</h3>
+    <h3 class="text-dark">{copy.know_heading}</h3>
   </ContentWidth>
   <ContentWidth class="flex flex-col md:flex-row relative">
     <div
@@ -394,28 +400,28 @@
           : ''} support-text"
       >
         <h4 class="text-dark duration-1000 ease-out {isPainActive ? 'opacity-100' : ''}">
-          Government Contracts Are
+          {copy.problem_heading}
         </h4>
         <h3
           class="text-dark duration-1000 ease-out md:mt-6 {isPainActive
             ? 'opacity-100 delay-[350ms]'
             : 'opacity-0'}"
         >
-          opaque
+          {copy.problem_1}
         </h3>
         <h3
           class="text-dark duration-1000 ease-out {isPainActive
             ? 'opacity-100 delay-[700ms]'
             : 'opacity-0'}"
         >
-          confusing
+          {copy.problem_2}
         </h3>
         <h3
           class="text-dark duration-1000 ease-out {isPainActive
             ? 'opacity-100 delay-[1050ms]'
             : 'opacity-0'}"
         >
-          inaccessible
+          {copy.problem_3}
         </h3>
       </div>
     </div>
@@ -425,37 +431,37 @@
           ? 'opacity-100 delay-[1750ms]'
           : 'opacity-0'}"
       >
-        What You’ll get With MSOT
+        {copy.answer_heading}
       </h4>
       <h3
         class="text-dark duration-1000 ease-out md:mt-6 {isPainActive
           ? 'opacity-100 delay-[2100ms]'
           : 'opacity-0'}"
       >
-        transparency
+        {copy.answer_1}
       </h3>
       <h3
         class="text-dark duration-1000 ease-out {isPainActive
           ? 'opacity-100 delay-[2450ms] '
           : 'opacity-0'}"
       >
-        understanding
+        {copy.answer_2}
       </h3>
       <h3
         class="text-dark duration-1000 ease-out {isPainActive
           ? 'opacity-100  delay-[2800ms]  '
           : 'opacity-0'}"
       >
-        access
+        {copy.answer_3}
       </h3>
     </div>
   </ContentWidth>
 </section>
 <section class="bg-mid py-32">
   <ContentWidth class="flex flex-col items-center justify-center gap-10">
-    <h4 class="text-dark">We’re here to help</h4>
+    <h4 class="text-dark">{copy.help_heading}</h4>
     <p class="text-dark text-center max-w-screen-sm">
-      Take the headache and confusion out of dealing with government healthcare
+      {copy.help_text}
     </p>
   </ContentWidth>
 </section>
@@ -490,23 +496,25 @@
           class="text-dark absolute top-0 left-1/2 text-nowrap"
           style="transform:translate(-50%, calc(-50% + 3px))"
         >
-          Our Partner
+          {copy.partner_heading}
         </h4>
 
         <p class="text-dark text-center mx-5 text-[24px]">
-          “MSOT made the process of getting our product into the DoD system easier than we ever
-          thought possible. They're an invaluable partnership and wealth of knowledge when it comes
-          to selling to the DoD and VA hospital systems.”
+          {copy.partner_quote}
         </p>
-        <img src={revogenLogo} alt="Revogen" class="h-32 max-w-[min(350px,100%)] object-contain" />
+        <img
+          src={revogenLogo}
+          alt={copy.partner_logo_alt}
+          class="h-32 max-w-[min(350px,100%)] object-contain"
+        />
       </div>
     </div>
   </ContentWidth>
 </section>
 <section class="bg-mid py-20" bind:this={threeStepTrigger}>
   <ContentWidth>
-    <h2 class="text-dark text-left w-full">Getting started</h2>
-    <h2 class="text-dark text-left w-full">is simple with msot</h2>
+    <h2 class="text-dark text-left w-full">{copy.start_heading_1}</h2>
+    <h2 class="text-dark text-left w-full">{copy.start_heading_2}</h2>
     <div class="w-full my-24 flex flex-col md:flex-row justify-between gap-8">
       <div
         class="w-full relative transition-opacity duration-1000 ease-out {isthreeStepActive
@@ -515,7 +523,7 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <p class="h4 text-dark mt-4">01</p>
-        <h3 class="text-dark mt-8">establish <br /> goals</h3>
+        <h3 class="text-dark mt-8"><Lines lines={copy.step_1} /></h3>
       </div>
       <div
         class="w-full relative transition-opacity duration-1000 ease-out {isthreeStepActive
@@ -524,7 +532,7 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <p class="h4 text-dark mt-4">02</p>
-        <h3 class="text-dark mt-8">Find Your <br /> access points</h3>
+        <h3 class="text-dark mt-8"><Lines lines={copy.step_2} /></h3>
       </div>
       <div
         class="w-full relative transition-opacity duration-1000 ease-out {isthreeStepActive
@@ -533,10 +541,10 @@
       >
         <div class="absolute top-0 left-0 h-[2px] bg-dark w-full"></div>
         <p class="h4 text-dark mt-4">03</p>
-        <h3 class="text-dark mt-8">Set pricing <br />direct invoicing</h3>
+        <h3 class="text-dark mt-8"><Lines lines={copy.step_3} /></h3>
       </div>
     </div>
-    <BracketButton class="text-dark mb-12" href="/process">Learn More</BracketButton>
+    <BracketButton class="text-dark mb-12" href="/process">{copy.start_button}</BracketButton>
   </ContentWidth>
 </section>
 <section class="bg-light w-screen relative">
@@ -561,25 +569,25 @@
 >
   <!-- Decoration: the buttons below carry the call to action, so this line is not a heading. -->
   <div class="h-44 overflow-hidden relative w-full" aria-hidden="true">
-    <div class="h1 text-mid add-outline absolute bottom-0 left-0 opacity-40">let’s get started</div>
+    <div class="h1 text-mid add-outline absolute bottom-0 left-0 opacity-40">{copy.cta_line}</div>
     <div
       class="h1 outlined absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
         ? 'opacity-100  delay-700'
         : 'opacity-0'}"
     >
-      let’s get started
+      {copy.cta_line}
     </div>
     <div
       class="h1 text-mid add-outline absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
         ? 'opacity-100 delay-[1400ms]'
         : 'opacity-0'}"
     >
-      let’s get started
+      {copy.cta_line}
     </div>
   </div>
   <div class="flex flex-row gap-6 ml-2" bind:this={ctaTrigger}>
-    <BracketButton class="text-mid" href="/contact">Contact Us</BracketButton>
-    <BracketButton class="text-mid" href="/process">Learn More</BracketButton>
+    <BracketButton class="text-mid" href="/contact">{copy.cta_contact_button}</BracketButton>
+    <BracketButton class="text-mid" href="/process">{copy.cta_process_button}</BracketButton>
   </div>
 </ScreenWidthImage>
 
