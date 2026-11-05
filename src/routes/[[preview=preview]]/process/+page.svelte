@@ -52,7 +52,7 @@
     {
       timing: "About 7 days",
       title: "Rollout to DoW bases and VA facilities",
-      text: "Your products become available to order at VA and DoW treatment facilities.",
+      text: "Your products become available to order at DoW and VA treatment facilities.",
     },
     {
       timing: "Ongoing",

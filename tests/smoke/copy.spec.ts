@@ -55,6 +55,10 @@ function stripAllowed(text: string, path: string, allowHeldHero: boolean): strin
   if (path === "/" && !allowHeldHero) t = t.replace(HOME_KNOWS_ABOUT_DOD, "");
   // Not global: §12f allows the bridge once, then "DoW" everywhere after.
   if (path === "/about") t = t.replace(ABOUT_DOW_BRIDGE, "");
+  // Timeline step 03 keeps Marketing's approved wording (Part 2 §14b, "approved Oct 29"),
+  // which puts DoW first; the operator, 11-05: use it as approved. Only that exact line,
+  // only on /process, is exempt from the house-order rule.
+  if (path === "/process") t = t.replace(STEP_03_APPROVED, "");
   return t;
 }
 
@@ -69,6 +73,9 @@ function serverText(html: string): string {
     .replace(/<[^>]+>/g, " ");
   return [body, ...attrs].join(" ").replace(/\s+/g, " ");
 }
+
+const STEP_03_APPROVED =
+  "Your products become available to order at DoW and VA treatment facilities.";
 
 function expectCopyRules(text: string, where: string) {
   expect(text, `${where}: DoD outside the Revogen quote`).not.toMatch(DOD);
