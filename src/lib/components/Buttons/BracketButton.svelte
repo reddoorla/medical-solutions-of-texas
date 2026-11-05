@@ -3,7 +3,12 @@
 
   interface Props {
     click?: () => void;
+    /** A middle-click opens a link in a new tab without firing `click`. */
+    auxclick?: (e: MouseEvent) => void;
     href?: string;
+    target?: string;
+    rel?: string;
+    ariaLabel?: string;
     type?: "button" | "submit" | "reset";
     class?: string;
     children?: Snippet;
@@ -11,7 +16,11 @@
 
   let {
     click = () => {},
+    auxclick,
     href = "",
+    target,
+    rel,
+    ariaLabel,
     type = "button",
     class: passedClasses = "",
     children,
@@ -31,8 +40,12 @@
       click();
       isActive = false;
     }}
+    onauxclick={auxclick}
     class="{baseClasses} {passedClasses}"
     {href}
+    {target}
+    {rel}
+    aria-label={ariaLabel}
   >
     <div class="transition-transform duration-300 text-xl {isActive ? '-translate-x-1' : ''}">
       [
