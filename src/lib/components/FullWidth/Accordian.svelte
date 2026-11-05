@@ -21,8 +21,12 @@
 
 <div class="w-full flex flex-col border-dark border-b-2">
   {#each accordianProps as accordian, i (i)}
-    <details class="accordian group relative w-full border-t-2 border-dark">
-      <summary class="relative w-full cursor-pointer list-none flex flex-col xl:flex-row">
+    <!-- From 1280px the answer sits beside the question, as the old button laid
+         them out; where a browser can't lay out <details> as a grid, it sits below. -->
+    <details
+      class="accordian group relative w-full border-t-2 border-dark xl:grid xl:grid-cols-2 xl:items-start"
+    >
+      <summary class="w-full cursor-pointer list-none">
         <Plus
           class="absolute top-4 right-0 text-dark transition-transform duration-300 ease-in-out opacity-80 hover:opacity-100 origin-center shrink-0 group-open:rotate-45"
           size={36}

@@ -74,6 +74,28 @@ const PARTNERS = [
   "Nexxt Spine",
 ];
 
+// A word from each logo's file name, in the page's order.
+const FILE_KEY = [
+  "revogen",
+  "cibolo",
+  "caerus",
+  "aegis",
+  "leith",
+  "centinel",
+  "spinalsimplicity",
+  "edge",
+  "ctl",
+  "4web",
+  "difusion",
+  "metalogix",
+  "expanding",
+  "aurora",
+  "axial",
+  "bonebridge",
+  "signus",
+  "nexxt",
+];
+
 const text = (h: string) =>
   h
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -97,8 +119,9 @@ test("About: the DAPA, ECAT, FSS and getting-started lines are in the server HTM
   request,
 }) => {
   const h = await html(request, "/about");
-  const details = (h.match(/<details[\s\S]*?<\/details>/g) ?? []).map(text).join(" ");
-  for (const answer of ABOUT_ANSWERS) expect(details).toContain(answer);
+  const details = (h.match(/<details[\s\S]*?<\/details>/g) ?? []).map(text);
+  expect(details).toHaveLength(ABOUT_ANSWERS.length);
+  ABOUT_ANSWERS.forEach((answer, i) => expect(details[i]).toContain(answer));
 });
 
 for (const path of ["/process", "/about"]) {
@@ -139,9 +162,22 @@ test("Process: the timeline is an ordered list of Marketing's five steps, as tex
 });
 
 test("Partners: each client logo's alt is the company's name", async ({ request }) => {
-  const a = alts(await html(request, "/partners"));
-  expect(a).not.toContain("partner logo");
-  for (const name of PARTNERS) expect(a, name).toContain(name);
+  const h = await html(request, "/partners");
+  expect(alts(h)).not.toContain("partner logo");
+  // Each name sits on its own logo: pair every alt with its image's file name.
+  const pairs = [
+    ...h.matchAll(/<img\b[^>]*\bsrc="([^"]*partners_duotone[^"]*)"[^>]*\balt="([^"]*)"/g),
+  ].map((m) => [
+    decodeURIComponent(m[1])
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, ""),
+    m[2],
+  ]);
+  expect(pairs).toHaveLength(PARTNERS.length);
+  pairs.forEach(([file, alt], i) => {
+    expect(alt).toBe(PARTNERS[i]);
+    expect(file, `${alt} is on its own logo`).toContain(FILE_KEY[i]);
+  });
 });
 
 test("Home: images with words say them; decorative images say nothing", async ({ request }) => {
@@ -163,5 +199,30 @@ for (const path of ["/", "/about", "/partners", "/process"]) {
     const a = alts(await html(request, path));
     for (const bad of ["dots", "pats", "surgeons placeholder", "partner logo", "timelines"])
       expect(a, bad).not.toContain(bad);
+  });
+}
+
+// The old <button> laid the answer beside the question from 1280px (xl) and
+// below it on smaller screens; the <details> version keeps that.
+for (const [width, beside] of [
+  [1440, true],
+  [390, false],
+] as const) {
+  test(`About at ${width}px: an open answer sits ${beside ? "beside" : "below"} its question`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/about", { waitUntil: "networkidle" });
+    const item = page.locator("details").first();
+    await item.locator("summary").click();
+    await page.waitForTimeout(700);
+    const q = await item.locator("summary h4").evaluate((e) => e.getBoundingClientRect());
+    const a = await item.locator("p").evaluate((e) => e.getBoundingClientRect());
+    if (beside) {
+      expect(a.left).toBeGreaterThan(q.left + width * 0.3);
+      expect(a.top).toBeLessThan(q.bottom + 40);
+    } else {
+      expect(a.top).toBeGreaterThanOrEqual(q.bottom);
+    }
   });
 }
