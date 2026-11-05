@@ -106,10 +106,13 @@ const text = (h: string) =>
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ");
 
+/** The page without its footers: the footer's own "Company details" is not an FAQ answer. */
+const body = (h: string) => h.replace(/<footer[\s\S]*?<\/footer>/g, " ");
+
 const alts = (h: string) => [...h.matchAll(/<img\b[^>]*\balt="([^"]*)"/g)].map((m) => m[1]);
 
 test("Process: every FAQ answer is in the server HTML, inside a <details>", async ({ request }) => {
-  const h = await html(request, "/process");
+  const h = body(await html(request, "/process"));
   const details = h.match(/<details[\s\S]*?<\/details>/g) ?? [];
   expect(details).toHaveLength(FAQ_ANSWERS.length);
   FAQ_ANSWERS.forEach((answer, i) => expect(text(details[i])).toContain(answer));
@@ -118,7 +121,7 @@ test("Process: every FAQ answer is in the server HTML, inside a <details>", asyn
 test("About: the DAPA, ECAT, FSS and getting-started lines are in the server HTML", async ({
   request,
 }) => {
-  const h = await html(request, "/about");
+  const h = body(await html(request, "/about"));
   const details = (h.match(/<details[\s\S]*?<\/details>/g) ?? []).map(text);
   expect(details).toHaveLength(ABOUT_ANSWERS.length);
   ABOUT_ANSWERS.forEach((answer, i) => expect(details[i]).toContain(answer));
