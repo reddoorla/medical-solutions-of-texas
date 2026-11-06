@@ -1,0 +1,329 @@
+{
+  "format": "custom",
+  "id": "capabilities_page",
+  "label": "Capabilities page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "SEO": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "search and browser-tab title",
+          "placeholder": "Leave empty to keep: Capabilities Statement | MSOT"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "search description",
+          "placeholder": "Leave empty to keep: MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers."
+        }
+      }
+    },
+    "Capabilities Statement": {
+      "eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "line above the heading",
+          "placeholder": "Leave empty to keep: Veteran-Owned Small Business"
+        }
+      },
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "page heading",
+          "placeholder": "Leave empty to keep: Capabilities Statement"
+        }
+      }
+    },
+    "Mission": {
+      "mission_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Mission"
+        }
+      },
+      "mission_line": {
+        "type": "Text",
+        "config": {
+          "label": "first paragraph",
+          "placeholder": "Leave empty to keep: Connecting VA and DoW treatment facilities with med-surg suppliers."
+        }
+      },
+      "mission_text": {
+        "type": "Text",
+        "config": {
+          "label": "second paragraph",
+          "placeholder": "Leave empty to keep: We bridge the gap between clinical demand and government procurement to support service members and veterans. Our expertise, VOSB (Veteran-Owned Small Business) status and deep network of relationships let us offer solutions where others hit roadblocks."
+        }
+      }
+    },
+    "By the Numbers": {
+      "numbers_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: By the numbers"
+        }
+      },
+      "numbers": {
+        "type": "Group",
+        "config": {
+          "label": "the figures, in order",
+          "repeat": true,
+          "fields": {
+            "figure": {
+              "type": "Text",
+              "config": {
+                "label": "figure (shown bold)",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's three."
+              }
+            },
+            "line": {
+              "type": "Text",
+              "config": {
+                "label": "words after it",
+                "placeholder": "May be left empty."
+              }
+            }
+          }
+        }
+      }
+    },
+    "Core Capabilities": {
+      "capabilities_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Core capabilities"
+        }
+      },
+      "capabilities": {
+        "type": "Group",
+        "config": {
+          "label": "the list, in order",
+          "repeat": true,
+          "fields": {
+            "item": {
+              "type": "Text",
+              "config": {
+                "label": "capability",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's six."
+              }
+            }
+          }
+        }
+      }
+    },
+    "Contract Vehicles": {
+      "vehicles_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the contract numbers are in Settings)",
+          "placeholder": "Leave empty to keep: Contract vehicles"
+        }
+      },
+      "ecat_jit_name": {
+        "type": "Text",
+        "config": {
+          "label": "ECAT, Just in Time: name",
+          "placeholder": "Leave empty to keep: ECAT"
+        }
+      },
+      "ecat_jit_note": {
+        "type": "Text",
+        "config": {
+          "label": "ECAT, Just in Time: note after the number",
+          "placeholder": "Leave empty to keep: Just in Time"
+        }
+      },
+      "ecat_dvd_name": {
+        "type": "Text",
+        "config": {
+          "label": "ECAT, Direct Vendor Delivery: name",
+          "placeholder": "Leave empty to keep: ECAT"
+        }
+      },
+      "ecat_dvd_note": {
+        "type": "Text",
+        "config": {
+          "label": "ECAT, Direct Vendor Delivery: note after the number",
+          "placeholder": "Leave empty to keep: Direct Vendor Delivery"
+        }
+      },
+      "fss_name": {
+        "type": "Text",
+        "config": {
+          "label": "FSS: name",
+          "placeholder": "Leave empty to keep: FSS"
+        }
+      },
+      "fss_note": {
+        "type": "Text",
+        "config": {
+          "label": "FSS: note after the number",
+          "placeholder": "Leave empty to keep: VA Schedule 65 II A"
+        }
+      },
+      "dapa_medical_name": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA, Medical/Surgical: name",
+          "placeholder": "Leave empty to keep: DAPA"
+        }
+      },
+      "dapa_medical_note": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA, Medical/Surgical: note after the number",
+          "placeholder": "Leave empty to keep: Medical/Surgical"
+        }
+      },
+      "dapa_equipment_name": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA, Equipment: name",
+          "placeholder": "Leave empty to keep: DAPA"
+        }
+      },
+      "dapa_equipment_note": {
+        "type": "Text",
+        "config": {
+          "label": "DAPA, Equipment: note after the number",
+          "placeholder": "Leave empty to keep: Equipment"
+        }
+      }
+    },
+    "Company Data": {
+      "company_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the names and numbers are in Settings)",
+          "placeholder": "Leave empty to keep: Company data"
+        }
+      },
+      "legal_name_label": {
+        "type": "Text",
+        "config": {
+          "label": "label: legal name",
+          "placeholder": "Leave empty to keep: Legal name"
+        }
+      },
+      "dba": {
+        "type": "Text",
+        "config": {
+          "label": "word between the legal name and the name",
+          "placeholder": "Leave empty to keep: DBA"
+        }
+      },
+      "uei_label": {
+        "type": "Text",
+        "config": {
+          "label": "label: UEI",
+          "placeholder": "Leave empty to keep: UEI"
+        }
+      },
+      "cage_label": {
+        "type": "Text",
+        "config": {
+          "label": "label: CAGE",
+          "placeholder": "Leave empty to keep: CAGE"
+        }
+      },
+      "naics_label": {
+        "type": "Text",
+        "config": {
+          "label": "label: NAICS",
+          "placeholder": "Leave empty to keep: NAICS"
+        }
+      },
+      "naics_primary": {
+        "type": "Text",
+        "config": {
+          "label": "note after the primary NAICS code (the code is in Settings)",
+          "placeholder": "Leave empty to keep: (primary)"
+        }
+      },
+      "naics_secondary": {
+        "type": "Text",
+        "config": {
+          "label": "the other NAICS codes, after the primary",
+          "placeholder": "Leave empty to keep: 339112, 339113"
+        }
+      }
+    },
+    "Designations": {
+      "designations_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Designations"
+        }
+      },
+      "designations": {
+        "type": "Group",
+        "config": {
+          "label": "the list, in order",
+          "repeat": true,
+          "fields": {
+            "scope": {
+              "type": "Text",
+              "config": {
+                "label": "scope (e.g. Federal)",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two."
+              }
+            },
+            "items": {
+              "type": "Text",
+              "config": {
+                "label": "designations, shown as typed (today's separate them with ·)",
+                "placeholder": "May be left empty. To separate them as today's are, copy this: · (a space, the dot, a space)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "What Makes Us Different": {
+      "different_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: What makes us different"
+        }
+      },
+      "different_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph",
+          "placeholder": "Leave empty to keep: We are defined by expertise and experience. With 20 years of Air Force logistics and nearly 50 years in medical device sales on our leadership team, we know the VA and Department of War (DoW) healthcare landscape better than anyone. We help med-surg suppliers find and access opportunities they couldn't reach alone."
+        }
+      }
+    },
+    "Contact": {
+      "contact_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the name, phone, email and address are in Settings)",
+          "placeholder": "Leave empty to keep: Contact"
+        }
+      },
+      "domain": {
+        "type": "Text",
+        "config": {
+          "label": "the website's address, as printed",
+          "placeholder": "Leave empty to keep: medicalsolutionsoftx.com"
+        }
+      },
+      "contact_link": {
+        "type": "Text",
+        "config": {
+          "label": "link to the Contact page",
+          "placeholder": "Leave empty to keep: Contact us"
+        }
+      }
+    }
+  }
+}

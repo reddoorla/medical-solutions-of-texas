@@ -1,0 +1,115 @@
+{
+  "format": "custom",
+  "id": "contact_page",
+  "label": "Contact page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Contact Us": {
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "page heading",
+          "placeholder": "Leave empty to keep: CONTACT US"
+        }
+      },
+      "intro": {
+        "type": "Text",
+        "config": {
+          "label": "line above the address (the address, phone and email are in Settings)",
+          "placeholder": "Leave empty to keep: We’d love to hear from you."
+        }
+      },
+      "phone_label": {
+        "type": "Text",
+        "config": {
+          "label": "word before the phone number",
+          "placeholder": "Leave empty to keep: Phone:"
+        }
+      }
+    },
+    "The Form": {
+      "email_label": {
+        "type": "Text",
+        "config": {
+          "label": "email box: its hint, also read aloud as its label",
+          "placeholder": "Leave empty to keep: Email"
+        }
+      },
+      "name_label": {
+        "type": "Text",
+        "config": {
+          "label": "name box: its hint, also read aloud as its label",
+          "placeholder": "Leave empty to keep: Your Name / Company"
+        }
+      },
+      "interest_label": {
+        "type": "Text",
+        "config": {
+          "label": "interest menu: its label, read aloud only",
+          "placeholder": "Leave empty to keep: Interest"
+        }
+      },
+      "interest_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "interest menu: what it shows before a choice (an untouched form still reports “Select Interest”)",
+          "placeholder": "Leave empty to keep: Select Interest"
+        }
+      },
+      "interests": {
+        "type": "Group",
+        "config": {
+          "label": "interest menu: the choices, in order",
+          "repeat": true,
+          "fields": {
+            "option": {
+              "type": "Text",
+              "config": {
+                "label": "choice",
+                "placeholder": "Needed, or the row is not shown. Its words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three."
+              }
+            }
+          }
+        }
+      },
+      "message_label": {
+        "type": "Text",
+        "config": {
+          "label": "message box: its hint, also read aloud as its label",
+          "placeholder": "Leave empty to keep: Your Message"
+        }
+      },
+      "submit_button": {
+        "type": "Text",
+        "config": {
+          "label": "send button",
+          "placeholder": "Leave empty to keep: Submit"
+        }
+      },
+      "sending_button": {
+        "type": "Text",
+        "config": {
+          "label": "send button while sending",
+          "placeholder": "Leave empty to keep: Sending…"
+        }
+      }
+    },
+    "After Sending": {
+      "success_heading": {
+        "type": "Text",
+        "config": {
+          "label": "first line, once the message is sent",
+          "placeholder": "Leave empty to keep: Thank you — your message has been sent."
+        }
+      },
+      "success_text": {
+        "type": "Text",
+        "config": {
+          "label": "second line",
+          "placeholder": "Leave empty to keep: We’ll be in touch shortly."
+        }
+      }
+    }
+  }
+}

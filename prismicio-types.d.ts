@@ -212,6 +212,646 @@ interface AboutPageDocumentData {
 export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<AboutPageDocumentData>, "about_page", Lang>;
 
 /**
+ * Item in *Capabilities page → the figures, in order*
+ */
+export interface CapabilitiesPageDocumentDataNumbersItem {
+	/**
+	 * figure (shown bold) field in *Capabilities page → the figures, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's three.
+	 * - **API ID Path**: capabilities_page.numbers[].figure
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	figure: prismic.KeyTextField;
+	
+	/**
+	 * words after it field in *Capabilities page → the figures, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: May be left empty.
+	 * - **API ID Path**: capabilities_page.numbers[].line
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	line: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Capabilities page → the list, in order*
+ */
+export interface CapabilitiesPageDocumentDataCapabilitiesItem {
+	/**
+	 * capability field in *Capabilities page → the list, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's six.
+	 * - **API ID Path**: capabilities_page.capabilities[].item
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	item: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Capabilities page → the list, in order*
+ */
+export interface CapabilitiesPageDocumentDataDesignationsItem {
+	/**
+	 * scope (e.g. Federal) field in *Capabilities page → the list, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two.
+	 * - **API ID Path**: capabilities_page.designations[].scope
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	scope: prismic.KeyTextField;
+	
+	/**
+	 * designations, shown as typed (today's separate them with ·) field in *Capabilities page → the list, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: May be left empty. To separate them as today's are, copy this: · (a space, the dot, a space)
+	 * - **API ID Path**: capabilities_page.designations[].items
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	items: prismic.KeyTextField;
+}
+
+/**
+ * Content for Capabilities page documents
+ */
+interface CapabilitiesPageDocumentData {
+	/**
+	 * search and browser-tab title field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Capabilities Statement | MSOT
+	 * - **API ID Path**: capabilities_page.meta_title
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * search description field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers.
+	 * - **API ID Path**: capabilities_page.meta_description
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;/**
+	 * line above the heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Veteran-Owned Small Business
+	 * - **API ID Path**: capabilities_page.eyebrow
+	 * - **Tab**: Capabilities Statement
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * page heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Capabilities Statement
+	 * - **API ID Path**: capabilities_page.heading
+	 * - **Tab**: Capabilities Statement
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;/**
+	 * heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Mission
+	 * - **API ID Path**: capabilities_page.mission_heading
+	 * - **Tab**: Mission
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	mission_heading: prismic.KeyTextField;
+	
+	/**
+	 * first paragraph field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Connecting VA and DoW treatment facilities with med-surg suppliers.
+	 * - **API ID Path**: capabilities_page.mission_line
+	 * - **Tab**: Mission
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	mission_line: prismic.KeyTextField;
+	
+	/**
+	 * second paragraph field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We bridge the gap between clinical demand and government procurement to support service members and veterans. Our expertise, VOSB (Veteran-Owned Small Business) status and deep network of relationships let us offer solutions where others hit roadblocks.
+	 * - **API ID Path**: capabilities_page.mission_text
+	 * - **Tab**: Mission
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	mission_text: prismic.KeyTextField;/**
+	 * heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: By the numbers
+	 * - **API ID Path**: capabilities_page.numbers_heading
+	 * - **Tab**: By the Numbers
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	numbers_heading: prismic.KeyTextField;
+	
+	/**
+	 * the figures, in order field in *Capabilities page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: capabilities_page.numbers[]
+	 * - **Tab**: By the Numbers
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	numbers: prismic.GroupField<Simplify<CapabilitiesPageDocumentDataNumbersItem>>;/**
+	 * heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Core capabilities
+	 * - **API ID Path**: capabilities_page.capabilities_heading
+	 * - **Tab**: Core Capabilities
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	capabilities_heading: prismic.KeyTextField;
+	
+	/**
+	 * the list, in order field in *Capabilities page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: capabilities_page.capabilities[]
+	 * - **Tab**: Core Capabilities
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	capabilities: prismic.GroupField<Simplify<CapabilitiesPageDocumentDataCapabilitiesItem>>;/**
+	 * heading (the contract numbers are in Settings) field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contract vehicles
+	 * - **API ID Path**: capabilities_page.vehicles_heading
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	vehicles_heading: prismic.KeyTextField;
+	
+	/**
+	 * ECAT, Just in Time: name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: ECAT
+	 * - **API ID Path**: capabilities_page.ecat_jit_name
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_jit_name: prismic.KeyTextField;
+	
+	/**
+	 * ECAT, Just in Time: note after the number field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Just in Time
+	 * - **API ID Path**: capabilities_page.ecat_jit_note
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_jit_note: prismic.KeyTextField;
+	
+	/**
+	 * ECAT, Direct Vendor Delivery: name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: ECAT
+	 * - **API ID Path**: capabilities_page.ecat_dvd_name
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_dvd_name: prismic.KeyTextField;
+	
+	/**
+	 * ECAT, Direct Vendor Delivery: note after the number field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Direct Vendor Delivery
+	 * - **API ID Path**: capabilities_page.ecat_dvd_note
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	ecat_dvd_note: prismic.KeyTextField;
+	
+	/**
+	 * FSS: name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: FSS
+	 * - **API ID Path**: capabilities_page.fss_name
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	fss_name: prismic.KeyTextField;
+	
+	/**
+	 * FSS: note after the number field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: VA Schedule 65 II A
+	 * - **API ID Path**: capabilities_page.fss_note
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	fss_note: prismic.KeyTextField;
+	
+	/**
+	 * DAPA, Medical/Surgical: name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: DAPA
+	 * - **API ID Path**: capabilities_page.dapa_medical_name
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_medical_name: prismic.KeyTextField;
+	
+	/**
+	 * DAPA, Medical/Surgical: note after the number field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Medical/Surgical
+	 * - **API ID Path**: capabilities_page.dapa_medical_note
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_medical_note: prismic.KeyTextField;
+	
+	/**
+	 * DAPA, Equipment: name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: DAPA
+	 * - **API ID Path**: capabilities_page.dapa_equipment_name
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_equipment_name: prismic.KeyTextField;
+	
+	/**
+	 * DAPA, Equipment: note after the number field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Equipment
+	 * - **API ID Path**: capabilities_page.dapa_equipment_note
+	 * - **Tab**: Contract Vehicles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dapa_equipment_note: prismic.KeyTextField;/**
+	 * heading (the names and numbers are in Settings) field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Company data
+	 * - **API ID Path**: capabilities_page.company_heading
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	company_heading: prismic.KeyTextField;
+	
+	/**
+	 * label: legal name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Legal name
+	 * - **API ID Path**: capabilities_page.legal_name_label
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	legal_name_label: prismic.KeyTextField;
+	
+	/**
+	 * word between the legal name and the name field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: DBA
+	 * - **API ID Path**: capabilities_page.dba
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dba: prismic.KeyTextField;
+	
+	/**
+	 * label: UEI field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: UEI
+	 * - **API ID Path**: capabilities_page.uei_label
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	uei_label: prismic.KeyTextField;
+	
+	/**
+	 * label: CAGE field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: CAGE
+	 * - **API ID Path**: capabilities_page.cage_label
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cage_label: prismic.KeyTextField;
+	
+	/**
+	 * label: NAICS field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: NAICS
+	 * - **API ID Path**: capabilities_page.naics_label
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	naics_label: prismic.KeyTextField;
+	
+	/**
+	 * note after the primary NAICS code (the code is in Settings) field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: (primary)
+	 * - **API ID Path**: capabilities_page.naics_primary
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	naics_primary: prismic.KeyTextField;
+	
+	/**
+	 * the other NAICS codes, after the primary field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: 339112, 339113
+	 * - **API ID Path**: capabilities_page.naics_secondary
+	 * - **Tab**: Company Data
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	naics_secondary: prismic.KeyTextField;/**
+	 * heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Designations
+	 * - **API ID Path**: capabilities_page.designations_heading
+	 * - **Tab**: Designations
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	designations_heading: prismic.KeyTextField;
+	
+	/**
+	 * the list, in order field in *Capabilities page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: capabilities_page.designations[]
+	 * - **Tab**: Designations
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	designations: prismic.GroupField<Simplify<CapabilitiesPageDocumentDataDesignationsItem>>;/**
+	 * heading field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What makes us different
+	 * - **API ID Path**: capabilities_page.different_heading
+	 * - **Tab**: What Makes Us Different
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	different_heading: prismic.KeyTextField;
+	
+	/**
+	 * paragraph field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We are defined by expertise and experience. With 20 years of Air Force logistics and nearly 50 years in medical device sales on our leadership team, we know the VA and Department of War (DoW) healthcare landscape better than anyone. We help med-surg suppliers find and access opportunities they couldn't reach alone.
+	 * - **API ID Path**: capabilities_page.different_text
+	 * - **Tab**: What Makes Us Different
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	different_text: prismic.KeyTextField;/**
+	 * heading (the name, phone, email and address are in Settings) field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact
+	 * - **API ID Path**: capabilities_page.contact_heading
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_heading: prismic.KeyTextField;
+	
+	/**
+	 * the website's address, as printed field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: medicalsolutionsoftx.com
+	 * - **API ID Path**: capabilities_page.domain
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	domain: prismic.KeyTextField;
+	
+	/**
+	 * link to the Contact page field in *Capabilities page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact us
+	 * - **API ID Path**: capabilities_page.contact_link
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_link: prismic.KeyTextField;
+}
+
+/**
+ * Capabilities page document from Prismic
+ *
+ * - **API ID**: `capabilities_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CapabilitiesPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<CapabilitiesPageDocumentData>, "capabilities_page", Lang>;
+
+/**
+ * Item in *Contact page → interest menu: the choices, in order*
+ */
+export interface ContactPageDocumentDataInterestsItem {
+	/**
+	 * choice field in *Contact page → interest menu: the choices, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. Its words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three.
+	 * - **API ID Path**: contact_page.interests[].option
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	option: prismic.KeyTextField;
+}
+
+/**
+ * Content for Contact page documents
+ */
+interface ContactPageDocumentData {
+	/**
+	 * page heading field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: CONTACT US
+	 * - **API ID Path**: contact_page.heading
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * line above the address (the address, phone and email are in Settings) field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’d love to hear from you.
+	 * - **API ID Path**: contact_page.intro
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * word before the phone number field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Phone:
+	 * - **API ID Path**: contact_page.phone_label
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone_label: prismic.KeyTextField;/**
+	 * email box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Email
+	 * - **API ID Path**: contact_page.email_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	email_label: prismic.KeyTextField;
+	
+	/**
+	 * name box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your Name / Company
+	 * - **API ID Path**: contact_page.name_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name_label: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: its label, read aloud only field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Interest
+	 * - **API ID Path**: contact_page.interest_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	interest_label: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: what it shows before a choice (an untouched form still reports “Select Interest”) field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Select Interest
+	 * - **API ID Path**: contact_page.interest_placeholder
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	interest_placeholder: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: the choices, in order field in *Contact page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.interests[]
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	interests: prismic.GroupField<Simplify<ContactPageDocumentDataInterestsItem>>;
+	
+	/**
+	 * message box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your Message
+	 * - **API ID Path**: contact_page.message_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	message_label: prismic.KeyTextField;
+	
+	/**
+	 * send button field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Submit
+	 * - **API ID Path**: contact_page.submit_button
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	submit_button: prismic.KeyTextField;
+	
+	/**
+	 * send button while sending field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Sending…
+	 * - **API ID Path**: contact_page.sending_button
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	sending_button: prismic.KeyTextField;/**
+	 * first line, once the message is sent field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Thank you — your message has been sent.
+	 * - **API ID Path**: contact_page.success_heading
+	 * - **Tab**: After Sending
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	success_heading: prismic.KeyTextField;
+	
+	/**
+	 * second line field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’ll be in touch shortly.
+	 * - **API ID Path**: contact_page.success_text
+	 * - **Tab**: After Sending
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	success_text: prismic.KeyTextField;
+}
+
+/**
+ * Contact page document from Prismic
+ *
+ * - **API ID**: `contact_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ContactPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ContactPageDocumentData>, "contact_page", Lang>;
+
+/**
  * Item in *form replies → replies*
  */
 export interface FormRepliesDocumentDataRepliesItem {
@@ -1124,13 +1764,13 @@ interface PrivacyPageDocumentData {
 	 * effective date field in *Privacy page*
 	 *
 	 * - **Field Type**: Date
-	 * - **Placeholder**: Leave empty to keep the date in code (November 4, 2026)
+	 * - **Placeholder**: Leave empty to keep November 4, 2026
 	 * - **API ID Path**: privacy_page.effective_date
 	 * - **Tab**: Privacy Policy
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
 	effective_date: prismic.DateField;/**
-	 * heading field in *Privacy page*
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: What we collect
@@ -1139,7 +1779,7 @@ interface PrivacyPageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	collect_heading: prismic.KeyTextField;/**
-	 * heading field in *Privacy page*
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: How we use it
@@ -1148,7 +1788,7 @@ interface PrivacyPageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	use_heading: prismic.KeyTextField;/**
-	 * heading field in *Privacy page*
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Who else receives it
@@ -1168,10 +1808,10 @@ interface PrivacyPageDocumentData {
 	dnt_heading: prismic.KeyTextField;
 	
 	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **Placeholder**: Leave empty to keep today's text: Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.dnt_body
 	 * - **Tab**: Do Not Track
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1188,16 +1828,16 @@ interface PrivacyPageDocumentData {
 	children_heading: prismic.KeyTextField;
 	
 	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **Placeholder**: Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.children_body
 	 * - **Tab**: Children
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	children_body: prismic.RichTextField;/**
-	 * heading field in *Privacy page*
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Your choices
@@ -1217,10 +1857,10 @@ interface PrivacyPageDocumentData {
 	changes_heading: prismic.KeyTextField;
 	
 	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **Placeholder**: Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.changes_body
 	 * - **Tab**: Changes to this policy
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -2202,7 +2842,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | PrivacyPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | CapabilitiesPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | PrivacyPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -2260,6 +2900,14 @@ declare module "@prismicio/client" {
 			AboutPageDocument,
 			AboutPageDocumentData,
 			AboutPageDocumentDataServicesItem,
+			CapabilitiesPageDocument,
+			CapabilitiesPageDocumentData,
+			CapabilitiesPageDocumentDataNumbersItem,
+			CapabilitiesPageDocumentDataCapabilitiesItem,
+			CapabilitiesPageDocumentDataDesignationsItem,
+			ContactPageDocument,
+			ContactPageDocumentData,
+			ContactPageDocumentDataInterestsItem,
 			FormRepliesDocument,
 			FormRepliesDocumentData,
 			FormRepliesDocumentDataRepliesItem,
