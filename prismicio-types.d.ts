@@ -682,6 +682,176 @@ interface CapabilitiesPageDocumentData {
 export type CapabilitiesPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<CapabilitiesPageDocumentData>, "capabilities_page", Lang>;
 
 /**
+ * Item in *Contact page → interest menu: the choices, in order*
+ */
+export interface ContactPageDocumentDataInterestsItem {
+	/**
+	 * choice field in *Contact page → interest menu: the choices, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the row is not shown. Its words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three.
+	 * - **API ID Path**: contact_page.interests[].option
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	option: prismic.KeyTextField;
+}
+
+/**
+ * Content for Contact page documents
+ */
+interface ContactPageDocumentData {
+	/**
+	 * page heading field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: CONTACT US
+	 * - **API ID Path**: contact_page.heading
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * line above the address (the address, phone and email are in Settings) field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’d love to hear from you.
+	 * - **API ID Path**: contact_page.intro
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * word before the phone number field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Phone:
+	 * - **API ID Path**: contact_page.phone_label
+	 * - **Tab**: Contact Us
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone_label: prismic.KeyTextField;/**
+	 * email box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Email
+	 * - **API ID Path**: contact_page.email_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	email_label: prismic.KeyTextField;
+	
+	/**
+	 * name box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your Name / Company
+	 * - **API ID Path**: contact_page.name_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name_label: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: its label, read aloud only field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Interest
+	 * - **API ID Path**: contact_page.interest_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	interest_label: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: what it shows before a choice (an untouched form still reports “Select Interest”) field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Select Interest
+	 * - **API ID Path**: contact_page.interest_placeholder
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	interest_placeholder: prismic.KeyTextField;
+	
+	/**
+	 * interest menu: the choices, in order field in *Contact page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.interests[]
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	interests: prismic.GroupField<Simplify<ContactPageDocumentDataInterestsItem>>;
+	
+	/**
+	 * message box: its hint, also read aloud as its label field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your Message
+	 * - **API ID Path**: contact_page.message_label
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	message_label: prismic.KeyTextField;
+	
+	/**
+	 * send button field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Submit
+	 * - **API ID Path**: contact_page.submit_button
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	submit_button: prismic.KeyTextField;
+	
+	/**
+	 * send button while sending field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Sending…
+	 * - **API ID Path**: contact_page.sending_button
+	 * - **Tab**: The Form
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	sending_button: prismic.KeyTextField;/**
+	 * first line, once the message is sent field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Thank you — your message has been sent.
+	 * - **API ID Path**: contact_page.success_heading
+	 * - **Tab**: After Sending
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	success_heading: prismic.KeyTextField;
+	
+	/**
+	 * second line field in *Contact page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: We’ll be in touch shortly.
+	 * - **API ID Path**: contact_page.success_text
+	 * - **Tab**: After Sending
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	success_text: prismic.KeyTextField;
+}
+
+/**
+ * Contact page document from Prismic
+ *
+ * - **API ID**: `contact_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ContactPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ContactPageDocumentData>, "contact_page", Lang>;
+
+/**
  * Item in *form replies → replies*
  */
 export interface FormRepliesDocumentDataRepliesItem {
@@ -2507,7 +2677,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | CapabilitiesPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | CapabilitiesPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -2570,6 +2740,9 @@ declare module "@prismicio/client" {
 			CapabilitiesPageDocumentDataNumbersItem,
 			CapabilitiesPageDocumentDataCapabilitiesItem,
 			CapabilitiesPageDocumentDataDesignationsItem,
+			ContactPageDocument,
+			ContactPageDocumentData,
+			ContactPageDocumentDataInterestsItem,
 			FormRepliesDocument,
 			FormRepliesDocumentData,
 			FormRepliesDocumentDataRepliesItem,

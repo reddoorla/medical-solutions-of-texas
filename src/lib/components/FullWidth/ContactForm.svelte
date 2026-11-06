@@ -4,18 +4,17 @@
   import { loadTurnstile } from "$lib/turnstile";
   import dropdownArrow from "$lib/assets/icons/dropdown-arrow-light.svg";
   import BracketButton from "../Buttons/BracketButton.svelte";
+  import type { ContactCopy } from "$lib/copy/contact";
 
+  // The form's words are the contact_page document's, over today's
+  // ($lib/copy/contact).
   interface Props {
-    PRODUCTS?: string[];
+    copy: ContactCopy;
     form?: { success?: boolean; error?: string } | null;
     formTs?: number;
   }
 
-  let {
-    PRODUCTS = ["VA Contracts", "DoW Contracts", "Both"],
-    form = null,
-    formTs,
-  }: Props = $props();
+  let { copy, form = null, formTs }: Props = $props();
 
   let submitting = $state(false);
 
@@ -78,8 +77,8 @@
 
 {#if form?.success}
   <div class="border border-dark rounded-[3px] p-6 text-dark" role="status" aria-live="polite">
-    <p class="text-[24px] leading-normal">Thank you — your message has been sent.</p>
-    <p class="mt-2">We’ll be in touch shortly.</p>
+    <p class="text-[24px] leading-normal">{copy.success_heading}</p>
+    <p class="mt-2">{copy.success_text}</p>
   </div>
 {:else}
   <!--
@@ -118,21 +117,21 @@
     <div class="flex flex-col md:flex-row text-light items-center justify-center w-full">
       <div class="flex flex-col gap-4 md:flex-row justify-between w-full">
         <label class="w-full md:w-[calc(50%-15px)]">
-          <span class="sr-only">Email</span>
+          <span class="sr-only">{copy.email_label}</span>
           <input
             class="w-full border rounded-[3px] text-dark border-light h-10 pl-4 pt-[2.5px]"
             name="email"
-            placeholder="Email"
+            placeholder={copy.email_label}
             type="email"
             required
           />
         </label>
         <label class="w-full md:w-[calc(50%-15px)]">
-          <span class="sr-only">Your Name / Company</span>
+          <span class="sr-only">{copy.name_label}</span>
           <input
             class="w-full border rounded-[3px] text-dark border-light h-10 pl-4 pt-[2.5px]"
             name="name"
-            placeholder="Your Name / Company"
+            placeholder={copy.name_label}
             type="text"
           />
         </label>
@@ -141,17 +140,18 @@
     <!--
       A native select, replacing svelte-select (2026-11-03). The placeholder
       option is `hidden`, not `disabled`, so an untouched form still sends
-      select=Select Interest, as the svelte-select version's hidden input did.
+      select=Select Interest, as the svelte-select version's hidden input did,
+      whatever words the document gives it.
     -->
     <label class="group relative block w-full">
-      <span class="sr-only">Interest</span>
+      <span class="sr-only">{copy.interest_label}</span>
       <select
         name="select"
         class="block w-full h-[42px] appearance-none cursor-pointer rounded-[3px] border border-transparent bg-white/80 pl-4 pr-[42px] text-dark"
       >
-        <option value="Select Interest" selected hidden>Select Interest</option>
-        {#each PRODUCTS as product (product)}
-          <option value={product}>{product}</option>
+        <option value="Select Interest" selected hidden>{copy.interest_placeholder}</option>
+        {#each copy.interests as interest, i (i)}
+          <option value={interest.option}>{interest.option}</option>
         {/each}
       </select>
       <span
@@ -167,10 +167,10 @@
     </label>
 
     <label>
-      <span class="sr-only">Your Message</span>
+      <span class="sr-only">{copy.message_label}</span>
       <textarea
         class="w-full border rounded-[3px] text-dark border-light h-48 pl-4 pt-2"
-        placeholder="Your Message"
+        placeholder={copy.message_label}
         name="message"
         required></textarea>
     </label>
@@ -183,7 +183,7 @@
 
     <div class="w-fit transition-opacity {submitting ? 'pointer-events-none opacity-60' : ''}">
       <BracketButton type="submit" class="text-dark">
-        {submitting ? "Sending…" : "Submit"}
+        {submitting ? copy.sending_button : copy.submit_button}
       </BracketButton>
     </div>
   </form>
