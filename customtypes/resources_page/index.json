@@ -1,0 +1,175 @@
+{
+  "format": "custom",
+  "id": "resources_page",
+  "label": "Resources page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Resources": {
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "page heading",
+          "placeholder": "Leave empty to keep: Resources"
+        }
+      }
+    },
+    "Charge Sheet": {
+      "charge_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: CHARGE SHEET"
+        }
+      },
+      "charge_button": {
+        "type": "Text",
+        "config": {
+          "label": "button",
+          "placeholder": "Leave empty to keep: DOWNLOAD"
+        }
+      },
+      "charge_file": {
+        "type": "Link",
+        "config": {
+          "label": "the charge sheet (a PDF)",
+          "placeholder": "Leave empty to keep today's file, MSOT_ChargeSheet.pdf",
+          "select": "media"
+        }
+      },
+      "phone_label": {
+        "type": "Text",
+        "config": {
+          "label": "word before the phone number (the address and number are in Settings)",
+          "placeholder": "Leave empty to keep: Phone:"
+        }
+      },
+      "service_email": {
+        "type": "Text",
+        "config": {
+          "label": "customer service email (shown as text, not a link)",
+          "placeholder": "Leave empty to keep: customerservice@MedicalSolutionsofTX.com"
+        }
+      },
+      "contact_button": {
+        "type": "Text",
+        "config": {
+          "label": "button to the Contact page",
+          "placeholder": "Leave empty to keep: Contact Us"
+        }
+      }
+    },
+    "Capabilities Statement": {
+      "capabilities_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: CAPABILITIES STATEMENT"
+        }
+      },
+      "capabilities_button": {
+        "type": "Text",
+        "config": {
+          "label": "button to the Capabilities page",
+          "placeholder": "Leave empty to keep: READ IT"
+        }
+      }
+    },
+    "Catalogs": {
+      "catalogs_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Catalogs"
+        }
+      },
+      "catalogs": {
+        "type": "Group",
+        "config": {
+          "label": "the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Needed, with a file"
+              }
+            },
+            "file": {
+              "type": "Link",
+              "config": {
+                "label": "file (opens in a new tab)",
+                "select": "media"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Suppliers": {
+      "suppliers_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (this column is shown greyed out, not yet clickable)",
+          "placeholder": "Leave empty to keep: Suppliers"
+        }
+      },
+      "suppliers": {
+        "type": "Group",
+        "config": {
+          "label": "the list, in order. Any row here replaces today's one",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Needed, with a file"
+              }
+            },
+            "file": {
+              "type": "Link",
+              "config": {
+                "label": "file (needed for the row to show; not clickable while this column is greyed out)",
+                "select": "media"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Technique Guides": {
+      "guides_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (this column is shown greyed out, not yet clickable)",
+          "placeholder": "Leave empty to keep: Technique Guides"
+        }
+      },
+      "guides": {
+        "type": "Group",
+        "config": {
+          "label": "the list, in order. Any row here replaces today's one",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Needed, with a file"
+              }
+            },
+            "file": {
+              "type": "Link",
+              "config": {
+                "label": "file (needed for the row to show; not clickable while this column is greyed out)",
+                "select": "media"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
