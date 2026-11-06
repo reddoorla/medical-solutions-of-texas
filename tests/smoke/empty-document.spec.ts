@@ -16,6 +16,18 @@ const model = (id: string): Model =>
   JSON.parse(readFileSync(`customtypes/${id}/index.json`, "utf8")) as Model;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const doc = (id: string) => emptyDocument(model(id)) as any;
+// The same, with each group as one row of empty fields: Prismic's other shape
+// for a group nobody filled.
+const withRows = (id: string) => {
+  const m = model(id);
+  const d = emptyDocument(m);
+  for (const tab of Object.values(m.json))
+    for (const [k, f] of Object.entries(tab))
+      if (f.type === "Group")
+        d.data[k] = [emptyDocument({ id: k, json: { row: f.config?.fields ?? {} } }).data];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return d as any;
+};
 
 test("every field of every model is in its empty document, in Prismic's empty shape", () => {
   const shape: Record<string, unknown> = {
@@ -48,4 +60,18 @@ test("each page's copy from its empty document is today's, the same as no docume
   expect(resourcesCopy(doc("resources_page"), "FSS-1")).toEqual(resourcesCopy(null, "FSS-1"));
   expect(chromeCopy(doc("settings"))).toEqual(chromeCopy(null));
   expect(mergeIdentity(doc("settings"))).toEqual(mergeIdentity(null));
+});
+
+test("a group sent as one row of empty fields reads as today's too", () => {
+  const logo = (file: string) => `/code/${file}`;
+  expect(aboutCopy(withRows("about_page"))).toEqual(aboutCopy(null));
+  expect(capabilitiesCopy(withRows("capabilities_page"))).toEqual(capabilitiesCopy(null));
+  expect(contactCopy(withRows("contact_page"))).toEqual(contactCopy(null));
+  expect(homeCopy(withRows("home_page"))).toEqual(homeCopy(null));
+  expect(partnersCopy(withRows("partners_page"), logo)).toEqual(partnersCopy(null, logo));
+  expect(privacyCopy(withRows("privacy_page"))).toEqual(privacyCopy(null));
+  expect(processCopy(withRows("process_page"))).toEqual(processCopy(null));
+  expect(resourcesCopy(withRows("resources_page"), "FSS-1")).toEqual(resourcesCopy(null, "FSS-1"));
+  expect(chromeCopy(withRows("settings"))).toEqual(chromeCopy(null));
+  expect(mergeIdentity(withRows("settings"))).toEqual(mergeIdentity(null));
 });

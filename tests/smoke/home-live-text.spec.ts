@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // Home's hero line and three timelines were vector lettering until 11-05; they
 // are server-rendered text now, laid out to the workspace's
@@ -14,7 +18,7 @@ const visible = (html: string) =>
     .replace(/\s+/g, " ");
 
 test("the hero and the timelines' words are in the server HTML", async ({ request }) => {
-  const shown = visible(await (await request.get("/")).text());
+  const shown = visible(await (await request.get("/", { headers: empty(...SINGLETONS) })).text());
   for (const words of [
     "Connecting DoW + VA Hospitals with Med-Surg Suppliers",
     "Connecting DoW + VA Hospitals w/ Med-Surg Suppliers",

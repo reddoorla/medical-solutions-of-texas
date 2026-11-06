@@ -1,7 +1,9 @@
-// A document of a custom type with every field empty, as Prismic's API sends a
-// published document whose fields nobody filled: Text, Select, Number and Date
-// are null, rich text, groups and slice zones are [], an image is {}, a link
-// is { link_type: "Any" }. Built from the model's JSON (customtypes/<id>/index.json),
+// A document of a custom type with every field empty, in the shapes Prismic's
+// API sends for a published document whose fields nobody filled: Text,
+// Select, Number and Date are null, rich text, groups and slice zones are [],
+// an image is {}, a link is { link_type: "Any" }. A group can also come back
+// as one row of empty fields once an editor has opened it; the copy reads
+// both shapes the same (tests/smoke/empty-document.spec.ts pins that). Built from the model's JSON (customtypes/<id>/index.json),
 // so a field added to the model is in it too.
 //
 // The smoke tests' "with no document" checks read this, through

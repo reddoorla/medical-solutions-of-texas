@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // Developer Brief Part 2, §12a–d: who MSOT is, as text in the server HTML of
 // every page (what a crawler or AI assistant reads before any JavaScript).
@@ -79,7 +83,9 @@ for (const path of PAGES) {
   test(`${path}: the extra identity lines sit in a closed <details>; name, phone, email and © stay outside it`, async ({
     request,
   }) => {
-    const footer = identityFooter(await (await request.get(path)).text());
+    const footer = identityFooter(
+      await (await request.get(path, { headers: empty(...SINGLETONS) })).text(),
+    );
     const { details, outside } = splitDetails(footer);
     const open = details.match(/^<details[^>]*>/)![0];
     expect(open, "closed by default: no open attribute").not.toMatch(/\sopen(?:[\s=>]|$)/);
@@ -145,7 +151,7 @@ for (const path of PAGES) {
   test(`${path}: the footer states MSOT's identity as text, in <footer> and <address>`, async ({
     request,
   }) => {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     const footer = identityFooter(html);
     expect(footer).toMatch(/<address[\s>][\s\S]*Golden Quail[\s\S]*<\/address>/);
     const t = squash(text(footer));
@@ -162,7 +168,7 @@ for (const path of PAGES) {
 test("Home opens with the §12b definition, word for word, in the server HTML", async ({
   request,
 }) => {
-  const t = text(await (await request.get("/")).text());
+  const t = text(await (await request.get("/", { headers: empty(...SINGLETONS) })).text());
   expect(t).toContain(DEFINITION);
   // §12b: directly under the hero, above "Contact Us / Capabilities Statement".
   expect(t.indexOf(DEFINITION), "the definition sits above the buttons").toBeLessThan(
@@ -173,7 +179,7 @@ test("Home opens with the §12b definition, word for word, in the server HTML", 
 test("About opens with the bridged definition and ends 'Who we are' with the works-with line", async ({
   request,
 }) => {
-  const t = text(await (await request.get("/about")).text());
+  const t = text(await (await request.get("/about", { headers: empty(...SINGLETONS) })).text());
   expect(t).toContain(DEFINITION_ABOUT);
   expect(t).toContain(WORKS_WITH);
   expect(t.indexOf(DEFINITION_ABOUT), "the definition comes first").toBeLessThan(
@@ -185,11 +191,11 @@ test("About opens with the bridged definition and ends 'Who we are' with the wor
 });
 
 test("Contact shows the confirmed address, phone and email", async ({ request }) => {
-  const t = text(await (await request.get("/contact")).text());
+  const t = text(await (await request.get("/contact", { headers: empty(...SINGLETONS) })).text());
   expect(t).toContain("4903 Golden Quail, Suite 120 San Antonio, TX 78240");
   expect(t).toContain("Phone: 833.307.4418 info@MedicalSolutionsofTX.com");
   expect(t).not.toContain("210.744.9686");
-  const html = await (await request.get("/contact")).text();
+  const html = await (await request.get("/contact", { headers: empty(...SINGLETONS) })).text();
   expect(html).toContain('href="tel:+18333074418"');
   expect(html).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
 });
