@@ -32,7 +32,7 @@
       "testimonial_logo": {
         "type": "Image",
         "config": {
-          "label": "the quoted company's logo (transparent PNG or SVG, shown white; used only with a name or alt text)",
+          "label": "the quoted company's logo, white on transparent (PNG or SVG): Partners shows it white, Home as uploaded on its beige band; used only with a name or alt text",
           "constraint": {},
           "thumbnails": []
         }
@@ -47,7 +47,7 @@
       "testimonial_text": {
         "type": "Text",
         "config": {
-          "label": "the quote",
+          "label": "the quote, without quotation marks (Home adds them)",
           "placeholder": "Leave empty to keep: MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems."
         }
       }

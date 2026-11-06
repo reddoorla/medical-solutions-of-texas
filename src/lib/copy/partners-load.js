@@ -1,5 +1,5 @@
-// The partners_page document, read once for both pages that show it: Partners
-// itself, and Home, whose "Our Partner" box shows Partners' quote, logo and
+// One loader for the partners_page document, for both pages that show it:
+// Partners itself, and Home, whose "Our Partner" box shows Partners' quote, logo and
 // company name (the operator, 11-06: "Home reads Partners'", so the quote has
 // one place to edit). `vite dev` alone can serve a fixture document, for the
 // smoke tests, behind a cookie: a query string is refused on prerendered
