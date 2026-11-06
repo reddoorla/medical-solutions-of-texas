@@ -30,7 +30,8 @@
   import BracketButton from "$lib/components/Buttons/BracketButton.svelte";
   import { whenPageReady, prefersReducedMotion } from "@reddoorla/maintenance/client";
 
-  // The copy is the home_page document over today's wording ($lib/copy/home).
+  // The copy is the home_page document over today's wording ($lib/copy/home);
+  // `quote` ("Our Partner") is Partners' ($lib/copy/partners-load).
   let { data }: { data: PageData } = $props();
   const copy = $derived(data.copy);
   const quote = $derived(data.quote);
