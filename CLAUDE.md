@@ -15,7 +15,7 @@ org's reusable workflow (`reddoorla/.github` ci.yml); the local equivalent is
 
 - **The pages are bespoke routes, not slices.** They live under
   `src/routes/[[preview=preview]]/` (`about`, `process`, `partners`,
-  `resources`, `contact`, plus a `[uid]` catch-all). Prismic supplies the
+  `resources`, `contact`, `capabilities`, `privacy`, plus a `[uid]` catch-all). Prismic supplies the
   `page` type's metadata and one `RichText` slice; the layout and copy are in
   the route components. The site predates the slice library.
 - **`prismicio-types.d.ts` (project root) and `src/lib/slices/index.ts` are
