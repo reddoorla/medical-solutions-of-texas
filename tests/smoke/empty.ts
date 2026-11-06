@@ -25,11 +25,15 @@ export const SINGLETONS = [
  * The same cookies in a browser context, for page.goto: set as cookies, not as
  * an extra header, so the browser's own cookies still reach the server.
  */
-export const emptyCookies = (context: BrowserContext, baseURL: string | undefined) =>
-  context.addCookies(
+export const emptyCookies = (context: BrowserContext, baseURL: string | undefined) => {
+  // The dev server's port is allocated per run: with no baseURL the cookies
+  // would land on the wrong host and the specs would read live Prismic unseen.
+  if (!baseURL) throw new Error("emptyCookies: no baseURL");
+  return context.addCookies(
     ["settings", ...SINGLETONS].map((p) => ({
       name: `msot-${p}-fixture`,
       value: "empty",
-      url: baseURL ?? "http://localhost:5173",
+      url: baseURL,
     })),
   );
+};

@@ -87,7 +87,10 @@ test("the published /privacy still names the LinkedIn Insight Tag and Tag Manage
   request,
 }) => {
   const html = await (await request.get(PRIVACY_PATH)).text();
-  const policy = html
+  // The policy's own <article>, so a footer or title line can't satisfy it.
+  const article = html.match(/<article[^>]*data-testid="privacy-policy"[\s\S]*?<\/article>/);
+  expect(article, "the policy article").not.toBeNull();
+  const policy = article![0]
     .replace(/<script[\s\S]*?<\/script>/g, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ");

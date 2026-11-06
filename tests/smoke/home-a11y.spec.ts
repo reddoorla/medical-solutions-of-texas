@@ -1,5 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
 import AxeBuilder from "@axe-core/playwright";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 const RULES = ["color-contrast", "heading-order"];
 

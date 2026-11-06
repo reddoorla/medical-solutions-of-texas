@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // No page may be wider than a phone or a tablet. On 2026-10-28 the home page's
 // 50px "support-text" words ("UNDERSTANDING", "TRANSPARENCY") and /about's
