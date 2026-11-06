@@ -13,16 +13,29 @@
   import { PRIVACY_PATH } from "$lib/privacy/policy";
   import { page } from "$app/state";
   import { addressLine } from "$lib/identity";
+  import { fill } from "$lib/content";
 
   const identity = $derived(page.data.identity);
   // The fold-out label and the privacy link's words: $lib/copy/chrome.
   const chrome = $derived(page.data.chrome);
 
   const year = new Date().getFullYear();
+  // The values the footer's lines may name, as {tokens} ($lib/copy/chrome).
+  const tokens = $derived({
+    name: identity.name,
+    "short name": identity.shortName,
+    "legal name": identity.legalName,
+    "business type": identity.businessType,
+    tagline: identity.tagline,
+    uei: identity.uei,
+    cage: identity.cage,
+    fss: identity.fss,
+    year: String(year),
+  });
 </script>
 
 <div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
-  <p class="label font-semibold">{identity.name} ({identity.shortName})</p>
+  <p class="label font-semibold">{fill(chrome.footer_name_line, tokens)}</p>
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
@@ -49,14 +62,13 @@
     </summary>
     <div class="flex flex-col gap-1 pt-1">
       <p class="label" data-testid="footer-definition">{identity.definition}</p>
-      <p class="label">{identity.businessType} · {identity.tagline}</p>
+      <p class="label">{fill(chrome.footer_type_line, tokens)}</p>
       <address class="label not-italic">{addressLine(identity.address)}</address>
-      <p class="label">UEI {identity.uei} · CAGE {identity.cage} · FSS {identity.fss}</p>
+      <p class="label">{fill(chrome.footer_ids_line, tokens)}</p>
     </div>
   </details>
   <p class="label">
-    ©{year}
-    {identity.legalName} dba {identity.name} |
+    {fill(chrome.footer_copyright, tokens)}
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"

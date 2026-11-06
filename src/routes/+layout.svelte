@@ -8,7 +8,7 @@
   import { SITE_URL } from "$lib/site";
   import { PAGE_SEO, pageDescription, routeKey, canonicalUrl } from "$lib/seo";
   import type { Identity } from "$lib/identity";
-  import type { ChromeCopy } from "$lib/copy/chrome";
+  import { untitledTitle, type ChromeCopy } from "$lib/copy/chrome";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -30,23 +30,6 @@
   // A page's own Prismic value always wins; these only fill in when the field
   // is empty/absent so no page ever renders an empty <meta name="description">
   // or a blank/duplicate <title>.
-  const SITE_NAME = "Medical Solutions of Texas";
-
-  // Route-derived title so an untitled Prismic doc still yields a unique, human
-  // <title> ("/rep-login" -> "MSOT | Rep Login") instead of an empty/duplicate tag.
-  function fallbackTitle(pathname: string): string {
-    const seg = pathname
-      .replace(/^\/+|\/+$/g, "")
-      .split("/")
-      .filter(Boolean)
-      .pop();
-    if (!seg) return SITE_NAME;
-    const label = seg
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-    return `MSOT | ${label}`;
-  }
 
   let route = $derived(routeKey(page.url.pathname));
   let isError = $derived(page.status >= 400);
@@ -61,7 +44,7 @@
       : page.data.meta_title ||
           PAGE_SEO[route]?.title ||
           page.data.title ||
-          fallbackTitle(page.url.pathname),
+          untitledTitle(data.chrome, page.url.pathname),
   );
   let metaDescription = $derived(
     (!isError && page.data.meta_description) ||

@@ -41,6 +41,15 @@ export function text(value: string | null | undefined, fallback: string): string
 }
 
 /**
+ * A field's wording with its {tokens} filled: "{legal name}" becomes the
+ * value named "legal name". A token with no value is left as typed, so a
+ * misspelt one shows on the page instead of vanishing.
+ */
+export function fill(template: string, values: Record<string, string>): string {
+  return template.replace(/\{([^{}]+)\}/g, (all, name) => (name in values ? values[name] : all));
+}
+
+/**
  * A heading Marketing may break across lines: a one-paragraph rich-text field
  * where Shift+Enter starts a new line. Empty lines are dropped. Empty, it is
  * the code's lines.
