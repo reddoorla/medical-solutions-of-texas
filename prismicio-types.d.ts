@@ -930,6 +930,151 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Item in *Partners page → the logos, in order*
+ */
+export interface PartnersPageDocumentDataClientsItem {
+	/**
+	 * company name (read aloud for the logo) field in *Partners page → the logos, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, with a logo, or the row is not shown. The rows replace the whole list; with none, the page keeps today's 18.
+	 * - **API ID Path**: partners_page.clients[].name
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * logo field in *Partners page → the logos, in order*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.clients[].logo
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	logo: prismic.ImageField<never>;
+}
+
+/**
+ * Content for Partners page documents
+ */
+interface PartnersPageDocumentData {
+	/**
+	 * page heading, left word field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our
+	 * - **API ID Path**: partners_page.heading_left
+	 * - **Tab**: Our Partners
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_left: prismic.KeyTextField;
+	
+	/**
+	 * page heading, right word field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Partners
+	 * - **API ID Path**: partners_page.heading_right
+	 * - **Tab**: Our Partners
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_right: prismic.KeyTextField;/**
+	 * box heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: working with the best
+	 * - **API ID Path**: partners_page.testimonial_heading
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_heading: prismic.KeyTextField;
+	
+	/**
+	 * the quoted company's logo (shown white on the dark page) field in *Partners page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.testimonial_logo
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	testimonial_logo: prismic.ImageField<never>;
+	
+	/**
+	 * the quoted company's name (read aloud for the logo) field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Revogen
+	 * - **API ID Path**: partners_page.testimonial_name
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_name: prismic.KeyTextField;
+	
+	/**
+	 * the quote field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems.
+	 * - **API ID Path**: partners_page.testimonial_text
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_text: prismic.KeyTextField;/**
+	 * heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Successful Partnerships
+	 * - **API ID Path**: partners_page.partnerships_heading
+	 * - **Tab**: Successful Partnerships
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partnerships_heading: prismic.KeyTextField;
+	
+	/**
+	 * paragraph field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our most successful partnerships are with companies who are looking to expand their product offering into VA and DoW facilities, who have the flexibility and mindset to work with the government and who believe it's meaningful to be a part of offering the best healthcare possible to our active duty and veteran population in the United States.
+	 * - **API ID Path**: partners_page.partnerships_text
+	 * - **Tab**: Successful Partnerships
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partnerships_text: prismic.KeyTextField;/**
+	 * heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our Clients
+	 * - **API ID Path**: partners_page.clients_heading
+	 * - **Tab**: Our Clients
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	clients_heading: prismic.KeyTextField;
+	
+	/**
+	 * the logos, in order field in *Partners page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.clients[]
+	 * - **Tab**: Our Clients
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	clients: prismic.GroupField<Simplify<PartnersPageDocumentDataClientsItem>>;
+}
+
+/**
+ * Partners page document from Prismic
+ *
+ * - **API ID**: `partners_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PartnersPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PartnersPageDocumentData>, "partners_page", Lang>;
+
+/**
  * Item in *Process page → the steps, in order*
  */
 export interface ProcessPageDocumentDataTimelineItem {
@@ -1646,7 +1791,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | ProcessPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -1712,6 +1857,9 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			PartnersPageDocument,
+			PartnersPageDocumentData,
+			PartnersPageDocumentDataClientsItem,
 			ProcessPageDocument,
 			ProcessPageDocumentData,
 			ProcessPageDocumentDataTimelineItem,
