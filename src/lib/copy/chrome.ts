@@ -4,7 +4,8 @@
 // The links' addresses stay in code. Home's own footer call to action is the
 // home_page document's. Left in code on purpose, and on the operator's batched
 // question (workspace decisions/, "which strings stay in code"): the footer's
-// " dba ", "UEI ", "CAGE ", "FSS " and "|" between identity values; the layout's
+// " dba ", "UEI ", "CAGE ", "FSS " and the punctuation (· © | and the
+// short name's parentheses) between identity values; the layout's
 // SITE_NAME and fallbackTitle's "MSOT | " (a Prismic page with no title); and
 // the error page's "Page not found" and "Back to home".
 import type { SettingsDocument } from "../../../prismicio-types";

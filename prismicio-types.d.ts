@@ -2844,7 +2844,7 @@ interface SettingsDocumentData {
 	footer_cta: prismic.KeyTextField;
 	
 	/**
-	 * button to /contact field in *Site settings*
+	 * button to /contact (Home's is on the Home page document) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Contact Us
@@ -2855,7 +2855,7 @@ interface SettingsDocumentData {
 	footer_contact_button: prismic.KeyTextField;
 	
 	/**
-	 * button to /process field in *Site settings*
+	 * button to /process (Home's is on the Home page document) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Learn More

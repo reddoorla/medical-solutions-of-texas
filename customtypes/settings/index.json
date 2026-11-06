@@ -304,14 +304,14 @@
       "footer_contact_button": {
         "type": "Text",
         "config": {
-          "label": "button to /contact",
+          "label": "button to /contact (Home's is on the Home page document)",
           "placeholder": "Leave empty to keep: Contact Us"
         }
       },
       "footer_process_button": {
         "type": "Text",
         "config": {
-          "label": "button to /process",
+          "label": "button to /process (Home's is on the Home page document)",
           "placeholder": "Leave empty to keep: Learn More"
         }
       },

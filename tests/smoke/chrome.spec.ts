@@ -92,8 +92,16 @@ test("the menu and the footer read the document", async ({ request }) => {
   expect(about).toContain('aria-label="Fixture open_menu"');
   // The footer.
   expect(shown.split("Fixture footer_cta").length - 1).toBe(3);
-  expect(shown).toContain(" Fixture footer_contact_button ");
-  expect(shown).toContain(" Fixture footer_process_button ");
+  // Each footer button to its own address (BracketButton nests its words).
+  const buttons = [
+    ...about.matchAll(
+      /<a[^>]*href="(\/\w+)"[^>]*>(?:(?!<\/a>)[\s\S])*?(Fixture footer_\w+_button)/g,
+    ),
+  ].map((m) => [m[1], m[2]]);
+  expect(buttons).toEqual([
+    ["/contact", "Fixture footer_contact_button"],
+    ["/process", "Fixture footer_process_button"],
+  ]);
   expect(about).toContain('alt="Fixture footer_logo_alt"');
   expect(about).toContain('alt="Fixture vosb_alt"');
   expect(shown).toContain(" Fixture company_details ");
@@ -124,6 +132,9 @@ test("the logo after the loading screen, and the menu's close button, read it to
   });
   await page.getByRole("button", { name: "Fixture open_menu" }).click();
   await expect(page.getByRole("button", { name: "Fixture close_menu" })).toBeVisible();
+  // The overlay's links read the same labels.
+  for (const k of ["about", "partners", "process", "resources", "contact"])
+    await expect(page.getByRole("link", { name: `Fixture nav_${k}` }).first()).toBeVisible();
 });
 
 test("the settings document itself feeds them, not only the fixture", async ({ request }) => {
