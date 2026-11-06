@@ -930,21 +930,21 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
- * Item in *Partners page → the logos, in order. A row needs a name and a logo; the rows replace the whole list, and with none the page keeps today's 18*
+ * Item in *Partners page → the logos, in order*
  */
 export interface PartnersPageDocumentDataClientsItem {
 	/**
-	 * company name, read aloud for the logo (left empty, the image's alt text) field in *Partners page → the logos, in order. A row needs a name and a logo; the rows replace the whole list, and with none the page keeps today's 18*
+	 * company name, read aloud for the logo field in *Partners page → the logos, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Needed, with a logo, or the row is not shown.
+	 * - **Placeholder**: Needed, or the logo's alt text; a row with neither, or with no logo, is not shown. The rows replace the whole list; with none, the page keeps today's 18.
 	 * - **API ID Path**: partners_page.clients[].name
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	name: prismic.KeyTextField;
 	
 	/**
-	 * logo: a transparent PNG or SVG in the grey duotone style of the others field in *Partners page → the logos, in order. A row needs a name and a logo; the rows replace the whole list, and with none the page keeps today's 18*
+	 * logo (transparent PNG or SVG, grey duotone like the others) field in *Partners page → the logos, in order*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -990,7 +990,7 @@ interface PartnersPageDocumentData {
 	testimonial_heading: prismic.KeyTextField;
 	
 	/**
-	 * the quoted company's logo: a transparent PNG or SVG, shown white on the dark page. Used only with the company name (or the image's alt text); else today's logo and name stay field in *Partners page*
+	 * the quoted company's logo (transparent PNG or SVG, shown white; used only with a name or alt text) field in *Partners page*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -1001,10 +1001,10 @@ interface PartnersPageDocumentData {
 	testimonial_logo: prismic.ImageField<never>;
 	
 	/**
-	 * the quoted company's name, read aloud for the logo. Used only with a logo field in *Partners page*
+	 * the quoted company's name, read aloud for the logo field in *Partners page*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Revogen
+	 * - **Placeholder**: Needed with a new logo, unless the logo has alt text. Left empty with no new logo, it keeps: Revogen
 	 * - **API ID Path**: partners_page.testimonial_name
 	 * - **Tab**: Working With the Best
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -1052,7 +1052,7 @@ interface PartnersPageDocumentData {
 	clients_heading: prismic.KeyTextField;
 	
 	/**
-	 * the logos, in order. A row needs a name and a logo; the rows replace the whole list, and with none the page keeps today's 18 field in *Partners page*
+	 * the logos, in order field in *Partners page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*

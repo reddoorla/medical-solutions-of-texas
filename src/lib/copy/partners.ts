@@ -56,7 +56,7 @@ export function partnersCopy(doc: PartnersPageDocument | null, logo: (file: stri
   // that for sharp screens, as $lib/team does for headshots.
   const src = (field: ImageField, w: number) => asImageSrc(field, { w }) ?? field.url;
   // A logo's company name: the row's own name, else the alt text set on the
-  // image in Prismic's media library.
+  // image in Prismic.
   const named = (name: string | null | undefined, field: ImageField | null | undefined) =>
     text(name, "") || (isFilled.image(field) ? text(field.alt, "") : "");
   // The quote's logo and company name are one pair: both from the document, or
