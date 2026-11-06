@@ -67,7 +67,10 @@ export function fill(template: string, values: Record<string, string>): string {
  * every block of text. Bold, italic and link spans move with the words around
  * them, and one that starts or ends inside a token takes in its whole value. A
  * token named in `links` (by its key, "email") also becomes a link, to
- * links[key](value), unless the editor already linked it.
+ * links[key](value), unless the editor already linked it. A link's address is
+ * not filled, so words linked to "mailto:{email}" keep that address as typed;
+ * typing {email} itself gives the linked address. The spans come back in
+ * start order.
  */
 export function fillRichText(
   field: RichTextField,
@@ -123,6 +126,7 @@ export function fillRichText(
         data: { link_type: "Web", url: link(text.slice(f.at, f.end)) },
       });
     }
+    spans.sort((a, b) => a.start - b.start || b.end - a.end);
     return { ...block, text, spans } as typeof block;
   }) as RichTextField;
 }

@@ -167,8 +167,53 @@ test("fillRichText: every block's tokens filled, its spans moved, {email} linked
     { type: "paragraph", text: "No tokens", spans: [{ type: "strong", start: 0, end: 2 }] },
   ]);
   // With no links asked for, {email} is filled but not linked; an empty value is never linked.
-  expect(fillRichText(para("at {email}"), values)).toEqual(para("at a@b.co"));
-  expect(fillRichText(para("at {email}"), { email: "" }, mail)).toEqual(para("at "));
+  const rich = (text: string) => para(text) as unknown as RichTextField;
+  expect(fillRichText(rich("at {email}"), values)).toEqual(para("at a@b.co"));
+  expect(fillRichText(rich("at {email}"), { email: "" }, mail)).toEqual(para("at "));
+  // The edges. A span touching a token keeps to its own words. One covering a
+  // token, or running from inside one token to inside another, takes in each
+  // value. A cased {Email} is linked, and the spans come back in start order.
+  const edges = [
+    // "'s" bold, right after the token.
+    { type: "paragraph", text: "{name}'s", spans: [{ type: "strong", start: 6, end: 8 }] },
+    // "Hi " bold, ending where the token starts.
+    { type: "paragraph", text: "Hi {name}", spans: [{ type: "strong", start: 0, end: 3 }] },
+    // The whole line bold, the token inside it.
+    { type: "paragraph", text: "a {name} b", spans: [{ type: "strong", start: 0, end: 10 }] },
+    // Italic from inside {name} to inside {email}.
+    {
+      type: "paragraph",
+      text: "{name} and {email}",
+      spans: [{ type: "em", start: 2, end: 14 }],
+    },
+    // "later" bold, after the address the link goes on.
+    {
+      type: "paragraph",
+      text: "Write {Email}. later",
+      spans: [{ type: "strong", start: 15, end: 20 }],
+    },
+  ] as unknown as RichTextField;
+  const link = (start: number, end: number) => ({
+    type: "hyperlink",
+    start,
+    end,
+    data: { link_type: "Web", url: "mailto:a@b.co" },
+  });
+  expect(fillRichText(edges, values, mail)).toEqual([
+    { type: "paragraph", text: "MSOT's", spans: [{ type: "strong", start: 4, end: 6 }] },
+    { type: "paragraph", text: "Hi MSOT", spans: [{ type: "strong", start: 0, end: 3 }] },
+    { type: "paragraph", text: "a MSOT b", spans: [{ type: "strong", start: 0, end: 8 }] },
+    {
+      type: "paragraph",
+      text: "MSOT and a@b.co",
+      spans: [{ type: "em", start: 0, end: 15 }, link(9, 15)],
+    },
+    {
+      type: "paragraph",
+      text: "Write a@b.co. later",
+      spans: [link(6, 12), { type: "strong", start: 14, end: 19 }],
+    },
+  ]);
 });
 
 test("privacy_page has a rich-text body per section, labelled with what filling it costs", () => {
@@ -182,14 +227,15 @@ test("privacy_page has a rich-text body per section, labelled with what filling 
   for (const b of PRIVACY_BODIES) {
     expect(fields[b]?.type, b).toBe("StructuredText");
     expect(fields[b].config.multi, b).toBe("paragraph,strong,em,hyperlink,list-item");
-    expect(fields[b].config.placeholder, b).toContain(
-      "{legal name}, {name} and {email} show the Settings values, and {email} is a link.",
+    expect(fields[b].config.label, b).toContain(
+      "{legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link.",
     );
+    expect(fields[b].config.placeholder, b).toMatch(/^Leave empty to keep today's text/);
   }
   // The three that today's code writes from the services the site runs say so.
   for (const b of ["collect_body", "use_body", "others_body"])
     expect(fields[b].config.label, b).toContain(
-      "Once filled, the services the site runs are not added automatically",
+      "Once filled, this text no longer follows the services the site runs: a service added, dropped or changed later must be written in by hand.",
     );
 });
 

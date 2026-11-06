@@ -1750,10 +1750,10 @@ interface PrivacyPageDocumentData {
 	effective_date: prismic.DateField;
 	
 	/**
-	 * opening text, under the date (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * opening text, under the date (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text: {legal name}, doing business as {name} ("we") runs this website. This policy explains what information the site collects, why, who else receives it, and the choices you have. Filled, it replaces it, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text: {legal name}, doing business as {name} ("we") runs this website. This policy explains what information the site collects, why, who else receives it, and the choices you have. Filled, it replaces today's text, shown as typed.
 	 * - **API ID Path**: privacy_page.opening_body
 	 * - **Tab**: Privacy Policy
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1770,10 +1770,10 @@ interface PrivacyPageDocumentData {
 	collect_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). Once filled, the services the site runs are not added automatically field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. Once filled, this text no longer follows the services the site runs: a service added, dropped or changed later must be written in by hand. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.collect_body
 	 * - **Tab**: What we collect
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1790,10 +1790,10 @@ interface PrivacyPageDocumentData {
 	use_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). Once filled, the services the site runs are not added automatically field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. Once filled, this text no longer follows the services the site runs: a service added, dropped or changed later must be written in by hand. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.use_body
 	 * - **Tab**: How we use it
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1810,10 +1810,10 @@ interface PrivacyPageDocumentData {
 	others_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). Once filled, the services the site runs are not added automatically field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. Once filled, this text no longer follows the services the site runs: a service added, dropped or changed later must be written in by hand. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text, which the site's code writes from the services it runs. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.others_body
 	 * - **Tab**: Who else receives it
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1830,10 +1830,10 @@ interface PrivacyPageDocumentData {
 	dnt_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text: Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text: Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.dnt_body
 	 * - **Tab**: Do Not Track
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1850,10 +1850,10 @@ interface PrivacyPageDocumentData {
 	children_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.children_body
 	 * - **Tab**: Children
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1870,10 +1870,10 @@ interface PrivacyPageDocumentData {
 	choices_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text: To ask what information we hold about you, or to ask us to correct or delete it, email {email}. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text: To ask what information we hold about you, or to ask us to correct or delete it, email {email}. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.choices_body
 	 * - **Tab**: Your choices
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
@@ -1890,10 +1890,10 @@ interface PrivacyPageDocumentData {
 	changes_heading: prismic.KeyTextField;
 	
 	/**
-	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links). {legal name}, {name} and {email} are filled in from Site settings, and {email} becomes a link. field in *Privacy page*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed: {legal name}, {name} and {email} show the Settings values, and {email} is a link.
+	 * - **Placeholder**: Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed.
 	 * - **API ID Path**: privacy_page.changes_body
 	 * - **Tab**: Changes to this policy
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
