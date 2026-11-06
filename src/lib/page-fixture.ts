@@ -6,8 +6,8 @@
 // group's rows "Fixture <group> <row> <field>", so a page showing one can only
 // have read the document. An image field named in `images` is a picture at
 // "/favicon.svg?fixture=<field>" (in a group, "?fixture=<group>-<row>-<field>"),
-// a real file whose address names the field. (Home's predates this:
-// $lib/home-fixture.)
+// a real file whose address names the field, and a file field named in `files`
+// links to the same address. (Home's predates this: $lib/home-fixture.)
 type Copy = Record<string, string | string[] | Record<string, string>[]>;
 
 const para = (text: string) => [{ type: "paragraph", text, spans: [] }];
@@ -19,21 +19,39 @@ const picture = (name: string) => ({
   id: name,
   edit: { x: 0, y: 0, zoom: 1, background: "transparent" },
 });
+const media = (name: string) => ({
+  link_type: "Media",
+  key: name,
+  kind: "document",
+  id: name,
+  url: `/favicon.svg?fixture=${name}`,
+  name: `${name}.pdf`,
+  size: "1",
+});
 
 /**
  * `rich` names the group fields that are rich text (a paragraphs field), and
- * `images` the fields, top-level or in a group, that are image fields.
+ * `images` and `files` the fields, top-level or in a group, that are image
+ * fields and link-to-media fields.
  */
 export function pageFixture(
   copy: Copy,
   rich: string[] = [],
   images: string[] = [],
+  files: string[] = [],
 ): { data: Record<string, unknown> } {
   return {
     data: Object.fromEntries(
       Object.entries(copy).map(([field, today]) => {
         if (typeof today === "string")
-          return [field, images.includes(field) ? picture(field) : `Fixture ${field}`];
+          return [
+            field,
+            images.includes(field)
+              ? picture(field)
+              : files.includes(field)
+                ? media(field)
+                : `Fixture ${field}`,
+          ];
         if (today.every((v) => typeof v === "string"))
           return [field, para(today.map((_, i) => `Fixture ${field} ${i + 1}`).join("\n"))];
         return [
@@ -44,9 +62,11 @@ export function pageFixture(
                 k,
                 images.includes(k)
                   ? picture(`${field}-${i + 1}-${k}`)
-                  : rich.includes(k)
-                    ? para(`Fixture ${field} ${i + 1} ${k}`)
-                    : `Fixture ${field} ${i + 1} ${k}`,
+                  : files.includes(k)
+                    ? media(`${field}-${i + 1}-${k}`)
+                    : rich.includes(k)
+                      ? para(`Fixture ${field} ${i + 1} ${k}`)
+                      : `Fixture ${field} ${i + 1} ${k}`,
               ]),
             ),
           ),
