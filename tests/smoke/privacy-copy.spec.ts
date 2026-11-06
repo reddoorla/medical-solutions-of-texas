@@ -45,9 +45,13 @@ test("privacyCopy: no document is today's wording; a filled field wins, field by
       effective_label: "",
       effective_date: "2030-01-02",
       dnt_heading: "  ",
-      intro: [],
-      children_body: [{ type: "paragraph", text: "", spans: [] }],
-      choices_body: para("Write to us."),
+      dnt_body: [{ type: "paragraph", text: "", spans: [] }],
+      // Enter, then delete: two blocks, no words. Still today's section.
+      children_body: [
+        { type: "paragraph", text: "", spans: [] },
+        { type: "paragraph", text: " ", spans: [] },
+      ],
+      changes_body: para("Write to us."),
     }),
   );
   expect([some.meta_title, some.meta_description]).toEqual(["Policy", null]);
@@ -57,8 +61,9 @@ test("privacyCopy: no document is today's wording; a filled field wins, field by
     "2030-01-02",
   ]);
   expect(some.dnt_heading).toBe("Do Not Track");
-  expect([some.intro, some.children_body]).toEqual([null, null]);
-  expect(some.choices_body).toEqual(para("Write to us."));
+  expect([some.dnt_body, some.children_body]).toEqual([null, null]);
+  expect(some.changes_body).toEqual(para("Write to us."));
+  expect([...PRIVACY_BODIES]).toEqual(["dnt_body", "children_body", "changes_body"]);
   expect(Object.keys(PRIVACY_COPY)).toEqual([
     "meta_title",
     "meta_description",
@@ -92,14 +97,12 @@ test("Privacy reads the document: every field, in page order, with today's class
   ).text();
   const body = article(html);
   const shown = visible(body);
-  const words = [
-    "Fixture heading",
-    "Fixture effective_label January 2, 2030",
-    "Fixture intro",
-    "Fixture intro item",
-  ];
-  for (const k of ["collect", "use", "others", "dnt", "children", "choices", "changes"])
-    words.push(`Fixture ${k}_heading`, `Fixture ${k}_body`, `Fixture ${k}_body item`);
+  const words = ["Fixture heading", "Fixture effective_label January 2, 2030"];
+  for (const k of ["collect", "use", "others", "dnt", "children", "choices", "changes"]) {
+    words.push(`Fixture ${k}_heading`);
+    if ((PRIVACY_BODIES as readonly string[]).includes(`${k}_body`))
+      words.push(`Fixture ${k}_body`, `Fixture ${k}_body item`);
+  }
   for (const w of words) expect(shown, w).toMatch(new RegExp(`${w}(?![\\w,])`));
   const at = (w: string) => shown.search(new RegExp(`${w}(?![\\w,])`));
   expect(
@@ -107,34 +110,43 @@ test("Privacy reads the document: every field, in page order, with today's class
     "fields in page order",
   ).toEqual(words);
   // A filled body takes today's link and list classes, and its own link.
-  for (const b of PRIVACY_BODIES)
-    expect(body, b).toContain(`<a class="underline hover:text-white" href="/?fixture=${b}"`);
-  expect(body).toMatch(
-    /<ul class="list-disc pl-6 space-y-2"><li>Fixture others_body item<\/li><\/ul>/,
-  );
-  expect(body).toMatch(
-    /<ul class="list-disc pl-6 space-y-1"><li>Fixture use_body item<\/li><\/ul>/,
-  );
+  for (const b of PRIVACY_BODIES) {
+    expect(body, b).toMatch(
+      new RegExp(`<a (?=[^>]*href="/\\?fixture=${b}")(?=[^>]*class="underline hover:text-white")`),
+    );
+    expect(body, b).toContain(
+      `<ul class="list-disc pl-6 space-y-1"><li>Fixture ${b} item</li></ul>`,
+    );
+  }
   // The document's SEO wins over $lib/seo's.
   expect(html).toMatch(/<title>Fixture meta_title<\/title>/);
   expect(html).toMatch(/<meta name="description" content="Fixture meta_description"/);
-  // None of today's words is left.
+  // None of today's words is left where the document has a field.
   for (const today of [
     ...HEADINGS,
     "Privacy Policy",
     "November 4, 2026",
-    "runs this website",
-    "When you send us the contact form",
-    "We do not sell your personal information.",
-    "Form messages go to Reddoor",
-    "Netlify hosts this site",
     "There is no agreed standard",
     "children under 13",
-    "To ask what information we hold",
     "post the new version",
   ]) {
     expect(shown, today).not.toContain(today);
   }
+  // The opening and the four sections with code logic stay today's, with the
+  // settings values and the services list in them.
+  for (const kept of [
+    "runs this website",
+    "When you send us the contact form",
+    "We do not sell your personal information.",
+    "may collect information about your online activities over time and across different websites",
+    "Form messages go to Reddoor",
+    "Netlify hosts this site",
+    "To ask what information we hold",
+  ]) {
+    expect(shown, kept).toContain(kept);
+  }
+  expect(body).toContain('data-testid="service-linkedin"');
+  expect(body).toMatch(/href="mailto:[^"]+@[^"]+"/);
 });
 
 test("with no document, Privacy shows today's headings, date and SEO", async ({ request }) => {
@@ -151,4 +163,10 @@ test("with no document, Privacy shows today's headings, date and SEO", async ({ 
   expect(html).toContain(
     '<meta name="description" content="What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have."',
   );
+});
+
+test("/preview/privacy is served per request, for Marketing's drafts", async ({ request }) => {
+  const res = await request.get("/preview/privacy");
+  expect(res.status()).toBe(200);
+  expect(visible(article(await res.text()))).toContain("Privacy Policy Effective");
 });

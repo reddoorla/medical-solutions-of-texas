@@ -42,15 +42,6 @@
           "label": "effective date",
           "placeholder": "Leave empty to keep the date in code (November 4, 2026)"
         }
-      },
-      "intro": {
-        "type": "StructuredText",
-        "config": {
-          "label": "opening paragraph (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's opening paragraph, which follows Settings' legal name. Filled, it replaces the whole opening paragraph, shown as typed (type the legal name yourself).",
-          "multi": "paragraph,strong,em,hyperlink,list-item",
-          "allowTargetBlank": false
-        }
       }
     },
     "What we collect": {
@@ -59,15 +50,6 @@
         "config": {
           "label": "heading",
           "placeholder": "Leave empty to keep: What we collect"
-        }
-      },
-      "collect_body": {
-        "type": "StructuredText",
-        "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
-          "multi": "paragraph,strong,em,hyperlink,list-item",
-          "allowTargetBlank": false
         }
       }
     },
@@ -78,15 +60,6 @@
           "label": "heading",
           "placeholder": "Leave empty to keep: How we use it"
         }
-      },
-      "use_body": {
-        "type": "StructuredText",
-        "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
-          "multi": "paragraph,strong,em,hyperlink,list-item",
-          "allowTargetBlank": false
-        }
       }
     },
     "Who else receives it": {
@@ -95,15 +68,6 @@
         "config": {
           "label": "heading",
           "placeholder": "Leave empty to keep: Who else receives it"
-        }
-      },
-      "others_body": {
-        "type": "StructuredText",
-        "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
-          "multi": "paragraph,strong,em,hyperlink,list-item",
-          "allowTargetBlank": false
         }
       }
     },
@@ -149,15 +113,6 @@
         "config": {
           "label": "heading",
           "placeholder": "Leave empty to keep: Your choices"
-        }
-      },
-      "choices_body": {
-        "type": "StructuredText",
-        "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section, which follows Settings' email. Filled, it replaces the whole section, shown as typed (type the email yourself).",
-          "multi": "paragraph,strong,em,hyperlink,list-item",
-          "allowTargetBlank": false
         }
       }
     },

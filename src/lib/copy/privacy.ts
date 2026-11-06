@@ -1,11 +1,14 @@
-// The privacy policy's copy (src/routes/privacy/+page.svelte), editable in
-// Prismic's `privacy_page` document; see $lib/content for how the fallback
-// works. Each section's body is one rich-text field: empty, the page keeps
-// today's wording for that section, which names the `settings` document's
-// legal name and email; filled, the field replaces the section's body whole.
+// The privacy policy's copy (src/routes/[[preview=preview]]/privacy/+page.svelte),
+// editable in Prismic's `privacy_page` document; see $lib/content for how the
+// fallback works. Every heading is a field. Only the sections with no code
+// logic have a body field (Do Not Track, Children, Changes): empty, the page
+// keeps today's wording; filled, it replaces that section's body whole. The
+// opening and the other four sections stay in code: they follow
+// PRIVACY_SERVICES and the `settings` document's legal name and email, which a
+// typed body would freeze.
 // The page has no `page` document, so its SEO title and description are this
 // type's: empty, they are null and the layout keeps $lib/seo's.
-import { isFilled, type RichTextField } from "@prismicio/client";
+import { asText, isFilled, type RichTextField } from "@prismicio/client";
 import type { PrivacyPageDocument } from "../../../prismicio-types";
 import { text } from "../content";
 import { PRIVACY_VALUES } from "../privacy/policy";
@@ -27,20 +30,15 @@ export const PRIVACY_COPY = {
 };
 
 /** The rich-text fields, each one section's body. */
-export const PRIVACY_BODIES = [
-  "intro",
-  "collect_body",
-  "use_body",
-  "others_body",
-  "dnt_body",
-  "children_body",
-  "choices_body",
-  "changes_body",
-] as const;
+export const PRIVACY_BODIES = ["dnt_body", "children_body", "changes_body"] as const;
 
-/** A filled rich-text field, or null: the page then shows today's section. */
+/**
+ * A rich-text field with words in it, or null: the page then shows today's
+ * section. isFilled.richText alone counts any two blocks as filled, so two
+ * empty paragraphs (Enter, then delete) would blank the section.
+ */
 function body(value: RichTextField | null | undefined): RichTextField | null {
-  return isFilled.richText(value) ? value : null;
+  return isFilled.richText(value) && asText(value).trim() ? value : null;
 }
 
 export type PrivacyCopy = ReturnType<typeof privacyCopy>;
@@ -63,13 +61,8 @@ export function privacyCopy(doc: PrivacyPageDocument | null) {
     effective_date: isFilled.date(d?.effective_date)
       ? d.effective_date
       : PRIVACY_VALUES.effectiveDate,
-    intro: body(d?.intro),
-    collect_body: body(d?.collect_body),
-    use_body: body(d?.use_body),
-    others_body: body(d?.others_body),
     dnt_body: body(d?.dnt_body),
     children_body: body(d?.children_body),
-    choices_body: body(d?.choices_body),
     changes_body: body(d?.changes_body),
   };
 }

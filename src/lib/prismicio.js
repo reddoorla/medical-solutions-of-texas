@@ -25,6 +25,13 @@ const routes = [
     type: "page",
     path: "/:uid",
   },
+  // A singleton page type's own address, so Prismic's Preview button and a
+  // rich-text link to the document land on the page. Prismic accepts a route
+  // for a type it does not know yet (checked 11-05 against msot's API).
+  {
+    type: "privacy_page",
+    path: "/privacy",
+  },
 ];
 
 /**

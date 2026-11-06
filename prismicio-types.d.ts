@@ -1129,18 +1129,7 @@ interface PrivacyPageDocumentData {
 	 * - **Tab**: Privacy Policy
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
-	effective_date: prismic.DateField;
-	
-	/**
-	 * opening paragraph (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's opening paragraph, which follows Settings' legal name. Filled, it replaces the whole opening paragraph, shown as typed (type the legal name yourself).
-	 * - **API ID Path**: privacy_page.intro
-	 * - **Tab**: Privacy Policy
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	intro: prismic.RichTextField;/**
+	effective_date: prismic.DateField;/**
 	 * heading field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
@@ -1149,18 +1138,7 @@ interface PrivacyPageDocumentData {
 	 * - **Tab**: What we collect
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	collect_heading: prismic.KeyTextField;
-	
-	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
-	 * - **API ID Path**: privacy_page.collect_body
-	 * - **Tab**: What we collect
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	collect_body: prismic.RichTextField;/**
+	collect_heading: prismic.KeyTextField;/**
 	 * heading field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
@@ -1169,18 +1147,7 @@ interface PrivacyPageDocumentData {
 	 * - **Tab**: How we use it
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	use_heading: prismic.KeyTextField;
-	
-	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
-	 * - **API ID Path**: privacy_page.use_body
-	 * - **Tab**: How we use it
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	use_body: prismic.RichTextField;/**
+	use_heading: prismic.KeyTextField;/**
 	 * heading field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
@@ -1189,18 +1156,7 @@ interface PrivacyPageDocumentData {
 	 * - **Tab**: Who else receives it
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	others_heading: prismic.KeyTextField;
-	
-	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
-	 * - **API ID Path**: privacy_page.others_body
-	 * - **Tab**: Who else receives it
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	others_body: prismic.RichTextField;/**
+	others_heading: prismic.KeyTextField;/**
 	 * heading field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
@@ -1249,18 +1205,7 @@ interface PrivacyPageDocumentData {
 	 * - **Tab**: Your choices
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	choices_heading: prismic.KeyTextField;
-	
-	/**
-	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Leave empty to keep today's section, which follows Settings' email. Filled, it replaces the whole section, shown as typed (type the email yourself).
-	 * - **API ID Path**: privacy_page.choices_body
-	 * - **Tab**: Your choices
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	choices_body: prismic.RichTextField;/**
+	choices_heading: prismic.KeyTextField;/**
 	 * heading field in *Privacy page*
 	 *
 	 * - **Field Type**: Text
