@@ -1367,29 +1367,7 @@ interface HomePageDocumentData {
 	 * - **Tab**: Our Partner
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	partner_heading: prismic.KeyTextField;
-	
-	/**
-	 * quote, with its quotation marks field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: “MSOT made the process of getting our product into the DoD system easier than we ever t…
-	 * - **API ID Path**: home_page.partner_quote
-	 * - **Tab**: Our Partner
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	partner_quote: prismic.KeyTextField;
-	
-	/**
-	 * partner logo: the partner's name field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Revogen
-	 * - **API ID Path**: home_page.partner_logo_alt
-	 * - **Tab**: Our Partner
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	partner_logo_alt: prismic.KeyTextField;/**
+	partner_heading: prismic.KeyTextField;/**
 	 * heading, first line (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text
@@ -1630,7 +1608,7 @@ interface PartnersPageDocumentData {
 	testimonial_heading: prismic.KeyTextField;
 	
 	/**
-	 * the quoted company's logo (transparent PNG or SVG, shown white; used only with a name or alt text) field in *Partners page*
+	 * the quoted company's logo, white on transparent (PNG or SVG): Partners shows it white, Home as uploaded on its beige band; used only with a name or alt text field in *Partners page*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -1652,7 +1630,7 @@ interface PartnersPageDocumentData {
 	testimonial_name: prismic.KeyTextField;
 	
 	/**
-	 * the quote field in *Partners page*
+	 * the quote, without quotation marks (Home adds them) field in *Partners page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems.

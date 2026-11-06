@@ -94,7 +94,6 @@ test("homeCopy: no document is today's wording; a filled field wins, field by fi
   expect(today.timeline_2_eyebrow).toBe("The Clinician in Mind");
   expect(today.timeline_3_heading).toBe("Veteran & retiree");
   expect(today.timeline_label_6).toBe("85 y.o. veteran & retiree");
-  expect(today.partner_quote).toMatch(/^“MSOT made the process .* DoD and VA hospital systems\.”$/);
 
   const some = homeCopy(doc({ help_heading: "New help", step_1: para("New\nsteps") }));
   expect(some.help_heading).toBe("New help");
@@ -117,7 +116,6 @@ const visible = (html: string) =>
 // Fields Home shows in an attribute, not as text.
 const ATTRIBUTES: Record<string, string> = {
   vosb_logo_alt: "alt",
-  partner_logo_alt: "alt",
 };
 
 test("Home reads the document: every field, in every section", async ({ request }) => {
@@ -180,7 +178,6 @@ test("Home reads the document: every field, in every section", async ({ request 
     "Government Contracts Are",
     "We’re here to help",
     "Our Partner",
-    "invaluable partnership",
     "Getting started",
     "establish",
     "let’s get started",
@@ -233,4 +230,52 @@ test("with no document, Home shows today's words", async ({ request }) => {
     expect(shown, today).toContain(today);
   }
   expect(shown).not.toContain("Fixture");
+});
+
+// "Our Partner" shows Partners' quote, logo and company name (the operator,
+// 11-06: "Home reads Partners'"), so the quote has one place to edit. Today's
+// box, word for word as Home showed it before the move: its own copy then
+// held the quote with its quotation marks, and "Revogen" as the logo's alt.
+const HOME_QUOTE_BEFORE =
+  "“MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems.”";
+
+const partnerBox = (html: string) => {
+  const box = html
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .match(
+      /<\/h4>\s*<p class="text-dark text-center mx-5 text-\[24px\][^"]*">([\s\S]*?)<\/p>\s*(<img\b[^>]*>)/,
+    );
+  expect(box, "the Our Partner box").not.toBeNull();
+  const [, quote, img] = box!;
+  return {
+    quote: quote.trim().replace(/&#39;/g, "'"),
+    src: img.match(/\bsrc="([^"]*)"/)?.[1] ?? "",
+    alt: img.match(/\balt="([^"]*)"/)?.[1] ?? null,
+  };
+};
+
+test("Home's Our Partner box shows Partners' quote, logo and name, from the partners_page document", async ({
+  request,
+}) => {
+  const today = partnerBox(await (await request.get("/")).text());
+  expect(today.quote).toBe(HOME_QUOTE_BEFORE);
+  expect(today.alt).toBe("Revogen");
+  expect(today.src).toMatch(/revogenLogo[^/]*\.svg$/);
+
+  // Partners' document, not Home's, fills the box.
+  const fixture = partnerBox(
+    await (await request.get("/", { headers: { cookie: "msot-partners-fixture=1" } })).text(),
+  );
+  expect(fixture.quote).toBe("“Fixture testimonial_text”");
+  expect(fixture.alt).toBe("Fixture testimonial_name");
+  expect(fixture.src).toMatch(
+    /^https:\/\/images\.prismic\.io\/msot\/fixture\.svg\?fixture=testimonial_logo/,
+  );
+
+  // Home's own document leaves the box as it is.
+  const home = partnerBox(
+    await (await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })).text(),
+  );
+  expect(home.quote).toBe(HOME_QUOTE_BEFORE);
+  expect(home.alt).toBe("Revogen");
 });
