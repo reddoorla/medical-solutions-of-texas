@@ -73,8 +73,11 @@ const visible = (html: string) =>
 const body = (html: string) =>
   html.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<!--[\s\S]*?-->/g, "");
 
-/** The page's main content, before the footer. */
-const main = (html: string) => body(html).split("<footer")[0];
+/** The page's own sections: after the site's nav, before the shared footer's band. */
+const main = (html: string) => {
+  const b = body(html);
+  return b.slice(b.indexOf('<section class="h-96'), b.indexOf('<section class="bg-[#998B6A]'));
+};
 
 test("Resources reads the document: every field, in page order, each file on its row", async ({
   request,
