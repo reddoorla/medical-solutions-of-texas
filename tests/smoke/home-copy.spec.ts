@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { NotFoundError, RepositoryNotFoundError } from "@prismicio/client";
 import { lines, loadSingle, text } from "../../src/lib/content";
 import { HOME_COPY, homeCopy } from "../../src/lib/copy/home";
@@ -213,8 +214,10 @@ test("Home's phone width breaks We'll Get You across lines, from the document", 
   }).toPass({ timeout: 30_000 });
 });
 
-test("with no document, Home shows today's words", async ({ request }) => {
-  const shown = visible(await (await request.get("/")).text());
+test("with every field empty, Home shows today's words", async ({ request }) => {
+  const shown = visible(
+    await (await request.get("/", { headers: empty("home", "partners") })).text(),
+  );
   for (const today of [
     "Your Trusted Partner",
     "We'll Get You",
@@ -257,7 +260,9 @@ const partnerBox = (html: string) => {
 test("Home's Our Partner box shows Partners' quote, logo and name, from the partners_page document", async ({
   request,
 }) => {
-  const today = partnerBox(await (await request.get("/")).text());
+  const today = partnerBox(
+    await (await request.get("/", { headers: empty("home", "partners") })).text(),
+  );
   expect(today.quote).toBe(HOME_QUOTE_BEFORE);
   expect(today.alt).toBe("Revogen");
   expect(today.src).toMatch(/revogenLogo[^/]*\.svg$/);

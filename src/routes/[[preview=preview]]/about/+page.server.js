@@ -32,9 +32,11 @@ export async function load({ fetch, cookies, url }) {
   // routes, even in dev.
   const copy = aboutCopy(
     dev && cookies.get("msot-about-fixture")
-      ? /** @type {import("../../../../prismicio-types").AboutPageDocument} */ (
-          (await import("$lib/page-fixture")).pageFixture(ABOUT_COPY, ["answer"])
-        )
+      ? cookies.get("msot-about-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("about_page")
+        : /** @type {import("../../../../prismicio-types").AboutPageDocument} */ (
+            (await import("$lib/page-fixture")).pageFixture(ABOUT_COPY, ["answer"])
+          )
       : await loadSingle(client, "about_page", { strict: building }),
   );
 

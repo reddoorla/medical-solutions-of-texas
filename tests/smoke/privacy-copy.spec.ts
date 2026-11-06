@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { RichTextField } from "@prismicio/client";
@@ -338,10 +339,10 @@ test("Privacy reads the document: every field, in page order, with today's class
   expect(body).not.toContain('data-testid="service-');
 });
 
-test("with no document, Privacy shows today's text: headings, date, SEO and the code's sections", async ({
+test("with every field empty, Privacy shows today's text: headings, date, SEO and the code's sections", async ({
   request,
 }) => {
-  const html = await (await request.get("/privacy")).text();
+  const html = await (await request.get("/privacy", { headers: empty("privacy") })).text();
   const body = article(html);
   const shown = visible(body);
   expect(shown).toContain("Privacy Policy Effective November 4, 2026");

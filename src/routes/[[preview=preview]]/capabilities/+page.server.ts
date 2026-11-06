@@ -18,9 +18,11 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
   const client = createClient({ fetch, cookies });
   const copy = capabilitiesCopy(
     dev && cookies.get("msot-capabilities-fixture")
-      ? ((await import("$lib/page-fixture")).pageFixture(
-          CAPABILITIES_COPY,
-        ) as unknown as CapabilitiesPageDocument)
+      ? cookies.get("msot-capabilities-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("capabilities_page")
+        : ((await import("$lib/page-fixture")).pageFixture(
+            CAPABILITIES_COPY,
+          ) as unknown as CapabilitiesPageDocument)
       : await loadSingle<CapabilitiesPageDocument>(client, "capabilities_page", {
           strict: building,
         }),

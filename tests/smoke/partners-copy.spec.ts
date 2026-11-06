@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { PARTNERS_COPY, partnersCopy } from "../../src/lib/copy/partners";
 import type { PartnersPageDocument } from "../../prismicio-types";
 
@@ -164,8 +165,8 @@ test("Partners reads the document: every field, in page order", async ({ request
   expect(html).not.toMatch(/partners_duotone|revogenLogo/);
 });
 
-test("with no document, Partners shows today's words and logos", async ({ request }) => {
-  const html = await (await request.get("/partners")).text();
+test("with every field empty, Partners shows today's words and logos", async ({ request }) => {
+  const html = await (await request.get("/partners", { headers: empty("partners") })).text();
   const shown = visible(html);
   for (const w of [
     "Our Partners",

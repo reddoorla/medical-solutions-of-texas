@@ -20,7 +20,9 @@ export const load = async ({ cookies, fetch }) => {
   // string is refused on the routes that set `prerender = true`, even in dev.
   const settings =
     dev && cookies.get("msot-settings-fixture")
-      ? (await import("$lib/settings-fixture")).SETTINGS_FIXTURE
+      ? cookies.get("msot-settings-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("settings")
+        : (await import("$lib/settings-fixture")).SETTINGS_FIXTURE
       : await loadSettings(createClient({ fetch, cookies }), { strict: building });
   const identity = mergeIdentity(settings);
   // The menu and footer words come from the same document ($lib/copy/chrome).

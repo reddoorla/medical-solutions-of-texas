@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { CAPABILITIES_COPY, capabilitiesCopy } from "../../src/lib/copy/capabilities";
 import type { CapabilitiesPageDocument } from "../../prismicio-types";
 
@@ -173,10 +174,12 @@ test("Capabilities reads the document: every field, in page order, and its SEO",
   }
 });
 
-test("with no document, Capabilities shows today's words and $lib/seo's title and description", async ({
+test("with every field empty, Capabilities shows today's words and $lib/seo's title and description", async ({
   request,
 }) => {
-  const html = await (await request.get("/capabilities")).text();
+  const html = await (
+    await request.get("/capabilities", { headers: empty("capabilities") })
+  ).text();
   const shown = visible(article(html));
   for (const w of [
     "Veteran-Owned Small Business",

@@ -31,9 +31,11 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
   // serve a fixture document, for the smoke test, behind a cookie.
   const copy = contactCopy(
     dev && cookies.get("msot-contact-fixture")
-      ? ((await import("$lib/page-fixture")).pageFixture(
-          CONTACT_COPY,
-        ) as unknown as ContactPageDocument)
+      ? cookies.get("msot-contact-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("contact_page")
+        : ((await import("$lib/page-fixture")).pageFixture(
+            CONTACT_COPY,
+          ) as unknown as ContactPageDocument)
       : await loadSingle<ContactPageDocument>(client, "contact_page", { strict: false }),
   );
 

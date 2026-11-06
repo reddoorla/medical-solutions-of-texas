@@ -5,6 +5,11 @@ import {
   PRIVACY_SERVICES,
   PRIVACY_VALUES,
 } from "../../src/lib/privacy/policy";
+import { empty } from "./empty";
+
+// Every request in this file, the browser's included, reads the pages' empty
+// documents (./empty): a filled policy body has no service-<name> test ids.
+test.use({ extraHTTPHeaders: empty("privacy", "home", "about", "partners") });
 
 const LINKS_PRIVACY = /<a\b[^>]*\bhref="\/privacy\/?"/;
 

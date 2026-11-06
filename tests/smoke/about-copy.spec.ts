@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { paragraphs, rows } from "../../src/lib/content";
 import { ABOUT_COPY, aboutCopy } from "../../src/lib/copy/about";
 import type { AboutPageDocument } from "../../prismicio-types";
@@ -150,8 +151,8 @@ test("About reads the document: every field, in page order", async ({ request })
   }
 });
 
-test("with no document, About shows today's words", async ({ request }) => {
-  const html = await (await request.get("/about")).text();
+test("with every field empty, About shows today's words", async ({ request }) => {
+  const html = await (await request.get("/about", { headers: empty("about") })).text();
   const shown = visible(html);
   for (const w of [
     "About MSOT",

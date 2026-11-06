@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty } from "./empty";
 import { CONTACT_COPY, contactCopy } from "../../src/lib/copy/contact";
 import type { ContactPageDocument } from "../../prismicio-types";
 
@@ -145,8 +146,8 @@ test("Contact's sent and sending words come from the document", async ({ page, b
   await expect(page.getByRole("status")).toContainText("Fixture success_text");
 });
 
-test("with no document, Contact shows today's words", async ({ request }) => {
-  const html = main(await (await request.get("/contact")).text());
+test("with every field empty, Contact shows today's words", async ({ request }) => {
+  const html = main(await (await request.get("/contact", { headers: empty("contact") })).text());
   const shown = visible(html);
   for (const w of [
     "CONTACT US",

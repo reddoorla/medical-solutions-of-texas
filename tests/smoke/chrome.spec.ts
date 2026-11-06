@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { empty } from "./empty";
 
 import { CHROME_COPY, chromeCopy, untitledTitle } from "../../src/lib/copy/chrome";
 import { fill } from "../../src/lib/content";
@@ -59,8 +60,8 @@ const visible = (h: string) =>
 // above is what keeps every key covered.
 const fixture = { cookie: "msot-chrome-fixture=1" };
 
-test("with no document a page shows today's menu and footer", async ({ request }) => {
-  const about = html(await (await request.get("/about")).text());
+test("with every field empty a page shows today's menu and footer", async ({ request }) => {
+  const about = html(await (await request.get("/about", { headers: empty("about") })).text());
   // The menu's own links, read from their anchors: the footer's "Contact Us"
   // and the page's body would otherwise satisfy a plain text search.
   const nav = [...about.matchAll(/<a href="(\/\w+)"[^>]*>\s*([^<]*?)\s*<\/a>/g)]
@@ -172,8 +173,8 @@ test("a Prismic page with no title is titled from its address, in the document's
   expect(untitledTitle(words, "/rep-login/")).toBe("Rep Login — Site");
 });
 
-test("with no document the footer's lines read as they did", async ({ request }) => {
-  const shown = visible(await (await request.get("/about")).text());
+test("with every field empty the footer's lines read as they did", async ({ request }) => {
+  const shown = visible(await (await request.get("/about", { headers: empty("about") })).text());
   const year = new Date().getFullYear();
   for (const line of [
     " Medical Solutions of Texas (MSOT) ",
@@ -207,10 +208,12 @@ test("the footer's lines and the error page read the document", async ({ request
     expect(err, address).not.toMatch(/Back to home|Page not found|Not Found/);
   }
   // With no document, today's messages, each as it was.
-  const thrown = visible(await (await request.get("/no-such-page-at-all")).text());
+  const thrown = visible(
+    await (await request.get("/no-such-page-at-all", { headers: empty() })).text(),
+  );
   expect(thrown).toContain(" Page not found ");
   expect(thrown).toContain(" Back to home ");
-  const unmatched = visible(await (await request.get("/a/b/c")).text());
+  const unmatched = visible(await (await request.get("/a/b/c", { headers: empty() })).text());
   expect(unmatched).toContain(" Not Found ");
   expect(unmatched).toContain(" Back to home ");
 });
