@@ -37,3 +37,17 @@ export const emptyCookies = (context: BrowserContext, baseURL: string | undefine
     })),
   );
 };
+
+/**
+ * One page's filled fixture (or settings', or the menu and footer's
+ * `chrome`), with every other singleton and settings empty: a check that reads
+ * a fixture's words then sees nothing published elsewhere either.
+ */
+export const fixtureCookie = (filled: string) => ({
+  cookie: [
+    `msot-${filled}-fixture=1`,
+    ...["settings", ...SINGLETONS]
+      .filter((p) => p !== filled)
+      .map((p) => `msot-${p}-fixture=empty`),
+  ].join("; "),
+});

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 import { PARTNERS_COPY, partnersCopy } from "../../src/lib/copy/partners";
 import type { PartnersPageDocument } from "../../prismicio-types";
 
@@ -116,7 +116,7 @@ const imgs = (html: string) =>
 
 test("Partners reads the document: every field, in page order", async ({ request }) => {
   const html = await (
-    await request.get("/partners", { headers: { cookie: "msot-partners-fixture=1" } })
+    await request.get("/partners", { headers: fixtureCookie("partners") })
   ).text();
   const shown = visible(html);
   const words = [

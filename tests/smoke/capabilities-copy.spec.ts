@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 import { CAPABILITIES_COPY, capabilitiesCopy } from "../../src/lib/copy/capabilities";
 import type { CapabilitiesPageDocument } from "../../prismicio-types";
 
@@ -133,7 +133,7 @@ test("Capabilities reads the document: every field, in page order, and its SEO",
   request,
 }) => {
   const html = await (
-    await request.get("/capabilities", { headers: { cookie: "msot-capabilities-fixture=1" } })
+    await request.get("/capabilities", { headers: fixtureCookie("capabilities") })
   ).text();
   const shown = visible(article(html));
   const words = fixtureWords();

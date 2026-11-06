@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { RichTextField } from "@prismicio/client";
@@ -265,9 +265,7 @@ const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 test("Privacy reads the document: every field, in page order, with today's classes", async ({
   request,
 }) => {
-  const html = await (
-    await request.get("/privacy", { headers: { cookie: "msot-privacy-fixture=1" } })
-  ).text();
+  const html = await (await request.get("/privacy", { headers: fixtureCookie("privacy") })).text();
   const body = article(html);
   const shown = visible(body);
   // Each body's three blocks ($lib/privacy/fixture), its tokens filled.
@@ -385,12 +383,12 @@ test("with every field empty, Privacy shows today's text: headings, date, SEO an
 });
 
 test("/preview/privacy is served per request, for Marketing's drafts", async ({ request }) => {
-  const res = await request.get("/preview/privacy");
+  const res = await request.get("/preview/privacy", { headers: empty("privacy") });
   expect(res.status()).toBe(200);
   expect(visible(article(await res.text()))).toContain("Privacy Policy Effective");
   // …and it reads the document, as /privacy does.
   const draft = await request.get("/preview/privacy", {
-    headers: { cookie: "msot-privacy-fixture=1" },
+    headers: fixtureCookie("privacy"),
   });
   expect(visible(article(await draft.text()))).toContain("Fixture heading");
 });

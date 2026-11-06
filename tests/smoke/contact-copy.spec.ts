@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 import { CONTACT_COPY, contactCopy } from "../../src/lib/copy/contact";
 import type { ContactPageDocument } from "../../prismicio-types";
 
@@ -58,7 +58,7 @@ const main = (html: string) => {
 
 test("Contact reads the document: every field, in page order", async ({ request }) => {
   const html = main(
-    await (await request.get("/contact", { headers: { cookie: "msot-contact-fixture=1" } })).text(),
+    await (await request.get("/contact", { headers: fixtureCookie("contact") })).text(),
   );
   const shown = visible(html);
   const words = [

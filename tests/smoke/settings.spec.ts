@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { fixtureCookie } from "./empty";
 import { NotFoundError, RepositoryNotFoundError } from "@prismicio/client";
 import {
   CODE_IDENTITY,
@@ -205,7 +206,7 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
   request,
   baseURL,
 }) => {
-  const headers = { cookie: "msot-settings-fixture=1" };
+  const headers = fixtureCookie("settings");
   const get = async (path: string) => (await request.get(path, { headers })).text();
 
   const home = await get("/");

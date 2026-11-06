@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 
 import { CHROME_COPY, chromeCopy, untitledTitle } from "../../src/lib/copy/chrome";
 import { fill } from "../../src/lib/content";
@@ -58,7 +58,7 @@ const visible = (h: string) =>
     .replace(/\s+/g, " ");
 // The layout builds this fixture from CHROME_COPY itself; the TODAY equality
 // above is what keeps every key covered.
-const fixture = { cookie: "msot-chrome-fixture=1" };
+const fixture = fixtureCookie("chrome");
 
 test("with every field empty a page shows today's menu and footer", async ({ request }) => {
   const about = html(await (await request.get("/about", { headers: empty("about") })).text());
@@ -148,7 +148,7 @@ test("the logo after the loading screen, and the menu's close button, read it to
 
 test("the settings document itself feeds them, not only the fixture", async ({ request }) => {
   const about = visible(
-    await (await request.get("/about", { headers: { cookie: "msot-settings-fixture=1" } })).text(),
+    await (await request.get("/about", { headers: fixtureCookie("settings") })).text(),
   );
   expect(about).toContain(" Fixture privacy link ");
 });

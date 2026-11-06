@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { empty } from "./empty";
+import { empty, fixtureCookie } from "./empty";
 import { RESOURCES_COPY, resourcesCopy } from "../../src/lib/copy/resources";
 import type { ResourcesPageDocument } from "../../prismicio-types";
 
@@ -84,7 +84,7 @@ test("Resources reads the document: every field, in page order, each file on its
   request,
 }) => {
   const html = await (
-    await request.get("/resources", { headers: { cookie: "msot-resources-fixture=1" } })
+    await request.get("/resources", { headers: fixtureCookie("resources") })
   ).text();
   const shown = visible(main(html));
   const words = [
