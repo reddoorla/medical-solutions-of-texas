@@ -1715,6 +1715,171 @@ interface PartnersPageDocumentData {
 export type PartnersPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PartnersPageDocumentData>, "partners_page", Lang>;
 
 /**
+ * Content for Privacy page documents
+ */
+interface PrivacyPageDocumentData {
+	/**
+	 * search and browser-tab title field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Privacy Policy | MSOT
+	 * - **API ID Path**: privacy_page.meta_title
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * search description field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.
+	 * - **API ID Path**: privacy_page.meta_description
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;/**
+	 * page heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Privacy Policy
+	 * - **API ID Path**: privacy_page.heading
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * word before the date field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Effective
+	 * - **API ID Path**: privacy_page.effective_label
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	effective_label: prismic.KeyTextField;
+	
+	/**
+	 * effective date field in *Privacy page*
+	 *
+	 * - **Field Type**: Date
+	 * - **Placeholder**: Leave empty to keep November 4, 2026
+	 * - **API ID Path**: privacy_page.effective_date
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/date
+	 */
+	effective_date: prismic.DateField;/**
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What we collect
+	 * - **API ID Path**: privacy_page.collect_heading
+	 * - **Tab**: What we collect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	collect_heading: prismic.KeyTextField;/**
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: How we use it
+	 * - **API ID Path**: privacy_page.use_heading
+	 * - **Tab**: How we use it
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	use_heading: prismic.KeyTextField;/**
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Who else receives it
+	 * - **API ID Path**: privacy_page.others_heading
+	 * - **Tab**: Who else receives it
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	others_heading: prismic.KeyTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Do Not Track
+	 * - **API ID Path**: privacy_page.dnt_heading
+	 * - **Tab**: Do Not Track
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dnt_heading: prismic.KeyTextField;
+	
+	/**
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's text: Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed.
+	 * - **API ID Path**: privacy_page.dnt_body
+	 * - **Tab**: Do Not Track
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	dnt_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Children
+	 * - **API ID Path**: privacy_page.children_heading
+	 * - **Tab**: Children
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	children_heading: prismic.KeyTextField;
+	
+	/**
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed.
+	 * - **API ID Path**: privacy_page.children_body
+	 * - **Tab**: Children
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	children_body: prismic.RichTextField;/**
+	 * heading (the text under it stays as Reddoor set it, for now) field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your choices
+	 * - **API ID Path**: privacy_page.choices_heading
+	 * - **Tab**: Your choices
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	choices_heading: prismic.KeyTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Changes to this policy
+	 * - **API ID Path**: privacy_page.changes_heading
+	 * - **Tab**: Changes to this policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	changes_heading: prismic.KeyTextField;
+	
+	/**
+	 * text under the heading (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed.
+	 * - **API ID Path**: privacy_page.changes_body
+	 * - **Tab**: Changes to this policy
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	changes_body: prismic.RichTextField;
+}
+
+/**
+ * Privacy page document from Prismic
+ *
+ * - **API ID**: `privacy_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PrivacyPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PrivacyPageDocumentData>, "privacy_page", Lang>;
+
+/**
  * Item in *Process page → the steps, in order*
  */
 export interface ProcessPageDocumentDataTimelineItem {
@@ -2838,7 +3003,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | CapabilitiesPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | CapabilitiesPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | PrivacyPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -2915,6 +3080,8 @@ declare module "@prismicio/client" {
 			PartnersPageDocument,
 			PartnersPageDocumentData,
 			PartnersPageDocumentDataClientsItem,
+			PrivacyPageDocument,
+			PrivacyPageDocumentData,
 			ProcessPageDocument,
 			ProcessPageDocumentData,
 			ProcessPageDocumentDataTimelineItem,
