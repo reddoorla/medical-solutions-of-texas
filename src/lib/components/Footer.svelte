@@ -5,6 +5,10 @@
   import vosbLogo from "$lib/assets/icons/logos/vosb_white.svg";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import { onMount } from "svelte";
+  import { page } from "$app/state";
+
+  // The words are the settings document's Footer tab ($lib/copy/chrome).
+  const chrome = $derived(page.data.chrome);
 
   let viewportHeight: number = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
 
@@ -31,26 +35,26 @@
     <!-- Decoration: the buttons below carry the call to action, so this line is not a heading. -->
     <div class="h-44 overflow-hidden relative w-full" aria-hidden="true">
       <div class="h1 text-mid add-outline absolute bottom-0 left-0 opacity-40">
-        let’s get started
+        {chrome.footer_cta}
       </div>
       <div
         class="h1 outlined absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
           ? 'opacity-100  delay-700'
           : 'opacity-0'}"
       >
-        let’s get started
+        {chrome.footer_cta}
       </div>
       <div
         class="h1 text-mid add-outline absolute bottom-0 left-0 transition-opacity duration-1000 {isCtaActive
           ? 'opacity-100 delay-[1400ms]'
           : 'opacity-0'}"
       >
-        let’s get started
+        {chrome.footer_cta}
       </div>
     </div>
     <div class="flex flex-row gap-6 ml-2 w-full" bind:this={ctaTrigger}>
-      <BracketButton class="text-mid" href="/contact">Contact Us</BracketButton>
-      <BracketButton class="text-mid" href="/process">Learn More</BracketButton>
+      <BracketButton class="text-mid" href="/contact">{chrome.footer_contact_button}</BracketButton>
+      <BracketButton class="text-mid" href="/process">{chrome.footer_process_button}</BracketButton>
     </div>
   </ContentWidth>
 </section>
@@ -65,11 +69,11 @@
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
-          alt="Medical Solutions of Texas home"
+          alt={chrome.footer_logo_alt}
         /></a
       >
       <FooterIdentity />
     </div>
-    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24 self-start" />
+    <img src={vosbLogo} alt={chrome.vosb_alt} class="h-16 md:h-24 self-start" />
   </ContentWidth>
 </footer>

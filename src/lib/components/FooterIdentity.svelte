@@ -15,6 +15,8 @@
   import { addressLine } from "$lib/identity";
 
   const identity = $derived(page.data.identity);
+  // The fold-out label and the privacy link's words: $lib/copy/chrome.
+  const chrome = $derived(page.data.chrome);
 
   const year = new Date().getFullYear();
 </script>
@@ -37,7 +39,7 @@
     <summary
       class="label w-fit cursor-pointer list-none flex flex-row items-center gap-1 hover:text-light"
     >
-      Company details
+      {chrome.company_details}
       <Plus
         class="shrink-0 transition-transform duration-300 ease-in-out group-open:rotate-45 motion-reduce:transition-none"
         size={14}
@@ -58,7 +60,7 @@
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"
-      class="label text-white underline hover:text-light">Privacy Policy</a
+      class="label text-white underline hover:text-light">{chrome.privacy_link}</a
     >
   </p>
 </div>

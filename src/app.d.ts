@@ -12,6 +12,8 @@ declare global {
     interface PageData {
       /** Who MSOT is, from the root layout ($lib/identity). */
       identity: import("$lib/identity").Identity;
+      /** The menu and footer words, from the root layout ($lib/copy/chrome). */
+      chrome: import("$lib/copy/chrome").ChromeCopy;
     }
     // interface Platform {}
   }
