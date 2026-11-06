@@ -9,10 +9,12 @@
 // `team_member` and `form_replies` have none, as no page is theirs alone.
 // Prismic accepts a route for a type it does not know yet (checked 11-05
 // against msot's API), so these can ship before the models reach Prismic.
-// Pure data, apart from $lib/prismicio, so tests/smoke/preview-routes.spec.ts
-// can read it.
+// Kept apart from $lib/prismicio, which needs Vite, so
+// tests/smoke/preview-routes.spec.ts can read it.
 //
 // {@link https://prismic.io/docs/route-resolver#route-resolver}
+
+import { PRIVACY_PATH } from "./privacy/policy";
 
 /** @type {import("@prismicio/client").Route[]} */
 export const PRISMIC_ROUTES = [
@@ -32,5 +34,5 @@ export const PRISMIC_ROUTES = [
   { type: "resources_page", path: "/resources" },
   { type: "contact_page", path: "/contact" },
   { type: "capabilities_page", path: "/capabilities" },
-  { type: "privacy_page", path: "/privacy" },
+  { type: "privacy_page", path: PRIVACY_PATH },
 ];

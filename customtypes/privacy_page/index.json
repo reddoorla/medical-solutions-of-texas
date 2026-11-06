@@ -1,0 +1,138 @@
+{
+  "format": "custom",
+  "id": "privacy_page",
+  "label": "Privacy page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "SEO": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "search and browser-tab title",
+          "placeholder": "Leave empty to keep: Privacy Policy | MSOT"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "search description",
+          "placeholder": "Leave empty to keep: What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have."
+        }
+      }
+    },
+    "Privacy Policy": {
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "page heading",
+          "placeholder": "Leave empty to keep: Privacy Policy"
+        }
+      },
+      "effective_label": {
+        "type": "Text",
+        "config": {
+          "label": "word before the date",
+          "placeholder": "Leave empty to keep: Effective"
+        }
+      },
+      "effective_date": {
+        "type": "Date",
+        "config": {
+          "label": "effective date",
+          "placeholder": "Leave empty to keep November 4, 2026"
+        }
+      }
+    },
+    "What we collect": {
+      "collect_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
+          "placeholder": "Leave empty to keep: What we collect"
+        }
+      }
+    },
+    "How we use it": {
+      "use_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
+          "placeholder": "Leave empty to keep: How we use it"
+        }
+      }
+    },
+    "Who else receives it": {
+      "others_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
+          "placeholder": "Leave empty to keep: Who else receives it"
+        }
+      }
+    },
+    "Do Not Track": {
+      "dnt_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Do Not Track"
+        }
+      },
+      "dnt_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: Your browser may let you send a \"Do Not Track\" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Children": {
+      "children_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Children"
+        }
+      },
+      "children_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Your choices": {
+      "choices_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
+          "placeholder": "Leave empty to keep: Your choices"
+        }
+      }
+    },
+    "Changes to this policy": {
+      "changes_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Changes to this policy"
+        }
+      },
+      "changes_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    }
+  }
+}

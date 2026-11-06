@@ -8,11 +8,23 @@
     privacyOwner,
   } from "$lib/privacy/policy";
   import { page } from "$app/state";
+  import { PrismicRichText } from "@prismicio/svelte";
+  import type { RichTextComponents } from "@prismicio/svelte";
 
   const has = (service: (typeof PRIVACY_SERVICES)[number]) => PRIVACY_SERVICES.includes(service);
   const owner = $derived(privacyOwner(page.data.identity));
   const email = $derived(page.data.identity.email);
-  const effective = formatEffectiveDate(PRIVACY_VALUES.effectiveDate) ?? "[effective date]";
+  const copy = $derived(page.data.copy);
+  const effective = $derived(
+    formatEffectiveDate(copy.effective_date) ??
+      formatEffectiveDate(PRIVACY_VALUES.effectiveDate) ??
+      "[effective date]",
+  );
+  // A filled body takes the classes today's markup gives a list and a link.
+  const rich: RichTextComponents = {
+    list: { class: "list-disc pl-6 space-y-1" },
+    hyperlink: { class: "underline hover:text-white" },
+  };
 </script>
 
 <svelte:head>
@@ -39,8 +51,8 @@
   {/if}
 
   <header class="space-y-2">
-    <h1 class="text-4xl font-bold text-white">Privacy Policy</h1>
-    <p>Effective {effective}</p>
+    <h1 class="text-4xl font-bold text-white">{copy.heading}</h1>
+    <p>{copy.effective_label} {effective}</p>
   </header>
 
   <p>
@@ -49,7 +61,7 @@
   </p>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">What we collect</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.collect_heading}</h2>
     {#if has("forms")}
       <p>
         When you send us the contact form, we collect what you enter, such as your name, email
@@ -75,7 +87,7 @@
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">How we use it</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.use_heading}</h2>
     <ul class="list-disc pl-6 space-y-1">
       {#if has("forms")}
         <li>To answer your message, follow up on your request and filter out spam.</li>
@@ -94,7 +106,7 @@
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Who else receives it</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.others_heading}</h2>
     <p>
       We use the service providers below to run this site. Each receives the information described
       next to it.
@@ -173,24 +185,32 @@
   </section>
 
   <section data-testid="privacy-dnt" class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Do Not Track</h2>
-    <p>
-      Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a
-      website should respond to it, so this site does not change what it collects when it receives
-      one.
-    </p>
+    <h2 class="text-2xl font-semibold text-white">{copy.dnt_heading}</h2>
+    {#if copy.dnt_body}
+      <PrismicRichText field={copy.dnt_body} components={rich} />
+    {:else}
+      <p>
+        Your browser may let you send a "Do Not Track" signal. There is no agreed standard for how a
+        website should respond to it, so this site does not change what it collects when it receives
+        one.
+      </p>
+    {/if}
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Children</h2>
-    <p>
-      This site is not meant for children under 13, and we do not knowingly collect their
-      information.
-    </p>
+    <h2 class="text-2xl font-semibold text-white">{copy.children_heading}</h2>
+    {#if copy.children_body}
+      <PrismicRichText field={copy.children_body} components={rich} />
+    {:else}
+      <p>
+        This site is not meant for children under 13, and we do not knowingly collect their
+        information.
+      </p>
+    {/if}
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Your choices</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.choices_heading}</h2>
     <p>
       To ask what information we hold about you, or to ask us to correct or delete it, email
       {@render contact()}.
@@ -198,11 +218,15 @@
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Changes to this policy</h2>
-    <p>
-      If we change this policy, we will post the new version on this page and update the effective
-      date above.
-    </p>
+    <h2 class="text-2xl font-semibold text-white">{copy.changes_heading}</h2>
+    {#if copy.changes_body}
+      <PrismicRichText field={copy.changes_body} components={rich} />
+    {:else}
+      <p>
+        If we change this policy, we will post the new version on this page and update the effective
+        date above.
+      </p>
+    {/if}
   </section>
 </article>
 
