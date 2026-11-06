@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-import { CHROME_COPY, chromeCopy } from "../../src/lib/copy/chrome";
+import { CHROME_COPY, chromeCopy, untitledTitle } from "../../src/lib/copy/chrome";
+import { fill } from "../../src/lib/content";
 import type { SettingsDocument } from "../../prismicio-types";
 
 // The menu and footer words move onto the `settings` singleton's Menu and
@@ -24,6 +25,13 @@ const TODAY = {
   vosb_alt: "Veteran-Owned Small Business (VOSB)",
   company_details: "Company details",
   privacy_link: "Privacy Policy",
+  footer_name_line: "{name} ({short name})",
+  footer_type_line: "{business type} · {tagline}",
+  footer_ids_line: "UEI {uei} · CAGE {cage} · FSS {fss}",
+  footer_copyright: "©{year} {legal name} dba {name} |",
+  untitled_title: "MSOT | {page}",
+  not_found_text: "Page not found",
+  home_link: "Back to home",
 };
 
 const doc = (data: Record<string, unknown>) => ({ data }) as unknown as SettingsDocument;
@@ -142,4 +150,67 @@ test("the settings document itself feeds them, not only the fixture", async ({ r
     await (await request.get("/about", { headers: { cookie: "msot-settings-fixture=1" } })).text(),
   );
   expect(about).toContain(" Fixture privacy link ");
+});
+
+// The footer's lines, the untitled title and the error page's words are fields
+// too (the operator, 11-06: move them). The lines are templates.
+test("fill: each {token} named in the values is filled; any other is left as typed", () => {
+  expect(
+    fill("©{year} {legal name} dba {name} |", { year: "2026", "legal name": "L", name: "N" }),
+  ).toBe("©2026 L dba N |");
+  expect(fill("UEI {uei} · {ueii}", { uei: "1" })).toBe("UEI 1 · {ueii}");
+  expect(fill("no tokens", {})).toBe("no tokens");
+  // Case, spaces and underscores are forgiven; an inherited key is no token.
+  expect(fill("{Legal_Name} / { UEI }", { "legal name": "L", uei: "1" })).toBe("L / 1");
+  expect(fill("{constructor} {toString}", {})).toBe("{constructor} {toString}");
+});
+
+test("a Prismic page with no title is titled from its address, in the document's words", () => {
+  expect(untitledTitle(TODAY, "/rep-login")).toBe("MSOT | Rep Login");
+  expect(untitledTitle(TODAY, "/")).toBe("Medical Solutions of Texas");
+  const words = { untitled_title: "{page} — Site" };
+  expect(untitledTitle(words, "/rep-login/")).toBe("Rep Login — Site");
+});
+
+test("with no document the footer's lines read as they did", async ({ request }) => {
+  const shown = visible(await (await request.get("/about")).text());
+  const year = new Date().getFullYear();
+  for (const line of [
+    " Medical Solutions of Texas (MSOT) ",
+    " UEI ",
+    " · CAGE ",
+    " · FSS ",
+    ` ©${year} `,
+    " dba Medical Solutions of Texas | ",
+  ])
+    expect(shown, line).toContain(line);
+  expect(shown).not.toMatch(
+    /\{(name|short name|legal name|business type|tagline|uei|cage|fss|year)\}/,
+  );
+});
+
+test("the footer's lines and the error page read the document", async ({ request }) => {
+  const about = visible(await (await request.get("/about", { headers: fixture })).text());
+  for (const f of ["footer_name_line", "footer_type_line", "footer_ids_line", "footer_copyright"])
+    expect(about, f).toMatch(new RegExp(` Fixture ${f}(?!\\w)`));
+  expect(about).not.toMatch(/ dba | UEI /);
+  // Both kinds of 404: a page's load that throws its own message (the [uid]
+  // catch-all's "Page not found"), and an address no route matches
+  // (SvelteKit's "Not Found"). With the document, both show its line.
+  for (const address of ["/no-such-page-at-all", "/a/b/c"]) {
+    const missing = await request.get(address, { headers: fixture });
+    expect(missing.status(), address).toBe(404);
+    // The page body only: the tab title is settings' not_found_title, another field.
+    const err = visible((await missing.text()).match(/<main[\s\S]*<\/main>/)?.[0] ?? "");
+    expect(err, address).toContain(" Fixture home_link ");
+    expect(err, address).toContain(" Fixture not_found_text ");
+    expect(err, address).not.toMatch(/Back to home|Page not found|Not Found/);
+  }
+  // With no document, today's messages, each as it was.
+  const thrown = visible(await (await request.get("/no-such-page-at-all")).text());
+  expect(thrown).toContain(" Page not found ");
+  expect(thrown).toContain(" Back to home ");
+  const unmatched = visible(await (await request.get("/a/b/c")).text());
+  expect(unmatched).toContain(" Not Found ");
+  expect(unmatched).toContain(" Back to home ");
 });

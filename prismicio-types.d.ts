@@ -2724,7 +2724,40 @@ interface SettingsDocumentData {
 	 * - **Tab**: Page titles
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	default_description: prismic.KeyTextField;/**
+	default_description: prismic.KeyTextField;
+	
+	/**
+	 * browser-tab title of any other Prismic page with no title; {page} is filled in from its address field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT | {page}
+	 * - **API ID Path**: settings.untitled_title
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	untitled_title: prismic.KeyTextField;
+	
+	/**
+	 * error page: the line under 404, for every page that isn't found field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep today's: "Page not found", or "Not Found" for an address the site has never had
+	 * - **API ID Path**: settings.not_found_text
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	not_found_text: prismic.KeyTextField;
+	
+	/**
+	 * error page: the link back to Home field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Back to home
+	 * - **API ID Path**: settings.home_link
+	 * - **Tab**: Page titles
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	home_link: prismic.KeyTextField;/**
 	 * menu link to /about field in *Site settings*
 	 *
 	 * - **Field Type**: Text
@@ -2886,6 +2919,50 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	privacy_link: prismic.KeyTextField;
+	
+	/**
+	 * footer's first line; {name} and {short name} are filled in field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: {name} ({short name})
+	 * - **API ID Path**: settings.footer_name_line
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_name_line: prismic.KeyTextField;
+	
+	/**
+	 * footer line under the definition (in Company details); {business type} and {tagline} are filled in field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: {business type} · {tagline}
+	 * - **API ID Path**: settings.footer_type_line
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_type_line: prismic.KeyTextField;
+	
+	/**
+	 * footer line of registration numbers (in Company details); {uei}, {cage} and {fss} are filled in field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: UEI {uei} · CAGE {cage} · FSS {fss}
+	 * - **API ID Path**: settings.footer_ids_line
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_ids_line: prismic.KeyTextField;
+	
+	/**
+	 * footer's last line, before the privacy link; {year}, {legal name} and {name} are filled in field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: ©{year} {legal name} dba {name} |
+	 * - **API ID Path**: settings.footer_copyright
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_copyright: prismic.KeyTextField;
 }
 
 /**

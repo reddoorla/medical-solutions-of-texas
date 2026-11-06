@@ -233,6 +233,27 @@
           "label": "description for a page that has none",
           "placeholder": "Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…"
         }
+      },
+      "untitled_title": {
+        "type": "Text",
+        "config": {
+          "label": "browser-tab title of any other Prismic page with no title; {page} is filled in from its address",
+          "placeholder": "Leave empty to keep: MSOT | {page}"
+        }
+      },
+      "not_found_text": {
+        "type": "Text",
+        "config": {
+          "label": "error page: the line under 404, for every page that isn't found",
+          "placeholder": "Leave empty to keep today's: \"Page not found\", or \"Not Found\" for an address the site has never had"
+        }
+      },
+      "home_link": {
+        "type": "Text",
+        "config": {
+          "label": "error page: the link back to Home",
+          "placeholder": "Leave empty to keep: Back to home"
+        }
       }
     },
     "Menu": {
@@ -341,6 +362,34 @@
         "config": {
           "label": "link to the privacy policy (every footer, Home's too)",
           "placeholder": "Leave empty to keep: Privacy Policy"
+        }
+      },
+      "footer_name_line": {
+        "type": "Text",
+        "config": {
+          "label": "footer's first line; {name} and {short name} are filled in",
+          "placeholder": "Leave empty to keep: {name} ({short name})"
+        }
+      },
+      "footer_type_line": {
+        "type": "Text",
+        "config": {
+          "label": "footer line under the definition (in Company details); {business type} and {tagline} are filled in",
+          "placeholder": "Leave empty to keep: {business type} · {tagline}"
+        }
+      },
+      "footer_ids_line": {
+        "type": "Text",
+        "config": {
+          "label": "footer line of registration numbers (in Company details); {uei}, {cage} and {fss} are filled in",
+          "placeholder": "Leave empty to keep: UEI {uei} · CAGE {cage} · FSS {fss}"
+        }
+      },
+      "footer_copyright": {
+        "type": "Text",
+        "config": {
+          "label": "footer's last line, before the privacy link; {year}, {legal name} and {name} are filled in",
+          "placeholder": "Leave empty to keep: ©{year} {legal name} dba {name} |"
         }
       }
     }

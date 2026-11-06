@@ -14,6 +14,8 @@ declare global {
       identity: import("$lib/identity").Identity;
       /** The menu and footer words, from the root layout ($lib/copy/chrome). */
       chrome: import("$lib/copy/chrome").ChromeCopy;
+      /** Whether the settings document sets the 404 line (its not_found_text). */
+      notFoundOwn: boolean;
     }
     // interface Platform {}
   }
