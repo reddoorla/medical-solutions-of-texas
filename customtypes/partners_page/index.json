@@ -32,7 +32,7 @@
       "testimonial_logo": {
         "type": "Image",
         "config": {
-          "label": "the quoted company's logo (shown white on the dark page)",
+          "label": "the quoted company's logo (transparent PNG or SVG, shown white; used only with a name or alt text)",
           "constraint": {},
           "thumbnails": []
         }
@@ -40,8 +40,8 @@
       "testimonial_name": {
         "type": "Text",
         "config": {
-          "label": "the quoted company's name (read aloud for the logo)",
-          "placeholder": "Leave empty to keep: Revogen"
+          "label": "the quoted company's name, read aloud for the logo",
+          "placeholder": "Needed with a new logo, unless the logo has alt text. Left empty with no new logo, it keeps: Revogen"
         }
       },
       "testimonial_text": {
@@ -85,14 +85,14 @@
             "name": {
               "type": "Text",
               "config": {
-                "label": "company name (read aloud for the logo)",
-                "placeholder": "Needed, with a logo, or the row is not shown. The rows replace the whole list; with none, the page keeps today's 18."
+                "label": "company name, read aloud for the logo",
+                "placeholder": "Needed, or the logo's alt text; a row with neither, or with no logo, is not shown. The rows replace the whole list; with none, the page keeps today's 18."
               }
             },
             "logo": {
               "type": "Image",
               "config": {
-                "label": "logo",
+                "label": "logo (transparent PNG or SVG, grey duotone like the others)",
                 "constraint": {},
                 "thumbnails": []
               }
