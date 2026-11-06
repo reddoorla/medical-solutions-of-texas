@@ -46,7 +46,7 @@ export const PRIVACY_BODIES = [
 ] as const;
 
 /** The settings values a body may name, as {tokens} ($lib/content's fill). */
-export function privacyTokens(identity: Identity): Record<string, string> {
+function privacyTokens(identity: Identity): Record<string, string> {
   return { "legal name": identity.legalName, name: identity.name, email: identity.email };
 }
 

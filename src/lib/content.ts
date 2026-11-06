@@ -69,8 +69,8 @@ export function fill(template: string, values: Record<string, string>): string {
  * token named in `links` (by its key, "email") also becomes a link, to
  * links[key](value), unless the editor already linked it. A link's address is
  * not filled, so words linked to "mailto:{email}" keep that address as typed;
- * typing {email} itself gives the linked address. The spans come back in
- * start order.
+ * typing {email} itself gives the linked address. A block with a token filled
+ * gets its spans back in start order.
  */
 export function fillRichText(
   field: RichTextField,
