@@ -173,7 +173,7 @@ test("Capabilities reads the document: every field, in page order, and its SEO",
   }
 });
 
-test("with no document, Capabilities shows today's words and $lib/seo's title", async ({
+test("with no document, Capabilities shows today's words and $lib/seo's title and description", async ({
   request,
 }) => {
   const html = await (await request.get("/capabilities")).text();
@@ -195,4 +195,7 @@ test("with no document, Capabilities shows today's words and $lib/seo's title", 
     expect(shown, w).toContain(w);
   }
   expect(html).toMatch(/<title>Capabilities Statement \| MSOT<\/title>/);
+  expect(html).toContain(
+    `<meta name="description" content="MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers."`,
+  );
 });

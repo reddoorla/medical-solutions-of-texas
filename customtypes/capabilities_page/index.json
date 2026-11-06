@@ -279,7 +279,7 @@
               "type": "Text",
               "config": {
                 "label": "designations, shown as typed (today's separate them with ·)",
-                "placeholder": "May be left empty."
+                "placeholder": "May be left empty. To separate them as today's are, copy this: · (a space, the dot, a space)"
               }
             }
           }

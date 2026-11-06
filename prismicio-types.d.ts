@@ -269,7 +269,7 @@ export interface CapabilitiesPageDocumentDataDesignationsItem {
 	 * designations, shown as typed (today's separate them with ·) field in *Capabilities page → the list, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: May be left empty.
+	 * - **Placeholder**: May be left empty. To separate them as today's are, copy this: · (a space, the dot, a space)
 	 * - **API ID Path**: capabilities_page.designations[].items
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */

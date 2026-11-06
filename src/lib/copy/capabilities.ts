@@ -8,6 +8,9 @@ import { rows, text } from "../content";
 
 /** Today's wording, word for word: what the page shows with no capabilities_page document. */
 export const CAPABILITIES_COPY = {
+  // The SEO pair is never a fallback here (capabilitiesCopy gives null, and the
+  // layout falls back to $lib/seo): it copies PAGE_SEO["/capabilities"] only so
+  // pageFixture fills the two fields. Edit $lib/seo, then these, together.
   meta_title: "Capabilities Statement | MSOT",
   meta_description:
     "MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers.",
