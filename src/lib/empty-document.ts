@@ -3,8 +3,9 @@
 // Select, Number and Date are null, rich text, groups and slice zones are [],
 // an image is {}, a link is { link_type: "Any" }. A group can also come back
 // as one row of empty fields once an editor has opened it; the copy reads
-// both shapes the same (tests/smoke/empty-document.spec.ts pins that). Built from the model's JSON (customtypes/<id>/index.json),
-// so a field added to the model is in it too.
+// both shapes the same (tests/smoke/empty-document.spec.ts pins that). Built
+// from the model's JSON (customtypes/<id>/index.json), so a field added to the
+// model is in it too.
 //
 // The smoke tests' "with no document" checks read this, through
 // $lib/empty-fixture, rather than live Prismic: they pinned the code's wording
