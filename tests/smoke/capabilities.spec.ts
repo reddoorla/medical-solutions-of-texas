@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Developer Brief Part 2, §14c and §14d: the Capabilities
 // Statement as a page of text, linked from Resources and listed in the sitemap.
@@ -40,7 +44,7 @@ const FACTS = [
 test("/capabilities states the Capabilities Statement as text in the server HTML", async ({
   request,
 }) => {
-  const res = await request.get("/capabilities");
+  const res = await request.get("/capabilities", { headers: empty(...SINGLETONS) });
   expect(res.status()).toBe(200);
   const h = await res.text();
   const t = text(h);
@@ -55,14 +59,14 @@ test("/capabilities states the Capabilities Statement as text in the server HTML
 });
 
 test("Resources links to /capabilities", async ({ request }) => {
-  const h = await (await request.get("/resources")).text();
+  const h = await (await request.get("/resources", { headers: empty(...SINGLETONS) })).text();
   expect(h).toMatch(/<a\b[^>]*href="\/capabilities"/);
 });
 
 test("the sitemap lists /capabilities with no made-up lastmod, and no noindex page", async ({
   request,
 }) => {
-  const xml = await (await request.get("/sitemap.xml")).text();
+  const xml = await (await request.get("/sitemap.xml", { headers: empty(...SINGLETONS) })).text();
   const entries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
   const locs = entries.map((e) => e.match(/<loc>([^<]*)<\/loc>/)![1]);
   expect(new Set(locs).size, "no URL listed twice").toBe(locs.length);
@@ -73,7 +77,7 @@ test("the sitemap lists /capabilities with no made-up lastmod, and no noindex pa
   expect(cap).not.toContain("<lastmod>");
   // The Privacy Policy is noindex while it is a draft; a sitemap shouldn't
   // advertise a page that asks not to be indexed.
-  const privacy = await (await request.get("/privacy")).text();
+  const privacy = await (await request.get("/privacy", { headers: empty(...SINGLETONS) })).text();
   const draft = privacy.includes('<meta name="robots" content="noindex"');
   expect(locs.includes("https://medicalsolutionsoftx.com/privacy")).toBe(!draft);
 });

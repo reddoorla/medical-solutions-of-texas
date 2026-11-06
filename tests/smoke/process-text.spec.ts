@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Developer Brief Part 2, §14a and §14b: the Process FAQ
 // answers, About's service lines and the Process timeline exist as text in the
@@ -6,7 +10,7 @@ import { test, expect } from "@playwright/test";
 // expected strings are written out here, not imported, so a wrong value in the
 // page fails.
 const html = async (request: import("@playwright/test").APIRequestContext, path: string) =>
-  (await request.get(path)).text();
+  (await request.get(path, { headers: empty(...SINGLETONS) })).text();
 
 const FAQ_ANSWERS = [
   "In the 2016 Kingdomware Techs., Inc. v. United States case",
@@ -136,8 +140,9 @@ for (const path of ["/process", "/about"]) {
   });
 }
 
-test("the FAQ opens and closes without JavaScript", async ({ browser }) => {
+test("the FAQ opens and closes without JavaScript", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
+  await emptyCookies(context, baseURL);
   const page = await context.newPage();
   await page.goto("/process");
   const answer = page.getByText(FAQ_ANSWERS[0]);

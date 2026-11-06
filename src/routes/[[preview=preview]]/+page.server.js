@@ -20,7 +20,9 @@ export async function load({ fetch, cookies }) {
   // query string is refused on prerendered routes, even in dev.
   const copy = homeCopy(
     dev && cookies.get("msot-home-fixture")
-      ? (await import("$lib/home-fixture")).HOME_FIXTURE
+      ? cookies.get("msot-home-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("home_page")
+        : (await import("$lib/home-fixture")).HOME_FIXTURE
       : await loadSingle(client, "home_page", { strict: building }),
   );
 

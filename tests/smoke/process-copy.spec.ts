@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty, fixtureCookie } from "./empty";
 import { PROCESS_COPY, processCopy } from "../../src/lib/copy/process";
 import type { ProcessPageDocument } from "../../prismicio-types";
 
@@ -98,9 +99,7 @@ const fixtureWords = () => {
 };
 
 test("Process reads the document: every field, in page order", async ({ request }) => {
-  const html = await (
-    await request.get("/process", { headers: { cookie: "msot-process-fixture=1" } })
-  ).text();
+  const html = await (await request.get("/process", { headers: fixtureCookie("process") })).text();
   const shown = visible(html);
   const words = fixtureWords();
   for (const w of words) expect(shown, w).toMatch(new RegExp(`${w}(?!\\w)`));
@@ -167,8 +166,10 @@ test("Process's background video is titled from the document, once it mounts", a
   }).toPass({ timeout: 30_000 });
 });
 
-test("with no document, Process shows today's words", async ({ request }) => {
-  const shown = visible(await (await request.get("/process")).text());
+test("with every field empty, Process shows today's words", async ({ request }) => {
+  const shown = visible(
+    await (await request.get("/process", { headers: empty("process") })).text(),
+  );
   for (const w of [
     "Our Process",
     "Simplifying Complexity",

@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // Spelling, punctuation and house-style fixes in MSOT's own copy, found in the
 // 2026-11-05 fresh review. Nothing is reworded. Read from the server HTML.
@@ -52,7 +56,7 @@ const FIXES: Record<string, { fixed: string[]; gone: RegExp[] }> = {
 
 for (const [path, { fixed, gone }] of Object.entries(FIXES)) {
   test(`${path}: the copy fixes are in, and the errors are gone`, async ({ request }) => {
-    const t = text(await (await request.get(path)).text());
+    const t = text(await (await request.get(path, { headers: empty(...SINGLETONS) })).text());
     for (const f of fixed) expect(t, f).toContain(f);
     for (const g of gone) expect(t, String(g)).not.toMatch(g);
   });

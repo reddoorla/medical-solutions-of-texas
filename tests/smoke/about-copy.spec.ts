@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty, fixtureCookie } from "./empty";
 import { paragraphs, rows } from "../../src/lib/content";
 import { ABOUT_COPY, aboutCopy } from "../../src/lib/copy/about";
 import type { AboutPageDocument } from "../../prismicio-types";
@@ -106,9 +107,7 @@ const fixtureWords = () => {
 };
 
 test("About reads the document: every field, in page order", async ({ request }) => {
-  const html = await (
-    await request.get("/about", { headers: { cookie: "msot-about-fixture=1" } })
-  ).text();
+  const html = await (await request.get("/about", { headers: fixtureCookie("about") })).text();
   const shown = visible(html);
   const words = fixtureWords();
   for (const w of words) expect(shown, w).toMatch(new RegExp(`${w}(?!\\w)`));
@@ -150,8 +149,8 @@ test("About reads the document: every field, in page order", async ({ request })
   }
 });
 
-test("with no document, About shows today's words", async ({ request }) => {
-  const html = await (await request.get("/about")).text();
+test("with every field empty, About shows today's words", async ({ request }) => {
+  const html = await (await request.get("/about", { headers: empty("about") })).text();
   const shown = visible(html);
   for (const w of [
     "About MSOT",

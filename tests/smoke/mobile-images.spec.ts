@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // A phone gets the mobile art, a desktop the desktop art. Until 2026-10-28 each
 // image's `src` was a JS ternary on `viewportWidth`, which starts at 1920 on the

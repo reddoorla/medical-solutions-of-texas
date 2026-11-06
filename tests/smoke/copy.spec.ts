@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Phase 1 copy rules (Developer Brief Part 1, sections 7, 8
 // and 10). Two readings of each page:
@@ -107,7 +111,7 @@ for (const path of PAGES) {
   test(`${path}: server HTML says DoW, clinicians, and lists only current staff`, async ({
     request,
   }) => {
-    const res = await request.get(path);
+    const res = await request.get(path, { headers: empty(...SINGLETONS) });
     expect(res.status()).toBe(200);
     expectCopyRules(stripAllowed(serverText(await res.text()), path, true), "server HTML");
   });
@@ -124,7 +128,7 @@ for (const path of PAGES) {
 }
 
 test("Home's section heading reads 'The Clinician in Mind'", async ({ request }) => {
-  const text = serverText(await (await request.get("/")).text());
+  const text = serverText(await (await request.get("/", { headers: empty(...SINGLETONS) })).text());
   expect(text).toContain("The Clinician in Mind");
 });
 

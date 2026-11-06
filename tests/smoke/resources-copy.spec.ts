@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty, fixtureCookie } from "./empty";
 import { RESOURCES_COPY, resourcesCopy } from "../../src/lib/copy/resources";
 import type { ResourcesPageDocument } from "../../prismicio-types";
 
@@ -83,7 +84,7 @@ test("Resources reads the document: every field, in page order, each file on its
   request,
 }) => {
   const html = await (
-    await request.get("/resources", { headers: { cookie: "msot-resources-fixture=1" } })
+    await request.get("/resources", { headers: fixtureCookie("resources") })
   ).text();
   const shown = visible(main(html));
   const words = [
@@ -153,8 +154,8 @@ test("Resources reads the document: every field, in page order, each file on its
   expect(page).not.toMatch(/\/pdfs\/MSOT_/);
 });
 
-test("with no document, Resources shows today's words and files", async ({ request }) => {
-  const html = await (await request.get("/resources")).text();
+test("with every field empty, Resources shows today's words and files", async ({ request }) => {
+  const html = await (await request.get("/resources", { headers: empty("resources") })).text();
   const shown = visible(main(html));
   for (const w of [
     "Resources",

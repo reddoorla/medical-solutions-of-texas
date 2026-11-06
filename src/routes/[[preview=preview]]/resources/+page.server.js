@@ -20,14 +20,16 @@ export async function load({ fetch, cookies, parent }) {
   const { identity } = await parent();
   const copy = resourcesCopy(
     dev && cookies.get("msot-resources-fixture")
-      ? /** @type {import("../../../../prismicio-types").ResourcesPageDocument} */ (
-          (await import("$lib/page-fixture")).pageFixture(
-            RESOURCES_COPY,
-            [],
-            [],
-            ["file", "charge_file"],
+      ? cookies.get("msot-resources-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("resources_page")
+        : /** @type {import("../../../../prismicio-types").ResourcesPageDocument} */ (
+            (await import("$lib/page-fixture")).pageFixture(
+              RESOURCES_COPY,
+              [],
+              [],
+              ["file", "charge_file"],
+            )
           )
-        )
       : await loadSingle(client, "resources_page", { strict: building }),
     identity.fss,
   );

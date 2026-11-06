@@ -18,10 +18,12 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
   const client = createClient({ fetch, cookies });
   const copy = privacyCopy(
     dev && cookies.get("msot-privacy-fixture")
-      ? ((await import("$lib/privacy/fixture")).privacyFixture(
-          PRIVACY_COPY,
-          PRIVACY_BODIES,
-        ) as unknown as PrivacyPageDocument)
+      ? cookies.get("msot-privacy-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("privacy_page")
+        : ((await import("$lib/privacy/fixture")).privacyFixture(
+            PRIVACY_COPY,
+            PRIVACY_BODIES,
+          ) as unknown as PrivacyPageDocument)
       : await loadSingle<PrivacyPageDocument>(client, "privacy_page", { strict: building }),
   );
   return {

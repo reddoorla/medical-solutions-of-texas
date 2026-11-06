@@ -20,13 +20,15 @@ import { PARTNERS_LOGOS } from "$lib/copy/partners-logos";
 export async function loadPartnersCopy(client, cookies) {
   return partnersCopy(
     dev && cookies.get("msot-partners-fixture")
-      ? /** @type {import("../../../prismicio-types").PartnersPageDocument} */ (
-          (await import("$lib/page-fixture")).pageFixture(
-            PARTNERS_COPY,
-            [],
-            ["logo", "testimonial_logo"],
+      ? cookies.get("msot-partners-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("partners_page")
+        : /** @type {import("../../../prismicio-types").PartnersPageDocument} */ (
+            (await import("$lib/page-fixture")).pageFixture(
+              PARTNERS_COPY,
+              [],
+              ["logo", "testimonial_logo"],
+            )
           )
-        )
       : await loadSingle(client, "partners_page", { strict: building }),
     (file) => PARTNERS_LOGOS[file],
   );

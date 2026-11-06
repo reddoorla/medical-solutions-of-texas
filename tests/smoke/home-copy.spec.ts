@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { empty, fixtureCookie } from "./empty";
 import { NotFoundError, RepositoryNotFoundError } from "@prismicio/client";
 import { lines, loadSingle, text } from "../../src/lib/content";
 import { HOME_COPY, homeCopy } from "../../src/lib/copy/home";
@@ -119,9 +120,7 @@ const ATTRIBUTES: Record<string, string> = {
 };
 
 test("Home reads the document: every field, in every section", async ({ request }) => {
-  const html = await (
-    await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })
-  ).text();
+  const html = await (await request.get("/", { headers: fixtureCookie("home") })).text();
   const shown = visible(html);
   // Svelte's hydration markers (<!--[-->) sit between a step's lines in dev.
   const page = html.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<!--[\s\S]*?-->/g, "");
@@ -213,8 +212,10 @@ test("Home's phone width breaks We'll Get You across lines, from the document", 
   }).toPass({ timeout: 30_000 });
 });
 
-test("with no document, Home shows today's words", async ({ request }) => {
-  const shown = visible(await (await request.get("/")).text());
+test("with every field empty, Home shows today's words", async ({ request }) => {
+  const shown = visible(
+    await (await request.get("/", { headers: empty("home", "partners") })).text(),
+  );
   for (const today of [
     "Your Trusted Partner",
     "We'll Get You",
@@ -257,14 +258,16 @@ const partnerBox = (html: string) => {
 test("Home's Our Partner box shows Partners' quote, logo and name, from the partners_page document", async ({
   request,
 }) => {
-  const today = partnerBox(await (await request.get("/")).text());
+  const today = partnerBox(
+    await (await request.get("/", { headers: empty("home", "partners") })).text(),
+  );
   expect(today.quote).toBe(HOME_QUOTE_BEFORE);
   expect(today.alt).toBe("Revogen");
   expect(today.src).toMatch(/revogenLogo[^/]*\.svg$/);
 
   // Partners' document, not Home's, fills the box.
   const fixture = partnerBox(
-    await (await request.get("/", { headers: { cookie: "msot-partners-fixture=1" } })).text(),
+    await (await request.get("/", { headers: fixtureCookie("partners") })).text(),
   );
   expect(fixture.quote).toBe("“Fixture testimonial_text”");
   expect(fixture.alt).toBe("Fixture testimonial_name");
@@ -274,7 +277,7 @@ test("Home's Our Partner box shows Partners' quote, logo and name, from the part
 
   // Home's own document leaves the box as it is.
   const home = partnerBox(
-    await (await request.get("/", { headers: { cookie: "msot-home-fixture=1" } })).text(),
+    await (await request.get("/", { headers: fixtureCookie("home") })).text(),
   );
   expect(home.quote).toBe(HOME_QUOTE_BEFORE);
   expect(home.alt).toBe("Revogen");

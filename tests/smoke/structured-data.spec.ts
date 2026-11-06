@@ -1,4 +1,8 @@
 import { test, expect, type APIRequestContext } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Developer Brief Part 2, §13a: one Organization + WebSite
 // graph, on Home only, in the server HTML. The expected values are written
@@ -6,7 +10,7 @@ import { test, expect, type APIRequestContext } from "@playwright/test";
 const PAGES = ["/", "/about", "/partners", "/process", "/resources", "/contact", "/privacy"];
 
 async function blocks(request: APIRequestContext, path: string) {
-  const html = await (await request.get(path)).text();
+  const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
   return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) =>
     JSON.parse(m[1]),
   );

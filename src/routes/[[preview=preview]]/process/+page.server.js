@@ -19,9 +19,11 @@ export async function load({ fetch, cookies }) {
   // prerendered routes, even in dev.
   const copy = processCopy(
     dev && cookies.get("msot-process-fixture")
-      ? /** @type {import("../../../../prismicio-types").ProcessPageDocument} */ (
-          (await import("$lib/page-fixture")).pageFixture(PROCESS_COPY, ["answer"])
-        )
+      ? cookies.get("msot-process-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("process_page")
+        : /** @type {import("../../../../prismicio-types").ProcessPageDocument} */ (
+            (await import("$lib/page-fixture")).pageFixture(PROCESS_COPY, ["answer"])
+          )
       : await loadSingle(client, "process_page", { strict: building }),
   );
 

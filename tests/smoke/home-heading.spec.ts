@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // Home's <h1> is the existing "Your Trusted Partner" box heading, in the server
 // HTML; the phone hero line is decoration with the h1 look (the operator,
@@ -79,7 +83,7 @@ for (const [width, size] of [
 test("Home's Capabilities Statement button opens the PDF in a new tab, and is Home's one PDF link", async ({
   request,
 }) => {
-  const html = await (await request.get("/")).text();
+  const html = await (await request.get("/", { headers: empty(...SINGLETONS) })).text();
   const links = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)].filter((m) =>
     /Capabilities Statement/i.test(m[2].replace(/<[^>]+>/g, " ")),
   );

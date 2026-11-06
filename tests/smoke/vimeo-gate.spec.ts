@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 const vimeoFrame = 'iframe[src*="player.vimeo.com"]';
 
