@@ -13,46 +13,24 @@
   import { page } from "$app/state";
   import { addressLine } from "$lib/identity";
 
-  const PROOF = [
-    { figure: "45 working days or less", line: "to contract. Industry average: 120+" },
-    { figure: "39 federal locations", line: "served across 16 states" },
-    { figure: "8,579 med-surg line items", line: "added to ECAT each month" },
-  ];
-
-  const CAPABILITIES = [
-    "Federal contract access through ECAT, FSS and DAPA",
-    "Government sales strategy for VA and DoW",
-    "Product marketing and contracting",
-    "Clinical product evaluation and approval support",
-    "Pricing strategy and direct invoicing",
-    "Dedicated Government Account Coordinators",
-  ];
+  // The words are the capabilities_page document's over today's, field by
+  // field ($lib/copy/capabilities).
+  let { data } = $props();
+  const copy = $derived(data.copy);
 
   // The numbers come from $lib/identity, the same list the footer and the
   // Organization markup read; the order and notes are the PDF's.
   const identity = $derived(page.data.identity);
   const [ecatJit, ecatDvd, dapaMed, dapaEquip] = $derived(identity.contracts);
   const VEHICLES = $derived([
-    { vehicle: "ECAT", number: ecatJit.value, note: "Just in Time" },
-    { vehicle: "ECAT", number: ecatDvd.value, note: "Direct Vendor Delivery" },
-    { vehicle: "FSS", number: identity.fss, note: "VA Schedule 65 II A" },
-    { vehicle: "DAPA", number: dapaMed.value, note: "Medical/Surgical" },
-    { vehicle: "DAPA", number: dapaEquip.value, note: "Equipment" },
+    { vehicle: copy.ecat_jit_name, number: ecatJit.value, note: copy.ecat_jit_note },
+    { vehicle: copy.ecat_dvd_name, number: ecatDvd.value, note: copy.ecat_dvd_note },
+    { vehicle: copy.fss_name, number: identity.fss, note: copy.fss_note },
+    { vehicle: copy.dapa_medical_name, number: dapaMed.value, note: copy.dapa_medical_note },
+    { vehicle: copy.dapa_equipment_name, number: dapaEquip.value, note: copy.dapa_equipment_note },
     // A vehicle Marketing adds in the settings document, past today's four.
     ...identity.contracts.slice(4).map((c) => ({ vehicle: c.label, number: c.value, note: "" })),
   ]);
-
-  const DESIGNATIONS = [
-    { scope: "Federal", items: ["VOSB (Veteran-Owned Small Business)", "Small Business"] },
-    {
-      scope: "SCTRCA",
-      items: [
-        "VBE: Veteran Business Enterprise",
-        "ESBE: Emerging Small Business",
-        "SBE: Small Business Entity",
-      ],
-    },
-  ];
 </script>
 
 <article
@@ -60,38 +38,36 @@
   class="max-w-2xl mx-auto px-8 pt-48 pb-24 space-y-8 text-light text-left text-lg [&_p]:text-lg [&_p]:leading-7"
 >
   <header class="space-y-2">
-    <p class="label uppercase tracking-widest">Veteran-Owned Small Business</p>
-    <h1 class="text-4xl font-bold text-white">Capabilities Statement</h1>
+    <p class="label uppercase tracking-widest">{copy.eyebrow}</p>
+    <h1 class="text-4xl font-bold text-white">{copy.heading}</h1>
   </header>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Mission</h2>
-    <p>Connecting VA and DoW treatment facilities with med-surg suppliers.</p>
+    <h2 class="text-2xl font-semibold text-white">{copy.mission_heading}</h2>
+    <p>{copy.mission_line}</p>
     <p>
-      We bridge the gap between clinical demand and government procurement to support service
-      members and veterans. Our expertise, VOSB (Veteran-Owned Small Business) status and deep
-      network of relationships let us offer solutions where others hit roadblocks.
+      {copy.mission_text}
     </p>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">By the numbers</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.numbers_heading}</h2>
     <ul class="space-y-2">
-      {#each PROOF as p (p.figure)}
+      {#each copy.numbers as p, i (i)}
         <li><strong class="text-white">{p.figure}</strong> {p.line}</li>
       {/each}
     </ul>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Core capabilities</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.capabilities_heading}</h2>
     <ul class="list-disc pl-6 space-y-1">
-      {#each CAPABILITIES as c (c)}<li>{c}</li>{/each}
+      {#each copy.capabilities as c, i (i)}<li>{c.item}</li>{/each}
     </ul>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Contract vehicles</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.vehicles_heading}</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
       {#each VEHICLES as v, i (i)}
         <dt class="text-white">{v.vehicle}</dt>
@@ -101,41 +77,38 @@
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Company data</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.company_heading}</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
-      <dt class="text-white">Legal name</dt>
-      <dd>{identity.legalName}, DBA {identity.name}</dd>
-      <dt class="text-white">UEI</dt>
+      <dt class="text-white">{copy.legal_name_label}</dt>
+      <dd>{identity.legalName}, {copy.dba} {identity.name}</dd>
+      <dt class="text-white">{copy.uei_label}</dt>
       <dd>{identity.uei}</dd>
-      <dt class="text-white">CAGE</dt>
+      <dt class="text-white">{copy.cage_label}</dt>
       <dd>{identity.cage}</dd>
-      <dt class="text-white">NAICS</dt>
-      <dd>{identity.naics} (primary), 339112, 339113</dd>
+      <dt class="text-white">{copy.naics_label}</dt>
+      <dd>{identity.naics} {copy.naics_primary}, {copy.naics_secondary}</dd>
     </dl>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Designations</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.designations_heading}</h2>
     <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
-      {#each DESIGNATIONS as d (d.scope)}
+      {#each copy.designations as d, i (i)}
         <dt class="text-white">{d.scope}</dt>
-        <dd>{d.items.join(" · ")}</dd>
+        <dd>{d.items}</dd>
       {/each}
     </dl>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">What makes us different</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.different_heading}</h2>
     <p>
-      We are defined by expertise and experience. With 20 years of Air Force logistics and nearly 50
-      years in medical device sales on our leadership team, we know the VA and Department of War
-      (DoW) healthcare landscape better than anyone. We help med-surg suppliers find and access
-      opportunities they couldn't reach alone.
+      {copy.different_text}
     </p>
   </section>
 
   <section class="space-y-3">
-    <h2 class="text-2xl font-semibold text-white">Contact</h2>
+    <h2 class="text-2xl font-semibold text-white">{copy.contact_heading}</h2>
     <address class="not-italic">
       {identity.name} ({identity.shortName})<br />
       {#if identity.phoneE164}<a
@@ -147,10 +120,10 @@
         href={`mailto:${identity.email}`}
         class="underline hover:text-white [overflow-wrap:anywhere]">{identity.email}</a
       >
-      · medicalsolutionsoftx.com<br />
+      · {copy.domain}<br />
       {addressLine(identity.address)}
     </address>
-    <p><a href="/contact" class="underline hover:text-white">Contact us</a></p>
+    <p><a href="/contact" class="underline hover:text-white">{copy.contact_link}</a></p>
   </section>
 </article>
 
