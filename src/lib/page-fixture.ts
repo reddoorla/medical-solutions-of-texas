@@ -5,14 +5,15 @@
 // reads "Fixture <field>", a heading's lines "Fixture <field> 1", "… 2", and a
 // group's rows "Fixture <group> <row> <field>", so a page showing one can only
 // have read the document. An image field named in `images` is a picture at
-// "/favicon.svg?fixture=<field>" (in a group, "?fixture=<group>-<row>-<field>"),
-// a real file whose address names the field. (Home's predates this:
+// "https://images.prismic.io/msot/fixture.svg?fixture=<field>" (in a group,
+// "?fixture=<group>-<row>-<field>"): an absolute address, as Prismic's are,
+// since asImageSrc refuses a relative one. (Home's predates this:
 // $lib/home-fixture.)
 type Copy = Record<string, string | string[] | Record<string, string>[]>;
 
 const para = (text: string) => [{ type: "paragraph", text, spans: [] }];
 const picture = (name: string) => ({
-  url: `/favicon.svg?fixture=${name}`,
+  url: `https://images.prismic.io/msot/fixture.svg?fixture=${name}`,
   alt: null,
   copyright: null,
   dimensions: { width: 48, height: 48 },

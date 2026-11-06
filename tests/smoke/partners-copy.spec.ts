@@ -63,14 +63,36 @@ test("partnersCopy: no document is today's; a filled field wins, field by field"
     logo,
   );
   expect(some.testimonial_name).toBe("Acme");
-  expect(some.testimonial_logo).toBe("https://images.prismic.io/msot/acme.svg");
+  // Logos are sized for their slots, at twice the CSS width.
+  expect(some.testimonial_logo).toBe("https://images.prismic.io/msot/acme.svg?w=512");
   // A row needs a name and a logo; the rows replace the whole list.
   expect(some.clients).toEqual([
-    { name: "Named and pictured", logo: "https://images.prismic.io/msot/a.png" },
+    { name: "Named and pictured", logo: "https://images.prismic.io/msot/a.png?w=416" },
   ]);
   // Untouched fields keep today's.
   expect(some.clients_heading).toBe("Our Clients");
   expect(Object.keys(some).sort()).toEqual(Object.keys(PARTNERS_COPY).sort());
+  // The quote's logo and name are one pair: half of it keeps today's whole.
+  for (const half of [
+    { testimonial_logo: pic("https://images.prismic.io/msot/acme.svg") },
+    { testimonial_name: "Acme" },
+  ]) {
+    const c = partnersCopy(doc(half), logo);
+    expect([c.testimonial_logo, c.testimonial_name]).toEqual(["/code/revogenLogo.svg", "Revogen"]);
+  }
+  // A logo's own alt text names it when the name is left empty.
+  const alt = (url: string, a: string) => ({ ...pic(url), alt: a });
+  const byAlt = partnersCopy(
+    doc({
+      testimonial_logo: alt("https://images.prismic.io/msot/acme.svg", "Acme Alt"),
+      clients: [{ name: "", logo: alt("https://images.prismic.io/msot/c.png", "Alt Co") }],
+    }),
+    logo,
+  );
+  expect(byAlt.testimonial_name).toBe("Acme Alt");
+  expect(byAlt.clients).toEqual([
+    { name: "Alt Co", logo: "https://images.prismic.io/msot/c.png?w=416" },
+  ]);
   // A document whose rows are all incomplete keeps today's 18.
   expect(
     partnersCopy(doc({ clients: [{ name: "No logo", logo: {} }] }), logo).clients,
@@ -117,10 +139,11 @@ test("Partners reads the document: every field, in page order", async ({ request
   const pictures = imgs(html.replace(/<script[\s\S]*?<\/script>/gi, "")).filter((i) =>
     i.src.includes("fixture="),
   );
+  const base = "https://images.prismic.io/msot/fixture.svg?fixture=";
   expect(pictures).toEqual([
-    { src: "/favicon.svg?fixture=testimonial_logo", alt: "Fixture testimonial_name" },
+    { src: `${base}testimonial_logo&amp;w=512`, alt: "Fixture testimonial_name" },
     ...Array.from({ length: 18 }, (_, i) => ({
-      src: `/favicon.svg?fixture=clients-${i + 1}-logo`,
+      src: `${base}clients-${i + 1}-logo&amp;w=416`,
       alt: `Fixture clients ${i + 1} name`,
     })),
   ]);

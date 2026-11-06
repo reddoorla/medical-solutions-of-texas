@@ -32,7 +32,7 @@
       "testimonial_logo": {
         "type": "Image",
         "config": {
-          "label": "the quoted company's logo (shown white on the dark page)",
+          "label": "the quoted company's logo: a transparent PNG or SVG, shown white on the dark page. Used only with the company name (or the image's alt text); else today's logo and name stay",
           "constraint": {},
           "thumbnails": []
         }
@@ -40,7 +40,7 @@
       "testimonial_name": {
         "type": "Text",
         "config": {
-          "label": "the quoted company's name (read aloud for the logo)",
+          "label": "the quoted company's name, read aloud for the logo. Used only with a logo",
           "placeholder": "Leave empty to keep: Revogen"
         }
       },
@@ -79,20 +79,20 @@
       "clients": {
         "type": "Group",
         "config": {
-          "label": "the logos, in order",
+          "label": "the logos, in order. A row needs a name and a logo; the rows replace the whole list, and with none the page keeps today's 18",
           "repeat": true,
           "fields": {
             "name": {
               "type": "Text",
               "config": {
-                "label": "company name (read aloud for the logo)",
-                "placeholder": "Needed, with a logo, or the row is not shown. The rows replace the whole list; with none, the page keeps today's 18."
+                "label": "company name, read aloud for the logo (left empty, the image's alt text)",
+                "placeholder": "Needed, with a logo, or the row is not shown."
               }
             },
             "logo": {
               "type": "Image",
               "config": {
-                "label": "logo",
+                "label": "logo: a transparent PNG or SVG in the grey duotone style of the others",
                 "constraint": {},
                 "thumbnails": []
               }

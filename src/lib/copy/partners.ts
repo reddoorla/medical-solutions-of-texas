@@ -5,7 +5,7 @@
 // not only pictures (Developer Brief Part 2, §14b). A row needs both. The code's
 // logos are named here by file and resolved by the caller ($lib/copy/partners-logos).
 // The hero picture stays in code, like every page's.
-import { isFilled, type ImageField } from "@prismicio/client";
+import { asImageSrc, isFilled, type ImageField } from "@prismicio/client";
 import type { PartnersPageDocument } from "../../../prismicio-types";
 import { rows, text } from "../content";
 
@@ -52,14 +52,23 @@ export type PartnersCopy = ReturnType<typeof partnersCopy>;
  */
 export function partnersCopy(doc: PartnersPageDocument | null, logo: (file: string) => string) {
   const d = doc?.data;
-  const image = (field: ImageField | null | undefined, file: string) =>
-    isFilled.image(field) ? field.url : logo(file);
+  // A logo is sized for its slot (about 208 and 256 CSS px wide), at twice
+  // that for sharp screens, as $lib/team does for headshots.
+  const src = (field: ImageField, w: number) => asImageSrc(field, { w }) ?? field.url;
+  // A logo's company name: the row's own name, else the alt text set on the
+  // image in Prismic's media library.
+  const named = (name: string | null | undefined, field: ImageField | null | undefined) =>
+    text(name, "") || (isFilled.image(field) ? text(field.alt, "") : "");
+  // The quote's logo and company name are one pair: both from the document, or
+  // both today's, so a new logo is never announced with the old name.
+  const quoted = named(d?.testimonial_name, d?.testimonial_logo);
+  const pair = isFilled.image(d?.testimonial_logo) && quoted ? d.testimonial_logo : null;
   return {
     heading_left: text(d?.heading_left, PARTNERS_COPY.heading_left),
     heading_right: text(d?.heading_right, PARTNERS_COPY.heading_right),
     testimonial_heading: text(d?.testimonial_heading, PARTNERS_COPY.testimonial_heading),
-    testimonial_logo: image(d?.testimonial_logo, PARTNERS_COPY.testimonial_logo),
-    testimonial_name: text(d?.testimonial_name, PARTNERS_COPY.testimonial_name),
+    testimonial_logo: pair ? src(pair, 512) : logo(PARTNERS_COPY.testimonial_logo),
+    testimonial_name: pair ? quoted : PARTNERS_COPY.testimonial_name,
     testimonial_text: text(d?.testimonial_text, PARTNERS_COPY.testimonial_text),
     partnerships_heading: text(d?.partnerships_heading, PARTNERS_COPY.partnerships_heading),
     partnerships_text: text(d?.partnerships_text, PARTNERS_COPY.partnerships_text),
@@ -67,8 +76,8 @@ export function partnersCopy(doc: PartnersPageDocument | null, logo: (file: stri
     clients: rows(
       d?.clients,
       (r) => {
-        const name = text(r.name, "");
-        return name && isFilled.image(r.logo) ? { name, logo: r.logo.url } : null;
+        const name = named(r.name, r.logo);
+        return name && isFilled.image(r.logo) ? { name, logo: src(r.logo, 416) } : null;
       },
       PARTNERS_COPY.clients.map((c) => ({ name: c.name, logo: logo(c.logo) })),
     ),
