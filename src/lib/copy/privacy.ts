@@ -16,7 +16,8 @@ import { PRIVACY_VALUES } from "../privacy/policy";
 /** Today's wording, word for word: what the page shows with no privacy_page document. */
 export const PRIVACY_COPY = {
   meta_title: "Privacy Policy | MSOT",
-  meta_description: "What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.",
+  meta_description:
+    "What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.",
   heading: "Privacy Policy",
   effective_label: "Effective",
   collect_heading: "What we collect",
@@ -57,7 +58,9 @@ export function privacyCopy(doc: PrivacyPageDocument | null) {
     children_heading: text(d?.children_heading, PRIVACY_COPY.children_heading),
     choices_heading: text(d?.choices_heading, PRIVACY_COPY.choices_heading),
     changes_heading: text(d?.changes_heading, PRIVACY_COPY.changes_heading),
-    effective_date: isFilled.date(d?.effective_date) ? d.effective_date : PRIVACY_VALUES.effectiveDate,
+    effective_date: isFilled.date(d?.effective_date)
+      ? d.effective_date
+      : PRIVACY_VALUES.effectiveDate,
     dnt_body: body(d?.dnt_body),
     children_body: body(d?.children_body),
     changes_body: body(d?.changes_body),
