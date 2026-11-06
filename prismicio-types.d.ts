@@ -212,14 +212,14 @@ interface AboutPageDocumentData {
 export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<AboutPageDocumentData>, "about_page", Lang>;
 
 /**
- * Item in *Contact page → interest menu: the choices, in order. Each choice's words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three*
+ * Item in *Contact page → interest menu: the choices, in order*
  */
 export interface ContactPageDocumentDataInterestsItem {
 	/**
-	 * choice field in *Contact page → interest menu: the choices, in order. Each choice's words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three*
+	 * choice field in *Contact page → interest menu: the choices, in order*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Needed, or the row is not shown.
+	 * - **Placeholder**: Needed, or the row is not shown. Its words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three.
 	 * - **API ID Path**: contact_page.interests[].option
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -295,7 +295,7 @@ interface ContactPageDocumentData {
 	interest_label: prismic.KeyTextField;
 	
 	/**
-	 * interest menu: what it shows before a choice field in *Contact page*
+	 * interest menu: what it shows before a choice (an untouched form still reports “Select Interest”) field in *Contact page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Select Interest
@@ -306,7 +306,7 @@ interface ContactPageDocumentData {
 	interest_placeholder: prismic.KeyTextField;
 	
 	/**
-	 * interest menu: the choices, in order. Each choice's words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three field in *Contact page*
+	 * interest menu: the choices, in order field in *Contact page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*

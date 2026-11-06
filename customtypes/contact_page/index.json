@@ -53,21 +53,21 @@
       "interest_placeholder": {
         "type": "Text",
         "config": {
-          "label": "interest menu: what it shows before a choice",
+          "label": "interest menu: what it shows before a choice (an untouched form still reports “Select Interest”)",
           "placeholder": "Leave empty to keep: Select Interest"
         }
       },
       "interests": {
         "type": "Group",
         "config": {
-          "label": "interest menu: the choices, in order. Each choice's words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three",
+          "label": "interest menu: the choices, in order",
           "repeat": true,
           "fields": {
             "option": {
               "type": "Text",
               "config": {
                 "label": "choice",
-                "placeholder": "Needed, or the row is not shown."
+                "placeholder": "Needed, or the row is not shown. Its words are what the message says was picked. The rows replace the whole list; with none, the menu keeps today's three."
               }
             }
           }
