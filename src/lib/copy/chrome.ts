@@ -32,7 +32,6 @@ export const CHROME_COPY = {
   footer_type_line: "{business type} · {tagline}",
   footer_ids_line: "UEI {uei} · CAGE {cage} · FSS {fss}",
   footer_copyright: "©{year} {legal name} dba {name} |",
-  site_title: "Medical Solutions of Texas",
   untitled_title: "MSOT | {page}",
   not_found_text: "Page not found",
   home_link: "Back to home",
@@ -63,20 +62,23 @@ export function chromeCopy(doc: SettingsDocument | null) {
     footer_type_line: text(d?.footer_type_line, CHROME_COPY.footer_type_line),
     footer_ids_line: text(d?.footer_ids_line, CHROME_COPY.footer_ids_line),
     footer_copyright: text(d?.footer_copyright, CHROME_COPY.footer_copyright),
-    site_title: text(d?.site_title, CHROME_COPY.site_title),
     untitled_title: text(d?.untitled_title, CHROME_COPY.untitled_title),
     not_found_text: text(d?.not_found_text, CHROME_COPY.not_found_text),
     home_link: text(d?.home_link, CHROME_COPY.home_link),
   };
 }
 
+// Home's title if it had none; it never reaches the screen, since $lib/seo
+// titles "/", so it stays in code rather than become a field no edit can show.
+const SITE_NAME = "Medical Solutions of Texas";
+
 /**
  * The browser-tab title of a Prismic page with no title of its own, from its
  * address, so it is still unique and readable ("/rep-login" is "MSOT | Rep
- * Login") rather than empty or a duplicate. Home is the site's title.
+ * Login") rather than empty or a duplicate.
  */
 export function untitledTitle(
-  chrome: Pick<ChromeCopy, "site_title" | "untitled_title">,
+  chrome: Pick<ChromeCopy, "untitled_title">,
   pathname: string,
 ): string {
   const seg = pathname
@@ -84,7 +86,7 @@ export function untitledTitle(
     .split("/")
     .filter(Boolean)
     .pop();
-  if (!seg) return chrome.site_title;
+  if (!seg) return SITE_NAME;
   const label = seg
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

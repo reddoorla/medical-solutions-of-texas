@@ -42,11 +42,18 @@ export function text(value: string | null | undefined, fallback: string): string
 
 /**
  * A field's wording with its {tokens} filled: "{legal name}" becomes the
- * value named "legal name". A token with no value is left as typed, so a
- * misspelt one shows on the page instead of vanishing.
+ * value named "legal name". Case, spaces and underscores in a token are
+ * forgiven ("{Legal_Name}", "{ legal name }"). A token with no value is left
+ * as typed, so a misspelt one shows on the page instead of vanishing.
  */
 export function fill(template: string, values: Record<string, string>): string {
-  return template.replace(/\{([^{}]+)\}/g, (all, name) => (name in values ? values[name] : all));
+  return template.replace(/\{([^{}]+)\}/g, (all, name: string) => {
+    const key = name
+      .trim()
+      .toLowerCase()
+      .replace(/[\s_]+/g, " ");
+    return Object.hasOwn(values, key) ? values[key] : all;
+  });
 }
 
 /**

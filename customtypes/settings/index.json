@@ -234,13 +234,6 @@
           "placeholder": "Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…"
         }
       },
-      "site_title": {
-        "type": "Text",
-        "config": {
-          "label": "browser-tab title of a Prismic home page with no title of its own",
-          "placeholder": "Leave empty to keep: Medical Solutions of Texas"
-        }
-      },
       "untitled_title": {
         "type": "Text",
         "config": {
@@ -251,8 +244,8 @@
       "not_found_text": {
         "type": "Text",
         "config": {
-          "label": "error page: the line under the error number, when there is no other message",
-          "placeholder": "Leave empty to keep: Page not found"
+          "label": "error page: the line under 404, for every page that isn't found",
+          "placeholder": "Leave empty to keep today's: \"Page not found\", or \"Not Found\" for an address the site has never had"
         }
       },
       "home_link": {

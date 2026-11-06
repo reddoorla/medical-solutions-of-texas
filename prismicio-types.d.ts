@@ -2749,17 +2749,6 @@ interface SettingsDocumentData {
 	default_description: prismic.KeyTextField;
 	
 	/**
-	 * browser-tab title of a Prismic home page with no title of its own field in *Site settings*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas
-	 * - **API ID Path**: settings.site_title
-	 * - **Tab**: Page titles
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	site_title: prismic.KeyTextField;
-	
-	/**
 	 * browser-tab title of any other Prismic page with no title; {page} is filled in from its address field in *Site settings*
 	 *
 	 * - **Field Type**: Text
@@ -2771,10 +2760,10 @@ interface SettingsDocumentData {
 	untitled_title: prismic.KeyTextField;
 	
 	/**
-	 * error page: the line under the error number, when there is no other message field in *Site settings*
+	 * error page: the line under 404, for every page that isn't found field in *Site settings*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Page not found
+	 * - **Placeholder**: Leave empty to keep today's: "Page not found", or "Not Found" for an address the site has never had
 	 * - **API ID Path**: settings.not_found_text
 	 * - **Tab**: Page titles
 	 * - **Documentation**: https://prismic.io/docs/fields/text

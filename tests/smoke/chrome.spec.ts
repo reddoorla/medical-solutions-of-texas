@@ -29,7 +29,6 @@ const TODAY = {
   footer_type_line: "{business type} · {tagline}",
   footer_ids_line: "UEI {uei} · CAGE {cage} · FSS {fss}",
   footer_copyright: "©{year} {legal name} dba {name} |",
-  site_title: "Medical Solutions of Texas",
   untitled_title: "MSOT | {page}",
   not_found_text: "Page not found",
   home_link: "Back to home",
@@ -161,14 +160,16 @@ test("fill: each {token} named in the values is filled; any other is left as typ
   ).toBe("©2026 L dba N |");
   expect(fill("UEI {uei} · {ueii}", { uei: "1" })).toBe("UEI 1 · {ueii}");
   expect(fill("no tokens", {})).toBe("no tokens");
+  // Case, spaces and underscores are forgiven; an inherited key is no token.
+  expect(fill("{Legal_Name} / { UEI }", { "legal name": "L", uei: "1" })).toBe("L / 1");
+  expect(fill("{constructor} {toString}", {})).toBe("{constructor} {toString}");
 });
 
 test("a Prismic page with no title is titled from its address, in the document's words", () => {
   expect(untitledTitle(TODAY, "/rep-login")).toBe("MSOT | Rep Login");
   expect(untitledTitle(TODAY, "/")).toBe("Medical Solutions of Texas");
-  const words = { site_title: "Site", untitled_title: "{page} — Site" };
+  const words = { untitled_title: "{page} — Site" };
   expect(untitledTitle(words, "/rep-login/")).toBe("Rep Login — Site");
-  expect(untitledTitle(words, "")).toBe("Site");
 });
 
 test("with no document the footer's lines read as they did", async ({ request }) => {
@@ -193,12 +194,23 @@ test("the footer's lines and the error page read the document", async ({ request
   for (const f of ["footer_name_line", "footer_type_line", "footer_ids_line", "footer_copyright"])
     expect(about, f).toMatch(new RegExp(` Fixture ${f}(?!\\w)`));
   expect(about).not.toMatch(/ dba | UEI /);
-  const missing = await request.get("/no-such-page-at-all", { headers: fixture });
-  expect(missing.status()).toBe(404);
-  const err = visible(await missing.text());
-  expect(err).toContain(" Fixture home_link ");
-  expect(err).not.toContain("Back to home");
-  expect(visible(await (await request.get("/no-such-page-at-all")).text())).toContain(
-    " Back to home ",
-  );
+  // Both kinds of 404: a page's load that throws its own message (the [uid]
+  // catch-all's "Page not found"), and an address no route matches
+  // (SvelteKit's "Not Found"). With the document, both show its line.
+  for (const address of ["/no-such-page-at-all", "/a/b/c"]) {
+    const missing = await request.get(address, { headers: fixture });
+    expect(missing.status(), address).toBe(404);
+    // The page body only: the tab title is settings' not_found_title, another field.
+    const err = visible((await missing.text()).match(/<main[\s\S]*<\/main>/)?.[0] ?? "");
+    expect(err, address).toContain(" Fixture home_link ");
+    expect(err, address).toContain(" Fixture not_found_text ");
+    expect(err, address).not.toMatch(/Back to home|Page not found|Not Found/);
+  }
+  // With no document, today's messages, each as it was.
+  const thrown = visible(await (await request.get("/no-such-page-at-all")).text());
+  expect(thrown).toContain(" Page not found ");
+  expect(thrown).toContain(" Back to home ");
+  const unmatched = visible(await (await request.get("/a/b/c")).text());
+  expect(unmatched).toContain(" Not Found ");
+  expect(unmatched).toContain(" Back to home ");
 });

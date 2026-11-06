@@ -2,6 +2,7 @@ import { building, dev } from "$app/env";
 import { createClient } from "$lib/prismicio";
 import { loadSettings, mergeIdentity } from "$lib/identity";
 import { CHROME_COPY, chromeCopy } from "$lib/copy/chrome";
+import { text } from "$lib/content";
 
 export const prerender = "auto";
 
@@ -24,17 +25,21 @@ export const load = async ({ cookies, fetch }) => {
   const identity = mergeIdentity(settings);
   // The menu and footer words come from the same document ($lib/copy/chrome).
   // Their fixture has its own cookie, so the identity's test is unchanged.
-  const chrome = chromeCopy(
+  const chromeDoc =
     dev && cookies.get("msot-chrome-fixture")
       ? /** @type {import("../../prismicio-types").SettingsDocument} */ (
           (await import("$lib/page-fixture")).pageFixture(CHROME_COPY)
         )
-      : settings,
-  );
+      : settings;
+  const chrome = chromeCopy(chromeDoc);
 
   return {
     isPreviewSession,
     identity,
     chrome,
+    // Every 404 carries a message ("Page not found", or SvelteKit's "Not
+    // Found"), so the error page shows the document's line only when it has
+    // one, and today's message otherwise.
+    notFoundOwn: text(chromeDoc?.data.not_found_text, "") !== "",
   };
 };
