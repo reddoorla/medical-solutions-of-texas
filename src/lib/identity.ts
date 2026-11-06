@@ -243,13 +243,25 @@ export async function loadIdentity(
   client: Pick<Client, "getSingle">,
   { strict }: { strict: boolean },
 ): Promise<Identity> {
+  return mergeIdentity(await loadSettings(client, { strict }));
+}
+
+/**
+ * The `settings` document, or null when there is none, under loadIdentity's
+ * error policy above. The root layout reads it once for both the identity and
+ * the menu and footer words ($lib/copy/chrome).
+ */
+export async function loadSettings(
+  client: Pick<Client, "getSingle">,
+  { strict }: { strict: boolean },
+): Promise<SettingsDocument | null> {
   try {
-    return mergeIdentity((await client.getSingle("settings")) as SettingsDocument);
+    return (await client.getSingle("settings")) as SettingsDocument;
   } catch (e) {
-    if (isNoDocument(e)) return CODE_IDENTITY;
+    if (isNoDocument(e)) return null;
     if (strict) throw e;
-    console.error("settings: falling back to the code's identity:", e);
-    return CODE_IDENTITY;
+    console.error("settings: falling back to the code's identity and menu and footer words:", e);
+    return null;
   }
 }
 

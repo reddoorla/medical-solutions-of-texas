@@ -234,6 +234,115 @@
           "placeholder": "Leave empty to keep: Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors…"
         }
       }
+    },
+    "Menu": {
+      "nav_about": {
+        "type": "Text",
+        "config": {
+          "label": "menu link to /about",
+          "placeholder": "Leave empty to keep: About"
+        }
+      },
+      "nav_partners": {
+        "type": "Text",
+        "config": {
+          "label": "menu link to /partners",
+          "placeholder": "Leave empty to keep: Partners"
+        }
+      },
+      "nav_process": {
+        "type": "Text",
+        "config": {
+          "label": "menu link to /process",
+          "placeholder": "Leave empty to keep: Process"
+        }
+      },
+      "nav_resources": {
+        "type": "Text",
+        "config": {
+          "label": "menu link to /resources",
+          "placeholder": "Leave empty to keep: Resources"
+        }
+      },
+      "nav_contact": {
+        "type": "Text",
+        "config": {
+          "label": "menu link to /contact",
+          "placeholder": "Leave empty to keep: Contact"
+        }
+      },
+      "logo_alt": {
+        "type": "Text",
+        "config": {
+          "label": "top-left logo and loading-screen logo, text for screen readers",
+          "placeholder": "Leave empty to keep: msot logo"
+        }
+      },
+      "open_menu": {
+        "type": "Text",
+        "config": {
+          "label": "phone menu button, for screen readers",
+          "placeholder": "Leave empty to keep: Open menu"
+        }
+      },
+      "close_menu": {
+        "type": "Text",
+        "config": {
+          "label": "phone menu close button, for screen readers",
+          "placeholder": "Leave empty to keep: Close menu"
+        }
+      }
+    },
+    "Footer": {
+      "footer_cta": {
+        "type": "Text",
+        "config": {
+          "label": "large line above the buttons (Home's is on the Home page document)",
+          "placeholder": "Leave empty to keep: let’s get started"
+        }
+      },
+      "footer_contact_button": {
+        "type": "Text",
+        "config": {
+          "label": "button to /contact (Home's is on the Home page document)",
+          "placeholder": "Leave empty to keep: Contact Us"
+        }
+      },
+      "footer_process_button": {
+        "type": "Text",
+        "config": {
+          "label": "button to /process (Home's is on the Home page document)",
+          "placeholder": "Leave empty to keep: Learn More"
+        }
+      },
+      "footer_logo_alt": {
+        "type": "Text",
+        "config": {
+          "label": "footer logo (links to Home), text for screen readers (every footer, Home's too)",
+          "placeholder": "Leave empty to keep: Medical Solutions of Texas home"
+        }
+      },
+      "vosb_alt": {
+        "type": "Text",
+        "config": {
+          "label": "VOSB logo, text for screen readers (every footer, Home's too)",
+          "placeholder": "Leave empty to keep: Veteran-Owned Small Business (VOSB)"
+        }
+      },
+      "company_details": {
+        "type": "Text",
+        "config": {
+          "label": "fold-out label over the company lines (every footer, Home's too)",
+          "placeholder": "Leave empty to keep: Company details"
+        }
+      },
+      "privacy_link": {
+        "type": "Text",
+        "config": {
+          "label": "link to the privacy policy (every footer, Home's too)",
+          "placeholder": "Leave empty to keep: Privacy Policy"
+        }
+      }
     }
   }
 }

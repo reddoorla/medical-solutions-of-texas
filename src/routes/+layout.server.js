@@ -1,6 +1,7 @@
 import { building, dev } from "$app/env";
 import { createClient } from "$lib/prismicio";
-import { loadIdentity, mergeIdentity } from "$lib/identity";
+import { loadSettings, mergeIdentity } from "$lib/identity";
+import { CHROME_COPY, chromeCopy } from "$lib/copy/chrome";
 
 export const prerender = "auto";
 
@@ -16,13 +17,24 @@ export const load = async ({ cookies, fetch }) => {
   // the same values. Prerendered pages fetch it at build time. `vite dev` alone
   // can serve a fixture document, for the smoke test, behind a cookie: a query
   // string is refused on the routes that set `prerender = true`, even in dev.
-  const identity =
+  const settings =
     dev && cookies.get("msot-settings-fixture")
-      ? mergeIdentity((await import("$lib/settings-fixture")).SETTINGS_FIXTURE)
-      : await loadIdentity(createClient({ fetch, cookies }), { strict: building });
+      ? (await import("$lib/settings-fixture")).SETTINGS_FIXTURE
+      : await loadSettings(createClient({ fetch, cookies }), { strict: building });
+  const identity = mergeIdentity(settings);
+  // The menu and footer words come from the same document ($lib/copy/chrome).
+  // Their fixture has its own cookie, so the identity's test is unchanged.
+  const chrome = chromeCopy(
+    dev && cookies.get("msot-chrome-fixture")
+      ? /** @type {import("../../prismicio-types").SettingsDocument} */ (
+          (await import("$lib/page-fixture")).pageFixture(CHROME_COPY)
+        )
+      : settings,
+  );
 
   return {
     isPreviewSession,
     identity,
+    chrome,
   };
 };

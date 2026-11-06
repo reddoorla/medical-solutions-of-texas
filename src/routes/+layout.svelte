@@ -8,6 +8,7 @@
   import { SITE_URL } from "$lib/site";
   import { PAGE_SEO, pageDescription, routeKey, canonicalUrl } from "$lib/seo";
   import type { Identity } from "$lib/identity";
+  import type { ChromeCopy } from "$lib/copy/chrome";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -20,7 +21,7 @@
 
   interface Props {
     children?: Snippet;
-    data: { isPreviewSession?: boolean; identity: Identity };
+    data: { isPreviewSession?: boolean; identity: Identity; chrome: ChromeCopy };
   }
 
   let { children, data }: Props = $props();
@@ -74,13 +75,13 @@
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
 
-  const NAV_LINKS = [
-    { label: "About", href: "/about" },
-    { label: "Partners", href: "/partners" },
-    { label: "Process", href: "/process" },
-    { label: "Resources", href: "/resources" },
-    { label: "Contact", href: "/contact" },
-  ];
+  let NAV_LINKS = $derived([
+    { label: data.chrome.nav_about, href: "/about" },
+    { label: data.chrome.nav_partners, href: "/partners" },
+    { label: data.chrome.nav_process, href: "/process" },
+    { label: data.chrome.nav_resources, href: "/resources" },
+    { label: data.chrome.nav_contact, href: "/contact" },
+  ]);
 
   let main: HTMLElement | undefined = $state();
   let showNav = $state(true);
@@ -169,7 +170,7 @@
     <img
       src={msotLogoSand}
       class="w-full h-full {reducedMotion ? '' : 'pulse-always'}"
-      alt="msot logo"
+      alt={data.chrome.logo_alt}
     />
   </div>
 {:else}
@@ -189,7 +190,7 @@
     >
       <img
         src={KHAKI_LOGO_ROUTES.has(route) && !isTransitioning ? msotLogoKhaki : msotLogo}
-        alt="msot logo"
+        alt={data.chrome.logo_alt}
       />
     </a>
   </div>
@@ -207,7 +208,7 @@
       <button
         class="absolute top-5 right-5 opacity-60 hover:opacity-100 transition-all z-40"
         onclick={() => (isOverlayVisible = false)}
-        aria-label="Close menu"
+        aria-label={data.chrome.close_menu}
       >
         <div in:fade={{ delay: 1200 }} out:fade class="text-white">
           <X size={48} strokeWidth={1} />
@@ -236,7 +237,7 @@
       <button
         class="min-[769px]:hidden"
         onclick={() => (isOverlayVisible = true)}
-        aria-label="Open menu"
+        aria-label={data.chrome.open_menu}
       >
         <Menu class="text-[#998B6A]" size={48} strokeWidth={1.5} />
       </button>

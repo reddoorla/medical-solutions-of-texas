@@ -17,5 +17,7 @@ export const SETTINGS_FIXTURE = {
     ecat_jit: "FIXTURE-ECAT-JIT",
     more_contracts: [{ label: "Fixture Vehicle", value: "FIXTURE-NEW-1" }],
     same_as: [{ url: { link_type: "Web", url: "https://example.com/fixture-msot" } }],
+    // One Footer-tab word, so a test sees the menu and footer read this document too.
+    privacy_link: "Fixture privacy link",
   },
 } as unknown as SettingsDocument;

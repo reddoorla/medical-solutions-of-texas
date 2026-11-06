@@ -2746,7 +2746,168 @@ interface SettingsDocumentData {
 	 * - **Tab**: Page titles
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	default_description: prismic.KeyTextField;
+	default_description: prismic.KeyTextField;/**
+	 * menu link to /about field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: About
+	 * - **API ID Path**: settings.nav_about
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	nav_about: prismic.KeyTextField;
+	
+	/**
+	 * menu link to /partners field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Partners
+	 * - **API ID Path**: settings.nav_partners
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	nav_partners: prismic.KeyTextField;
+	
+	/**
+	 * menu link to /process field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Process
+	 * - **API ID Path**: settings.nav_process
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	nav_process: prismic.KeyTextField;
+	
+	/**
+	 * menu link to /resources field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Resources
+	 * - **API ID Path**: settings.nav_resources
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	nav_resources: prismic.KeyTextField;
+	
+	/**
+	 * menu link to /contact field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact
+	 * - **API ID Path**: settings.nav_contact
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	nav_contact: prismic.KeyTextField;
+	
+	/**
+	 * top-left logo and loading-screen logo, text for screen readers field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: msot logo
+	 * - **API ID Path**: settings.logo_alt
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	logo_alt: prismic.KeyTextField;
+	
+	/**
+	 * phone menu button, for screen readers field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Open menu
+	 * - **API ID Path**: settings.open_menu
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	open_menu: prismic.KeyTextField;
+	
+	/**
+	 * phone menu close button, for screen readers field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Close menu
+	 * - **API ID Path**: settings.close_menu
+	 * - **Tab**: Menu
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	close_menu: prismic.KeyTextField;/**
+	 * large line above the buttons (Home's is on the Home page document) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: let’s get started
+	 * - **API ID Path**: settings.footer_cta
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_cta: prismic.KeyTextField;
+	
+	/**
+	 * button to /contact (Home's is on the Home page document) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact Us
+	 * - **API ID Path**: settings.footer_contact_button
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_contact_button: prismic.KeyTextField;
+	
+	/**
+	 * button to /process (Home's is on the Home page document) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Learn More
+	 * - **API ID Path**: settings.footer_process_button
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_process_button: prismic.KeyTextField;
+	
+	/**
+	 * footer logo (links to Home), text for screen readers (every footer, Home's too) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas home
+	 * - **API ID Path**: settings.footer_logo_alt
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_logo_alt: prismic.KeyTextField;
+	
+	/**
+	 * VOSB logo, text for screen readers (every footer, Home's too) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Veteran-Owned Small Business (VOSB)
+	 * - **API ID Path**: settings.vosb_alt
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	vosb_alt: prismic.KeyTextField;
+	
+	/**
+	 * fold-out label over the company lines (every footer, Home's too) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Company details
+	 * - **API ID Path**: settings.company_details
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	company_details: prismic.KeyTextField;
+	
+	/**
+	 * link to the privacy policy (every footer, Home's too) field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Privacy Policy
+	 * - **API ID Path**: settings.privacy_link
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	privacy_link: prismic.KeyTextField;
 }
 
 /**
