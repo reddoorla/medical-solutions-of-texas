@@ -1075,6 +1075,226 @@ interface PartnersPageDocumentData {
 export type PartnersPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PartnersPageDocumentData>, "partners_page", Lang>;
 
 /**
+ * Content for Privacy page documents
+ */
+interface PrivacyPageDocumentData {
+	/**
+	 * search and browser-tab title field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Privacy Policy | MSOT
+	 * - **API ID Path**: privacy_page.meta_title
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * search description field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.
+	 * - **API ID Path**: privacy_page.meta_description
+	 * - **Tab**: SEO
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;/**
+	 * page heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Privacy Policy
+	 * - **API ID Path**: privacy_page.heading
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * word before the date field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Effective
+	 * - **API ID Path**: privacy_page.effective_label
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	effective_label: prismic.KeyTextField;
+	
+	/**
+	 * effective date field in *Privacy page*
+	 *
+	 * - **Field Type**: Date
+	 * - **Placeholder**: Leave empty to keep the date in code (November 4, 2026)
+	 * - **API ID Path**: privacy_page.effective_date
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/date
+	 */
+	effective_date: prismic.DateField;
+	
+	/**
+	 * opening paragraph (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's opening paragraph, which follows Settings' legal name. Filled, it replaces the whole opening paragraph, shown as typed (type the legal name yourself).
+	 * - **API ID Path**: privacy_page.intro
+	 * - **Tab**: Privacy Policy
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	intro: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: What we collect
+	 * - **API ID Path**: privacy_page.collect_heading
+	 * - **Tab**: What we collect
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	collect_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.collect_body
+	 * - **Tab**: What we collect
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	collect_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: How we use it
+	 * - **API ID Path**: privacy_page.use_heading
+	 * - **Tab**: How we use it
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	use_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.use_body
+	 * - **Tab**: How we use it
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	use_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Who else receives it
+	 * - **API ID Path**: privacy_page.others_heading
+	 * - **Tab**: Who else receives it
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	others_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.others_body
+	 * - **Tab**: Who else receives it
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	others_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Do Not Track
+	 * - **API ID Path**: privacy_page.dnt_heading
+	 * - **Tab**: Do Not Track
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	dnt_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.dnt_body
+	 * - **Tab**: Do Not Track
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	dnt_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Children
+	 * - **API ID Path**: privacy_page.children_heading
+	 * - **Tab**: Children
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	children_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.children_body
+	 * - **Tab**: Children
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	children_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Your choices
+	 * - **API ID Path**: privacy_page.choices_heading
+	 * - **Tab**: Your choices
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	choices_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section, which follows Settings' email. Filled, it replaces the whole section, shown as typed (type the email yourself).
+	 * - **API ID Path**: privacy_page.choices_body
+	 * - **Tab**: Your choices
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	choices_body: prismic.RichTextField;/**
+	 * heading field in *Privacy page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Changes to this policy
+	 * - **API ID Path**: privacy_page.changes_heading
+	 * - **Tab**: Changes to this policy
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	changes_heading: prismic.KeyTextField;
+	
+	/**
+	 * section (paragraphs, bulleted lists, bold, italic and links) field in *Privacy page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.
+	 * - **API ID Path**: privacy_page.changes_body
+	 * - **Tab**: Changes to this policy
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	changes_body: prismic.RichTextField;
+}
+
+/**
+ * Privacy page document from Prismic
+ *
+ * - **API ID**: `privacy_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PrivacyPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PrivacyPageDocumentData>, "privacy_page", Lang>;
+
+/**
  * Item in *Process page → the steps, in order*
  */
 export interface ProcessPageDocumentDataTimelineItem {
@@ -2037,7 +2257,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | PrivacyPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -2106,6 +2326,8 @@ declare module "@prismicio/client" {
 			PartnersPageDocument,
 			PartnersPageDocumentData,
 			PartnersPageDocumentDataClientsItem,
+			PrivacyPageDocument,
+			PrivacyPageDocumentData,
 			ProcessPageDocument,
 			ProcessPageDocumentData,
 			ProcessPageDocumentDataTimelineItem,

@@ -1,0 +1,183 @@
+{
+  "format": "custom",
+  "id": "privacy_page",
+  "label": "Privacy page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "SEO": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "search and browser-tab title",
+          "placeholder": "Leave empty to keep: Privacy Policy | MSOT"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "search description",
+          "placeholder": "Leave empty to keep: What information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have."
+        }
+      }
+    },
+    "Privacy Policy": {
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "page heading",
+          "placeholder": "Leave empty to keep: Privacy Policy"
+        }
+      },
+      "effective_label": {
+        "type": "Text",
+        "config": {
+          "label": "word before the date",
+          "placeholder": "Leave empty to keep: Effective"
+        }
+      },
+      "effective_date": {
+        "type": "Date",
+        "config": {
+          "label": "effective date",
+          "placeholder": "Leave empty to keep the date in code (November 4, 2026)"
+        }
+      },
+      "intro": {
+        "type": "StructuredText",
+        "config": {
+          "label": "opening paragraph (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's opening paragraph, which follows Settings' legal name. Filled, it replaces the whole opening paragraph, shown as typed (type the legal name yourself).",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "What we collect": {
+      "collect_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: What we collect"
+        }
+      },
+      "collect_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "How we use it": {
+      "use_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: How we use it"
+        }
+      },
+      "use_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Who else receives it": {
+      "others_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Who else receives it"
+        }
+      },
+      "others_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Do Not Track": {
+      "dnt_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Do Not Track"
+        }
+      },
+      "dnt_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Children": {
+      "children_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Children"
+        }
+      },
+      "children_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Your choices": {
+      "choices_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Your choices"
+        }
+      },
+      "choices_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section, which follows Settings' email. Filled, it replaces the whole section, shown as typed (type the email yourself).",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    },
+    "Changes to this policy": {
+      "changes_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Changes to this policy"
+        }
+      },
+      "changes_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "multi": "paragraph,strong,em,hyperlink,list-item",
+          "allowTargetBlank": false
+        }
+      }
+    }
+  }
+}
