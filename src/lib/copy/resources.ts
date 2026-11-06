@@ -56,7 +56,7 @@ export function resourcesCopy(doc: ResourcesPageDocument | null, fss: string) {
         const href = file(r.file, "");
         return title && href ? { title, file: href } : null;
       },
-      today.map((r) => ({ title: r.title.replace("{fss}", fss), file: r.file })),
+      today.map((r) => ({ title: r.title.replace("{fss}", () => fss), file: r.file })),
     );
   return {
     heading: text(d?.heading, RESOURCES_COPY.heading),

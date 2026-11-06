@@ -176,6 +176,17 @@ test("with no document, Resources shows today's words and files", async ({ reque
     expect(shown, w).toContain(w);
   }
   const page = main(html);
+  // Each row's title is its own <h4>, not a word inside another's.
+  for (const title of ["Commercial Catalog", "Catalog", "Technique Guide"]) {
+    expect(page, title).toMatch(new RegExp(`<h4[^>]*>\\s*${title}\\s*</h4>`));
+  }
+  expect(page).toMatch(/<a href="\/" class="bump"[^>]*>\s*<h4[^>]*>\s*Technique Guide\s*<\/h4>/);
+  // Suppliers and Technique Guides stay greyed out and unclickable.
+  for (const heading of ["Suppliers", "Technique Guides"]) {
+    expect(page, heading).toMatch(
+      new RegExp(`<div class="[^"]*pointer-events-none[^"]*">\\s*<h3[^>]*>${heading}</h3>`),
+    );
+  }
   expect(page).toMatch(/href="\/pdfs\/MSOT_ChargeSheet\.pdf"[^>]*>[\s\S]*?DOWNLOAD/);
   expect([...page.matchAll(/href="\/pdfs\/MSOT_FSSCatalog\.pdf"/g)]).toHaveLength(2);
   expect([...page.matchAll(/href="\/pdfs\/MSOT_CommercialCatalog\.pdf"/g)]).toHaveLength(4);

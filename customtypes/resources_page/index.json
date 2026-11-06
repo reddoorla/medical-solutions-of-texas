@@ -47,7 +47,7 @@
       "service_email": {
         "type": "Text",
         "config": {
-          "label": "customer service email",
+          "label": "customer service email (shown as text, not a link)",
           "placeholder": "Leave empty to keep: customerservice@MedicalSolutionsofTX.com"
         }
       },
@@ -86,14 +86,14 @@
       "catalogs": {
         "type": "Group",
         "config": {
-          "label": "the catalogs, in order",
+          "label": "the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title",
           "repeat": true,
           "fields": {
             "title": {
               "type": "Text",
               "config": {
                 "label": "title",
-                "placeholder": "Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two (the FSS one names the FSS contract number in Settings)."
+                "placeholder": "Needed, with a file"
               }
             },
             "file": {
@@ -118,20 +118,20 @@
       "suppliers": {
         "type": "Group",
         "config": {
-          "label": "the list, in order",
+          "label": "the list, in order. Any row here replaces today's one",
           "repeat": true,
           "fields": {
             "title": {
               "type": "Text",
               "config": {
                 "label": "title",
-                "placeholder": "Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's one."
+                "placeholder": "Needed, with a file"
               }
             },
             "file": {
               "type": "Link",
               "config": {
-                "label": "file (opens in a new tab)",
+                "label": "file (needed for the row to show; not clickable while this column is greyed out)",
                 "select": "media"
               }
             }
@@ -150,20 +150,20 @@
       "guides": {
         "type": "Group",
         "config": {
-          "label": "the list, in order",
+          "label": "the list, in order. Any row here replaces today's one",
           "repeat": true,
           "fields": {
             "title": {
               "type": "Text",
               "config": {
                 "label": "title",
-                "placeholder": "Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's one."
+                "placeholder": "Needed, with a file"
               }
             },
             "file": {
               "type": "Link",
               "config": {
-                "label": "file (opens in a new tab)",
+                "label": "file (needed for the row to show; not clickable while this column is greyed out)",
                 "select": "media"
               }
             }

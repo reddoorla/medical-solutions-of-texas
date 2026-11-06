@@ -1352,21 +1352,21 @@ interface ProcessPageDocumentData {
 export type ProcessPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ProcessPageDocumentData>, "process_page", Lang>;
 
 /**
- * Item in *Resources page → the catalogs, in order*
+ * Item in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
  */
 export interface ResourcesPageDocumentDataCatalogsItem {
 	/**
-	 * title field in *Resources page → the catalogs, in order*
+	 * title field in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two (the FSS one names the FSS contract number in Settings).
+	 * - **Placeholder**: Needed, with a file
 	 * - **API ID Path**: resources_page.catalogs[].title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
 	
 	/**
-	 * file (opens in a new tab) field in *Resources page → the catalogs, in order*
+	 * file (opens in a new tab) field in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
 	 *
 	 * - **Field Type**: Link to Media
 	 * - **Placeholder**: *None*
@@ -1377,21 +1377,21 @@ export interface ResourcesPageDocumentDataCatalogsItem {
 }
 
 /**
- * Item in *Resources page → the list, in order*
+ * Item in *Resources page → the list, in order. Any row here replaces today's one*
  */
 export interface ResourcesPageDocumentDataSuppliersItem {
 	/**
-	 * title field in *Resources page → the list, in order*
+	 * title field in *Resources page → the list, in order. Any row here replaces today's one*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's one.
+	 * - **Placeholder**: Needed, with a file
 	 * - **API ID Path**: resources_page.suppliers[].title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
 	
 	/**
-	 * file (opens in a new tab) field in *Resources page → the list, in order*
+	 * file (needed for the row to show; not clickable while this column is greyed out) field in *Resources page → the list, in order. Any row here replaces today's one*
 	 *
 	 * - **Field Type**: Link to Media
 	 * - **Placeholder**: *None*
@@ -1402,21 +1402,21 @@ export interface ResourcesPageDocumentDataSuppliersItem {
 }
 
 /**
- * Item in *Resources page → the list, in order*
+ * Item in *Resources page → the list, in order. Any row here replaces today's one*
  */
 export interface ResourcesPageDocumentDataGuidesItem {
 	/**
-	 * title field in *Resources page → the list, in order*
+	 * title field in *Resources page → the list, in order. Any row here replaces today's one*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Needed, with a file, or the row is not shown. The rows replace the whole list; with none, the page keeps today's one.
+	 * - **Placeholder**: Needed, with a file
 	 * - **API ID Path**: resources_page.guides[].title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
 	
 	/**
-	 * file (opens in a new tab) field in *Resources page → the list, in order*
+	 * file (needed for the row to show; not clickable while this column is greyed out) field in *Resources page → the list, in order. Any row here replaces today's one*
 	 *
 	 * - **Field Type**: Link to Media
 	 * - **Placeholder**: *None*
@@ -1484,7 +1484,7 @@ interface ResourcesPageDocumentData {
 	phone_label: prismic.KeyTextField;
 	
 	/**
-	 * customer service email field in *Resources page*
+	 * customer service email (shown as text, not a link) field in *Resources page*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: customerservice@MedicalSolutionsofTX.com
@@ -1535,7 +1535,7 @@ interface ResourcesPageDocumentData {
 	catalogs_heading: prismic.KeyTextField;
 	
 	/**
-	 * the catalogs, in order field in *Resources page*
+	 * the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title field in *Resources page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -1555,7 +1555,7 @@ interface ResourcesPageDocumentData {
 	suppliers_heading: prismic.KeyTextField;
 	
 	/**
-	 * the list, in order field in *Resources page*
+	 * the list, in order. Any row here replaces today's one field in *Resources page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -1575,7 +1575,7 @@ interface ResourcesPageDocumentData {
 	guides_heading: prismic.KeyTextField;
 	
 	/**
-	 * the list, in order field in *Resources page*
+	 * the list, in order. Any row here replaces today's one field in *Resources page*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
