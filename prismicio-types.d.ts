@@ -2637,7 +2637,7 @@ interface SettingsDocumentData {
 	nav_contact: prismic.KeyTextField;
 	
 	/**
-	 * logo's text for screen readers (top left, and the loading screen) field in *Site settings*
+	 * top-left logo and loading-screen logo, text for screen readers field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: msot logo
@@ -2701,7 +2701,7 @@ interface SettingsDocumentData {
 	footer_process_button: prismic.KeyTextField;
 	
 	/**
-	 * logo's text for screen readers field in *Site settings*
+	 * footer logo (links to Home), text for screen readers (every footer, Home's too) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Medical Solutions of Texas home
@@ -2712,7 +2712,7 @@ interface SettingsDocumentData {
 	footer_logo_alt: prismic.KeyTextField;
 	
 	/**
-	 * VOSB logo's text for screen readers field in *Site settings*
+	 * VOSB logo, text for screen readers (every footer, Home's too) field in *Site settings*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Leave empty to keep: Veteran-Owned Small Business (VOSB)

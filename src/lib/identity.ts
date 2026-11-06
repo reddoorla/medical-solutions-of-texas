@@ -260,7 +260,7 @@ export async function loadSettings(
   } catch (e) {
     if (isNoDocument(e)) return null;
     if (strict) throw e;
-    console.error("settings: falling back to the code's identity:", e);
+    console.error("settings: falling back to the code's identity and menu and footer words:", e);
     return null;
   }
 }

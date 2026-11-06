@@ -569,12 +569,12 @@
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
-          alt="Medical Solutions of Texas home"
+          alt={page.data.chrome.footer_logo_alt}
         /></a
       >
       <FooterIdentity />
     </div>
-    <img src={vosbLogo} alt="Veteran-Owned Small Business (VOSB)" class="h-16 md:h-24 self-start" />
+    <img src={vosbLogo} alt={page.data.chrome.vosb_alt} class="h-16 md:h-24 self-start" />
   </ContentWidth>
 </footer>
 

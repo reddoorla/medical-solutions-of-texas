@@ -47,12 +47,24 @@ const visible = (h: string) =>
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ");
+// The layout builds this fixture from CHROME_COPY itself; the TODAY equality
+// above is what keeps every key covered.
 const fixture = { cookie: "msot-chrome-fixture=1" };
 
 test("with no document a page shows today's menu and footer", async ({ request }) => {
   const about = html(await (await request.get("/about")).text());
-  for (const w of ["About", "Partners", "Process", "Resources", "Contact"])
-    expect(visible(about)).toContain(` ${w} `);
+  // The menu's own links, read from their anchors: the footer's "Contact Us"
+  // and the page's body would otherwise satisfy a plain text search.
+  const nav = [...about.matchAll(/<a href="(\/\w+)"[^>]*>\s*([^<]*?)\s*<\/a>/g)]
+    .map((m) => [m[1], m[2]])
+    .filter(([, w]) => ["About", "Partners", "Process", "Resources", "Contact"].includes(w));
+  expect(nav).toEqual([
+    ["/about", "About"],
+    ["/partners", "Partners"],
+    ["/process", "Process"],
+    ["/resources", "Resources"],
+    ["/contact", "Contact"],
+  ]);
   expect(about).toContain('alt="msot logo"');
   expect(about).toContain('aria-label="Open menu"');
   expect(visible(about)).toContain(" let’s get started ");
@@ -88,11 +100,17 @@ test("the menu and the footer read the document", async ({ request }) => {
   expect(shown).toContain(" Fixture privacy_link ");
   expect(shown).not.toMatch(/ let’s get started | Company details | Privacy Policy /);
   // Home's own footer shares the fold-out label and the privacy link.
-  const home = visible(await (await request.get("/", { headers: fixture })).text());
+  const homeHtml = html(await (await request.get("/", { headers: fixture })).text());
+  const home = visible(homeHtml);
   expect(home).toContain(" Fixture company_details ");
   expect(home).toContain(" Fixture privacy_link ");
+  // …and the footer's two logos.
+  expect(homeHtml).toContain('alt="Fixture footer_logo_alt"');
+  expect(homeHtml).toContain('alt="Fixture vosb_alt"');
 });
 
+// The phone menu's overlay is never server-rendered, so its close button is
+// checked after hydration, in a browser.
 test("the logo after the loading screen, and the menu's close button, read it too", async ({
   page,
   context,

@@ -2,7 +2,11 @@
 // footer (Footer.svelte, FooterIdentity.svelte), editable in the `settings`
 // document's Menu and Footer tabs; see $lib/content for how the fallback works.
 // The links' addresses stay in code. Home's own footer call to action is the
-// home_page document's.
+// home_page document's. Left in code on purpose, and on the operator's batched
+// question (workspace decisions/, "which strings stay in code"): the footer's
+// " dba ", "UEI ", "CAGE ", "FSS " and "|" between identity values; the layout's
+// SITE_NAME and fallbackTitle's "MSOT | " (a Prismic page with no title); and
+// the error page's "Page not found" and "Back to home".
 import type { SettingsDocument } from "../../../prismicio-types";
 import { text } from "../content";
 

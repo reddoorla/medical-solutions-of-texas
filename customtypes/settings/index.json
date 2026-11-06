@@ -274,7 +274,7 @@
       "logo_alt": {
         "type": "Text",
         "config": {
-          "label": "logo's text for screen readers (top left, and the loading screen)",
+          "label": "top-left logo and loading-screen logo, text for screen readers",
           "placeholder": "Leave empty to keep: msot logo"
         }
       },
@@ -318,14 +318,14 @@
       "footer_logo_alt": {
         "type": "Text",
         "config": {
-          "label": "logo's text for screen readers",
+          "label": "footer logo (links to Home), text for screen readers (every footer, Home's too)",
           "placeholder": "Leave empty to keep: Medical Solutions of Texas home"
         }
       },
       "vosb_alt": {
         "type": "Text",
         "config": {
-          "label": "VOSB logo's text for screen readers",
+          "label": "VOSB logo, text for screen readers (every footer, Home's too)",
           "placeholder": "Leave empty to keep: Veteran-Owned Small Business (VOSB)"
         }
       },
