@@ -1,0 +1,192 @@
+{
+  "format": "custom",
+  "id": "process_page",
+  "label": "Process page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Our Process": {
+      "heading_left": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, left word",
+          "placeholder": "Leave empty to keep: Our"
+        }
+      },
+      "heading_right": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, right word",
+          "placeholder": "Leave empty to keep: Process"
+        }
+      }
+    },
+    "Simplifying Complexity": {
+      "simplifying_heading": {
+        "type": "Text",
+        "config": {
+          "label": "box heading",
+          "placeholder": "Leave empty to keep: Simplifying Complexity"
+        }
+      },
+      "complex_line": {
+        "type": "Text",
+        "config": {
+          "label": "line in the box",
+          "placeholder": "Leave empty to keep: Government Contracting is Complex..."
+        }
+      },
+      "complex_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph in the box",
+          "placeholder": "Leave empty to keep: …and often feels like continuously slamming your head into a wall. We know, we’ve been there. You find your access is expired. Late payments, inability to collect a PO, supply chain delays or mismanagement. You’re always “almost there” to get that next contract, but never quite get across the finish line. This isn’t the way things should be."
+        }
+      },
+      "simplify_line": {
+        "type": "Text",
+        "config": {
+          "label": "line under the box",
+          "placeholder": "Leave empty to keep: Let’s Simplify It…"
+        }
+      },
+      "simplify_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph under the box",
+          "placeholder": "Leave empty to keep: ...and make things work. We’ve done this for years, with many partners and many situations and will help get you where you need to be. With experience comes procedure, with procedure comes consistency, efficiency, and results."
+        }
+      }
+    },
+    "Refine, Guide, Connect": {
+      "video_title": {
+        "type": "Text",
+        "config": {
+          "label": "background video's title (read by screen readers)",
+          "placeholder": "Leave empty to keep: background video"
+        }
+      },
+      "video_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading on the video",
+          "placeholder": "Leave empty to keep: OUR PROCESS"
+        }
+      },
+      "step_1_title": {
+        "type": "Text",
+        "config": {
+          "label": "step 01 title",
+          "placeholder": "Leave empty to keep: Refine"
+        }
+      },
+      "step_1_text": {
+        "type": "Text",
+        "config": {
+          "label": "step 01 text",
+          "placeholder": "Leave empty to keep: We’ll isolate the best contracts and options for your company"
+        }
+      },
+      "step_2_title": {
+        "type": "Text",
+        "config": {
+          "label": "step 02 title",
+          "placeholder": "Leave empty to keep: Guide"
+        }
+      },
+      "step_2_text": {
+        "type": "Text",
+        "config": {
+          "label": "step 02 text",
+          "placeholder": "Leave empty to keep: We’ll guide you through the bureaucracy and paperwork, and get your application in"
+        }
+      },
+      "step_3_title": {
+        "type": "Text",
+        "config": {
+          "label": "step 03 title",
+          "placeholder": "Leave empty to keep: Connect"
+        }
+      },
+      "step_3_text": {
+        "type": "Text",
+        "config": {
+          "label": "step 03 text",
+          "placeholder": "Leave empty to keep: We’ll get you in the room with the right people to help you build further relationships"
+        }
+      }
+    },
+    "Timeline": {
+      "timeline_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: What does a typical timeline look like?"
+        }
+      },
+      "timeline": {
+        "type": "Group",
+        "config": {
+          "label": "the steps, in order",
+          "repeat": true,
+          "fields": {
+            "timing": {
+              "type": "Text",
+              "config": {
+                "label": "timing (e.g. Week 1)",
+                "placeholder": "May be left empty."
+              }
+            },
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Needed, or the row is not shown. Numbered 01, 02, … as they stand; the rows replace the whole timeline, and with none the page keeps today's five."
+              }
+            },
+            "text": {
+              "type": "Text",
+              "config": {
+                "label": "text",
+                "placeholder": "May be left empty."
+              }
+            }
+          }
+        }
+      }
+    },
+    "Common Questions": {
+      "faq_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Common Questions & Our Answers"
+        }
+      },
+      "faq": {
+        "type": "Group",
+        "config": {
+          "label": "the questions, top to bottom",
+          "repeat": true,
+          "fields": {
+            "question": {
+              "type": "Text",
+              "config": {
+                "label": "question",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's two."
+              }
+            },
+            "answer": {
+              "type": "StructuredText",
+              "config": {
+                "label": "answer (each paragraph is a line)",
+                "placeholder": "Enter starts a new line, shown as typed. Left empty, the row shows its title alone.",
+                "multi": "paragraph"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
