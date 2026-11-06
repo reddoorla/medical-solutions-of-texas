@@ -1100,6 +1100,151 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Item in *Partners page → the logos, in order*
+ */
+export interface PartnersPageDocumentDataClientsItem {
+	/**
+	 * company name, read aloud for the logo field in *Partners page → the logos, in order*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, or the logo's alt text; a row with neither, or with no logo, is not shown. The rows replace the whole list; with none, the page keeps today's 18.
+	 * - **API ID Path**: partners_page.clients[].name
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * logo (transparent PNG or SVG, grey duotone like the others) field in *Partners page → the logos, in order*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.clients[].logo
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	logo: prismic.ImageField<never>;
+}
+
+/**
+ * Content for Partners page documents
+ */
+interface PartnersPageDocumentData {
+	/**
+	 * page heading, left word field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our
+	 * - **API ID Path**: partners_page.heading_left
+	 * - **Tab**: Our Partners
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_left: prismic.KeyTextField;
+	
+	/**
+	 * page heading, right word field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Partners
+	 * - **API ID Path**: partners_page.heading_right
+	 * - **Tab**: Our Partners
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading_right: prismic.KeyTextField;/**
+	 * box heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: working with the best
+	 * - **API ID Path**: partners_page.testimonial_heading
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_heading: prismic.KeyTextField;
+	
+	/**
+	 * the quoted company's logo (transparent PNG or SVG, shown white; used only with a name or alt text) field in *Partners page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.testimonial_logo
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	testimonial_logo: prismic.ImageField<never>;
+	
+	/**
+	 * the quoted company's name, read aloud for the logo field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed with a new logo, unless the logo has alt text. Left empty with no new logo, it keeps: Revogen
+	 * - **API ID Path**: partners_page.testimonial_name
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_name: prismic.KeyTextField;
+	
+	/**
+	 * the quote field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems.
+	 * - **API ID Path**: partners_page.testimonial_text
+	 * - **Tab**: Working With the Best
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	testimonial_text: prismic.KeyTextField;/**
+	 * heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Successful Partnerships
+	 * - **API ID Path**: partners_page.partnerships_heading
+	 * - **Tab**: Successful Partnerships
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partnerships_heading: prismic.KeyTextField;
+	
+	/**
+	 * paragraph field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our most successful partnerships are with companies who are looking to expand their product offering into VA and DoW facilities, who have the flexibility and mindset to work with the government and who believe it's meaningful to be a part of offering the best healthcare possible to our active duty and veteran population in the United States.
+	 * - **API ID Path**: partners_page.partnerships_text
+	 * - **Tab**: Successful Partnerships
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	partnerships_text: prismic.KeyTextField;/**
+	 * heading field in *Partners page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Our Clients
+	 * - **API ID Path**: partners_page.clients_heading
+	 * - **Tab**: Our Clients
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	clients_heading: prismic.KeyTextField;
+	
+	/**
+	 * the logos, in order field in *Partners page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: partners_page.clients[]
+	 * - **Tab**: Our Clients
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	clients: prismic.GroupField<Simplify<PartnersPageDocumentDataClientsItem>>;
+}
+
+/**
+ * Partners page document from Prismic
+ *
+ * - **API ID**: `partners_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PartnersPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<PartnersPageDocumentData>, "partners_page", Lang>;
+
+/**
  * Item in *Process page → the steps, in order*
  */
 export interface ProcessPageDocumentDataTimelineItem {
@@ -1375,6 +1520,252 @@ interface ProcessPageDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ProcessPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ProcessPageDocumentData>, "process_page", Lang>;
+
+/**
+ * Item in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
+ */
+export interface ResourcesPageDocumentDataCatalogsItem {
+	/**
+	 * title field in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, with a file
+	 * - **API ID Path**: resources_page.catalogs[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * file (opens in a new tab) field in *Resources page → the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.catalogs[].file
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	file: prismic.LinkToMediaField<prismic.FieldState, never>;
+}
+
+/**
+ * Item in *Resources page → the list, in order. Any row here replaces today's one*
+ */
+export interface ResourcesPageDocumentDataSuppliersItem {
+	/**
+	 * title field in *Resources page → the list, in order. Any row here replaces today's one*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, with a file
+	 * - **API ID Path**: resources_page.suppliers[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * file (needed for the row to show; not clickable while this column is greyed out) field in *Resources page → the list, in order. Any row here replaces today's one*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.suppliers[].file
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	file: prismic.LinkToMediaField<prismic.FieldState, never>;
+}
+
+/**
+ * Item in *Resources page → the list, in order. Any row here replaces today's one*
+ */
+export interface ResourcesPageDocumentDataGuidesItem {
+	/**
+	 * title field in *Resources page → the list, in order. Any row here replaces today's one*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Needed, with a file
+	 * - **API ID Path**: resources_page.guides[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * file (needed for the row to show; not clickable while this column is greyed out) field in *Resources page → the list, in order. Any row here replaces today's one*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.guides[].file
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	file: prismic.LinkToMediaField<prismic.FieldState, never>;
+}
+
+/**
+ * Content for Resources page documents
+ */
+interface ResourcesPageDocumentData {
+	/**
+	 * page heading field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Resources
+	 * - **API ID Path**: resources_page.heading
+	 * - **Tab**: Resources
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;/**
+	 * heading field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: CHARGE SHEET
+	 * - **API ID Path**: resources_page.charge_heading
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	charge_heading: prismic.KeyTextField;
+	
+	/**
+	 * button field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: DOWNLOAD
+	 * - **API ID Path**: resources_page.charge_button
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	charge_button: prismic.KeyTextField;
+	
+	/**
+	 * the charge sheet (a PDF) field in *Resources page*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: Leave empty to keep today's file, MSOT_ChargeSheet.pdf
+	 * - **API ID Path**: resources_page.charge_file
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	charge_file: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * word before the phone number (the address and number are in Settings) field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Phone:
+	 * - **API ID Path**: resources_page.phone_label
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone_label: prismic.KeyTextField;
+	
+	/**
+	 * customer service email (shown as text, not a link) field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: customerservice@MedicalSolutionsofTX.com
+	 * - **API ID Path**: resources_page.service_email
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	service_email: prismic.KeyTextField;
+	
+	/**
+	 * button to the Contact page field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Contact Us
+	 * - **API ID Path**: resources_page.contact_button
+	 * - **Tab**: Charge Sheet
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_button: prismic.KeyTextField;/**
+	 * heading field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: CAPABILITIES STATEMENT
+	 * - **API ID Path**: resources_page.capabilities_heading
+	 * - **Tab**: Capabilities Statement
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	capabilities_heading: prismic.KeyTextField;
+	
+	/**
+	 * button to the Capabilities page field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: READ IT
+	 * - **API ID Path**: resources_page.capabilities_button
+	 * - **Tab**: Capabilities Statement
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	capabilities_button: prismic.KeyTextField;/**
+	 * heading field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Catalogs
+	 * - **API ID Path**: resources_page.catalogs_heading
+	 * - **Tab**: Catalogs
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	catalogs_heading: prismic.KeyTextField;
+	
+	/**
+	 * the catalogs, in order. Any row here replaces today's two: add them back with their PDFs to keep them, typing the FSS contract number into its title field in *Resources page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.catalogs[]
+	 * - **Tab**: Catalogs
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	catalogs: prismic.GroupField<Simplify<ResourcesPageDocumentDataCatalogsItem>>;/**
+	 * heading (this column is shown greyed out, not yet clickable) field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Suppliers
+	 * - **API ID Path**: resources_page.suppliers_heading
+	 * - **Tab**: Suppliers
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	suppliers_heading: prismic.KeyTextField;
+	
+	/**
+	 * the list, in order. Any row here replaces today's one field in *Resources page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.suppliers[]
+	 * - **Tab**: Suppliers
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	suppliers: prismic.GroupField<Simplify<ResourcesPageDocumentDataSuppliersItem>>;/**
+	 * heading (this column is shown greyed out, not yet clickable) field in *Resources page*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: Technique Guides
+	 * - **API ID Path**: resources_page.guides_heading
+	 * - **Tab**: Technique Guides
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	guides_heading: prismic.KeyTextField;
+	
+	/**
+	 * the list, in order. Any row here replaces today's one field in *Resources page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: resources_page.guides[]
+	 * - **Tab**: Technique Guides
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	guides: prismic.GroupField<Simplify<ResourcesPageDocumentDataGuidesItem>>;
+}
+
+/**
+ * Resources page document from Prismic
+ *
+ * - **API ID**: `resources_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ResourcesPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ResourcesPageDocumentData>, "resources_page", Lang>;
 
 /**
  * Item in *Site settings → more contract vehicles (shown on /capabilities and in Google's structured data). A row needs both a name and a number, or it is not shown.*
@@ -1816,7 +2207,7 @@ interface TeamMemberDocumentData {
  */
 export type TeamMemberDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TeamMemberDocumentData>, "team_member", Lang>;
 
-export type AllDocumentTypes = AboutPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | ProcessPageDocument | SettingsDocument | TeamMemberDocument;
+export type AllDocumentTypes = AboutPageDocument | ContactPageDocument | FormRepliesDocument | HomePageDocument | PageDocument | PartnersPageDocument | ProcessPageDocument | ResourcesPageDocument | SettingsDocument | TeamMemberDocument;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -1885,10 +2276,18 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			PartnersPageDocument,
+			PartnersPageDocumentData,
+			PartnersPageDocumentDataClientsItem,
 			ProcessPageDocument,
 			ProcessPageDocumentData,
 			ProcessPageDocumentDataTimelineItem,
 			ProcessPageDocumentDataFaqItem,
+			ResourcesPageDocument,
+			ResourcesPageDocumentData,
+			ResourcesPageDocumentDataCatalogsItem,
+			ResourcesPageDocumentDataSuppliersItem,
+			ResourcesPageDocumentDataGuidesItem,
 			SettingsDocument,
 			SettingsDocumentData,
 			SettingsDocumentDataMoreContractsItem,
