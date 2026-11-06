@@ -113,11 +113,13 @@ for (const path of ["/", "/about"]) {
   for (const width of [1440, 390]) {
     test(`${path} at ${width}px: name, phone, email and © are in view; the details open and close from the keyboard, without JavaScript`, async ({
       browser,
+      baseURL,
     }) => {
       const context = await browser.newContext({
         javaScriptEnabled: false,
         viewport: { width, height: 900 },
       });
+      await emptyCookies(context, baseURL);
       const page = await context.newPage();
       await page.goto(path);
       const block = page.getByTestId("footer-identity");

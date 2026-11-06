@@ -140,8 +140,9 @@ for (const path of ["/process", "/about"]) {
   });
 }
 
-test("the FAQ opens and closes without JavaScript", async ({ browser }) => {
+test("the FAQ opens and closes without JavaScript", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
+  await emptyCookies(context, baseURL);
   const page = await context.newPage();
   await page.goto("/process");
   const answer = page.getByText(FAQ_ANSWERS[0]);

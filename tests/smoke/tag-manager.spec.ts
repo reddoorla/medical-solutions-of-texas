@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Developer Brief Part 1, §1 and §3, as decided on 11-04
 // (decision 2207, answer 1): Tag Manager, which fires the LinkedIn Insight Tag,
