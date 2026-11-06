@@ -1367,29 +1367,7 @@ interface HomePageDocumentData {
 	 * - **Tab**: Our Partner
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	partner_heading: prismic.KeyTextField;
-	
-	/**
-	 * quote, with its quotation marks field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: “MSOT made the process of getting our product into the DoD system easier than we ever t…
-	 * - **API ID Path**: home_page.partner_quote
-	 * - **Tab**: Our Partner
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	partner_quote: prismic.KeyTextField;
-	
-	/**
-	 * partner logo: the partner's name field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Leave empty to keep: Revogen
-	 * - **API ID Path**: home_page.partner_logo_alt
-	 * - **Tab**: Our Partner
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	partner_logo_alt: prismic.KeyTextField;/**
+	partner_heading: prismic.KeyTextField;/**
 	 * heading, first line (shown in capitals) field in *Home page*
 	 *
 	 * - **Field Type**: Text

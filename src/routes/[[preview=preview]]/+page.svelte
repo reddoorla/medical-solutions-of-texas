@@ -11,7 +11,6 @@
   import usFlag from "$lib/assets/icons/logos/usFlag.svg";
   import txFlag from "$lib/assets/icons/logos/txFlag.svg";
   import vosbLogo from "$lib/assets/icons/logos/vosb_white.svg";
-  import revogenLogo from "$lib/assets/icons/logos/revogenLogo.svg";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
 
   //images
@@ -34,6 +33,7 @@
   // The copy is the home_page document over today's wording ($lib/copy/home).
   let { data }: { data: PageData } = $props();
   const copy = $derived(data.copy);
+  const quote = $derived(data.quote);
   const timelineLabels = $derived([
     copy.timeline_label_1,
     copy.timeline_label_2,
@@ -473,11 +473,11 @@
         </h4>
 
         <p class="text-dark text-center mx-5 text-[24px]">
-          {copy.partner_quote}
+          “{quote.testimonial_text}”
         </p>
         <img
-          src={revogenLogo}
-          alt={copy.partner_logo_alt}
+          src={quote.testimonial_logo}
+          alt={quote.testimonial_name}
           class="h-32 max-w-[min(350px,100%)] object-contain"
         />
       </div>

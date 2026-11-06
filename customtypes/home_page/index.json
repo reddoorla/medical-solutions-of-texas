@@ -307,20 +307,6 @@
           "label": "heading (shown in capitals)",
           "placeholder": "Leave empty to keep: Our Partner"
         }
-      },
-      "partner_quote": {
-        "type": "Text",
-        "config": {
-          "label": "quote, with its quotation marks",
-          "placeholder": "Leave empty to keep: “MSOT made the process of getting our product into the DoD system easier than we ever t…"
-        }
-      },
-      "partner_logo_alt": {
-        "type": "Text",
-        "config": {
-          "label": "partner logo: the partner's name",
-          "placeholder": "Leave empty to keep: Revogen"
-        }
       }
     },
     "Getting Started": {
