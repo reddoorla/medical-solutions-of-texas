@@ -165,7 +165,7 @@ test("with no document, Contact shows today's words", async ({ request }) => {
     expect(shown, w).toContain(w);
   }
   expect(html).toContain(
-    '<option value="Select Interest" selected hidden>Select Interest</option>',
+    '<option value="Select Interest" selected="" hidden="">Select Interest</option>',
   );
   expect(html).toContain('<option value="DoW Contracts">DoW Contracts</option>');
   expect(html).toMatch(/<input[^>]*placeholder="Email"/);
