@@ -3,7 +3,9 @@
 // `dev` first, which is false in every build). Each text field reads
 // "Fixture <field>" ($lib/page-fixture), and each section body is a paragraph
 // "Fixture <field>" with a link to "/?fixture=<field>", followed by a bulleted
-// item "Fixture <field> item", so a page showing them can only have read the
+// item "Fixture <field> item" and a paragraph naming the settings values as
+// tokens, one misspelt: "Fixture <field> by {legal name} dba {Name}, at
+// {email}, not {e-mail}.", so a page showing them can only have read the
 // document. The effective date is 2030-01-02.
 import { pageFixture } from "$lib/page-fixture";
 
@@ -28,6 +30,11 @@ export function privacyFixture(
         ],
       },
       { type: "list-item", text: `${words} item`, spans: [] },
+      {
+        type: "paragraph",
+        text: `${words} by {legal name} dba {Name}, at {email}, not {e-mail}.`,
+        spans: [],
+      },
     ];
   }
   data.effective_date = "2030-01-02";

@@ -1,16 +1,20 @@
 // The privacy policy's copy (src/routes/[[preview=preview]]/privacy/+page.svelte),
 // editable in Prismic's `privacy_page` document; see $lib/content for how the
-// fallback works. Every heading is a field. Only the sections with no code
-// logic have a body field (Do Not Track, Children, Changes): empty, the page
-// keeps today's wording; filled, it replaces that section's body whole. The
-// opening and the other four sections stay in code: they follow
-// PRIVACY_SERVICES and the `settings` document's legal name and email, which a
-// typed body would freeze.
+// fallback works. Every heading is a field, and so is every section's body,
+// the opening's included: empty, a body keeps today's text; filled, it
+// replaces that section's text whole (the operator, 11-06, on the "which
+// strings stay in code" decision: "Field per section, tokens"). Today's
+// opening and its four sections What we collect, How we use it, Who else
+// receives it and Your choices are written by the page from PRIVACY_SERVICES
+// and the `settings` document's names and email. A filled body is typed: it
+// shows the settings values only where it names them as {legal name}, {name}
+// and {email}, and it no longer follows PRIVACY_SERVICES.
 // The page has no `page` document, so its SEO title and description are this
 // type's: empty, they are null and the layout keeps $lib/seo's.
 import { asText, isFilled, type RichTextField } from "@prismicio/client";
 import type { PrivacyPageDocument } from "../../../prismicio-types";
-import { text } from "../content";
+import { fillRichText, text } from "../content";
+import type { Identity } from "../identity";
 import { PRIVACY_VALUES } from "../privacy/policy";
 
 /** Today's wording, word for word: what the page shows with no privacy_page document. */
@@ -29,8 +33,27 @@ export const PRIVACY_COPY = {
   changes_heading: "Changes to this policy",
 };
 
-/** The rich-text fields, each one section's body. */
-export const PRIVACY_BODIES = ["dnt_body", "children_body", "changes_body"] as const;
+/** The rich-text fields, each one section's body, in page order. */
+export const PRIVACY_BODIES = [
+  "opening_body",
+  "collect_body",
+  "use_body",
+  "others_body",
+  "dnt_body",
+  "children_body",
+  "choices_body",
+  "changes_body",
+] as const;
+
+/** The settings values a body may name, as {tokens} ($lib/content's fill). */
+export function privacyTokens(identity: Identity): Record<string, string> {
+  return { "legal name": identity.legalName, name: identity.name, email: identity.email };
+}
+
+/** A filled body as the page shows it: its {tokens} filled, and {email} a mailto link. */
+export function privacyBody(field: RichTextField, identity: Identity): RichTextField {
+  return fillRichText(field, privacyTokens(identity), { email: (address) => `mailto:${address}` });
+}
 
 /**
  * A rich-text field with words in it, or null: the page then shows today's
@@ -61,8 +84,13 @@ export function privacyCopy(doc: PrivacyPageDocument | null) {
     effective_date: isFilled.date(d?.effective_date)
       ? d.effective_date
       : PRIVACY_VALUES.effectiveDate,
+    opening_body: body(d?.opening_body),
+    collect_body: body(d?.collect_body),
+    use_body: body(d?.use_body),
+    others_body: body(d?.others_body),
     dnt_body: body(d?.dnt_body),
     children_body: body(d?.children_body),
+    choices_body: body(d?.choices_body),
     changes_body: body(d?.changes_body),
   };
 }
