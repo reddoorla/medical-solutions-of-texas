@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // MSOT Marketing's Developer Brief Part 2, §12e: a title, description, social
 // preview and self-referencing canonical per page, and one <h1>. Read from the
@@ -62,7 +66,7 @@ const metaContent = (html: string, attr: string, name: string) =>
 
 for (const [path, want] of Object.entries(EXPECTED)) {
   test(`${path}: its own title, description, social preview and canonical`, async ({ request }) => {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     expect(want.title.length, "title fits 60 characters").toBeLessThanOrEqual(60);
     expect(want.description.length, "description fits 160").toBeLessThanOrEqual(160);
 
@@ -83,7 +87,7 @@ test("no two pages share a title or a description", async ({ request }) => {
   const titles = new Set<string>();
   const descriptions = new Set<string>();
   for (const path of Object.keys(EXPECTED)) {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     titles.add(all(html, /<title>([^<]*)<\/title>/g)[0]);
     descriptions.add(metaContent(html, "name", "description")[0]);
   }
@@ -117,7 +121,7 @@ const ONE_H1: Record<string, string> = {
 
 for (const path of Object.keys(EXPECTED)) {
   test(`${path}: "let's get started" is decoration, never a heading`, async ({ request }) => {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     const h1s = all(html, /<h1\b[^>]*>([\s\S]*?)<\/h1>/g).map((h) =>
       h
         .replace(/<[^>]+>/g, " ")
@@ -134,7 +138,7 @@ for (const path of Object.keys(EXPECTED)) {
 
 for (const [path, heading] of Object.entries(ONE_H1)) {
   test(`${path}: exactly one <h1>, "${heading}"`, async ({ request }) => {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     const h1s = all(html, /<h1\b[^>]*>([\s\S]*?)<\/h1>/g).map((h) =>
       h
         .replace(/<[^>]+>/g, " ")
@@ -183,7 +187,9 @@ for (const [width, size] of [
 test("a /preview URL takes its page's title and the canonical without the prefix", async ({
   request,
 }) => {
-  const html = await (await request.get("/preview/about")).text();
+  const html = await (
+    await request.get("/preview/about", { headers: empty(...SINGLETONS) })
+  ).text();
   expect(all(html, /<title>([^<]*)<\/title>/g)).toEqual([EXPECTED["/about"].title]);
   expect(all(html, /<link rel="canonical" href="([^"]*)"/g)).toEqual([`${SITE}/about`]);
 });

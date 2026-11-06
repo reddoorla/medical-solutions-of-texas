@@ -1,4 +1,8 @@
 import { test, expect, type Page, type Request } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // The contact form's "Select Interest" field is a native <select name="select">
 // (it replaced svelte-select on 2026-11-03). The server action forwards
