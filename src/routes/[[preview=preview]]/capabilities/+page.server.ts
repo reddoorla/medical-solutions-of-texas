@@ -3,7 +3,7 @@ import { building, dev } from "$app/env";
 import { createClient } from "$lib/prismicio";
 import { loadSingle } from "$lib/content";
 import { CAPABILITIES_COPY, capabilitiesCopy } from "$lib/copy/capabilities";
-import type { CapabilitiesPageDocument } from "../../../prismicio-types";
+import type { CapabilitiesPageDocument } from "../../../../prismicio-types";
 import type { PageServerLoad } from "./$types";
 
 // The page's words: the capabilities_page document over today's, field by
@@ -11,6 +11,9 @@ import type { PageServerLoad } from "./$types";
 // and description are this type's too: empty, they are null and the layout
 // keeps $lib/seo's. `vite dev` alone can serve a fixture document, for the
 // smoke test, behind a cookie: a query string is refused on prerendered routes.
+// /capabilities is prerendered (entries below); /preview/capabilities is
+// rendered per request, so Marketing can see a draft, and there an error falls
+// back.
 export const load: PageServerLoad = async ({ fetch, cookies }) => {
   const client = createClient({ fetch, cookies });
   const copy = capabilitiesCopy(
@@ -24,3 +27,7 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
   );
   return { copy, meta_title: copy.meta_title, meta_description: copy.meta_description };
 };
+
+export function entries() {
+  return [{}];
+}

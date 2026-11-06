@@ -1,5 +1,5 @@
-// The Capabilities Statement's copy (src/routes/capabilities/+page.svelte),
-// editable in Prismic's `capabilities_page` document; see $lib/content for how
+// The Capabilities Statement's copy
+// (src/routes/[[preview=preview]]/capabilities/+page.svelte), editable in Prismic's `capabilities_page` document; see $lib/content for how
 // the fallback works. The names, numbers, phone, email and address are the
 // `settings` document's. The SEO title and description have no `page`
 // document here, so they are this type's: empty, the layout keeps $lib/seo's.
