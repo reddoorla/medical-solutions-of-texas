@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { PRIVACY_BODIES, PRIVACY_COPY, privacyCopy } from "../../src/lib/copy/privacy";
+import { PAGE_SEO } from "../../src/lib/seo";
 import type { PrivacyPageDocument } from "../../prismicio-types";
 
 // The privacy policy's copy moves into Prismic's `privacy_page` singleton (the
@@ -64,6 +65,12 @@ test("privacyCopy: no document is today's wording; a filled field wins, field by
   expect([some.dnt_body, some.children_body]).toEqual([null, null]);
   expect(some.changes_body).toEqual(para("Write to us."));
   expect([...PRIVACY_BODIES]).toEqual(["dnt_body", "children_body", "changes_body"]);
+  // The SEO pair is never a fallback (the layout's is $lib/seo's); it feeds the
+  // fixture and the placeholders, so it must match what the layout falls back to.
+  expect([PRIVACY_COPY.meta_title, PRIVACY_COPY.meta_description]).toEqual([
+    PAGE_SEO["/privacy"]?.title,
+    PAGE_SEO["/privacy"]?.description,
+  ]);
   expect(Object.keys(PRIVACY_COPY)).toEqual([
     "meta_title",
     "meta_description",
@@ -169,4 +176,9 @@ test("/preview/privacy is served per request, for Marketing's drafts", async ({ 
   const res = await request.get("/preview/privacy");
   expect(res.status()).toBe(200);
   expect(visible(article(await res.text()))).toContain("Privacy Policy Effective");
+  // …and it reads the document, as /privacy does.
+  const draft = await request.get("/preview/privacy", {
+    headers: { cookie: "msot-privacy-fixture=1" },
+  });
+  expect(visible(article(await draft.text()))).toContain("Fixture heading");
 });

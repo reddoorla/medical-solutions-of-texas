@@ -40,7 +40,7 @@
         "type": "Date",
         "config": {
           "label": "effective date",
-          "placeholder": "Leave empty to keep the date in code (November 4, 2026)"
+          "placeholder": "Leave empty to keep November 4, 2026"
         }
       }
     },
@@ -48,7 +48,7 @@
       "collect_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
           "placeholder": "Leave empty to keep: What we collect"
         }
       }
@@ -57,7 +57,7 @@
       "use_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
           "placeholder": "Leave empty to keep: How we use it"
         }
       }
@@ -66,7 +66,7 @@
       "others_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
           "placeholder": "Leave empty to keep: Who else receives it"
         }
       }
@@ -82,8 +82,8 @@
       "dnt_body": {
         "type": "StructuredText",
         "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: Your browser may let you send a \"Do Not Track\" signal. There is no agreed standard for how a website should respond to it, so this site does not change what it collects when it receives one. Filled, it replaces the text under the heading, shown as typed.",
           "multi": "paragraph,strong,em,hyperlink,list-item",
           "allowTargetBlank": false
         }
@@ -100,8 +100,8 @@
       "children_body": {
         "type": "StructuredText",
         "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: This site is not meant for children under 13, and we do not knowingly collect their information. Filled, it replaces the text under the heading, shown as typed.",
           "multi": "paragraph,strong,em,hyperlink,list-item",
           "allowTargetBlank": false
         }
@@ -111,7 +111,7 @@
       "choices_heading": {
         "type": "Text",
         "config": {
-          "label": "heading",
+          "label": "heading (the text under it stays as Reddoor set it, for now)",
           "placeholder": "Leave empty to keep: Your choices"
         }
       }
@@ -127,8 +127,8 @@
       "changes_body": {
         "type": "StructuredText",
         "config": {
-          "label": "section (paragraphs, bulleted lists, bold, italic and links)",
-          "placeholder": "Leave empty to keep today's section. Filled, it replaces the whole section, shown as typed.",
+          "label": "text under the heading (paragraphs, bulleted lists, bold, italic and links)",
+          "placeholder": "Leave empty to keep today's text: If we change this policy, we will post the new version on this page and update the effective date above. Filled, it replaces the text under the heading, shown as typed.",
           "multi": "paragraph,strong,em,hyperlink,list-item",
           "allowTargetBlank": false
         }
