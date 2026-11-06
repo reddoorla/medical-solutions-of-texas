@@ -50,9 +50,6 @@ export const HOME_COPY = {
   timeline_2_heading: "Raising a family",
   timeline_2_text: "Medical care and procedures for service men, women and family members.",
   partner_heading: "Our Partner",
-  partner_quote:
-    "“MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems.”",
-  partner_logo_alt: "Revogen",
   start_heading_1: "Getting started",
   start_heading_2: "is simple with msot",
   step_1: ["establish", "goals"],
@@ -111,8 +108,6 @@ export function homeCopy(doc: HomePageDocument | null) {
     timeline_2_heading: text(d?.timeline_2_heading, HOME_COPY.timeline_2_heading),
     timeline_2_text: text(d?.timeline_2_text, HOME_COPY.timeline_2_text),
     partner_heading: text(d?.partner_heading, HOME_COPY.partner_heading),
-    partner_quote: text(d?.partner_quote, HOME_COPY.partner_quote),
-    partner_logo_alt: text(d?.partner_logo_alt, HOME_COPY.partner_logo_alt),
     start_heading_1: text(d?.start_heading_1, HOME_COPY.start_heading_1),
     start_heading_2: text(d?.start_heading_2, HOME_COPY.start_heading_2),
     step_1: lines(d?.step_1, HOME_COPY.step_1),
