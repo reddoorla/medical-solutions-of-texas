@@ -1,7 +1,8 @@
 // Prismic's Route Resolver: the address of each document type that has a page
 // of its own, so Prismic's Preview button and a rich-text link to a document
-// land on its page. Without a route a type resolves to "/", and Marketing
-// previewing an About draft would see Home. /api/preview prefixes the address
+// land on its page. Without a route a type's document has no URL, and
+// /api/preview falls back to "/": Marketing previewing an About draft would
+// see Home. /api/preview prefixes the address
 // with "/preview", the server-rendered copy of each page under
 // src/routes/[[preview=preview]]/.
 //

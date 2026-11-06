@@ -26,6 +26,11 @@ test("every page type resolves to its page's address, once", () => {
     const routes = PRISMIC_ROUTES.filter((r) => r.type === type);
     expect(routes, type).toEqual([{ type, path }]);
   }
+  // The `page` type's own two: Home by uid, every other page by its uid.
+  expect(PRISMIC_ROUTES.filter((r) => r.type === "page")).toEqual([
+    { type: "page", uid: "home", path: "/" },
+    { type: "page", path: "/:uid" },
+  ]);
   for (const type of NO_PAGE)
     expect(
       PRISMIC_ROUTES.filter((r) => r.type === type),
@@ -44,7 +49,13 @@ test("every custom type in the repo is either a page type or has no page", () =>
 
 test("the Prismic client is given these routes", () => {
   const src = readFileSync(join(process.cwd(), "src/lib/prismicio.js"), "utf8");
-  expect(src).toMatch(/routes: PRISMIC_ROUTES,/);
+  // Uncommented, inside createClient's options, and not overridden after.
+  const options = src.slice(
+    src.indexOf("prismic.createClient("),
+    src.indexOf("enableAutoPreviews({"),
+  );
+  expect(options).toMatch(/^\s+routes: PRISMIC_ROUTES,$/m);
+  expect(options.match(/\broutes\s*:/g)).toHaveLength(1);
 });
 
 const visible = (html: string) =>
@@ -64,5 +75,7 @@ for (const [type, { path, cookie }] of Object.entries(PAGE_TYPES)) {
     const draft = await request.get(preview, { headers: { cookie: `${cookie}=1` } });
     expect(draft.status()).toBe(200);
     expect(visible(await draft.text())).toContain("Fixture ");
+    // Prismic's redirect sends Home's preview to "/preview/".
+    if (path === "/") expect((await request.get("/preview/")).status()).toBe(200);
   });
 }
