@@ -1,0 +1,116 @@
+import { expect, test } from "@playwright/test";
+
+import { CHROME_COPY, chromeCopy } from "../../src/lib/copy/chrome";
+import type { SettingsDocument } from "../../prismicio-types";
+
+// The menu and footer words move onto the `settings` singleton's Menu and
+// Footer tabs (the operator, 11-05: "all content should be in prismic, not in
+// code"). Each falls back to today's wording when its field is empty. Today's
+// words are written out here, not read from $lib/copy/chrome, so a changed
+// default fails.
+const TODAY = {
+  nav_about: "About",
+  nav_partners: "Partners",
+  nav_process: "Process",
+  nav_resources: "Resources",
+  nav_contact: "Contact",
+  logo_alt: "msot logo",
+  open_menu: "Open menu",
+  close_menu: "Close menu",
+  footer_cta: "let’s get started",
+  footer_contact_button: "Contact Us",
+  footer_process_button: "Learn More",
+  footer_logo_alt: "Medical Solutions of Texas home",
+  vosb_alt: "Veteran-Owned Small Business (VOSB)",
+  company_details: "Company details",
+  privacy_link: "Privacy Policy",
+};
+
+const doc = (data: Record<string, unknown>) => ({ data }) as unknown as SettingsDocument;
+
+test("no document, or empty fields, keep today's words", () => {
+  expect(CHROME_COPY).toEqual(TODAY);
+  expect(chromeCopy(null)).toEqual(TODAY);
+  expect(chromeCopy(doc({ nav_about: "", vosb_alt: "  ", footer_cta: null }))).toEqual(TODAY);
+});
+
+test("a filled field wins, field by field", () => {
+  const some = chromeCopy(doc({ nav_process: "How it works", company_details: "More" }));
+  expect(some).toEqual({ ...TODAY, nav_process: "How it works", company_details: "More" });
+});
+
+// SvelteKit serializes the layout's data into a <script>, so raw HTML holds
+// every value whether or not the page shows it: strip scripts first.
+const html = (h: string) => h.replace(/<script[\s\S]*?<\/script>/gi, " ");
+const visible = (h: string) =>
+  html(h)
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ");
+const fixture = { cookie: "msot-chrome-fixture=1" };
+
+test("with no document a page shows today's menu and footer", async ({ request }) => {
+  const about = html(await (await request.get("/about")).text());
+  for (const w of ["About", "Partners", "Process", "Resources", "Contact"])
+    expect(visible(about)).toContain(` ${w} `);
+  expect(about).toContain('alt="msot logo"');
+  expect(about).toContain('aria-label="Open menu"');
+  expect(visible(about)).toContain(" let’s get started ");
+  expect(about).toContain('alt="Medical Solutions of Texas home"');
+  expect(about).toContain('alt="Veteran-Owned Small Business (VOSB)"');
+  expect(visible(about)).toContain(" Company details ");
+  expect(visible(about)).toContain(" Privacy Policy ");
+});
+
+test("the menu and the footer read the document", async ({ request }) => {
+  const about = html(await (await request.get("/about", { headers: fixture })).text());
+  const shown = visible(about);
+  // The menu: the five links in order, to their own addresses.
+  const links = [...about.matchAll(/<a href="(\/\w+)"[^>]*>\s*(Fixture nav_\w+)\s*<\/a>/g)].map(
+    (m) => [m[1], m[2]],
+  );
+  expect(links.slice(0, 5)).toEqual([
+    ["/about", "Fixture nav_about"],
+    ["/partners", "Fixture nav_partners"],
+    ["/process", "Fixture nav_process"],
+    ["/resources", "Fixture nav_resources"],
+    ["/contact", "Fixture nav_contact"],
+  ]);
+  expect(about).toContain('alt="Fixture logo_alt"');
+  expect(about).toContain('aria-label="Fixture open_menu"');
+  // The footer.
+  expect(shown.split("Fixture footer_cta").length - 1).toBe(3);
+  expect(shown).toContain(" Fixture footer_contact_button ");
+  expect(shown).toContain(" Fixture footer_process_button ");
+  expect(about).toContain('alt="Fixture footer_logo_alt"');
+  expect(about).toContain('alt="Fixture vosb_alt"');
+  expect(shown).toContain(" Fixture company_details ");
+  expect(shown).toContain(" Fixture privacy_link ");
+  expect(shown).not.toMatch(/ let’s get started | Company details | Privacy Policy /);
+  // Home's own footer shares the fold-out label and the privacy link.
+  const home = visible(await (await request.get("/", { headers: fixture })).text());
+  expect(home).toContain(" Fixture company_details ");
+  expect(home).toContain(" Fixture privacy_link ");
+});
+
+test("the logo after the loading screen, and the menu's close button, read it too", async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  await context.addCookies([{ name: "msot-chrome-fixture", value: "1", url: baseURL! }]);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/about");
+  await expect(page.locator('a[href="/"] > img[alt="Fixture logo_alt"]').first()).toBeVisible({
+    timeout: 10_000,
+  });
+  await page.getByRole("button", { name: "Fixture open_menu" }).click();
+  await expect(page.getByRole("button", { name: "Fixture close_menu" })).toBeVisible();
+});
+
+test("the settings document itself feeds them, not only the fixture", async ({ request }) => {
+  const about = visible(
+    await (await request.get("/about", { headers: { cookie: "msot-settings-fixture=1" } })).text(),
+  );
+  expect(about).toContain(" Fixture privacy link ");
+});
