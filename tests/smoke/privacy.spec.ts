@@ -5,6 +5,11 @@ import {
   PRIVACY_SERVICES,
   PRIVACY_VALUES,
 } from "../../src/lib/privacy/policy";
+import { empty, emptyCookies, SINGLETONS } from "./empty";
+
+// Every request in this file but the last test's reads the pages' empty
+// documents (./empty): a filled policy body has no service-<name> test ids.
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 const LINKS_PRIVACY = /<a\b[^>]*\bhref="\/privacy\/?"/;
 
@@ -14,7 +19,10 @@ test("/privacy renders the policy with the site's values", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "Privacy Policy" })).toBeVisible();
   const policy = page.getByTestId("privacy-policy");
   await expect(policy).toContainText(PRIVACY_VALUES.legalName);
-  await expect(policy).toContainText("Effective October 14, 2026");
+  await expect(policy).toContainText("Effective November 4, 2026");
+  await expect(policy).toContainText(
+    'OJH Services, Inc., doing business as Medical Solutions of Texas ("we") runs this website.',
+  );
   await expect(policy).toContainText(
     "goes to Reddoor with your message. It is used to confirm the form came from a real browser. It is not saved",
   );
@@ -29,7 +37,7 @@ test("/privacy renders the policy with the site's values", async ({ page }) => {
 
 for (const path of ["/", "/about"]) {
   test(`${path} links to /privacy from its footer`, async ({ page, request }) => {
-    const html = await (await request.get(path)).text();
+    const html = await (await request.get(path, { headers: empty(...SINGLETONS) })).text();
     expect(html).toMatch(LINKS_PRIVACY);
     await page.goto(path);
     const link = page.locator("footer").getByRole("link", { name: "Privacy Policy" });
@@ -47,4 +55,45 @@ test("the footer link survives the phone layout", async ({ page }) => {
   await link.scrollIntoViewIfNeeded();
   await expect(link).toBeVisible();
   await expect(link).toBeInViewport();
+});
+
+// Developer Brief Part 1, §6, word for word, and the operator's 11-04 call
+// (decision 2207, answer 2(b)): the policy is final, indexed, and names the
+// LinkedIn Insight Tag and the Tag Manager that loads it.
+test("/privacy is final and discloses LinkedIn and Tag Manager", async ({ page, request }) => {
+  const html = await (await request.get(PRIVACY_PATH, { headers: empty(...SINGLETONS) })).text();
+  expect(html).not.toContain('<meta name="robots" content="noindex"');
+  expect(html).not.toContain("DRAFT");
+  await page.goto(PRIVACY_PATH);
+  await expect(page.getByTestId("privacy-draft")).toHaveCount(0);
+  await expect(page.getByTestId("service-linkedin")).toHaveText(
+    "We use the LinkedIn Insight Tag to measure the effectiveness of our LinkedIn advertising and to show relevant ads to people who have visited our site. LinkedIn may set cookies and collect information such as the page visited and browser details. LinkedIn does not share personal information that identifies you with us. You can manage LinkedIn ad settings at linkedin.com/psettings/advertising.",
+    { useInnerText: true },
+  );
+  await expect(
+    page
+      .getByTestId("service-linkedin")
+      .getByRole("link", { name: "linkedin.com/psettings/advertising" }),
+  ).toHaveAttribute("href", "https://www.linkedin.com/psettings/advertising");
+  await expect(page.getByTestId("service-gtm")).toContainText(
+    "after you first move the mouse, scroll, click, tap or press a key on a page",
+  );
+});
+
+// The policy as published, with no fixture: whatever Marketing types into the
+// bodies, the policy a visitor reads must still disclose the LinkedIn Insight
+// Tag and the Tag Manager that loads it (Developer Brief Part 1, §6).
+test("the published /privacy still names the LinkedIn Insight Tag and Tag Manager", async ({
+  request,
+}) => {
+  const html = await (await request.get(PRIVACY_PATH)).text();
+  // The policy's own <article>, so a footer or title line can't satisfy it.
+  const article = html.match(/<article[^>]*data-testid="privacy-policy"[\s\S]*?<\/article>/);
+  expect(article, "the policy article").not.toBeNull();
+  const policy = article![0]
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ");
+  expect(policy).toContain("LinkedIn Insight Tag");
+  expect(policy).toContain("Tag Manager");
 });

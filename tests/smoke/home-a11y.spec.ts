@@ -1,5 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
 import AxeBuilder from "@axe-core/playwright";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 const RULES = ["color-contrast", "heading-order"];
 
@@ -128,8 +132,8 @@ for (const viewport of VIEWPORTS) {
       painted.some((p) => /priority/i.test(p.text)),
       "the lit word is measured",
     ).toBe(true);
-    // The home page sets none of these on a rotating word or its ancestors (the
-    // only filter in app.css is on .multi-item-clear), so one found is a finding:
+    // The home page sets none of these on a rotating word or its ancestors
+    // (app.css has no filter at all since #117), so one found is a finding:
     // the paint is not modelled here, and it can recolour or lighten the word
     // below 3:1 unseen. The diff names the property found.
     expect(
@@ -164,7 +168,11 @@ for (const viewport of VIEWPORTS) {
     expect(violations).toEqual([]);
 
     const contrastPasses =
-      results.passes.find((r) => r.id === "color-contrast")?.nodes.map((n) => n.html) ?? [];
+      results.passes
+        .find((r) => r.id === "color-contrast")
+        // Svelte's hydration markers (<!---->) are not content; a heading
+        // rendered from Prismic lines has them around its <br>.
+        ?.nodes.map((n) => n.html.replace(/<!--[\s\S]*?-->/g, "")) ?? [];
     expect(
       contrastPasses.some((html) => /contract\s*(<br[^>]*>)?\s*expertise/i.test(html)),
       "axe judged the inactive word next to the lit one",

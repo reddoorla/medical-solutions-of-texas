@@ -1,6 +1,10 @@
 import { test, expect, type Page, type ConsoleMessage } from "@playwright/test";
+import { emptyCookies } from "./empty";
 import AxeBuilder from "@axe-core/playwright";
 import { smokeRoutes } from "./routes";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // Console messages we don't care about. Add patterns here only after seeing them
 // in CI and confirming they aren't actionable. Patterns are matched against both

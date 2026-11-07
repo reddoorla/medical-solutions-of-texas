@@ -21,19 +21,39 @@
       <link rel="stylesheet" href="https://use.typekit.net/noj4tji.css" />
     </noscript>
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ0WQMEE8L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-BZ0WQMEE8L");
+    </script>
+    <script>
+      (function (w, d, id) {
+        var events = ["pointerdown", "pointermove", "wheel", "keydown", "touchstart"];
+        function load(e) {
+          if (e.type === "pointermove" && !e.movementX && !e.movementY) return;
+          events.forEach(function (e) {
+            w.removeEventListener(e, load);
+          });
+          w.dataLayer = w.dataLayer || [];
+          w.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+          var s = d.createElement("script");
+          s.async = true;
+          s.src = "https://www.googletagmanager.com/gtm.js?id=" + id;
+          d.head.appendChild(s);
+        }
+        events.forEach(function (e) {
+          w.addEventListener(e, load, { passive: true });
+        });
+      })(window, document, "GTM-T4RZ2F54");
+    </script>
+
     %sveltekit.head%
   </head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ0WQMEE8L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-BZ0WQMEE8L");
-  </script>
   <body data-sveltekit-preload-data="hover" style="background-color: #140f09">
     <div style="display: contents">%sveltekit.body%</div>
   </body>

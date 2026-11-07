@@ -97,7 +97,6 @@
   const baseClasses = "pb-32";
 </script>
 
-<svelte:head><title>Portfolios | Reddoor Wireframer</title></svelte:head>
 <svelte:window bind:innerWidth />
 
 <section class="{baseClasses} {passedClasses}">

@@ -2,6 +2,7 @@ import { error } from "@sveltejs/kit";
 import { asText } from "@prismicio/client";
 
 import { createClient } from "$lib/prismicio";
+import { CODE_BUILT_UIDS } from "$lib/code-routes";
 
 export async function load({ params, fetch, cookies }) {
   const client = createClient({ fetch, cookies });
@@ -21,7 +22,7 @@ export async function load({ params, fetch, cookies }) {
 
 // UIDs that have their own dedicated routes — exclude them so they aren't
 // prerendered a second time through this catch-all.
-const RESERVED_UIDS = ["home", "about", "contact", "partners", "process", "resources", "privacy"];
+const RESERVED_UIDS = CODE_BUILT_UIDS;
 
 // Retired page uids: still present as Prismic docs but no longer public. Excluded
 // from prerendering so no dead/empty page ships; `/rep-login` is 301'd to the

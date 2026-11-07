@@ -5,6 +5,8 @@
   import { fly } from "svelte/transition";
   import { X } from "@lucide/svelte";
   import ContentWidth from "../ContentWidth/ContentWidth.svelte";
+  import { PrismicRichText } from "@prismicio/svelte";
+  import type { RichTextField } from "@prismicio/client";
 
   let showOverlay = $state(false);
 
@@ -32,7 +34,13 @@
     name: string;
     title: string;
     headshot?: string;
+    /** The headshot's alt text; defaults to the name. */
+    alt?: string;
     bio?: string;
+    /** A Prismic bio, shown under the name on a card with no popup. */
+    richBio?: RichTextField;
+    /** A LinkedIn profile URL, linked under the name on a card with no popup. */
+    linkedin?: string;
     noclick?: boolean;
   }
 
@@ -40,21 +48,26 @@
     name,
     title,
     headshot = placeholder,
+    alt,
     bio = name + " is the " + title + " at MSOT.",
+    richBio,
+    linkedin,
     noclick = false,
   }: Props = $props();
 </script>
 
-<button
-  class="w-64 md:w-96 lg:w-72 xl:w-96 opacity-90 hover:opacity-100 {noclick
-    ? 'pointer-events-none'
-    : ''}"
-  onclick={toggleOverlay}
+<!-- With no popup the card is a plain block, not a button that does nothing:
+     no empty tab stop, and a bio's LinkedIn link is valid inside it. -->
+<svelte:element
+  this={noclick ? "div" : "button"}
+  role={noclick ? undefined : "button"}
+  class="w-64 md:w-96 lg:w-72 xl:w-96 opacity-90 {noclick ? '' : 'hover:opacity-100'}"
+  onclick={noclick ? undefined : toggleOverlay}
 >
   <div class="w-full aspect-square relative overflow-hidden">
-    <img alt="dots" src={dots} class="w-full h-full absolute bottom-0 right-0" />
+    <img alt="" src={dots} class="w-full h-full absolute bottom-0 right-0" />
     <img
-      alt={name}
+      alt={alt ?? name}
       src={headshot}
       class="w-[96.5%] h-[96.5%] object-cover absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
     />
@@ -62,7 +75,26 @@
   <div class="w-full h-[2px] bg-light mt-6"></div>
   <h5 class="text-light mt-4 text-left">{title}</h5>
   <h3 class="text-white mt-2 text-left xl:text-nowrap">{name}</h3>
-</button>
+  {#if noclick && richBio}
+    <!-- Bio as plain text under the name. A "Read bio" toggle on phones, and
+         the card's height with a 90-word bio, are Erik's design call. -->
+    <div
+      class="text-light mt-4 text-left space-y-3 [&_p]:text-[18px] [&_p]:leading-normal"
+      data-testid="team-bio"
+    >
+      <PrismicRichText field={richBio} />
+    </div>
+  {/if}
+  {#if noclick && linkedin}
+    <a
+      href={linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="label text-light underline hover:text-white mt-4 inline-block"
+      >LinkedIn<span class="sr-only"> profile of {name} (opens in a new tab)</span></a
+    >
+  {/if}
+</svelte:element>
 {#if showOverlay}
   <div
     class="w-screen h-screen fixed bg-[#140F09] text-light left-0 top-0 flex items-center justify-between z-50"
@@ -73,8 +105,8 @@
     >
       <div class="w-64 md:w-96 lg:w-72 xl:w-96">
         <div class="w-full aspect-square relative overflow-hidden">
-          <img alt="dots" src={dots} class="w-full h-full absolute bottom-0 right-0" />
-          <img alt="albert turgon" src={headshot} class="w-full h-full object-cover absolute" />
+          <img alt="" src={dots} class="w-full h-full absolute bottom-0 right-0" />
+          <img alt={name} src={headshot} class="w-full h-full object-cover absolute" />
         </div>
         <div class="w-full h-[2px] bg-light mt-6"></div>
         <h5 class="text-light mt-6 text-center lg:text-left">{title}</h5>
