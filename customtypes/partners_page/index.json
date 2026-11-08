@@ -1,0 +1,105 @@
+{
+  "format": "custom",
+  "id": "partners_page",
+  "label": "Partners page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Our Partners": {
+      "heading_left": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, left word",
+          "placeholder": "Leave empty to keep: Our"
+        }
+      },
+      "heading_right": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, right word",
+          "placeholder": "Leave empty to keep: Partners"
+        }
+      }
+    },
+    "Working With the Best": {
+      "testimonial_heading": {
+        "type": "Text",
+        "config": {
+          "label": "box heading",
+          "placeholder": "Leave empty to keep: working with the best"
+        }
+      },
+      "testimonial_logo": {
+        "type": "Image",
+        "config": {
+          "label": "the quoted company's logo, white on transparent (PNG or SVG): Partners shows it white, Home as uploaded on its beige band; used only with a name or alt text",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "testimonial_name": {
+        "type": "Text",
+        "config": {
+          "label": "the quoted company's name, read aloud for the logo",
+          "placeholder": "Needed with a new logo, unless the logo has alt text. Left empty with no new logo, it keeps: Revogen"
+        }
+      },
+      "testimonial_text": {
+        "type": "Text",
+        "config": {
+          "label": "the quote, without quotation marks (Home adds them)",
+          "placeholder": "Leave empty to keep: MSOT made the process of getting our product into the DoD system easier than we ever thought possible. They're an invaluable partnership and wealth of knowledge when it comes to selling to the DoD and VA hospital systems."
+        }
+      }
+    },
+    "Successful Partnerships": {
+      "partnerships_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Successful Partnerships"
+        }
+      },
+      "partnerships_text": {
+        "type": "Text",
+        "config": {
+          "label": "paragraph",
+          "placeholder": "Leave empty to keep: Our most successful partnerships are with companies who are looking to expand their product offering into VA and DoW facilities, who have the flexibility and mindset to work with the government and who believe it's meaningful to be a part of offering the best healthcare possible to our active duty and veteran population in the United States."
+        }
+      }
+    },
+    "Our Clients": {
+      "clients_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: Our Clients"
+        }
+      },
+      "clients": {
+        "type": "Group",
+        "config": {
+          "label": "the logos, in order",
+          "repeat": true,
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "company name, read aloud for the logo",
+                "placeholder": "Needed, or the logo's alt text; a row with neither, or with no logo, is not shown. The rows replace the whole list; with none, the page keeps today's 18."
+              }
+            },
+            "logo": {
+              "type": "Image",
+              "config": {
+                "label": "logo (transparent PNG or SVG, grey duotone like the others)",
+                "constraint": {},
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,6 +6,9 @@
   import { browser } from "$app/env";
   import { repositoryName } from "$lib/prismicio";
   import { SITE_URL } from "$lib/site";
+  import { PAGE_SEO, pageDescription, routeKey, canonicalUrl } from "$lib/seo";
+  import type { Identity } from "$lib/identity";
+  import { untitledTitle, type ChromeCopy } from "$lib/copy/chrome";
   import { fly, fade } from "svelte/transition";
   import msotLogo from "$lib/assets/icons/logos/msot_logo.svg";
   import msotLogoSand from "$lib/assets/icons/logos/msot_logo_sand.svg";
@@ -18,7 +21,7 @@
 
   interface Props {
     children?: Snippet;
-    data: { isPreviewSession?: boolean };
+    data: { isPreviewSession?: boolean; identity: Identity; chrome: ChromeCopy };
   }
 
   let { children, data }: Props = $props();
@@ -27,43 +30,41 @@
   // A page's own Prismic value always wins; these only fill in when the field
   // is empty/absent so no page ever renders an empty <meta name="description">
   // or a blank/duplicate <title>.
-  const SITE_NAME = "Medical Solutions of Texas";
-  // Last-resort description, derived from the real homepage copy (VOSB status +
-  // navigating government healthcare contracting for the DoD/VA).
-  const DEFAULT_DESCRIPTION =
-    "Medical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the DoD and VA.";
 
-  // Route-derived title so an untitled Prismic doc still yields a unique, human
-  // <title> ("/process" -> "MSOT | Process") instead of an empty/duplicate tag.
-  function fallbackTitle(pathname: string): string {
-    const seg = pathname
-      .replace(/^\/+|\/+$/g, "")
-      .split("/")
-      .filter(Boolean)
-      .pop();
-    if (!seg) return SITE_NAME;
-    const label = seg
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-    return `MSOT | ${label}`;
-  }
-
+  let route = $derived(routeKey(page.url.pathname));
+  let isError = $derived(page.status >= 400);
+  // A filled Prismic SEO field wins, then Marketing's per-page wording
+  // ($lib/seo), then the Prismic document title. An error page never takes its
+  // title from the URL: it once read "MSOT | Llms.txt".
   let pageTitle = $derived(
-    page.data.title || page.data.meta_title || fallbackTitle(page.url.pathname),
+    isError
+      ? page.status === 404
+        ? data.identity.notFoundTitle
+        : data.identity.errorTitle
+      : page.data.meta_title ||
+          PAGE_SEO[route]?.title ||
+          page.data.title ||
+          untitledTitle(data.chrome, page.url.pathname),
   );
-  let metaDescription = $derived(page.data.meta_description || DEFAULT_DESCRIPTION);
+  let metaDescription = $derived(
+    (!isError && page.data.meta_description) ||
+      (!isError && pageDescription(route, data.identity)) ||
+      data.identity.defaultDescription,
+  );
+  // The khaki logo sits on the two light-backed pages. It used to key off the
+  // title "MSOT | Resources", which the titles above would have broken silently.
+  const KHAKI_LOGO_ROUTES = new Set(["/resources", "/contact"]);
 
   let isOverlayVisible = $state(false);
   let viewportWidth: number = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
 
-  const NAV_LINKS = [
-    { label: "About", href: "/about" },
-    { label: "Partners", href: "/partners" },
-    { label: "Process", href: "/process" },
-    { label: "Resources", href: "/resources" },
-    { label: "Contact", href: "/contact" },
-  ];
+  let NAV_LINKS = $derived([
+    { label: data.chrome.nav_about, href: "/about" },
+    { label: data.chrome.nav_partners, href: "/partners" },
+    { label: data.chrome.nav_process, href: "/process" },
+    { label: data.chrome.nav_resources, href: "/resources" },
+    { label: data.chrome.nav_contact, href: "/contact" },
+  ]);
 
   let main: HTMLElement | undefined = $state();
   let showNav = $state(true);
@@ -126,7 +127,12 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={metaDescription} />
-  <meta property="og:title" content={page.data.meta_title || pageTitle} />
+  <!-- No canonical on an error, or on a page that asks not to be indexed. -->
+  {#if !isError && !page.data.noindex}
+    <link rel="canonical" href={canonicalUrl(page.url.pathname)} />
+    <meta property="og:url" content={canonicalUrl(page.url.pathname)} />
+  {/if}
+  <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={metaDescription} />
   <meta property="og:image" content={page.data.meta_image ?? `${SITE_URL}/msot-og.jpg`} />
   <meta name="twitter:card" content="summary_large_image" />
@@ -147,7 +153,7 @@
     <img
       src={msotLogoSand}
       class="w-full h-full {reducedMotion ? '' : 'pulse-always'}"
-      alt="msot logo"
+      alt={data.chrome.logo_alt}
     />
   </div>
 {:else}
@@ -166,11 +172,8 @@
         : ''}"
     >
       <img
-        src={(page.data.title === "MSOT | Resources" || page.data.title === "MSOT | Contact") &&
-        !isTransitioning
-          ? msotLogoKhaki
-          : msotLogo}
-        alt="msot logo"
+        src={KHAKI_LOGO_ROUTES.has(route) && !isTransitioning ? msotLogoKhaki : msotLogo}
+        alt={data.chrome.logo_alt}
       />
     </a>
   </div>
@@ -188,7 +191,7 @@
       <button
         class="absolute top-5 right-5 opacity-60 hover:opacity-100 transition-all z-40"
         onclick={() => (isOverlayVisible = false)}
-        aria-label="Close menu"
+        aria-label={data.chrome.close_menu}
       >
         <div in:fade={{ delay: 1200 }} out:fade class="text-white">
           <X size={48} strokeWidth={1} />
@@ -217,7 +220,7 @@
       <button
         class="min-[769px]:hidden"
         onclick={() => (isOverlayVisible = true)}
-        aria-label="Open menu"
+        aria-label={data.chrome.open_menu}
       >
         <Menu class="text-[#998B6A]" size={48} strokeWidth={1.5} />
       </button>

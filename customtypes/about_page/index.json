@@ -1,0 +1,120 @@
+{
+  "format": "custom",
+  "id": "about_page",
+  "label": "About page",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "About MSOT": {
+      "heading_left": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, left word",
+          "placeholder": "Leave empty to keep: About"
+        }
+      },
+      "heading_right": {
+        "type": "Text",
+        "config": {
+          "label": "page heading, right word",
+          "placeholder": "Leave empty to keep: MSOT"
+        }
+      }
+    },
+    "What Differentiates Us": {
+      "differentiates_heading": {
+        "type": "Text",
+        "config": {
+          "label": "box heading",
+          "placeholder": "Leave empty to keep: what differentiates us"
+        }
+      },
+      "defined_text": {
+        "type": "Text",
+        "config": {
+          "label": "line under the definition",
+          "placeholder": "Leave empty to keep: We are defined by expertise and experience."
+        }
+      },
+      "experience_text": {
+        "type": "Text",
+        "config": {
+          "label": "experience paragraph",
+          "placeholder": "Leave empty to keep: With 20 years’ worth of experience in Air Force logistics and nearly 50 years in medical device sales on our leadership team, we know the VA and DoW healthcare landscape better than anyone. We enable med-surg suppliers to find and access opportunities that they wouldn’t have been able to tap into alone."
+        }
+      }
+    },
+    "What We Do For You": {
+      "services_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: What We Do For You"
+        }
+      },
+      "services": {
+        "type": "Group",
+        "config": {
+          "label": "the list, top to bottom",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Needed, or the row is not shown. The rows replace the whole list; with none, the page keeps today's four."
+              }
+            },
+            "answer": {
+              "type": "StructuredText",
+              "config": {
+                "label": "answer (each paragraph is a line)",
+                "placeholder": "Enter starts a new line, shown as typed. Left empty, the row shows its title alone.",
+                "multi": "paragraph"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Who We Are": {
+      "who_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "eyebrow",
+          "placeholder": "Leave empty to keep: Who We Are"
+        }
+      },
+      "who_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading",
+          "placeholder": "Leave empty to keep: We have what you’re looking for"
+        }
+      },
+      "who_text_1": {
+        "type": "Text",
+        "config": {
+          "label": "first paragraph",
+          "placeholder": "Leave empty to keep: MSOT was founded by a team of medical sales experts in 2022. With a career running Air Force logistics on bases in the continental United States and at forward deployment locations overseas, we have the experience to know how to work within the complex system of military contracts and procurement."
+        }
+      },
+      "who_text_2": {
+        "type": "Text",
+        "config": {
+          "label": "second paragraph (the third, on who MSOT works with, is in Settings)",
+          "placeholder": "Leave empty to keep: We spent our careers grappling with the difficulties in getting and keeping VA hospitals and DoW bases equipped with med-surg supplies, from the side of a logistics officer and the side of the medical sales. And so we formed MSOT, pairing experts on both sides to build an organization uniquely suited to connect med-surg suppliers with VA and DoW contracts."
+        }
+      }
+    },
+    "The Team": {
+      "team_heading": {
+        "type": "Text",
+        "config": {
+          "label": "heading (the cards are Team member documents)",
+          "placeholder": "Leave empty to keep: The Team"
+        }
+      }
+    }
+  }
+}

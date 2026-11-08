@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 // A phone gets the mobile art, a desktop the desktop art. Until 2026-10-28 each
 // image's `src` was a JS ternary on `viewportWidth`, which starts at 1920 on the
@@ -8,16 +12,18 @@ import { test, expect, type Page } from "@playwright/test";
 // desktop file. `<picture>` lets the browser choose before any JS runs.
 //
 // Each image is told apart by the file `currentSrc` names where the URL carries
-// one (the SVGs, dev and build alike), and always by the natural aspect ratio
+// one (the Prismic layers and the SVGs, dev and build alike), and always by the natural aspect ratio
 // of what loaded: imagetools' dev URLs are `/@imagetools/<hash>`, with no name.
 type Art = { file?: RegExp; aspect: number };
 type Image = { path: string; selector: string; desktop: Art; mobile: Art };
 
+// The timelines' back layers, text-free artwork in Prismic's media library
+// (their words are live text since 11-05; the file names carry the picture).
 const timeline = (n: number): Image => ({
   path: "/",
-  selector: `img[alt="timelines"] >> nth=${n - 1}`,
-  desktop: { file: new RegExp(`/timeline${n}(\\.[\\w-]+)?\\.svg$`), aspect: 1440 / 650 },
-  mobile: { file: new RegExp(`/timeline${n}_mobile(\\.[\\w-]+)?\\.svg$`), aspect: 359 / 650 },
+  selector: `[data-testid="timeline-${n}"] img.back`,
+  desktop: { file: new RegExp(`_msot-home-timeline${n}-back-textfree`), aspect: 1440 / 650 },
+  mobile: { file: new RegExp(`_msot-home-timeline${n}_mobile-back-textfree`), aspect: 359 / 650 },
 });
 
 const IMAGES: Image[] = [
@@ -26,15 +32,9 @@ const IMAGES: Image[] = [
   timeline(3),
   {
     path: "/",
-    selector: 'section:has(h1:text-is("let’s get started")) img >> nth=0',
+    selector: 'section:has(.h1:text-is("let’s get started")) img >> nth=0',
     desktop: { aspect: 6869 / 3784 },
     mobile: { aspect: 3564 / 2752 },
-  },
-  {
-    path: "/process",
-    selector: 'img[alt="timelines"]',
-    desktop: { file: /\/timeline(\.[\w-]+)?\.svg$/, aspect: 1438 / 748 },
-    mobile: { file: /\/timeline_mobile(\.[\w-]+)?\.svg$/, aspect: 385 / 1055 },
   },
 ];
 

@@ -1,10 +1,14 @@
 import { error } from "@sveltejs/kit";
 import { asText } from "@prismicio/client";
+import { dev } from "$app/env";
 import * as env from "$app/env/private";
 import { createIngestAction } from "@reddoorla/maintenance/forms";
 import { replyCopyFor } from "$lib/server/reply-copy";
 
 import { createClient } from "$lib/prismicio";
+import { loadSingle } from "$lib/content";
+import { CONTACT_COPY, contactCopy } from "$lib/copy/contact";
+import type { ContactPageDocument } from "../../../../prismicio-types";
 import type { Actions, PageServerLoad } from "./$types";
 
 // The root layout sets `prerender = "auto"`; a form `action` cannot run on a
@@ -20,12 +24,28 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 
   if (!page) throw error(404, "Page not found");
 
+  // The page's copy: the contact_page document over today's wording, field by
+  // field ($lib/copy/contact). This route is rendered per request, never
+  // built, so `strict` is false: a Prismic error falls back to today's words
+  // and is logged, rather than turn Contact into a 500. `vite dev` alone can
+  // serve a fixture document, for the smoke test, behind a cookie.
+  const copy = contactCopy(
+    dev && cookies.get("msot-contact-fixture")
+      ? cookies.get("msot-contact-fixture") === "empty"
+        ? (await import("$lib/empty-fixture")).emptyFixture("contact_page")
+        : ((await import("$lib/page-fixture")).pageFixture(
+            CONTACT_COPY,
+          ) as unknown as ContactPageDocument)
+      : await loadSingle<ContactPageDocument>(client, "contact_page", { strict: false }),
+  );
+
   return {
     page,
     title: asText(page.data.title),
     meta_description: page.data.meta_description,
     meta_title: page.data.meta_title,
     meta_image: page.data.meta_image?.url ?? null,
+    copy,
     // Per-request timestamp for the bot timing screen.
     formTs: Date.now(),
   };

@@ -1,19 +1,36 @@
-export const PRIVACY_POLICY_DRAFT = true;
+import { CODE_IDENTITY, type Identity } from "../identity";
+
+// Final, by the operator's call (decision 2207, answer 2(b), 11-04): the
+// LinkedIn section is added and the DRAFT banner and noindex come off.
+export const PRIVACY_POLICY_DRAFT = false;
+
+/** "OJH Services, Inc., doing business as Medical Solutions of Texas". */
+export function privacyOwner(identity: Identity): string {
+  return `${identity.legalName}, doing business as ${identity.name}`;
+}
 
 export const PRIVACY_PATH = "/privacy";
 
+// The page reads neither legalName nor contactEmail: it takes both from the
+// site's merged identity (privacyOwner() and the identity's email). They stay
+// here as today's values for tests/smoke/privacy.spec.ts. Edit the identity,
+// not these.
 export const PRIVACY_VALUES = {
-  legalName: "Medical Solutions of Texas",
+  // The owner, from the same identity as the footer's legal line.
+  legalName: privacyOwner(CODE_IDENTITY),
   contactEmail: "info@MedicalSolutionsofTX.com",
-  effectiveDate: "2026-10-14",
+  effectiveDate: "2026-11-04",
 };
 
-export type PrivacyService = "forms" | "turnstile" | "ga4" | "adobeFonts" | "vimeo" | "netlify";
+export type PrivacyService =
+  "forms" | "turnstile" | "ga4" | "gtm" | "linkedin" | "adobeFonts" | "vimeo" | "netlify";
 
 export const PRIVACY_SERVICES: PrivacyService[] = [
   "forms",
   "turnstile",
   "ga4",
+  "gtm",
+  "linkedin",
   "adobeFonts",
   "vimeo",
   "netlify",

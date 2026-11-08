@@ -2,7 +2,7 @@
 
 The marketing site for **Medical Solutions of Texas** — a Veteran-Owned Small
 Business that helps medical vendors navigate government healthcare contracting
-for the DoD and VA — at `medicalsolutionsoftx.com`. SvelteKit 2 / Svelte 5 /
+for the VA and DoW — at `medicalsolutionsoftx.com`. SvelteKit 2 / Svelte 5 /
 Tailwind v4 / Prismic (repo `msot`), prerendered onto Netlify. The README at
 the repo root is the Reddoor scaffold's, inherited at the fork and never
 replaced; it does not describe this site.
@@ -15,7 +15,7 @@ org's reusable workflow (`reddoorla/.github` ci.yml); the local equivalent is
 
 - **The pages are bespoke routes, not slices.** They live under
   `src/routes/[[preview=preview]]/` (`about`, `process`, `partners`,
-  `resources`, `contact`, plus a `[uid]` catch-all). Prismic supplies the
+  `resources`, `contact`, `capabilities`, `privacy`, plus a `[uid]` catch-all). Prismic supplies the
   `page` type's metadata and one `RichText` slice; the layout and copy are in
   the route components. The site predates the slice library.
 - **`prismicio-types.d.ts` (project root) and `src/lib/slices/index.ts` are

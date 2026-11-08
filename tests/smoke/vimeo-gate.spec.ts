@@ -1,4 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
+import { emptyCookies } from "./empty";
+
+// Pin the code's wording whatever is published in Prismic (./empty).
+test.beforeEach(({ context, baseURL }) => emptyCookies(context, baseURL));
 
 const vimeoFrame = 'iframe[src*="player.vimeo.com"]';
 
@@ -29,6 +33,19 @@ test("an unattended load requests no Vimeo player", async ({ page, context }) =>
   await expect(page.locator(vimeoFrame)).toHaveCount(0);
   expect(requests).toEqual([]);
   expect((await context.cookies()).filter((c) => c.name === "__cf_bm")).toEqual([]);
+});
+
+test("a pointermove with no movement (Chromium's own, after a layout shift) mounts nothing", async ({
+  page,
+}) => {
+  const requests = watchVimeo(page);
+  await loadIdle(page);
+  await page.evaluate(() =>
+    window.dispatchEvent(new PointerEvent("pointermove", { movementX: 0, movementY: 0 })),
+  );
+  await page.waitForTimeout(1000);
+  await expect(page.locator(vimeoFrame)).toHaveCount(0);
+  expect(requests).toEqual([]);
 });
 
 test("a key press mounts the Vimeo player", async ({ page }) => {
