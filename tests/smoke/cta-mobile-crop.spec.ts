@@ -79,3 +79,62 @@ for (const [width, aspect] of [
     expect(loaded).toBeCloseTo(aspect, 2);
   });
 }
+
+// Below 1024px the slice of the crop behind the text is the lightest part of
+// the photo (the white mask), so a shade in the site's dark (#140F09) rises
+// from the band's foot. Only bands with a mobile crop get it, and only there.
+const SCRIM = `${BAND} [data-testid="mobile-scrim"]`;
+
+for (const [width, height, shaded] of [
+  [390, 844, true],
+  [1023, 1366, true],
+  [1024, 768, false],
+  [1440, 900, false],
+] as const) {
+  test(`at ${width}×${height} the band ${shaded ? "has" : "has no"} mobile shade`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height });
+    await page.goto("/", { waitUntil: "load" });
+    const scrim = page.locator(SCRIM);
+    await expect(scrim).toHaveCount(1);
+    if (!shaded) {
+      await expect(scrim).toBeHidden();
+      return;
+    }
+    await scrim.scrollIntoViewIfNeeded();
+    await expect(scrim).toBeVisible();
+    const section = await page.locator(BAND).first().boundingBox();
+    const box = await scrim.boundingBox();
+    expect(Math.abs(box!.width - section!.width)).toBeLessThanOrEqual(1);
+    expect(Math.abs(box!.height - section!.height)).toBeLessThanOrEqual(1);
+    // Compare colours, not the declaration: a minified build rewrites the
+    // gradient's direction and stops, and computed styles normalise the hex.
+    const image = await scrim.evaluate((el) => getComputedStyle(el).backgroundImage);
+    expect(image).toContain("rgba(20, 15, 9, 0.7)");
+    expect(image).toContain("rgba(20, 15, 9, 0.5)");
+    // Painted above the photo: at a point near the band's foot, the shade is
+    // nearer the viewer than the image (elementsFromPoint lists top first).
+    const order = await scrim.evaluate(
+      (shade, [x, y]) => {
+        // Hit testing skips `pointer-events: none`, which the shade carries so
+        // it never takes a tap; lift that for this one query only.
+        const was = (shade as HTMLElement).style.pointerEvents;
+        (shade as HTMLElement).style.pointerEvents = "auto";
+        const stack = document.elementsFromPoint(x, y);
+        (shade as HTMLElement).style.pointerEvents = was;
+        const img = shade.closest("section")!.querySelector("img")!;
+        return { img: stack.indexOf(img), shade: stack.indexOf(shade) };
+      },
+      [Math.round(width - 8), Math.round(section!.y + section!.height - 8)] as const,
+    );
+    expect(order.shade).toBeGreaterThanOrEqual(0);
+    expect(order.img).toBeGreaterThan(order.shade);
+  });
+}
+
+test("a band with no mobile crop gets no mobile shade", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/about", { waitUntil: "load" });
+  await expect(page.locator('[data-testid="mobile-scrim"]')).toHaveCount(0);
+});
