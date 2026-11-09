@@ -108,10 +108,28 @@ for (const [width, height, shaded] of [
     const box = await scrim.boundingBox();
     expect(Math.abs(box!.width - section!.width)).toBeLessThanOrEqual(1);
     expect(Math.abs(box!.height - section!.height)).toBeLessThanOrEqual(1);
+    // Compare colours, not the declaration: a minified build rewrites the
+    // gradient's direction and stops, and computed styles normalise the hex.
     const image = await scrim.evaluate((el) => getComputedStyle(el).backgroundImage);
-    expect(image).toBe(
-      "linear-gradient(0deg, rgba(20, 15, 9, 0.7) 0%, rgba(20, 15, 9, 0.5) 30%, rgba(20, 15, 9, 0) 60%)",
+    expect(image).toContain("rgba(20, 15, 9, 0.7)");
+    expect(image).toContain("rgba(20, 15, 9, 0.5)");
+    // Painted above the photo: at a point near the band's foot, the shade is
+    // nearer the viewer than the image (elementsFromPoint lists top first).
+    const order = await scrim.evaluate(
+      (shade, [x, y]) => {
+        // Hit testing skips `pointer-events: none`, which the shade carries so
+        // it never takes a tap; lift that for this one query only.
+        const was = (shade as HTMLElement).style.pointerEvents;
+        (shade as HTMLElement).style.pointerEvents = "auto";
+        const stack = document.elementsFromPoint(x, y);
+        (shade as HTMLElement).style.pointerEvents = was;
+        const img = shade.closest("section")!.querySelector("img")!;
+        return { img: stack.indexOf(img), shade: stack.indexOf(shade) };
+      },
+      [Math.round(width - 8), Math.round(section!.y + section!.height - 8)] as const,
     );
+    expect(order.shade).toBeGreaterThanOrEqual(0);
+    expect(order.img).toBeGreaterThan(order.shade);
   });
 }
 
