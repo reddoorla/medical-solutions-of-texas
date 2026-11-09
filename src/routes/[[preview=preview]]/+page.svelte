@@ -535,6 +535,7 @@
 <ScreenWidthImage
   src={ctaImage}
   mobileSrc={ctaImageMobile}
+  mobilePosition="25% 40%"
   class="flex flex-col items-start justify-end py-32"
   darken
 >

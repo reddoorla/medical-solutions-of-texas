@@ -20,6 +20,12 @@
      * picks before hydration and fetches only the one it shows.
      */
     mobileSrc?: Record<string, unknown>;
+    /**
+     * Where `mobileSrc` is framed below 1024px, as a CSS `object-position`.
+     * There the image fills the section rather than the 16:9 cover box, so a
+     * portrait screen shows a slice of a landscape crop and this picks which.
+     */
+    mobilePosition?: string;
     altText?: string;
     placeholderSide?: string;
     vimeoId?: string;
@@ -32,6 +38,7 @@
   let {
     src = placeholder,
     mobileSrc,
+    mobilePosition = "50% 50%",
     altText = "background image",
     placeholderSide = "right",
     vimeoId = "",
@@ -52,13 +59,19 @@
     lqip[0] === "#" ? lqip : `url(data:image/webp;base64,${lqip}) no-repeat center/cover`;
 
   const coverBox = "w-[max(100vw,177.78vh)] aspect-video";
+  // Below 1024px a mobile crop fills the section instead: in the cover box a
+  // 390×844 phone showed the middle quarter of a 1500×844 box, a tight zoom on
+  // the crop's centre rather than the framing it was cut for.
+  const mobileBox = "max-lg:w-screen max-lg:h-screen max-lg:aspect-auto";
 </script>
 
 <section
   class="h-screen w-screen overflow-clip {backdrop ? 'fixed -z-10 top-0 left-0' : 'relative'}"
 >
   <div
-    class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip max-h-screen relative {coverBox}"
+    class="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-clip max-h-screen relative {mobileSrc
+      ? `${coverBox} ${mobileBox}`
+      : coverBox}"
   >
     {#if typeof src === "string"}
       <img
@@ -92,7 +105,8 @@
           loading="eager"
           decoding="async"
           style:background={mobile.img.lqip && lqipBackground(mobile.img.lqip)}
-          class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover -z-10"
+          style:--mobile-position={mobilePosition}
+          class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover max-lg:object-(--mobile-position) -z-10"
         />
       </picture>
     {:else}
