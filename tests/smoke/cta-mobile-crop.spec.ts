@@ -79,3 +79,44 @@ for (const [width, aspect] of [
     expect(loaded).toBeCloseTo(aspect, 2);
   });
 }
+
+// Below 1024px the slice of the crop behind the text is the lightest part of
+// the photo (the white mask), so a shade in the site's dark (#140F09) rises
+// from the band's foot. Only bands with a mobile crop get it, and only there.
+const SCRIM = `${BAND} [data-testid="mobile-scrim"]`;
+
+for (const [width, height, shaded] of [
+  [390, 844, true],
+  [1023, 1366, true],
+  [1024, 768, false],
+  [1440, 900, false],
+] as const) {
+  test(`at ${width}×${height} the band ${shaded ? "has" : "has no"} mobile shade`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height });
+    await page.goto("/", { waitUntil: "load" });
+    const scrim = page.locator(SCRIM);
+    await expect(scrim).toHaveCount(1);
+    if (!shaded) {
+      await expect(scrim).toBeHidden();
+      return;
+    }
+    await scrim.scrollIntoViewIfNeeded();
+    await expect(scrim).toBeVisible();
+    const section = await page.locator(BAND).first().boundingBox();
+    const box = await scrim.boundingBox();
+    expect(Math.abs(box!.width - section!.width)).toBeLessThanOrEqual(1);
+    expect(Math.abs(box!.height - section!.height)).toBeLessThanOrEqual(1);
+    const image = await scrim.evaluate((el) => getComputedStyle(el).backgroundImage);
+    expect(image).toBe(
+      "linear-gradient(0deg, rgba(20, 15, 9, 0.7) 0%, rgba(20, 15, 9, 0.5) 30%, rgba(20, 15, 9, 0) 60%)",
+    );
+  });
+}
+
+test("a band with no mobile crop gets no mobile shade", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/about", { waitUntil: "load" });
+  await expect(page.locator('[data-testid="mobile-scrim"]')).toHaveCount(0);
+});

@@ -531,3 +531,16 @@ On 11-05 the operator asked for a fresh, critical review of the letter and the w
 **The Privacy Policy's effective date was 11-04, before the update could be live.** On the operator's word it became 2026-11-08, the day the policy text reached production. It was set in Prismic `privacy_page` (release `avIq9hIAAFt6jd6c`, published 12:28pm PT 11-09), and it was live at 12:29pm PT through the operator's new "Prismic publish" build hook. That was the hook's first proof. A hook build also ran at 12:24pm PT, before the publish, so Prismic's webhook appears to fire on release edits too. The code's `effectiveDate` fallback still says 11-04 and shows only if the field is emptied.
 
 **Still open:** the live-form test. Turnstile stops scripted sends, so the operator or Erik submits one by hand and MSOT confirms it arrived.
+
+## 2026-11-09 — A dark shade behind "let's get started" on phones (follow-up to #182)
+
+The operator's ask, after #182 landed on `staging`: "add the darker overlay on mobile before we open the pr". #182 had framed the doctor's mobile crop on his face, but the portrait slice it showed put the sand-coloured CTA text over the white surgical mask. Mean grey in the 110px above the band's bottom padding was 134 at 390×844, against 95 on the old zoom and 109 on desktop.
+
+Below 1024px, a band that has a `mobileSrc` and `darken` now gets a second overlay. It is a vertical gradient in the site's dark, `#140F09` (the footer's colour), at 0.7 opacity at the band's foot, 0.5 at 30% and transparent by 60%. So the face and cap above stay as the photo is. Mean grey under the text went 134 → 86 at 390×844, 130 → 81 at 430×932, 105 → 72 at 820×1180 and 92 → 62 at 1023×1366. That is darker than desktop's 109 and darker than the old zoom at every width. The overlay is `hidden max-lg:block`, so at 1024px and up it is `display: none`. Band screenshots at 1100×800 and 1440×900 show 0 changed pixels against the pre-#182 build. The hero, About, Process and Partners bands have no `mobileSrc`, so they render no overlay at all. A fresh build of `staging` against this branch differs, after normalisation, only by the overlay's element in `index.html`.
+
+The spec gained six cases:
+- at 390 and 1023, the overlay is visible, the section's size, and has the exact gradient;
+- at 1024 and 1440, it is hidden;
+- `/about` at 390 has none.
+
+Four mutations each turned it red: the overlay removed (4 failed), shown at every width (2), put on every band (1), and lightened to 0.4 (2).

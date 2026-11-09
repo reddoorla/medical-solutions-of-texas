@@ -137,6 +137,15 @@
       <div
         class="bg-darken-gradient pointer-events-none absolute w-full h-full top-0 left-0 -z-10"
       ></div>
+      {#if mobileSrc}
+        <!-- Below 1024px a portrait slice of the crop puts the text over the
+             lightest part of the photo, so a shade rises behind it from the
+             band's foot. Desktop keeps the light gradient alone. -->
+        <div
+          data-testid="mobile-scrim"
+          class="bg-mobile-scrim pointer-events-none absolute w-full h-full top-0 left-0 -z-10 hidden max-lg:block"
+        ></div>
+      {/if}
     {/if}
     <div class="w-screen h-screen absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <ContentWidth class="{passedClasses || defaultLayouts} h-full">
@@ -150,5 +159,13 @@
   .bg-darken-gradient {
     background: linear-gradient(180deg, rgba(203, 195, 164, 0.2) 33.5%, #656f5c15 100%);
     background-blend-mode: multiply;
+  }
+  .bg-mobile-scrim {
+    background: linear-gradient(
+      0deg,
+      rgba(20, 15, 9, 0.7) 0%,
+      rgba(20, 15, 9, 0.5) 30%,
+      rgba(20, 15, 9, 0) 60%
+    );
   }
 </style>
