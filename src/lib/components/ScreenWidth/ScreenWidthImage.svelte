@@ -55,8 +55,11 @@
   // previous JS viewport ternary (bound after hydration) rendered a wrong first
   // frame and shifted the hero once real dimensions arrived (CLS 0.119).
   // svelte-img's placeholder while the image loads, which its <Img> sets itself.
+  // Below 1024px it takes the photo's own framing, so it does not jump on decode.
   const lqipBackground = (lqip: string) =>
-    lqip[0] === "#" ? lqip : `url(data:image/webp;base64,${lqip}) no-repeat center/cover`;
+    lqip[0] === "#"
+      ? lqip
+      : `url(data:image/webp;base64,${lqip}) no-repeat var(--lqip-position, center)/cover`;
 
   const coverBox = "w-[max(100vw,177.78vh)] aspect-video";
   // Below 1024px a mobile crop fills the section instead: in the cover box a
@@ -106,7 +109,7 @@
           decoding="async"
           style:background={mobile.img.lqip && lqipBackground(mobile.img.lqip)}
           style:--mobile-position={mobilePosition}
-          class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover max-lg:object-(--mobile-position) -z-10"
+          class="absolute bottom-0 {placeholderSide}-0 h-full w-full object-cover max-lg:object-(--mobile-position) max-lg:[--lqip-position:var(--mobile-position)] -z-10"
         />
       </picture>
     {:else}

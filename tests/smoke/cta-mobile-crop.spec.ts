@@ -33,6 +33,7 @@ for (const [width, height] of [
     expect(Math.abs(shown!.width - section!.width)).toBeLessThanOrEqual(1);
     expect(Math.abs(shown!.height - section!.height)).toBeLessThanOrEqual(1);
     expect(Math.abs(shown!.x - section!.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(shown!.y - section!.y)).toBeLessThanOrEqual(1);
     expect(await img.evaluate((el) => getComputedStyle(el).objectPosition)).toBe(MOBILE_POSITION);
   });
 }
@@ -53,5 +54,28 @@ for (const [width, height] of [
     expect(Math.abs(shown!.width - coverWidth)).toBeLessThanOrEqual(1);
     expect(Math.abs(shown!.height - height)).toBeLessThanOrEqual(1);
     expect(await img.evaluate((el) => getComputedStyle(el).objectPosition)).toBe("50% 50%");
+  });
+}
+
+// The framing above only holds if the mobile file is the one shown: `<picture>`
+// switches at `(min-width: 1024px)`, Tailwind's `max-lg` at `width < 64rem`.
+for (const [width, aspect] of [
+  [1023, 3564 / 2752],
+  [1024, 6869 / 3784],
+] as const) {
+  test(`at ${width}px the band loads the ${width < 1024 ? "mobile" : "desktop"} file`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/", { waitUntil: "load" });
+    const img = page.locator(`${BAND} img`).first();
+    await img.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0), {
+        timeout: 20_000,
+      })
+      .toBe(true);
+    const loaded = await img.evaluate((el: HTMLImageElement) => el.naturalWidth / el.naturalHeight);
+    expect(loaded).toBeCloseTo(aspect, 2);
   });
 }
