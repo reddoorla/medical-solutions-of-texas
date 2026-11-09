@@ -532,6 +532,14 @@ On 11-05 the operator asked for a fresh, critical review of the letter and the w
 
 **Still open:** the live-form test. Turnstile stops scripted sends, so the operator or Erik submits one by hand and MSOT confirms it arrived.
 
+## 2026-11-09 — Staging back on Node 24: #114's Node 26 bump reverted (#184, `922e1f3`)
+
+#114 (Renovate's "update node.js to v26 (staging)") merged into `staging` at 11:31am PT. That ran against P1-99, which holds the fleet on Node 24 until AWS lists Lambda `nodejs26.x` as GA. Until then Netlify runs a site's functions on `nodejs24.x` whatever the build's Node, so `@types/node` 26 lets Node-26-only APIs pass `svelte-check` and then throw in the function (workspace `decisions/2026-11-04-1809-erp-node26-functions-stay-on-24.md`, found on ERP's #93). The operator confirmed the hold stands (workspace `decisions/2026-11-09-1934-p1-105-msot-node26-merged-against-hold.md`, answer (a)). #184 is `git revert -m 1` of #114's merge commit `1bf388e`, and the operator merged it at 12:30pm PT.
+
+It restores `.nvmrc` 24.22.2, `prismic-codegen.yml`'s `node-version: "24"` and `@types/node` `^24.19.2`, with the lockfile back on `@types/node@24.19.2`. `ci.yml` was never on 26: #114 changed only the codegen workflow, so `ci / ci` ran Node 24 against a Node 26 `.nvmrc` the whole time #114 was on `staging`. Only #182 had landed after #114, and it touches none of these files, so the revert applied clean. `pnpm install --frozen-lockfile` accepted the reverted lockfile, and no `@types/node@26` was left in it. After the merge, `staging` (`922e1f3`) and `main` (`86bdefa`) read the same four values. `main` was never on 26, so promoting to `main` changes nothing here.
+
+Renovate will probably offer Node 26 on `staging` again. Holding it there is Renovate config for a separate task, and this PR leaves it alone.
+
 ## 2026-11-09 — A dark shade behind "let's get started" on phones (follow-up to #182)
 
 The operator's ask, after #182 landed on `staging`: "add the darker overlay on mobile before we open the pr". #182 had framed the doctor's mobile crop on his face, but the portrait slice it showed put the sand-coloured CTA text over the white surgical mask. Mean grey in the 110px above the band's bottom padding was 134 at 390×844, against 95 on the old zoom and 109 on desktop.
