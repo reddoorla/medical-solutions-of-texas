@@ -553,3 +553,40 @@ The spec gained five cases (14 in all, from 9), checking colours rather than the
 - `/about` at 390 has none.
 
 Four mutations each turned it red: the overlay removed (4 failed), shown at every width (2), put on every band (1), and lightened to 0.4 (2).
+
+## 2026-11-09 — Production proven to render from Prismic, field by field (no code change; workspace `audits/2026-11-10-msot-prismic-source/report.md`)
+
+The Prismic release was published on 11-08, but nobody had shown that visitors see the documents rather than the code fallbacks behind them. That can't be read off the page: the move was word for word, so Prismic's text and the fallback's text are the same string almost everywhere. Only one visible value differed in source, the FSS catalog title (`{fss}` in code, the literal number in Prismic), and both render identically.
+
+**What is live.** Production is Netlify deploy `6af2429476774eca2f3e2804`, `main` `da5f3a1`, live at 2:03pm PT on 11-09. That is after the 11-08 2:41pm PT publish and after `privacy_page`'s republish at 12:28pm PT on 11-09. Its 7 prerendered pages equal a local build of `da5f3a1` at master ref `avIs2xIAACgAjeGx` byte for byte, once SvelteKit's per-build stamp is normalised; so does `sitemap.xml`, which has no stamp.
+
+**How the source was told apart.** A throwaway worktree, never committed, put a tag in front of two kinds of string:
+- every value the Prismic client returned (`⟦P.<id>⟧`), with each rich-text span shifted to match;
+- every string literal in the code's content constants (`⟦F.<id>⟧`): the `*_COPY` objects, `IDENTITY`, `PAGE_SEO` and `PRIVACY_*`, rewritten with the TypeScript AST.
+
+With the tags stripped, that build's markup outside `<script>` equals the plain build's on all 7 pages. Of 340 filled text fields, 319 render tagged `⟦P⟧`. 14 of those are rendered by the browser from hydration data: the mobile hero, the menu's close label, the contact form's sent state and the error title. The rest:
+- 19 partner-logo alts the code never reads, because each row's `name` is the alt;
+- the retired `/rep-login`;
+- **one live fallback**: Resources' "Technique Guide" (`⟦F⟧ RESOURCES_COPY.guides.0.title`). The document's row has no file, and `rows()` replaces a list whole, so the code's row stands.
+
+`/contact` and the 404, which render per request, were traced through `vite dev`. Production `/contact` equals that render in all 66 text and attribute segments, apart from the form's timestamp.
+
+**Controls.**
+- Built with every `getSingle` answering "No documents were returned", the same traced code tags every page string `⟦F⟧`. Only the older `page` type's SEO, which that switch doesn't touch, stays `⟦P⟧`.
+- One check needs no tracer: production's `/privacy` reads "Effective November 8, 2026", the document's `effective_date`. The code's fallback is `2026-11-04`.
+
+**The tracer was wrong twice before it was right.** Tagging the ISO date broke its parse, and Privacy printed "Effective [effective date]". The tagger also skipped keys named `name` and `label`, which hid `settings.name`, the partner names and About's service labels as untagged "code". The faithfulness diff caught the first error, and the per-field census caught the second. A tracer is an instrument like any other; it had to pass against the plain build before its verdicts counted.
+
+**Code-only copy found** (full list with lines in the report):
+- the five About team cards: no `team_member` document is published, so `CURRENT` renders;
+- the four contract-vehicle names in Home's JSON-LD, code by design in `mergeIdentity`;
+- the timeline's hidden "Veteran + retiree" label and its numerals;
+- the three Vimeo ids;
+- the contact form's errors and confirmation email, from `@reddoorla/maintenance`, since no `form_replies` document exists;
+- a handful of accessible-name frames and decorative defaults, which I would leave in code.
+
+Nothing was moved.
+
+**Decision.** The operator kept the fallbacks (4:24pm PT, 11-09; workspace `decisions/2026-11-10-0023-msot-code-fallbacks-stay.md`), as he had said earlier the same day.
+
+Usage: not readable.
