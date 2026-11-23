@@ -30,8 +30,9 @@
           </div>
           <div>
             {copy.phone_label}
-            {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`}>{identity.phone}</a
-              >{:else}{identity.phone}{/if} <br />
+            {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`}>
+                {identity.phone}
+              </a>{:else}{identity.phone}{/if} <br />
             <a href={`mailto:${identity.email}`}>{identity.email}</a>
           </div>
         </address>

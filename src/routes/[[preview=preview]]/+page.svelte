@@ -258,9 +258,9 @@
         {copy.trusted_text}
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-        <BracketButton href="/contact" class="text-mid button-text"
-          >{copy.contact_button}</BracketButton
-        >
+        <BracketButton href="/contact" class="text-mid button-text">
+          {copy.contact_button}
+        </BracketButton>
         <!-- A new tab keeps Home open, so a Tag Manager that this click only
              starts loading can still read the queued download event. -->
         <BracketButton
@@ -270,8 +270,10 @@
           click={pushCapabilitiesDownload}
           auxclick={(e) => e.button === 1 && pushCapabilitiesDownload()}
           ariaLabel={`${copy.capabilities_button} (PDF, opens in a new tab)`}
-          class="text-mid button-text">{copy.capabilities_button}</BracketButton
+          class="text-mid button-text"
         >
+          {copy.capabilities_button}
+        </BracketButton>
       </div>
     </div>
   </div>
@@ -339,8 +341,8 @@
           </div>
         </div>
       </div>
-    </div></ContentWidth
-  >
+    </div>
+  </ContentWidth>
 </section>
 <section class="bg-light w-screen relative">
   <HomeTimeline
@@ -566,14 +568,14 @@
 <footer class="py-6 bg-[#140F09]">
   <ContentWidth class="flex flex-row gap-6 justify-between items-start">
     <div class="flex flex-col gap-4 items-start min-w-0">
-      <a href="/" class="bump self-start h-16 md:h-20 relative"
-        ><img
+      <a href="/" class="bump self-start h-16 md:h-20 relative">
+        <img
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
           alt={page.data.chrome.footer_logo_alt}
-        /></a
-      >
+        />
+      </a>
       <FooterIdentity />
     </div>
     <img src={vosbLogo} alt={page.data.chrome.vosb_alt} class="h-16 md:h-24 self-start" />

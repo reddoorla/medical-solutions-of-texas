@@ -49,9 +49,9 @@
   <ContentWidth class="border-t-2 border-dark flex flex-col md:flex-row py-10">
     <div class="md:w-1/2 pr-12 flex flex-col gap-10 items-start">
       <h3 class="text-dark">{copy.capabilities_heading}</h3>
-      <BracketButton class="text-dark" href="/capabilities"
-        >{copy.capabilities_button}</BracketButton
-      >
+      <BracketButton class="text-dark" href="/capabilities">
+        {copy.capabilities_button}
+      </BracketButton>
     </div>
   </ContentWidth>
 </section>
