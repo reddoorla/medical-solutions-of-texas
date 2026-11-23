@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "counts": {
+    "src/lib/components/Buttons/ArrowButton.svelte": {
+      "alt\tlink arrow": 1,
+      "image\twireframe-link-arrow-right.svg": 1
+    },
+    "src/lib/components/ContentWidth/ContentWidthGallerySlider.svelte": {
+      "alt\tbackground image": 1,
+      "alt\tchevron-left": 1,
+      "alt\tchevron-right": 1,
+      "copy\tNext slide": 1,
+      "copy\tPrevious slide": 1,
+      "image\tbackground_placeholder.svg": 1,
+      "image\tchevron-left.svg": 1,
+      "image\tchevron-right.svg": 1
+    },
+    "src/lib/components/ContentWidth/ContentWidthImage.svelte": {
+      "alt\tbackground image": 1,
+      "image\tbackground_placeholder.svg": 1
+    },
+    "src/lib/components/Footer.svelte": {
+      "image\tmsot_logo.svg": 1,
+      "image\tvosb_white.svg": 1,
+      "link\t/": 1,
+      "link\t/contact": 1,
+      "link\t/process": 1
+    },
+    "src/lib/components/FullWidth/ContactForm.svelte": {
+      "copy\tDon’t fill this out if you’re human:": 1,
+      "image\tdropdown-arrow-light.svg": 1
+    },
+    "src/lib/components/FullWidth/ContentBox.svelte": {
+      "image\tlogo.svg": 1
+    },
+    "src/lib/components/FullWidth/FourByThreeImage.svelte": {
+      "image\timage_placeholder.svg": 1
+    },
+    "src/lib/components/FullWidth/SliderOfContentBoxes.svelte": {
+      "alt\tchevron-left": 1,
+      "alt\tchevron-right": 1,
+      "copy\tGeneric Content": 1,
+      "copy\tGeneric Content 2": 1,
+      "copy\tLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.": 2,
+      "image\tchevron-left.svg": 1,
+      "image\tchevron-right.svg": 1
+    },
+    "src/lib/components/FullWidth/SliderOfTestimonialBoxes.svelte": {
+      "alt\tchevron-left": 1,
+      "alt\tchevron-right": 1,
+      "copy\tLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.": 2,
+      "copy\ta knowledgable person": 1,
+      "copy\ta trustworthy person": 1,
+      "image\twireframe-link-arrow-right.svg": 1,
+      "testimonial\tJane Baker": 1,
+      "testimonial\tJohn Smith": 1
+    },
+    "src/lib/components/FullWidth/SquareImage.svelte": {
+      "image\timage_placeholder.svg": 1
+    },
+    "src/lib/components/FullWidth/TeamWithPopup.svelte": {
+      "copy\t(opens in a new tab)": 1,
+      "copy\tClose team member detail": 1,
+      "copy\tLinkedIn": 1,
+      "copy\tprofile of": 1,
+      "image\tdots_square.png": 1,
+      "image\tprofile_placeholder.png": 1,
+      "team\tat MSOT.": 1,
+      "team\tis the": 1
+    },
+    "src/lib/components/FullWidth/TitleBox.svelte": {
+      "image\tlogo.svg": 1
+    },
+    "src/lib/components/HalfWidth/HalfWidthImage.svelte": {
+      "alt\tplaceholder": 1,
+      "image\timage_placeholder.svg": 1
+    },
+    "src/lib/components/ScreenWidth/ScreenWidthGallerySliderLarge.svelte": {
+      "copy\tDev + UX": 1,
+      "copy\tItem 1": 1,
+      "copy\tItem 2": 1,
+      "copy\tItem 3": 1,
+      "copy\tUX + UI": 1,
+      "copy\timage ${…} of ${…}": 1,
+      "image\timage_placeholder.svg": 1
+    },
+    "src/lib/components/ScreenWidth/ScreenWidthGallerySliderSmall.svelte": {
+      "alt\tbackground image": 1,
+      "copy\tNext slide": 1,
+      "copy\tPrevious slide": 1,
+      "image\tbackground_placeholder.svg": 1
+    },
+    "src/lib/components/ScreenWidth/ScreenWidthImage.svelte": {
+      "alt\tbackground image": 1,
+      "copy\tbackground video": 1,
+      "image\tbackground_placeholder.svg": 1
+    },
+    "src/lib/components/ScreenWidth/ScreenWidthImageSlider.svelte": {
+      "alt\tbackground image": 1,
+      "copy\tGo to slide ${…} of ${…}": 1,
+      "copy\tNext slide": 1,
+      "copy\tPrevious slide": 1,
+      "image\tbackground_placeholder.svg": 1,
+      "image\tchevron-left.svg": 1,
+      "image\tchevron-right.svg": 1
+    },
+    "src/lib/copy/chrome.ts": {
+      "copy\tMedical Solutions of Texas": 1
+    },
+    "src/lib/copy/partners-logos.ts": {
+      "image\t4web.png": 1,
+      "image\tAEGIS-SPINE-logo-300x94.png": 1,
+      "image\tEDGe.png": 1,
+      "image\tLeith.png": 1,
+      "image\tMetalogix.png": 1,
+      "image\tNexxt-duo.png": 1,
+      "image\tSIGNUS.png": 1,
+      "image\tSpinalSimplicityLogo.Master.png": 1,
+      "image\taurora.png": 1,
+      "image\taxial_biologics_logo.png": 1,
+      "image\tbonebridge.png": 1,
+      "image\tcaerus.png": 1,
+      "image\tcentinel spine.png": 1,
+      "image\tcibolo-spine_medium duo.png": 1,
+      "image\tctl.png": 1,
+      "image\tdifusion.png": 1,
+      "image\texpanding innovations.png": 1,
+      "image\trevogen-duo.png": 1,
+      "image\trevogenLogo.svg": 1
+    },
+    "src/lib/copy/resources.ts": {
+      "copy\t/pdfs/MSOT_ChargeSheet.pdf": 1,
+      "copy\t/pdfs/MSOT_CommercialCatalog.pdf": 2,
+      "copy\t/pdfs/MSOT_FSSCatalog.pdf": 1,
+      "copy\tContact Us": 1,
+      "copy\tDOWNLOAD": 1,
+      "copy\tPhone:": 1,
+      "copy\tREAD IT": 1,
+      "email\tcustomerservice@MedicalSolutionsofTX.com": 1,
+      "heading\tCAPABILITIES STATEMENT": 1,
+      "heading\tCHARGE SHEET": 1,
+      "heading\tCatalog": 1,
+      "heading\tCatalogs": 1,
+      "heading\tCommercial Catalog": 1,
+      "heading\tFSS Catalog (Contract # {fss})": 1,
+      "heading\tResources": 1,
+      "heading\tSuppliers": 1,
+      "heading\tTechnique Guide": 1,
+      "heading\tTechnique Guides": 1
+    },
+    "src/lib/home-timelines.ts": {
+      "copy\tVeteran + retiree": 1,
+      "image\t2nzn7SY9C9dtA8zU_msot-home-timeline3-front-textfree%402x.png": 1,
+      "image\t59KKrU4Gt-uu5jrz_msot-home-timeline1_mobile-back-textfree%402x.png": 1,
+      "image\tETr2hjPS2lH-RCuq_msot-home-timeline3_mobile-back-textfree%402x.png": 1,
+      "image\tHYY7DQJO0gDNU4c5_msot-home-timeline1-back-textfree%402x.png": 1,
+      "image\tIH_DUQVIJ-_cY63F_msot-home-timeline2-front-textfree%402x.png": 1,
+      "image\tN-noPMHFKZ9mL1Tf_msot-home-timeline2-back-textfree%402x.png": 1,
+      "image\tUWoFXrGKyLIjFXTh_msot-home-timeline1-front-textfree%402x.png": 1,
+      "image\tVX9cQuUKcL4tEElb_msot-home-timeline3_mobile-front-textfree%402x.png": 1,
+      "image\tiLxJ_WP9IqBMR73k_msot-home-timeline3-back-textfree%402x.png": 1,
+      "image\tibNv994GqcfJmfNo_msot-home-timeline1_mobile-front-textfree%402x.png": 1,
+      "image\txEftzWtREA_ye5L3_msot-home-timeline2_mobile-back-textfree%402x.png": 1
+    },
+    "src/lib/identity.ts": {
+      "address\t4903 Golden Quail, Suite 120": 1,
+      "copy\tContact MSOT at ${…}, or call ${…}.": 1,
+      "copy\tDAPA (Equipment)": 1,
+      "copy\tDAPA (Medical/Surgical)": 1,
+      "copy\tDLA ECAT Contract (Direct Vendor Delivery)": 1,
+      "copy\tDLA ECAT Contract (Just in Time)": 1,
+      "copy\tFederal med-surg contracting for the VA and DoW": 1,
+      "copy\tMedical Solutions of Texas": 1,
+      "copy\tMedical Solutions of Texas is a Veteran-Owned Small Business that helps medical vendors navigate government healthcare contracting for the VA and DoW.": 1,
+      "email\tinfo@MedicalSolutionsofTX.com": 1,
+      "heading\tPage not found | MSOT": 1,
+      "heading\tSomething went wrong | MSOT": 1,
+      "phone\t833.307.4418": 1,
+      "social\thttps://www.linkedin.com/company/medical-solutions-of-texas": 1
+    },
+    "src/lib/privacy/fixture.ts": {
+      "copy\t${…} by {legal name} dba {Name}, at {email}, not {e-mail}.": 1,
+      "copy\t${…} item": 1
+    },
+    "src/lib/seo.ts": {
+      "copy\tHow MSOT takes med-surg manufacturers from first call to an ECAT, FSS or DAPA contract, with timelines and common questions.": 1,
+      "copy\tMSOT is a San Antonio VOSB that helps med-surg manufacturers get on ECAT, FSS and DAPA contracts and into VA and DoW facilities.": 1,
+      "copy\tMSOT's FSS catalog, capabilities statement, technique guides and federal procurement guides for manufacturers.": 1,
+      "copy\tMSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers.": 1,
+      "copy\tThe manufacturers MSOT works with, and what makes a successful VA and DoW partnership.": 1,
+      "copy\tWhat information the Medical Solutions of Texas website collects, why, who else receives it, and the choices you have.": 1,
+      "copy\tWho MSOT is: a VOSB founded by Air Force logistics and medical sales veterans to connect med-surg suppliers with VA and DoW contracts.": 1,
+      "heading\tAbout MSOT · Veteran-Owned Small Business, San Antonio": 1,
+      "heading\tCapabilities Statement | MSOT": 1,
+      "heading\tContact MSOT · San Antonio, TX": 1,
+      "heading\tHow MSOT Gets Manufacturers on Federal Contract": 1,
+      "heading\tMSOT Partners · Manufacturers Selling to the VA and DoW": 1,
+      "heading\tMSOT Resources · FSS Catalog, Capabilities Statement, Guides": 1,
+      "heading\tPrivacy Policy | MSOT": 1,
+      "heading\tVA and DoW Healthcare Contracting for Medical Vendors | MSOT": 1
+    },
+    "src/lib/structured-data.ts": {
+      "copy\tUnited States": 1
+    },
+    "src/lib/team.ts": {
+      "alt\t${…}, ${…}, Medical Solutions of Texas.": 1,
+      "alt\t${…}, Medical Solutions of Texas.": 1
+    },
+    "src/routes/+error.svelte": {
+      "link\t/": 1
+    },
+    "src/routes/+layout.svelte": {
+      "image\tmsot_khaki.png": 1,
+      "image\tmsot_logo.svg": 1,
+      "image\tmsot_logo_sand.svg": 1,
+      "link\t/": 1,
+      "link\t/about": 1,
+      "link\t/contact": 1,
+      "link\t/partners": 1,
+      "link\t/process": 1,
+      "link\t/resources": 1
+    },
+    "src/routes/[[preview=preview]]/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/+page.svelte": {
+      "copy\t${…} (PDF, opens in a new tab)": 1,
+      "image\tbgVideoPlaceholder.jpg": 1,
+      "image\tdoctor.jpg": 1,
+      "image\tdoctor_mobile.jpg": 1,
+      "image\tmsot_logo.svg": 1,
+      "image\tsurgeonsPlaceholder.jpg": 1,
+      "image\ttxFlag.svg": 1,
+      "image\tusFlag.svg": 1,
+      "image\tvosb_white.svg": 1,
+      "link\t/": 1,
+      "link\t/contact": 2,
+      "link\t/pdfs/MSOT_Capabilities.pdf": 1,
+      "link\t/process": 2,
+      "video\t1019997263": 1,
+      "video\thttps://player.vimeo.com/video/1019997302?background=1&dnt=1": 1
+    },
+    "src/routes/[[preview=preview]]/[uid]/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/about/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/about/+page.svelte": {
+      "copy\tCourtney Alexander": 1,
+      "copy\tDavid Lange": 1,
+      "copy\tJon Hood": 1,
+      "copy\tKathy Castro": 1,
+      "copy\tKylene Carse": 1,
+      "heading\tCEO": 1,
+      "heading\tChief Financial Officer": 1,
+      "heading\tGovernment Accounts Coordinator": 1,
+      "heading\tOperations Administrator": 1,
+      "heading\tPresident": 1,
+      "image\tJon Hood.svg": 1,
+      "image\taboutHero.jpg": 1,
+      "image\tcourtney.png": 1,
+      "image\tdots.svg": 1,
+      "image\tkathy.png": 1,
+      "image\tkylene.png": 1,
+      "image\tpatch.jpg": 1,
+      "image\tprofile_placeholder.png": 1,
+      "image\ttim.png": 1
+    },
+    "src/routes/[[preview=preview]]/capabilities/+page.svelte": {
+      "link\t/contact": 1
+    },
+    "src/routes/[[preview=preview]]/contact/+page.server.ts": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/partners/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/partners/+page.svelte": {
+      "image\tpartnersHero.jpg": 1
+    },
+    "src/routes/[[preview=preview]]/process/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/process/+page.svelte": {
+      "image\tprocessHero.jpg": 1,
+      "image\tsurgeonsPlaceholder.jpg": 1,
+      "video\thttps://player.vimeo.com/video/1025187591?background=1&dnt=1": 1
+    },
+    "src/routes/[[preview=preview]]/resources/+page.server.js": {
+      "copy\tPage not found": 1
+    },
+    "src/routes/[[preview=preview]]/resources/+page.svelte": {
+      "link\t/capabilities": 1,
+      "link\t/contact": 1
+    }
+  }
+}
