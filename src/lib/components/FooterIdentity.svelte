@@ -39,14 +39,15 @@
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
-    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light"
-        >{identity.phone}</a
-      >{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light">
+        {identity.phone}
+      </a>{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
     <a
       href={`mailto:${identity.email}`}
       class="hover:text-light [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
-      >{identity.email}</a
     >
+      {identity.email}
+    </a>
   </address>
   <details class="group">
     <summary
@@ -72,8 +73,10 @@
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"
-      class="label text-white underline hover:text-light">{chrome.privacy_link}</a
+      class="label text-white underline hover:text-light"
     >
+      {chrome.privacy_link}
+    </a>
   </p>
 </div>
 

@@ -164,9 +164,9 @@
             pages you view. Google may collect information about your online activities over time
             and across different websites. The analytics account is managed by Reddoor, which uses
             it to prepare reports for us. You can opt out with Google's
-            <a href="https://tools.google.com/dlpage/gaoptout" class="underline hover:text-white"
-              >browser add-on</a
-            >.
+            <a href="https://tools.google.com/dlpage/gaoptout" class="underline hover:text-white">
+              browser add-on
+            </a>.
           </li>
         {/if}
         {#if has("gtm")}
@@ -185,8 +185,10 @@
             settings at
             <a
               href="https://www.linkedin.com/psettings/advertising"
-              class="underline hover:text-white">linkedin.com/psettings/advertising</a
-            >.
+              class="underline hover:text-white"
+            >
+              linkedin.com/psettings/advertising
+            </a>.
           </li>
         {/if}
         {#if has("adobeFonts")}

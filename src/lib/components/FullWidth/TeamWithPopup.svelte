@@ -91,8 +91,9 @@
       target="_blank"
       rel="noopener noreferrer"
       class="label text-light underline hover:text-white mt-4 inline-block"
-      >LinkedIn<span class="sr-only"> profile of {name} (opens in a new tab)</span></a
     >
+      LinkedIn<span class="sr-only"> profile of {name} (opens in a new tab)</span>
+    </a>
   {/if}
 </svelte:element>
 {#if showOverlay}

@@ -116,14 +116,16 @@
           onclick={slideRight}
           aria-label="Previous slide"
           class="absolute top-1/2 -translate-y-1/2 left-6"
-          ><img src={chevronLeft} alt="" class="w-3 md:w-4" /></button
         >
+          <img src={chevronLeft} alt="" class="w-3 md:w-4" />
+        </button>
         <button
           onclick={slideLeft}
           aria-label="Next slide"
           class="absolute top-1/2 -translate-y-1/2 right-6"
-          ><img src={chevronRight} alt="" class="w-3 md:w-4" /></button
         >
+          <img src={chevronRight} alt="" class="w-3 md:w-4" />
+        </button>
       {/if}
     </div>
   </div>

@@ -64,14 +64,14 @@
     class="flex flex-row gap-6 justify-between items-start pt-6 border-t-2 border-white"
   >
     <div class="flex flex-col gap-4 items-start min-w-0">
-      <a href="/" class="bump self-start h-16 md:h-20 relative"
-        ><img
+      <a href="/" class="bump self-start h-16 md:h-20 relative">
+        <img
           class="h-full transitionn duration-700 ease-fast-slow delay-500"
           src={msotLogo}
           style="transform-origin:top left"
           alt={chrome.footer_logo_alt}
-        /></a
-      >
+        />
+      </a>
       <FooterIdentity />
     </div>
     <img src={vosbLogo} alt={chrome.vosb_alt} class="h-16 md:h-24 self-start" />
