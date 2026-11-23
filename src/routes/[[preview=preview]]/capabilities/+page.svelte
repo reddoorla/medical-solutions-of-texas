@@ -113,13 +113,17 @@
       {identity.name} ({identity.shortName})<br />
       {#if identity.phoneE164}<a
           href={`tel:${identity.phoneE164}`}
-          class="underline hover:text-white">{identity.phone}</a
-        >{:else}{identity.phone}{/if}
+          class="underline hover:text-white"
+        >
+          {identity.phone}
+        </a>{:else}{identity.phone}{/if}
       ·
       <a
         href={`mailto:${identity.email}`}
-        class="underline hover:text-white [overflow-wrap:anywhere]">{identity.email}</a
+        class="underline hover:text-white [overflow-wrap:anywhere]"
       >
+        {identity.email}
+      </a>
       · {copy.domain}<br />
       {addressLine(identity.address)}
     </address>

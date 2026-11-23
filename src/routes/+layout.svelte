@@ -183,9 +183,9 @@
   <div class="w-screen h-screen fixed bg-dark z-30" transition:fly={{ y: "-100%" }}>
     <ContentWidth class="flex flex-col items-center justify-center gap-12 h-full">
       {#each NAV_LINKS as item (item.href)}
-        <a onclick={() => (isOverlayVisible = false)} href={item.href} class="text-light text-2xl"
-          >{item.label}</a
-        >
+        <a onclick={() => (isOverlayVisible = false)} href={item.href} class="text-light text-2xl">
+          {item.label}
+        </a>
       {/each}
 
       <button
