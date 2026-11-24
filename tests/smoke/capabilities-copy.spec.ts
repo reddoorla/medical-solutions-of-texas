@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { empty, fixtureCookie } from "./empty";
 import { CAPABILITIES_COPY, capabilitiesCopy } from "../../src/lib/copy/capabilities";
+import { ECAT_HELD } from "../../src/lib/identity";
 import type { CapabilitiesPageDocument } from "../../prismicio-types";
 
 // The Capabilities Statement's copy moves into Prismic's `capabilities_page`
@@ -115,11 +116,18 @@ const article = (html: string) => {
   return b.slice(b.indexOf("<article"), b.indexOf("</article>"));
 };
 
+// Held 2026-11-24 ($lib/identity ECAT_HELD): the two ECAT rows have no number,
+// so the table leaves them out, and their four words with them.
+const HELD_ROWS = ECAT_HELD
+  ? ["ecat_jit_name", "ecat_jit_note", "ecat_dvd_name", "ecat_dvd_note"]
+  : [];
+
 /** Every field the page shows, in page order, as the fixture fills it. */
 const fixtureWords = () => {
   const out: string[] = [];
   for (const [field, today] of Object.entries(CAPABILITIES_COPY)) {
     if (field === "meta_title" || field === "meta_description") continue;
+    if (HELD_ROWS.includes(field)) continue;
     if (typeof today === "string") out.push(`Fixture ${field}`);
     else
       today.forEach((row, i) => {
@@ -138,6 +146,7 @@ test("Capabilities reads the document: every field, in page order, and its SEO",
   const shown = visible(article(html));
   const words = fixtureWords();
   for (const w of words) expect(shown, w).toMatch(new RegExp(`${w}(?!\\w)`));
+  for (const f of HELD_ROWS) expect(shown, `held: ${f}`).not.toContain(`Fixture ${f}`);
   const at = (w: string) => shown.search(new RegExp(`${w}(?!\\w)`));
   expect(
     [...words].sort((a, b) => at(a) - at(b)),
@@ -187,8 +196,8 @@ test("with every field empty, Capabilities shows today's words and $lib/seo's ti
     "Connecting VA and DoW treatment facilities with med-surg suppliers.",
     "45 working days or less to contract. Industry average: 120+",
     "Dedicated Government Account Coordinators",
-    "Just in Time",
     "VA Schedule 65 II A",
+    "Medical/Surgical",
     "(primary), 339112, 339113",
     "VBE: Veteran Business Enterprise · ESBE: Emerging Small Business · SBE: Small Business Entity",
     "Department of War (DoW)",
@@ -197,6 +206,9 @@ test("with every field empty, Capabilities shows today's words and $lib/seo's ti
   ]) {
     expect(shown, w).toContain(w);
   }
+  // Held 2026-11-24: no ECAT row while ECAT_HELD.
+  expect(shown).not.toContain("Just in Time");
+  expect(shown).not.toContain("Direct Vendor Delivery");
   expect(html).toMatch(/<title>Capabilities Statement \| MSOT<\/title>/);
   expect(html).toContain(
     `<meta name="description" content="MSOT's capabilities, contract vehicles (ECAT, FSS, DAPA), company data and designations: connecting VA and DoW treatment facilities with med-surg suppliers."`,
