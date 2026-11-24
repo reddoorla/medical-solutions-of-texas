@@ -60,8 +60,6 @@ test("Home carries exactly one JSON-LD graph: Organization and WebSite, with §1
       ["SAM UEI", "Z7Q8TN9HMRC4"],
       ["CAGE Code", "6ZM08"],
       ["GSA FSS Contract", "36F797-25-D-0204"],
-      ["DLA ECAT Contract (Just in Time)", "SPE2DE-25-D-A012"],
-      ["DLA ECAT Contract (Direct Vendor Delivery)", "SPE2DE-25-D-A011"],
       ["DAPA (Medical/Surgical)", "SP0200-11-H-0018"],
       ["DAPA (Equipment)", "SP0200-11-H-0003"],
     ].map(([propertyID, value]) => ({ "@type": "PropertyValue", propertyID, value })),
