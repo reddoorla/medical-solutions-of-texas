@@ -223,6 +223,11 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
 
   const about = text(await get("/about"));
   expect(about).toContain("Fixture definition for About.");
+  // The footer's contract lines read the document too (Marketing, Nov 23),
+  // except the held ECAT pair: its number is not shown, nor its empty line.
+  expect(about).not.toContain("FIXTURE-ECAT-JIT");
+  expect(about).not.toContain("DLA ECAT Contract");
+  expect(about).toContain("Fixture Vehicle: FIXTURE-NEW-1");
   expect(about).toContain("Fixture works-with for About.");
   expect(ld).toContain('"sameAs":["https://example.com/fixture-msot"]');
 
@@ -230,7 +235,9 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
   expect(text(await get("/contact"))).toContain("Phone: 512.555.0100");
   expect(text(await get("/resources"))).toContain("Phone: 512.555.0100");
 
-  // The vehicles table is the page's own; the footer carries no contracts.
+  // The vehicles table is the page's own. The footer lists the contract numbers
+  // too since Marketing's Nov 23 decision 4; held 2026-11-24, neither shows an
+  // ECAT number, so the whole page is read.
   const caps = text(await get("/capabilities"));
   expect(caps).not.toContain("FIXTURE-ECAT-JIT");
   // dt/dd order: the footer reads "UEI … · CAGE", the page "UEI … CAGE".

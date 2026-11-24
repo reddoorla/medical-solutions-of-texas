@@ -7,7 +7,7 @@
 // (the operator, 11-06, on the "which strings stay in code" decision: move
 // them). The footer lines and the untitled title are templates: {name},
 // {short name}, {legal name}, {business type}, {tagline}, {uei}, {cage},
-// {fss}, {year} and {page} are filled in ($lib/content's fill).
+// {fss}, {naics}, {year} and {page} are filled in ($lib/content's fill).
 import type { SettingsDocument } from "../../../prismicio-types";
 import { fill, text } from "../content";
 
@@ -31,6 +31,7 @@ export const CHROME_COPY = {
   footer_name_line: "{name} ({short name})",
   footer_type_line: "{business type} · {tagline}",
   footer_ids_line: "UEI {uei} · CAGE {cage} · FSS {fss}",
+  footer_naics_line: "NAICS {naics}",
   footer_copyright: "©{year} {legal name} dba {name} |",
   untitled_title: "MSOT | {page}",
   not_found_text: "Page not found",
@@ -61,6 +62,7 @@ export function chromeCopy(doc: SettingsDocument | null) {
     footer_name_line: text(d?.footer_name_line, CHROME_COPY.footer_name_line),
     footer_type_line: text(d?.footer_type_line, CHROME_COPY.footer_type_line),
     footer_ids_line: text(d?.footer_ids_line, CHROME_COPY.footer_ids_line),
+    footer_naics_line: text(d?.footer_naics_line, CHROME_COPY.footer_naics_line),
     footer_copyright: text(d?.footer_copyright, CHROME_COPY.footer_copyright),
     untitled_title: text(d?.untitled_title, CHROME_COPY.untitled_title),
     not_found_text: text(d?.not_found_text, CHROME_COPY.not_found_text),

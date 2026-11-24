@@ -5,7 +5,8 @@
   // Server-rendered at every width: the old © line was only drawn above 560px.
   //
   // The name, phone, email and © line are always in view. The definition, the
-  // VOSB line, the street address and UEI · CAGE · FSS fold into a native
+  // VOSB line, the street address, UEI · CAGE · FSS, and the ECAT and DAPA
+  // contract numbers and NAICS code (Marketing, Nov 23) fold into a native
   // <details>, closed by default (the operator, 11-05: the six lines looked
   // "hideous"). Their text is still in the server HTML, so a crawler or an AI
   // assistant reads all of it, and the browser opens it with no script.
@@ -15,7 +16,25 @@
   import { addressLine } from "$lib/identity";
   import { fill } from "$lib/content";
 
+  // "dark" is the khaki band's text: #140F09 on #998B6A measures 5.68:1, where
+  // white measured 3.36:1 against the 4.5:1 minimum (Marketing approved dark
+  // text, Nov 23: "Accessibility matters for a federal audience"). Home's
+  // footer is #140F09 itself, so its text stays white (19:1).
+  let { tone = "light" }: { tone?: "light" | "dark" } = $props();
+  const ink = $derived(tone === "dark" ? "text-[#140F09]" : "text-white");
+  // The base style turns every link white on hover (app.css `a:hover`), which
+  // on khaki is the 3.36:1 the dark text replaced. Each link carries the ink
+  // itself, unprefixed: Tailwind's `hover:` sits inside `@media (hover: hover)`,
+  // so on a touch screen a tapped link would get the base white (review round
+  // 3). On the dark tone, hover underlines instead of changing colour.
+  const hover = $derived(tone === "dark" ? "hover:underline" : "hover:text-light");
+  // The privacy link is underlined already: on the dark tone, hover lifts it.
+  const linkHover = $derived(tone === "dark" ? "hover:no-underline" : "hover:text-light");
+
   const identity = $derived(page.data.identity);
+  // A contract with no number gets no line, as on /capabilities and in the
+  // markup: the two ECAT numbers are held off the site (ECAT_HELD, 2026-11-24).
+  const contracts = $derived(identity.contracts.filter((c) => c.value));
   // The fold-out label and the privacy link's words: $lib/copy/chrome.
   const chrome = $derived(page.data.chrome);
 
@@ -30,29 +49,28 @@
     uei: identity.uei,
     cage: identity.cage,
     fss: identity.fss,
+    naics: identity.naics,
     year: String(year),
   });
 </script>
 
-<div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
+<div class="label {ink} flex flex-col gap-1" data-testid="footer-identity">
   <p class="label font-semibold">{fill(chrome.footer_name_line, tokens)}</p>
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
-    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light">
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="{ink} {hover}">
         {identity.phone}
       </a>{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
     <a
       href={`mailto:${identity.email}`}
-      class="hover:text-light [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
+      class="{ink} {hover} [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
     >
       {identity.email}
     </a>
   </address>
   <details class="group">
-    <summary
-      class="label w-fit cursor-pointer list-none flex flex-row items-center gap-1 hover:text-light"
-    >
+    <summary class="label w-fit cursor-pointer list-none flex flex-row items-center gap-1 {hover}">
       {chrome.company_details}
       <Plus
         class="shrink-0 transition-transform duration-300 ease-in-out group-open:rotate-45 motion-reduce:transition-none"
@@ -66,6 +84,27 @@
       <p class="label">{fill(chrome.footer_type_line, tokens)}</p>
       <address class="label not-italic">{addressLine(identity.address)}</address>
       <p class="label">{fill(chrome.footer_ids_line, tokens)}</p>
+      <!-- The contract numbers and the NAICS code the Organization markup gives,
+           shown on every page (Marketing, Nov 23, decision 4); a contract with no
+           number (the held ECAT pair) is left out.
+           Keyed by position: two rows may share a number, and the list never
+           reorders. -->
+      <!-- role="list": Safari drops a list's role when its bullets are off. -->
+      {#if contracts.length}
+        <ul class="label flex flex-col gap-1" role="list">
+          {#each contracts as c, i (i)}
+            <!-- A bare number stays whole (a phone would break it at a hyphen); one
+               with spaces, which an editor might type, may wrap. -->
+            <li>
+              {c.label}:
+              <span class={/\s/.test(c.value) ? "[overflow-wrap:anywhere]" : "whitespace-nowrap"}>
+                {c.value}
+              </span>
+            </li>
+          {/each}
+        </ul>
+      {/if}
+      <p class="label">{fill(chrome.footer_naics_line, tokens)}</p>
     </div>
   </details>
   <p class="label">
@@ -73,7 +112,7 @@
     <a
       href={PRIVACY_PATH}
       data-testid="footer-privacy-link"
-      class="label text-white underline hover:text-light"
+      class="label {ink} underline {linkHover}"
     >
       {chrome.privacy_link}
     </a>
