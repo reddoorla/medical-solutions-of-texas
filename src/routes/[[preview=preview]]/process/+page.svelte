@@ -191,7 +191,9 @@
 <section class="bg-light pt-32 pb-48">
   <ContentWidth>
     <h3 class="text-dark mb-10">{copy.faq_heading}</h3>
-    <Accordian accordianProps={copy.faq.map((r) => ({ label: r.question, content: r.answer }))} />
+    <Accordian
+      accordianProps={copy.faq.map((r) => ({ label: r.question, content: r.answer, rich: r.rich }))}
+    />
   </ContentWidth>
 </section>
 
