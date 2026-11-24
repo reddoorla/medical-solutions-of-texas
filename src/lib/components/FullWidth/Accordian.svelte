@@ -10,7 +10,8 @@
   // where the old component filled in Lorem ipsum.
   // `rich`, when there, is shown instead of `content`: a Prismic answer with
   // its paragraphs, bullet lists and bold as typed (the Process FAQ; Marketing's
-  // Nov 23 answers have lists and bold lead-ins). asHTML escapes the text.
+  // Nov 23 answers have lists and bold lead-ins). asHTML escapes the text; the
+  // field's model allows no links, so no address from it reaches an href.
   interface AccordianItem {
     label: string;
     content?: string;
@@ -49,7 +50,7 @@
           <div
             class="faq-rich text-left pb-8 pr-8 pt-4 text-[16px] leading-relaxed md:text-[24px] xl:text-[20px]"
           >
-            <!-- eslint-disable-next-line svelte/no-at-html-tags -- asHTML escapes the text -->
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -- asHTML escapes the text; no links in the model -->
             {@html asHTML(accordian.rich)}
           </div>
         </div>

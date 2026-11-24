@@ -117,7 +117,14 @@ export function processCopy(doc: ProcessPageDocument | null) {
       d?.faq,
       (r) => {
         const answer = paragraphs(r.answer, "");
-        const row = { question: text(r.question, ""), answer, rich: answer ? r.answer : null };
+        // An editor's Enter at either end leaves an empty paragraph: dropped, as
+        // the plain answer drops it, or it would show as a gap.
+        const blank = (b: RichTextField[number]) => !("text" in b) || !b.text.trim();
+        const blocks = [...r.answer];
+        while (blocks.length && blank(blocks[0])) blocks.shift();
+        while (blocks.length && blank(blocks[blocks.length - 1])) blocks.pop();
+        const rich = answer && blocks.length ? (blocks as RichTextField) : null;
+        const row = { question: text(r.question, ""), answer, rich };
         return row.question ? row : null;
       },
       PROCESS_COPY.faq.map((r) => ({ ...r, rich: null })),
