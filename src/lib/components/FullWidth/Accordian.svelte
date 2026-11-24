@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Plus } from "@lucide/svelte";
+  import { asHTML, type RichTextField } from "@prismicio/client";
 
   // Each answer is in the server HTML, inside <details>, so a crawler, an AI
   // assistant or a reader without JavaScript gets the text; the browser opens
@@ -7,9 +8,13 @@
   // existed only after a click (Developer Brief Part 2, §14a; the Process FAQ and
   // About's DAPA, ECAT and FSS lines). An item with no content renders no answer,
   // where the old component filled in Lorem ipsum.
+  // `rich`, when there, is shown instead of `content`: a Prismic answer with
+  // its paragraphs, bullet lists and bold as typed (the Process FAQ; Marketing's
+  // Nov 23 answers have lists and bold lead-ins). asHTML escapes the text.
   interface AccordianItem {
     label: string;
     content?: string;
+    rich?: RichTextField | null;
   }
 
   interface Props {
@@ -39,7 +44,16 @@
           </h4>
         </div>
       </summary>
-      {#if accordian.content}
+      {#if accordian.rich}
+        <div class="pr-16 w-full">
+          <div
+            class="faq-rich text-left pb-8 pr-8 pt-4 text-[16px] leading-relaxed md:text-[24px] xl:text-[20px]"
+          >
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -- asHTML escapes the text -->
+            {@html asHTML(accordian.rich)}
+          </div>
+        </div>
+      {:else if accordian.content}
         <div class="pr-16 w-full">
           <p
             class="text-left pb-8 pr-8 pt-4 text-[16px] whitespace-pre-wrap leading-relaxed md:text-[24px] xl:text-[20px]"
@@ -53,6 +67,28 @@
 </div>
 
 <style>
+  /* A rich answer: paragraphs and lists a little apart, bullets hung outside
+     the text so a wrapped line starts under the words. */
+  /* The site's base p style sets its own size; a rich answer's paragraphs take
+     the answer's, as the plain answer's single <p> does. */
+  .faq-rich :global(p) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+  .faq-rich :global(* + p),
+  .faq-rich :global(* + ul) {
+    margin-top: 0.6em;
+  }
+  .faq-rich :global(ul) {
+    list-style: disc;
+    padding-left: 1.25em;
+  }
+  .faq-rich :global(li + li) {
+    margin-top: 0.3em;
+  }
+  .faq-rich :global(strong) {
+    font-weight: 600;
+  }
   /* No default disclosure triangle: the plus icon is the marker. */
   summary::-webkit-details-marker {
     display: none;

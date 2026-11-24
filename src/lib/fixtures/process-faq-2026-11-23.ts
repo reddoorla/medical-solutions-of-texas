@@ -1,15 +1,25 @@
 // Marketing's five new Process FAQ answers (Developer Brief Part 2, §14a), from
 // "MSOT Process Page FAQ — Answers 1–5 (Final, Nov 23, 2026)", as the rows the
-// process_page document's `faq` group holds, in Prismic's rich-text shape. Two
+// process_page document's `faq` group holds, in Prismic's rich-text shape, with
+// her bullet lists and her three bold lead-ins ("ECAT", "FSS", "A DAPA"). Two
 // edits from the file, both formatting: the questions lose their "1." to "5."
 // (the page numbers none), and "SAM.gov" in answer 4 is plain text, not the
 // link Word made of it (Marketing, Nov 23: no SAM.gov links yet). Served only by
 // `vite dev`, behind `msot-process-fixture=answers-2026-11-23`, after the two
 // questions already on the page: tests/smoke/process-faq-answers.spec.ts checks
 // the page shows these words, written out there a second time.
-type Block = { type: "paragraph" | "list-item"; text: string; spans: never[] };
+type Span = { type: "strong"; start: number; end: number };
+type Block = { type: "paragraph" | "list-item"; text: string; spans: Span[] };
 const p = (text: string): Block => ({ type: "paragraph", text, spans: [] });
-const li = (text: string): Block => ({ type: "list-item", text, spans: [] });
+/** A bullet; `bold` is the words her file sets in bold at its start. */
+const li = (text: string, bold = ""): Block => {
+  if (!text.startsWith(bold)) throw new Error(`fixture: "${text}" does not start "${bold}"`);
+  return {
+    type: "list-item",
+    text,
+    spans: bold ? [{ type: "strong", start: 0, end: bold.length }] : [],
+  };
+};
 
 export const PROCESS_FAQ_2026_11_23: { question: string; answer: Block[] }[] = [
   {
@@ -28,12 +38,15 @@ export const PROCESS_FAQ_2026_11_23: { question: string; answer: Block[] }[] = [
       ),
       li(
         "ECAT is DLA's Electronic Catalog, an online ordering system. It lets DoW and other federal buyers, including VA medical centers, browse approved suppliers' catalogs and order at negotiated discounts.",
+        "ECAT",
       ),
       li(
         "FSS is the VA Federal Supply Schedule, run by the VA National Acquisition Center. MSOT's FSS contract is under Schedule 65 II A, Medical Equipment and Supplies.",
+        "FSS",
       ),
       li(
         "A DAPA (Distribution and Pricing Agreement) is DLA's pricing agreement for products distributed through the DoW Medical/Surgical Prime Vendor program.",
+        "A DAPA",
       ),
       p("MSOT picks the right path for your products: ECAT, FSS, DAPA or a mix."),
     ],

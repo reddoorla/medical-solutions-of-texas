@@ -1962,10 +1962,10 @@ export interface ProcessPageDocumentDataFaqItem {
 	question: prismic.KeyTextField;
 	
 	/**
-	 * answer (each paragraph or bullet is a line) field in *Process page → the questions, top to bottom*
+	 * answer (paragraphs, bullet lists and bold) field in *Process page → the questions, top to bottom*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Enter starts a new line, shown as typed; a bullet list's items show with a bullet. Left empty, the row shows its title alone.
+	 * - **Placeholder**: Shown as typed: paragraphs, bullet lists and bold. Left empty, the row shows its title alone.
 	 * - **API ID Path**: process_page.faq[].answer
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
