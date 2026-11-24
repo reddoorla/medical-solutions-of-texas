@@ -32,6 +32,9 @@
   const linkHover = $derived(tone === "dark" ? "hover:no-underline" : "hover:text-light");
 
   const identity = $derived(page.data.identity);
+  // A contract with no number gets no line, as on /capabilities and in the
+  // markup: the two ECAT numbers are held off the site (ECAT_HELD, 2026-11-24).
+  const contracts = $derived(identity.contracts.filter((c) => c.value));
   // The fold-out label and the privacy link's words: $lib/copy/chrome.
   const chrome = $derived(page.data.chrome);
 
@@ -81,23 +84,26 @@
       <p class="label">{fill(chrome.footer_type_line, tokens)}</p>
       <address class="label not-italic">{addressLine(identity.address)}</address>
       <p class="label">{fill(chrome.footer_ids_line, tokens)}</p>
-      <!-- The ECAT and DAPA contract numbers and the NAICS code the Organization
-           markup gives, shown on every page (Marketing, Nov 23, decision 4).
+      <!-- The contract numbers and the NAICS code the Organization markup gives,
+           shown on every page (Marketing, Nov 23, decision 4); a contract with no
+           number (the held ECAT pair) is left out.
            Keyed by position: two rows may share a number, and the list never
            reorders. -->
       <!-- role="list": Safari drops a list's role when its bullets are off. -->
-      <ul class="label flex flex-col gap-1" role="list">
-        {#each identity.contracts as c, i (i)}
-          <!-- A bare number stays whole (a phone would break it at a hyphen); one
+      {#if contracts.length}
+        <ul class="label flex flex-col gap-1" role="list">
+          {#each contracts as c, i (i)}
+            <!-- A bare number stays whole (a phone would break it at a hyphen); one
                with spaces, which an editor might type, may wrap. -->
-          <li>
-            {c.label}:
-            <span class={/\s/.test(c.value) ? "[overflow-wrap:anywhere]" : "whitespace-nowrap"}>
-              {c.value}
-            </span>
-          </li>
-        {/each}
-      </ul>
+            <li>
+              {c.label}:
+              <span class={/\s/.test(c.value) ? "[overflow-wrap:anywhere]" : "whitespace-nowrap"}>
+                {c.value}
+              </span>
+            </li>
+          {/each}
+        </ul>
+      {/if}
       <p class="label">{fill(chrome.footer_naics_line, tokens)}</p>
     </div>
   </details>

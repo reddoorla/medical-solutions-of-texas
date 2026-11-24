@@ -69,14 +69,18 @@ const IN_DETAILS = [
   "Veteran-Owned Small Business (VOSB) · Federal med-surg contracting for the VA and DoW",
   "4903 Golden Quail, Suite 120, San Antonio, TX 78240",
   "UEI Z7Q8TN9HMRC4 · CAGE 6ZM08 · FSS 36F797-25-D-0204",
-  // Marketing, Nov 23, decision 4: the ECAT, DAPA and NAICS numbers the
-  // Organization markup gives, shown sitewide under "Company details".
-  "DLA ECAT Contract (Just in Time): SPE2DE-25-D-A012",
-  "DLA ECAT Contract (Direct Vendor Delivery): SPE2DE-25-D-A011",
+  // Marketing, Nov 23, decision 4: the contract numbers and NAICS code the
+  // Organization markup gives, shown sitewide under "Company details". The
+  // two ECAT numbers are held off the site (2026-11-24, ECAT_HELD in
+  // $lib/identity): a contract with no number gets no line (HELD below).
   "DAPA (Medical/Surgical): SP0200-11-H-0018",
   "DAPA (Equipment): SP0200-11-H-0003",
   "NAICS 423450",
 ];
+
+// Held 2026-11-24: neither ECAT vehicle's name nor number is in the footer,
+// so no "DLA ECAT Contract (…):" line with an empty number is left behind.
+const HELD = ["DLA ECAT Contract", "SPE2DE-25-D-A012", "SPE2DE-25-D-A011"];
 
 /** The identity block's one <details>, and the block with it cut out. */
 function splitDetails(footer: string): { details: string; outside: string } {
@@ -107,6 +111,10 @@ for (const path of PAGES) {
       expect(out).not.toContain(squash(line));
     }
     for (const line of ALWAYS_VISIBLE) expect(out).toContain(squash(line));
+    for (const held of HELD) expect(squash(text(footer))).not.toContain(held);
+    // Every contract line the footer does print carries a number after its colon.
+    for (const li of details.match(/<li[\s>][\s\S]*?<\/li>/g) ?? [])
+      expect(squash(text(li)), "no contract line ends at its colon").not.toMatch(/:\s*$/);
     expect(outside).toContain('href="tel:+18333074418"');
     expect(outside).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
     expect(outside, "the phone link sits inside one <address>").toMatch(
@@ -268,6 +276,9 @@ for (const path of ["/", "/about", "/process", "/contact"]) {
 // (review round 3: the tapped phone link read 3.36:1 on a 390px phone).
 test.describe("touch", () => {
   test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  // "/" is a control, not a guard: Home's footer is #140F09 with white text,
+  // which the base style's white hover cannot lower, so that case cannot fail.
+  // The khaki pages are the ones it protects.
   for (const path of ["/", "/about", "/process", "/contact"]) {
     test(`${path}: a tapped footer link keeps 4.5:1 on a touch screen`, async ({
       page,
