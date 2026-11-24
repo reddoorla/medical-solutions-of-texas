@@ -15,6 +15,14 @@
   import { addressLine } from "$lib/identity";
   import { fill } from "$lib/content";
 
+  // "dark" is the khaki band's text: #140F09 on #998B6A measures 5.68:1, where
+  // white measured 3.36:1 against the 4.5:1 minimum (Marketing approved dark
+  // text, Nov 23: "Accessibility matters for a federal audience"). Home's
+  // footer is #140F09 itself, so its text stays white (19:1).
+  let { tone = "light" }: { tone?: "light" | "dark" } = $props();
+  const ink = $derived(tone === "dark" ? "text-[#140F09]" : "text-white");
+  const hover = $derived(tone === "dark" ? "hover:underline" : "hover:text-light");
+
   const identity = $derived(page.data.identity);
   // The fold-out label and the privacy link's words: $lib/copy/chrome.
   const chrome = $derived(page.data.chrome);
@@ -30,29 +38,28 @@
     uei: identity.uei,
     cage: identity.cage,
     fss: identity.fss,
+    naics: identity.naics,
     year: String(year),
   });
 </script>
 
-<div class="label text-white flex flex-col gap-1" data-testid="footer-identity">
+<div class="label {ink} flex flex-col gap-1" data-testid="footer-identity">
   <p class="label font-semibold">{fill(chrome.footer_name_line, tokens)}</p>
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
-    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="hover:text-light">
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class={hover}>
         {identity.phone}
       </a>{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
     <a
       href={`mailto:${identity.email}`}
-      class="hover:text-light [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
+      class="{hover} [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
     >
       {identity.email}
     </a>
   </address>
   <details class="group">
-    <summary
-      class="label w-fit cursor-pointer list-none flex flex-row items-center gap-1 hover:text-light"
-    >
+    <summary class="label w-fit cursor-pointer list-none flex flex-row items-center gap-1 {hover}">
       {chrome.company_details}
       <Plus
         class="shrink-0 transition-transform duration-300 ease-in-out group-open:rotate-45 motion-reduce:transition-none"
@@ -66,15 +73,19 @@
       <p class="label">{fill(chrome.footer_type_line, tokens)}</p>
       <address class="label not-italic">{addressLine(identity.address)}</address>
       <p class="label">{fill(chrome.footer_ids_line, tokens)}</p>
+      <!-- ECAT, DAPA and NAICS, as the Organization markup gives them, so every
+           fact in it is on every page (Marketing, Nov 23, decision 4). -->
+      <ul class="label flex flex-col gap-1" data-testid="footer-contracts">
+        {#each identity.contracts as c (c.value)}
+          <li>{c.label}: <span class="whitespace-nowrap">{c.value}</span></li>
+        {/each}
+      </ul>
+      <p class="label">{fill(chrome.footer_naics_line, tokens)}</p>
     </div>
   </details>
   <p class="label">
     {fill(chrome.footer_copyright, tokens)}
-    <a
-      href={PRIVACY_PATH}
-      data-testid="footer-privacy-link"
-      class="label text-white underline hover:text-light"
-    >
+    <a href={PRIVACY_PATH} data-testid="footer-privacy-link" class="label {ink} underline {hover}">
       {chrome.privacy_link}
     </a>
   </p>

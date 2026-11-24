@@ -29,6 +29,7 @@ const TODAY = {
   footer_name_line: "{name} ({short name})",
   footer_type_line: "{business type} · {tagline}",
   footer_ids_line: "UEI {uei} · CAGE {cage} · FSS {fss}",
+  footer_naics_line: "NAICS {naics}",
   footer_copyright: "©{year} {legal name} dba {name} |",
   untitled_title: "MSOT | {page}",
   not_found_text: "Page not found",
@@ -192,7 +193,13 @@ test("with every field empty the footer's lines read as they did", async ({ requ
 
 test("the footer's lines and the error page read the document", async ({ request }) => {
   const about = visible(await (await request.get("/about", { headers: fixture })).text());
-  for (const f of ["footer_name_line", "footer_type_line", "footer_ids_line", "footer_copyright"])
+  for (const f of [
+    "footer_name_line",
+    "footer_type_line",
+    "footer_ids_line",
+    "footer_naics_line",
+    "footer_copyright",
+  ])
     expect(about, f).toMatch(new RegExp(` Fixture ${f}(?!\\w)`));
   expect(about).not.toMatch(/ dba | UEI /);
   // Both kinds of 404: a page's load that throws its own message (the [uid]

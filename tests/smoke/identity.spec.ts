@@ -69,6 +69,13 @@ const IN_DETAILS = [
   "Veteran-Owned Small Business (VOSB) · Federal med-surg contracting for the VA and DoW",
   "4903 Golden Quail, Suite 120, San Antonio, TX 78240",
   "UEI Z7Q8TN9HMRC4 · CAGE 6ZM08 · FSS 36F797-25-D-0204",
+  // Marketing, Nov 23, decision 4: the ECAT, DAPA and NAICS numbers the
+  // Organization markup gives, shown sitewide under "Company details".
+  "DLA ECAT Contract (Just in Time): SPE2DE-25-D-A012",
+  "DLA ECAT Contract (Direct Vendor Delivery): SPE2DE-25-D-A011",
+  "DAPA (Medical/Surgical): SP0200-11-H-0018",
+  "DAPA (Equipment): SP0200-11-H-0003",
+  "NAICS 423450",
 ];
 
 /** The identity block's one <details>, and the block with it cut out. */
@@ -201,3 +208,40 @@ test("Contact shows the confirmed address, phone and email", async ({ request })
   expect(html).toContain('href="tel:+18333074418"');
   expect(html).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
 });
+
+// Marketing approved dark footer text, Nov 23 (decision 7): on the khaki band
+// (#998B6A) white measured 3.36:1 against WCAG's 4.5:1, #140F09 measures 5.68:1.
+// Home's footer is #140F09 itself, so its text stays white.
+const luminance = (rgb: string) => {
+  const [r, g, b] = (rgb.match(/\d+(\.\d+)?/g) ?? []).slice(0, 3).map((v) => {
+    const c = Number(v) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratio = (a: string, b: string) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+for (const path of ["/", "/about", "/process", "/contact"]) {
+  test(`${path}: every footer identity line meets 4.5:1 against its band`, async ({
+    page,
+    baseURL,
+  }) => {
+    await emptyCookies(page.context(), baseURL);
+    await page.goto(path);
+    const block = page.getByTestId("footer-identity");
+    await block.locator("details > summary").click();
+    const pairs = await block.evaluate((el) => {
+      const bg = getComputedStyle(el.closest("footer")!).backgroundColor;
+      return [...el.querySelectorAll("p, a, summary, li, address")].map((n) => [
+        (n.textContent ?? "").trim().slice(0, 40),
+        getComputedStyle(n).color,
+        bg,
+      ]);
+    });
+    expect(pairs.length).toBeGreaterThan(8);
+    for (const [line, fg, bg] of pairs) expect(ratio(fg, bg), line).toBeGreaterThanOrEqual(4.5);
+  });
+}
