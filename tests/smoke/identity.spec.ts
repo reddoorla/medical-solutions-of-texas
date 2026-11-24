@@ -250,6 +250,9 @@ for (const path of ["/", "/about", "/process", "/contact"]) {
     // read mid-fade, still dark.
     await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; }" });
     const bg = pairs[0][2];
+    // The phone and email links, the fold-out label and the privacy link: a
+    // missing one would leave the loop checking nothing.
+    await expect(block.locator("a, summary")).toHaveCount(4);
     for (const target of await block.locator("a, summary").all()) {
       await target.hover();
       const fg = await target.evaluate((n) => getComputedStyle(n).color);
@@ -258,3 +261,40 @@ for (const path of ["/", "/about", "/process", "/contact"]) {
     }
   });
 }
+
+// On a touch screen, a tap leaves the link in :hover, but Tailwind's `hover:`
+// utilities sit inside `@media (hover: hover)` and never apply there, so only
+// the link's own colour stands between it and the base style's white
+// (review round 3: the tapped phone link read 3.36:1 on a 390px phone).
+test.describe("touch", () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  for (const path of ["/", "/about", "/process", "/contact"]) {
+    test(`${path}: a tapped footer link keeps 4.5:1 on a touch screen`, async ({
+      page,
+      baseURL,
+    }) => {
+      await emptyCookies(page.context(), baseURL);
+      await page.goto(path);
+      expect(await page.evaluate(() => matchMedia("(hover: hover)").matches)).toBe(false);
+      await page.addStyleTag({
+        content: "*, *::before, *::after { transition: none !important; }",
+      });
+      const block = page.getByTestId("footer-identity");
+      const bg = await block.evaluate(
+        (el) => getComputedStyle(el.closest("footer")!).backgroundColor,
+      );
+      const links = block.locator("a");
+      await expect(links).toHaveCount(3);
+      for (const link of await links.all()) {
+        await link.hover();
+        const [fg, hovered] = await link.evaluate((n) => [
+          getComputedStyle(n).color,
+          n.matches(":hover"),
+        ]);
+        expect(hovered, "the link is in :hover, as after a tap").toBe(true);
+        const line = (await link.textContent())?.trim() ?? "";
+        expect(ratio(fg as string, bg), `${line} (tapped)`).toBeGreaterThanOrEqual(4.5);
+      }
+    });
+  }
+});

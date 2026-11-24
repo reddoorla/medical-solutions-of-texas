@@ -23,11 +23,11 @@
   let { tone = "light" }: { tone?: "light" | "dark" } = $props();
   const ink = $derived(tone === "dark" ? "text-[#140F09]" : "text-white");
   // The base style turns every link white on hover (app.css `a:hover`), which
-  // on khaki is the 3.36:1 the dark text replaced: the dark tone holds its ink
-  // and underlines instead.
-  const hover = $derived(
-    tone === "dark" ? "hover:text-[#140F09] hover:underline" : "hover:text-light",
-  );
+  // on khaki is the 3.36:1 the dark text replaced. Each link carries the ink
+  // itself, unprefixed: Tailwind's `hover:` sits inside `@media (hover: hover)`,
+  // so on a touch screen a tapped link would get the base white (review round
+  // 3). On the dark tone, hover underlines instead of changing colour.
+  const hover = $derived(tone === "dark" ? "hover:underline" : "hover:text-light");
   // The privacy link is underlined already: on the dark tone, hover lifts it.
   const linkHover = $derived(tone === "dark" ? "hover:no-underline" : "hover:text-light");
 
@@ -56,12 +56,12 @@
   <address class="label not-italic">
     <!-- Below sm the two don't fit on one line: each takes its own, with no
          separator left dangling at the end of the first. -->
-    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class={hover}>
+    {#if identity.phoneE164}<a href={`tel:${identity.phoneE164}`} class="{ink} {hover}">
         {identity.phone}
       </a>{:else}{identity.phone}{/if}<span class="max-sm:hidden">&nbsp;· </span>
     <a
       href={`mailto:${identity.email}`}
-      class="{hover} [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
+      class="{ink} {hover} [overflow-wrap:anywhere] max-sm:block max-sm:w-fit"
     >
       {identity.email}
     </a>
