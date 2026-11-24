@@ -179,9 +179,9 @@
             "answer": {
               "type": "StructuredText",
               "config": {
-                "label": "answer (each paragraph is a line)",
-                "placeholder": "Enter starts a new line, shown as typed. Left empty, the row shows its title alone.",
-                "multi": "paragraph"
+                "label": "answer (paragraphs, bullet lists and bold)",
+                "placeholder": "Shown as typed: paragraphs, bullet lists and bold. Left empty, the row shows its title alone.",
+                "multi": "paragraph,strong,list-item"
               }
             }
           }

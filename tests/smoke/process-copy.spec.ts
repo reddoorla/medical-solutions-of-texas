@@ -71,7 +71,7 @@ test("processCopy: no document is today's wording; a filled field wins, field by
   );
   expect(some.step_2_title).toBe("New");
   expect(some.timeline).toEqual([{ timing: "", title: "Only step", text: "" }]);
-  expect(some.faq).toEqual([{ question: "Q?", answer: "A." }]);
+  expect(some.faq).toEqual([{ question: "Q?", answer: "A.", rich: para("A.") }]);
   // Untouched fields keep today's wording.
   expect(some.step_1_title).toBe("Refine");
   expect(Object.keys(some).sort()).toEqual(Object.keys(PROCESS_COPY).sort());

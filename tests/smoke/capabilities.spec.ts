@@ -24,8 +24,6 @@ const FACTS = [
   "8,579 med-surg line items added to ECAT each month",
   "Federal contract access through ECAT, FSS and DAPA",
   "Dedicated Government Account Coordinators",
-  "ECAT SPE2DE-25-D-A012 · Just in Time",
-  "ECAT SPE2DE-25-D-A011 · Direct Vendor Delivery",
   "FSS 36F797-25-D-0204 · VA Schedule 65 II A",
   "DAPA SP0200-11-H-0018 · Medical/Surgical",
   "DAPA SP0200-11-H-0003 · Equipment",
@@ -56,6 +54,11 @@ test("/capabilities states the Capabilities Statement as text in the server HTML
   expect(t).not.toMatch(/download/i);
   expect(h).not.toContain("MSOT_Capabilities.pdf");
   expect(t).not.toContain("78232");
+  // Held 2026-11-24 ($lib/identity ECAT_HELD): no ECAT number shows, in the
+  // table or the markup, until MSOT confirms the numbers it holds.
+  expect(h).not.toContain("SPE2DE");
+  expect(t).not.toContain("Just in Time");
+  expect(t).not.toContain("Direct Vendor Delivery");
 });
 
 test("Resources links to /capabilities", async ({ request }) => {

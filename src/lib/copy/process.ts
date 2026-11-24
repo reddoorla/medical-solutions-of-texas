@@ -6,6 +6,7 @@
 // whose words were shapes and which said "Manufacturer Alpha" and 30–90 days.
 // The step numerals (01, 02, …) are the page's, not fields.
 import type { ProcessPageDocument } from "../../../prismicio-types";
+import type { RichTextField } from "@prismicio/client";
 import { paragraphs, rows, text } from "../content";
 
 /** Today's wording, word for word: what the page shows with no process_page document. */
@@ -73,6 +74,9 @@ export const PROCESS_COPY = {
 
 export type ProcessCopy = ReturnType<typeof processCopy>;
 
+/** A Process FAQ row: the plain answer, and the document's rich answer when it has one. */
+export type FaqRow = { question: string; answer: string; rich: RichTextField | null };
+
 /** The process_page document over today's wording, field by field. */
 export function processCopy(doc: ProcessPageDocument | null) {
   const d = doc?.data;
@@ -106,13 +110,24 @@ export function processCopy(doc: ProcessPageDocument | null) {
       PROCESS_COPY.timeline,
     ),
     faq_heading: text(d?.faq_heading, PROCESS_COPY.faq_heading),
-    faq: rows(
+    // `answer` is the plain text; `rich` is the document's answer as typed, with
+    // its bullet lists and bold (Marketing's Nov 23 answers have both), and is
+    // what the page shows when it is there. Today's two rows have none.
+    faq: rows<NonNullable<typeof d>["faq"][number], FaqRow>(
       d?.faq,
       (r) => {
-        const row = { question: text(r.question, ""), answer: paragraphs(r.answer, "") };
+        const answer = paragraphs(r.answer, "");
+        // An editor's Enter at either end leaves an empty paragraph: dropped, as
+        // the plain answer drops it, or it would show as a gap.
+        const blank = (b: RichTextField[number]) => !("text" in b) || !b.text.trim();
+        const blocks = [...r.answer];
+        while (blocks.length && blank(blocks[0])) blocks.shift();
+        while (blocks.length && blank(blocks[blocks.length - 1])) blocks.pop();
+        const rich = answer && blocks.length ? (blocks as RichTextField) : null;
+        const row = { question: text(r.question, ""), answer, rich };
         return row.question ? row : null;
       },
-      PROCESS_COPY.faq,
+      PROCESS_COPY.faq.map((r) => ({ ...r, rich: null })),
     ),
   };
 }
