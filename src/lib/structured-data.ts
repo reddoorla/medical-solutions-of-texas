@@ -56,11 +56,14 @@ export function homeGraph(identity: Identity) {
           { "@type": "PropertyValue", propertyID: "SAM UEI", value: identity.uei },
           { "@type": "PropertyValue", propertyID: "CAGE Code", value: identity.cage },
           { "@type": "PropertyValue", propertyID: "GSA FSS Contract", value: identity.fss },
-          ...identity.contracts.map((c) => ({
-            "@type": "PropertyValue",
-            propertyID: c.label,
-            value: c.value,
-          })),
+          // A vehicle with no number (the held ECAT pair) is left out.
+          ...identity.contracts
+            .filter((c) => c.value)
+            .map((c) => ({
+              "@type": "PropertyValue",
+              propertyID: c.label,
+              value: c.value,
+            })),
         ],
         areaServed: { "@type": "Country", name: "United States" },
         knowsAbout: [
