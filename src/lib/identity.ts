@@ -43,10 +43,11 @@ export const IDENTITY = {
   fss: "36F797-25-D-0204",
   /** Primary NAICS; the Capabilities Statement also lists 339112 and 339113. */
   naics: "423450",
-  /** Contract vehicles, as on the Capabilities Statement (2026). */
+  /** Contract vehicles, as on the Capabilities Statement (2026). The two ECAT
+   * numbers are held empty (ECAT_HELD); a vehicle with no number is not shown. */
   contracts: [
-    { label: "DLA ECAT Contract (Just in Time)", value: "SPE2DE-25-D-A012" },
-    { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "SPE2DE-25-D-A011" },
+    { label: "DLA ECAT Contract (Just in Time)", value: "" },
+    { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "" },
     { label: "DAPA (Medical/Surgical)", value: "SP0200-11-H-0018" },
     { label: "DAPA (Equipment)", value: "SP0200-11-H-0003" },
   ],
@@ -56,6 +57,19 @@ export const IDENTITY = {
     "https://www.gsaelibrary.gsa.gov/ElibMain/home.do/contractorInfo.do?contractNumber=36F79725D0204&contractorName=OJH+SERVICES,+INC.&executeQuery=YES",
   ],
 } as const;
+
+/**
+ * Held 2026-11-24, on the operator's word: no ECAT contract number is shown,
+ * on /capabilities or in the Organization markup. The two Marketing gave
+ * (SPE2DE-25-D-A012 and -A011, in Developer Brief Part 2 and both 2026
+ * Capabilities Statements) are on the public award record (USAspending) as
+ * another company's ECAT award (A011, Red One Medical Devices LLC, from
+ * 2025-10-01) or not at all (A012). MSOT's own ECAT contracts, SPE2DE20D7034
+ * and SPE2DE20D0022, ended in September 2025. The settings document still
+ * holds the two numbers; they show again only when this is set false, once
+ * MSOT confirms a number it holds.
+ */
+export const ECAT_HELD = true;
 
 /** §12b, word for word: the first paragraph on Home. */
 export const DEFINITION =
@@ -173,7 +187,13 @@ export function mergeIdentity(
   const d = doc.data;
   const phone = pick(d.phone, code.phone);
   // Today's four vehicles keep their names; their numbers have a field each.
-  const numbers = [d.ecat_jit, d.ecat_dvd, d.dapa_med, d.dapa_equip];
+  // While ECAT_HELD, the two ECAT fields are ignored, whatever they hold.
+  const numbers = [
+    ECAT_HELD ? "" : d.ecat_jit,
+    ECAT_HELD ? "" : d.ecat_dvd,
+    d.dapa_med,
+    d.dapa_equip,
+  ];
   const contracts = code.contracts.map((c, i) => ({
     label: c.label,
     value: pick(numbers[i], c.value),

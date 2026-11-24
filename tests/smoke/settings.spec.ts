@@ -105,8 +105,9 @@ test("today's four vehicles keep their names and take their own number fields; a
     }),
   );
   expect(identity.contracts).toEqual([
-    { label: "DLA ECAT Contract (Just in Time)", value: "NEW-JIT" },
-    { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "SPE2DE-25-D-A011" },
+    // Held 2026-11-24: the ECAT numbers stay empty whatever the document says.
+    { label: "DLA ECAT Contract (Just in Time)", value: "" },
+    { label: "DLA ECAT Contract (Direct Vendor Delivery)", value: "" },
     { label: "DAPA (Medical/Surgical)", value: "SP0200-11-H-0018" },
     { label: "DAPA (Equipment)", value: "NEW-EQUIP" },
     { label: "New vehicle", value: "NEW-1" },
@@ -217,7 +218,8 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
   const ld = jsonLd(home);
   expect(ld).toContain('"telephone":"+1-512-555-0100"');
   expect(ld).toContain('"description":"Fixture definition for Home."');
-  expect(ld).toContain('"value":"FIXTURE-ECAT-JIT"');
+  // Held 2026-11-24: an ECAT number in the document is not shown.
+  expect(ld).not.toContain("FIXTURE-ECAT-JIT");
 
   const about = text(await get("/about"));
   expect(about).toContain("Fixture definition for About.");
@@ -230,7 +232,7 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
 
   // The vehicles table is the page's own; the footer carries no contracts.
   const caps = text(await get("/capabilities"));
-  expect(caps).toContain("FIXTURE-ECAT-JIT");
+  expect(caps).not.toContain("FIXTURE-ECAT-JIT");
   // dt/dd order: the footer reads "UEI … · CAGE", the page "UEI … CAGE".
   expect(caps).toContain("UEI FIXTUREUEI01 CAGE 6ZM08");
   expect(caps).toContain("Fixture Vehicle FIXTURE-NEW-1");

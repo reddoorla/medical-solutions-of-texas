@@ -22,15 +22,22 @@
   // Organization markup read; the order and notes are the PDF's.
   const identity = $derived(page.data.identity);
   const [ecatJit, ecatDvd, dapaMed, dapaEquip] = $derived(identity.contracts);
-  const VEHICLES = $derived([
-    { vehicle: copy.ecat_jit_name, number: ecatJit.value, note: copy.ecat_jit_note },
-    { vehicle: copy.ecat_dvd_name, number: ecatDvd.value, note: copy.ecat_dvd_note },
-    { vehicle: copy.fss_name, number: identity.fss, note: copy.fss_note },
-    { vehicle: copy.dapa_medical_name, number: dapaMed.value, note: copy.dapa_medical_note },
-    { vehicle: copy.dapa_equipment_name, number: dapaEquip.value, note: copy.dapa_equipment_note },
-    // A vehicle Marketing adds in the settings document, past today's four.
-    ...identity.contracts.slice(4).map((c) => ({ vehicle: c.label, number: c.value, note: "" })),
-  ]);
+  const VEHICLES = $derived(
+    [
+      { vehicle: copy.ecat_jit_name, number: ecatJit.value, note: copy.ecat_jit_note },
+      { vehicle: copy.ecat_dvd_name, number: ecatDvd.value, note: copy.ecat_dvd_note },
+      { vehicle: copy.fss_name, number: identity.fss, note: copy.fss_note },
+      { vehicle: copy.dapa_medical_name, number: dapaMed.value, note: copy.dapa_medical_note },
+      {
+        vehicle: copy.dapa_equipment_name,
+        number: dapaEquip.value,
+        note: copy.dapa_equipment_note,
+      },
+      // A vehicle Marketing adds in the settings document, past today's four.
+      ...identity.contracts.slice(4).map((c) => ({ vehicle: c.label, number: c.value, note: "" })),
+      // A vehicle with no number (the held ECAT pair, $lib/identity) is not listed.
+    ].filter((v) => v.number),
+  );
 </script>
 
 <article
