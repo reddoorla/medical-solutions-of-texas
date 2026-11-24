@@ -17,13 +17,18 @@ export async function load({ fetch, cookies }) {
   // field ($lib/copy/process). `vite dev` alone can serve a fixture document,
   // for the smoke test, behind a cookie: a query string is refused on
   // prerendered routes, even in dev.
+  // "answers-2026-11-23" serves today's two questions and Marketing's five new
+  // ones ($lib/fixtures/process-faq-2026-11-23), every other field empty.
+  const fixture = dev ? cookies.get("msot-process-fixture") : undefined;
   const copy = processCopy(
-    dev && cookies.get("msot-process-fixture")
-      ? cookies.get("msot-process-fixture") === "empty"
+    fixture
+      ? fixture === "empty"
         ? (await import("$lib/empty-fixture")).emptyFixture("process_page")
-        : /** @type {import("../../../../prismicio-types").ProcessPageDocument} */ (
-            (await import("$lib/page-fixture")).pageFixture(PROCESS_COPY, ["answer"])
-          )
+        : fixture === "answers-2026-11-23"
+          ? await answersFixture()
+          : /** @type {import("../../../../prismicio-types").ProcessPageDocument} */ (
+              (await import("$lib/page-fixture")).pageFixture(PROCESS_COPY, ["answer"])
+            )
       : await loadSingle(client, "process_page", { strict: building }),
   );
 
@@ -35,6 +40,20 @@ export async function load({ fetch, cookies }) {
     meta_image: page.data.meta_image?.url ?? null,
     copy,
   };
+}
+
+/** @returns {Promise<import("../../../../prismicio-types").ProcessPageDocument>} */
+async function answersFixture() {
+  const doc = (await import("$lib/empty-fixture")).emptyFixture("process_page");
+  const { PROCESS_FAQ_2026_11_23 } = await import("$lib/fixtures/process-faq-2026-11-23");
+  const today = PROCESS_COPY.faq.map((r) => ({
+    question: r.question,
+    answer: [{ type: "paragraph", text: r.answer, spans: [] }],
+  }));
+  return /** @type {any} */ ({
+    ...doc,
+    data: { ...doc.data, faq: [...today, ...PROCESS_FAQ_2026_11_23] },
+  });
 }
 
 export function entries() {

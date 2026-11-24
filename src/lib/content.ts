@@ -153,8 +153,15 @@ export function lines(value: RichTextField | null | undefined, fallback: string[
  */
 export function paragraphs(value: RichTextField | null | undefined, fallback: string): string {
   if (!isFilled.richText(value)) return fallback;
-  // An empty paragraph at either end would show as a blank line.
-  const out = asText(value, { separator: "\n" }).replace(/^\n+|\n+$/g, "");
+  // A bullet-list item is its own line, led by a bullet (the Process FAQ's
+  // answers, Marketing's Nov 23 file). An empty paragraph at either end would
+  // show as a blank line.
+  const out = value
+    .flatMap((block) =>
+      "text" in block ? [block.type === "list-item" ? `• ${block.text}` : block.text] : [],
+    )
+    .join("\n")
+    .replace(/^\n+|\n+$/g, "");
   return out.trim() ? out : fallback;
 }
 
