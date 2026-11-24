@@ -245,5 +245,16 @@ for (const path of ["/", "/about", "/process", "/contact"]) {
     // A transparent band would read as black and pass white text at 21:1.
     for (const [, , bg] of pairs) expect(bg, "the footer paints its own band").toMatch(/^rgb\(/);
     for (const [line, fg, bg] of pairs) expect(ratio(fg, bg), line).toBeGreaterThanOrEqual(4.5);
+    // Hovered too: the base style turns every link white on hover. Links fade
+    // their colour over 600ms, so transitions go off first, or the colour is
+    // read mid-fade, still dark.
+    await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; }" });
+    const bg = pairs[0][2];
+    for (const target of await block.locator("a, summary").all()) {
+      await target.hover();
+      const fg = await target.evaluate((n) => getComputedStyle(n).color);
+      const line = (await target.textContent())?.trim() ?? "";
+      expect(ratio(fg, bg), `${line} (hovered)`).toBeGreaterThanOrEqual(4.5);
+    }
   });
 }

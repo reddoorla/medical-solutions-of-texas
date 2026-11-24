@@ -5,7 +5,8 @@
   // Server-rendered at every width: the old © line was only drawn above 560px.
   //
   // The name, phone, email and © line are always in view. The definition, the
-  // VOSB line, the street address and UEI · CAGE · FSS fold into a native
+  // VOSB line, the street address, UEI · CAGE · FSS, and the ECAT and DAPA
+  // contract numbers and NAICS code (Marketing, Nov 23) fold into a native
   // <details>, closed by default (the operator, 11-05: the six lines looked
   // "hideous"). Their text is still in the server HTML, so a crawler or an AI
   // assistant reads all of it, and the browser opens it with no script.
@@ -21,7 +22,12 @@
   // footer is #140F09 itself, so its text stays white (19:1).
   let { tone = "light" }: { tone?: "light" | "dark" } = $props();
   const ink = $derived(tone === "dark" ? "text-[#140F09]" : "text-white");
-  const hover = $derived(tone === "dark" ? "hover:underline" : "hover:text-light");
+  // The base style turns every link white on hover (app.css `a:hover`), which
+  // on khaki is the 3.36:1 the dark text replaced: the dark tone holds its ink
+  // and underlines instead.
+  const hover = $derived(
+    tone === "dark" ? "hover:text-[#140F09] hover:underline" : "hover:text-light",
+  );
   // The privacy link is underlined already: on the dark tone, hover lifts it.
   const linkHover = $derived(tone === "dark" ? "hover:no-underline" : "hover:text-light");
 
@@ -79,9 +85,17 @@
            markup gives, shown on every page (Marketing, Nov 23, decision 4).
            Keyed by position: two rows may share a number, and the list never
            reorders. -->
-      <ul class="label flex flex-col gap-1">
+      <!-- role="list": Safari drops a list's role when its bullets are off. -->
+      <ul class="label flex flex-col gap-1" role="list">
         {#each identity.contracts as c, i (i)}
-          <li>{c.label}: <span class="whitespace-nowrap">{c.value}</span></li>
+          <!-- A bare number stays whole (a phone would break it at a hyphen); one
+               with spaces, which an editor might type, may wrap. -->
+          <li>
+            {c.label}:
+            <span class={/\s/.test(c.value) ? "[overflow-wrap:anywhere]" : "whitespace-nowrap"}>
+              {c.value}
+            </span>
+          </li>
         {/each}
       </ul>
       <p class="label">{fill(chrome.footer_naics_line, tokens)}</p>

@@ -221,6 +221,9 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
 
   const about = text(await get("/about"));
   expect(about).toContain("Fixture definition for About.");
+  // The footer's contract lines read the document too (Marketing, Nov 23).
+  expect(about).toContain("FIXTURE-ECAT-JIT");
+  expect(about).toContain("Fixture Vehicle: FIXTURE-NEW-1");
   expect(about).toContain("Fixture works-with for About.");
   expect(ld).toContain('"sameAs":["https://example.com/fixture-msot"]');
 
