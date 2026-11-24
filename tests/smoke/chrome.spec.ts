@@ -187,7 +187,7 @@ test("with every field empty the footer's lines read as they did", async ({ requ
   ])
     expect(shown, line).toContain(line);
   expect(shown).not.toMatch(
-    /\{(name|short name|legal name|business type|tagline|uei|cage|fss|year)\}/,
+    /\{(name|short name|legal name|business type|tagline|uei|cage|fss|naics|year)\}/,
   );
 });
 

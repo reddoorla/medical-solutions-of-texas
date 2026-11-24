@@ -228,8 +228,9 @@ test("the pages read the document: footer, Home, JSON-LD, About, Contact, /capab
   expect(text(await get("/contact"))).toContain("Phone: 512.555.0100");
   expect(text(await get("/resources"))).toContain("Phone: 512.555.0100");
 
-  // The vehicles table is the page's own; the footer carries no contracts.
-  const caps = text(await get("/capabilities"));
+  // The vehicles table is the page's own. The footer lists the contract numbers
+  // too since Marketing's Nov 23 decision 4, so it is cut out before looking.
+  const caps = text((await get("/capabilities")).replace(/<footer[\s\S]*?<\/footer>/g, " "));
   expect(caps).toContain("FIXTURE-ECAT-JIT");
   // dt/dd order: the footer reads "UEI … · CAGE", the page "UEI … CAGE".
   expect(caps).toContain("UEI FIXTUREUEI01 CAGE 6ZM08");

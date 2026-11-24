@@ -22,6 +22,8 @@
   let { tone = "light" }: { tone?: "light" | "dark" } = $props();
   const ink = $derived(tone === "dark" ? "text-[#140F09]" : "text-white");
   const hover = $derived(tone === "dark" ? "hover:underline" : "hover:text-light");
+  // The privacy link is underlined already: on the dark tone, hover lifts it.
+  const linkHover = $derived(tone === "dark" ? "hover:no-underline" : "hover:text-light");
 
   const identity = $derived(page.data.identity);
   // The fold-out label and the privacy link's words: $lib/copy/chrome.
@@ -73,10 +75,12 @@
       <p class="label">{fill(chrome.footer_type_line, tokens)}</p>
       <address class="label not-italic">{addressLine(identity.address)}</address>
       <p class="label">{fill(chrome.footer_ids_line, tokens)}</p>
-      <!-- ECAT, DAPA and NAICS, as the Organization markup gives them, so every
-           fact in it is on every page (Marketing, Nov 23, decision 4). -->
-      <ul class="label flex flex-col gap-1" data-testid="footer-contracts">
-        {#each identity.contracts as c (c.value)}
+      <!-- The ECAT and DAPA contract numbers and the NAICS code the Organization
+           markup gives, shown on every page (Marketing, Nov 23, decision 4).
+           Keyed by position: two rows may share a number, and the list never
+           reorders. -->
+      <ul class="label flex flex-col gap-1">
+        {#each identity.contracts as c, i (i)}
           <li>{c.label}: <span class="whitespace-nowrap">{c.value}</span></li>
         {/each}
       </ul>
@@ -85,7 +89,11 @@
   </details>
   <p class="label">
     {fill(chrome.footer_copyright, tokens)}
-    <a href={PRIVACY_PATH} data-testid="footer-privacy-link" class="label {ink} underline {hover}">
+    <a
+      href={PRIVACY_PATH}
+      data-testid="footer-privacy-link"
+      class="label {ink} underline {linkHover}"
+    >
       {chrome.privacy_link}
     </a>
   </p>

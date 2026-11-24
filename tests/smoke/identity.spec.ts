@@ -242,6 +242,8 @@ for (const path of ["/", "/about", "/process", "/contact"]) {
       ]);
     });
     expect(pairs.length).toBeGreaterThan(8);
+    // A transparent band would read as black and pass white text at 21:1.
+    for (const [, , bg] of pairs) expect(bg, "the footer paints its own band").toMatch(/^rgb\(/);
     for (const [line, fg, bg] of pairs) expect(ratio(fg, bg), line).toBeGreaterThanOrEqual(4.5);
   });
 }
