@@ -69,7 +69,18 @@ const IN_DETAILS = [
   "Veteran-Owned Small Business (VOSB) · Federal med-surg contracting for the VA and DoW",
   "4903 Golden Quail, Suite 120, San Antonio, TX 78240",
   "UEI Z7Q8TN9HMRC4 · CAGE 6ZM08 · FSS 36F797-25-D-0204",
+  // Marketing, Nov 23, decision 4: the contract numbers and NAICS code the
+  // Organization markup gives, shown sitewide under "Company details". The
+  // two ECAT numbers are held off the site (2026-11-24, ECAT_HELD in
+  // $lib/identity): a contract with no number gets no line (HELD below).
+  "DAPA (Medical/Surgical): SP0200-11-H-0018",
+  "DAPA (Equipment): SP0200-11-H-0003",
+  "NAICS 423450",
 ];
+
+// Held 2026-11-24: neither ECAT vehicle's name nor number is in the footer,
+// so no "DLA ECAT Contract (…):" line with an empty number is left behind.
+const HELD = ["DLA ECAT Contract", "SPE2DE-25-D-A012", "SPE2DE-25-D-A011"];
 
 /** The identity block's one <details>, and the block with it cut out. */
 function splitDetails(footer: string): { details: string; outside: string } {
@@ -100,6 +111,10 @@ for (const path of PAGES) {
       expect(out).not.toContain(squash(line));
     }
     for (const line of ALWAYS_VISIBLE) expect(out).toContain(squash(line));
+    for (const held of HELD) expect(squash(text(footer))).not.toContain(held);
+    // Every contract line the footer does print carries a number after its colon.
+    for (const li of details.match(/<li[\s>][\s\S]*?<\/li>/g) ?? [])
+      expect(squash(text(li)), "no contract line ends at its colon").not.toMatch(/:\s*$/);
     expect(outside).toContain('href="tel:+18333074418"');
     expect(outside).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
     expect(outside, "the phone link sits inside one <address>").toMatch(
@@ -200,4 +215,97 @@ test("Contact shows the confirmed address, phone and email", async ({ request })
   const html = await (await request.get("/contact", { headers: empty(...SINGLETONS) })).text();
   expect(html).toContain('href="tel:+18333074418"');
   expect(html).toContain('href="mailto:info@MedicalSolutionsofTX.com"');
+});
+
+// Marketing approved dark footer text, Nov 23 (decision 7): on the khaki band
+// (#998B6A) white measured 3.36:1 against WCAG's 4.5:1, #140F09 measures 5.68:1.
+// Home's footer is #140F09 itself, so its text stays white.
+const luminance = (rgb: string) => {
+  const [r, g, b] = (rgb.match(/\d+(\.\d+)?/g) ?? []).slice(0, 3).map((v) => {
+    const c = Number(v) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratio = (a: string, b: string) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+for (const path of ["/", "/about", "/process", "/contact"]) {
+  test(`${path}: every footer identity line meets 4.5:1 against its band`, async ({
+    page,
+    baseURL,
+  }) => {
+    await emptyCookies(page.context(), baseURL);
+    await page.goto(path);
+    const block = page.getByTestId("footer-identity");
+    await block.locator("details > summary").click();
+    const pairs = await block.evaluate((el) => {
+      const bg = getComputedStyle(el.closest("footer")!).backgroundColor;
+      return [...el.querySelectorAll("p, a, summary, li, address")].map((n) => [
+        (n.textContent ?? "").trim().slice(0, 40),
+        getComputedStyle(n).color,
+        bg,
+      ]);
+    });
+    expect(pairs.length).toBeGreaterThan(8);
+    // A transparent band would read as black and pass white text at 21:1.
+    for (const [, , bg] of pairs) expect(bg, "the footer paints its own band").toMatch(/^rgb\(/);
+    for (const [line, fg, bg] of pairs) expect(ratio(fg, bg), line).toBeGreaterThanOrEqual(4.5);
+    // Hovered too: the base style turns every link white on hover. Links fade
+    // their colour over 600ms, so transitions go off first, or the colour is
+    // read mid-fade, still dark.
+    await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; }" });
+    const bg = pairs[0][2];
+    // The phone and email links, the fold-out label and the privacy link: a
+    // missing one would leave the loop checking nothing.
+    await expect(block.locator("a, summary")).toHaveCount(4);
+    for (const target of await block.locator("a, summary").all()) {
+      await target.hover();
+      const fg = await target.evaluate((n) => getComputedStyle(n).color);
+      const line = (await target.textContent())?.trim() ?? "";
+      expect(ratio(fg, bg), `${line} (hovered)`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+}
+
+// On a touch screen, a tap leaves the link in :hover, but Tailwind's `hover:`
+// utilities sit inside `@media (hover: hover)` and never apply there, so only
+// the link's own colour stands between it and the base style's white
+// (review round 3: the tapped phone link read 3.36:1 on a 390px phone).
+test.describe("touch", () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  // "/" is a control, not a guard: Home's footer is #140F09 with white text,
+  // which the base style's white hover cannot lower, so that case cannot fail.
+  // The khaki pages are the ones it protects.
+  for (const path of ["/", "/about", "/process", "/contact"]) {
+    test(`${path}: a tapped footer link keeps 4.5:1 on a touch screen`, async ({
+      page,
+      baseURL,
+    }) => {
+      await emptyCookies(page.context(), baseURL);
+      await page.goto(path);
+      expect(await page.evaluate(() => matchMedia("(hover: hover)").matches)).toBe(false);
+      await page.addStyleTag({
+        content: "*, *::before, *::after { transition: none !important; }",
+      });
+      const block = page.getByTestId("footer-identity");
+      const bg = await block.evaluate(
+        (el) => getComputedStyle(el.closest("footer")!).backgroundColor,
+      );
+      const links = block.locator("a");
+      await expect(links).toHaveCount(3);
+      for (const link of await links.all()) {
+        await link.hover();
+        const [fg, hovered] = await link.evaluate((n) => [
+          getComputedStyle(n).color,
+          n.matches(":hover"),
+        ]);
+        expect(hovered, "the link is in :hover, as after a tap").toBe(true);
+        const line = (await link.textContent())?.trim() ?? "";
+        expect(ratio(fg as string, bg), `${line} (tapped)`).toBeGreaterThanOrEqual(4.5);
+      }
+    });
+  }
 });

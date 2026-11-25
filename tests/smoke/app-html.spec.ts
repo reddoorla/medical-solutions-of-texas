@@ -18,3 +18,17 @@ test("a served page's <head> carries no notes from app.html", async ({ request }
   expect(head.match(/<!--(?![\w[\]!]{0,16}-->)[\s\S]*?-->/g) ?? []).toEqual([]);
   expect(head).not.toMatch(/Lighthouse|decision \d|headless/i);
 });
+
+// Search-engine ownership: Google's tag proves Search Console, Bing's proves
+// Bing Webmaster Tools (the operator, 11-25). Removing either un-verifies the
+// site, and nothing else would notice until a report goes missing.
+for (const path of ["/", "/contact"]) {
+  test(`${path}: the <head> carries the Google and Bing verification tags`, async ({ request }) => {
+    const html = await (await request.get(path)).text();
+    const head = html.slice(0, html.indexOf("</head>"));
+    expect(head).toContain(
+      '<meta name="google-site-verification" content="LUqp6fAiix3BaJm7OjOuBrwjRKZ58FJMS1yurgKN2Hk"',
+    );
+    expect(head).toContain('<meta name="msvalidate.01" content="AC668E6C845F5F1BD2F6090D73F5B10E"');
+  });
+}

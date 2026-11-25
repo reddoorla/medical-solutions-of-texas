@@ -72,7 +72,7 @@
           alt={chrome.footer_logo_alt}
         />
       </a>
-      <FooterIdentity />
+      <FooterIdentity tone="dark" />
     </div>
     <img src={vosbLogo} alt={chrome.vosb_alt} class="h-16 md:h-24 self-start" />
   </ContentWidth>

@@ -385,6 +385,13 @@
           "placeholder": "Leave empty to keep: UEI {uei} · CAGE {cage} · FSS {fss}"
         }
       },
+      "footer_naics_line": {
+        "type": "Text",
+        "config": {
+          "label": "footer line with the NAICS code (in Company details, under the contract numbers); {naics} is filled in",
+          "placeholder": "Leave empty to keep: NAICS {naics}"
+        }
+      },
       "footer_copyright": {
         "type": "Text",
         "config": {

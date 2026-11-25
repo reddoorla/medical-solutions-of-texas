@@ -3009,6 +3009,17 @@ interface SettingsDocumentData {
 	footer_ids_line: prismic.KeyTextField;
 	
 	/**
+	 * footer line with the NAICS code (in Company details, under the contract numbers); {naics} is filled in field in *Site settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Leave empty to keep: NAICS {naics}
+	 * - **API ID Path**: settings.footer_naics_line
+	 * - **Tab**: Footer
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	footer_naics_line: prismic.KeyTextField;
+	
+	/**
 	 * footer's last line, before the privacy link; {year}, {legal name} and {name} are filled in field in *Site settings*
 	 *
 	 * - **Field Type**: Text
